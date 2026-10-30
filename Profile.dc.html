@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>个人设置</title>
+<script src="./zy-store.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--z1:#496FED;--z2:#92A6EC;--z3:#06102C;--z4:rgba(73,111,237,0.15);--z5:rgba(20,23,31,0.08);--z6:rgba(73,111,237,0.16);--z7:#081024;--z8:#0B1322;--z9:#E0E3EB;--z10:#0B0D14;--z11:#1F2531;--z12:rgba(20,23,31,0.07);--z13:#BDC1CC;--z14:#242A36;--z15:#051136;--z16:#C8D0F6;--z17:#A6B2CF;--z18:#0B111C;--z19:#C3C7D2;--z20:#D8DCE4;--z21:#071B5E}
+.zy-l{--z1:#2F5BEA;--z2:#1E3FAF;--z3:#F1F4FD;--z4:rgba(47,91,234,.15);--z5:rgba(20,23,31,.06);--z6:rgba(47,91,234,.16);--z7:#F6F8FD;--z8:#F6F8FC;--z9:#14171F;--z10:#FFFFFF;--z11:#E6E9EF;--z12:rgba(20,23,31,0.05);--z13:#4A5060;--z14:#DADEE6;--z15:#E9EEFD;--z16:#0E1A52;--z17:#6A7080;--z18:#FAFBFD;--z19:#AEB4C2;--z20:#2A2F3B;--z21:#B9C8FA}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.top{animation:slideDown .5s ease backwards}
+main > *{animation:fadeUp .6s ease backwards}
+main > *:nth-child(1){animation-delay:.08s}
+main > *:nth-child(2){animation-delay:.16s}
+main > *:nth-child(3){animation-delay:.24s}
+main > *:nth-child(4){animation-delay:.32s}
+main > *:nth-child(5){animation-delay:.4s}
+.tab{transition:background .2s ease,color .2s ease}
+.tab:hover{background:var(--z3)}
+button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:hover{transform:translateY(-1px)}
+input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--z1) !important;box-shadow:0 0 0 4px var(--z4)}
+section,aside{transition:box-shadow .25s ease}
+section:hover,aside:hover{box-shadow:0 10px 28px var(--z5)}
+figure{animation:rise .55s cubic-bezier(.2,.8,.3,1.1) backwards;transition:transform .25s ease,box-shadow .25s ease}
+figure:hover{transform:translateY(-5px);box-shadow:0 14px 30px var(--z6)}
+figure:nth-child(2){animation-delay:.05s}figure:nth-child(3){animation-delay:.1s}figure:nth-child(4){animation-delay:.15s}
+figure:nth-child(5){animation-delay:.2s}figure:nth-child(6){animation-delay:.25s}figure:nth-child(7){animation-delay:.3s}figure:nth-child(8){animation-delay:.35s}
+tbody tr{transition:background .2s ease}
+tbody tr:hover{background:var(--z7)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+
+.zy-d{--tbg:rgba(10,18,44,.84);--tbd:rgba(157,203,255,.18);--tfg:#A3B5DA;--ton:#FFFFFF;--tpill:rgba(157,203,255,.16)}
+.zy-l{--tbg:rgba(255,255,255,.9);--tbd:rgba(46,71,158,.14);--tfg:#5A6380;--ton:#1748E6;--tpill:rgba(23,72,230,.1)}
+.tabbar{display:none}
+.tbi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:52px;border-radius:14px;font-size:11px;font-weight:500;text-decoration:none;color:var(--tfg);-webkit-tap-highlight-color:transparent}
+.tbi.on{color:var(--ton);font-weight:600;background:var(--tpill)}
+@media (max-width:640px){
+header nav{display:none !important}
+header .uname{display:none !important}
+header{padding:10px 12px 0 !important}
+.tabbar{display:flex;position:fixed;z-index:60;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:5px;gap:4px;border-radius:20px;background:var(--tbg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+main{padding:20px 16px calc(110px + env(safe-area-inset-bottom)) !important}
+main h1{font-size:24px !important}
+}
+
+.zy-pill{position:fixed;z-index:58;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 10px 9px 16px;border-radius:999px;font-size:13px;line-height:1.4;background:var(--tbg);color:var(--pfg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.zy-pill a{flex:none;padding:6px 12px;border-radius:999px;background:var(--ton);color:var(--pbtn) !important;text-decoration:none;font-weight:600}
+.zy-pill.err{border-color:#E5534B}
+.zy-d{--pfg:#EAF2FF;--pbtn:#0B1532}
+.zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
+.has-sheet .zy-pill{display:none}
+@media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+
+.u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
+.u-h2{margin:0;font-size:19px;font-weight:700}
+.u-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.u-label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:500;min-width:0}
+.u-in{height:46px;width:100%;box-sizing:border-box;padding:0 12px;border:1px solid var(--u-in);border-radius:10px;font:inherit;font-size:15px;font-weight:400;color:var(--u-text);background:var(--u-card)}
+textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
+.u-in:focus{outline:none;border-color:var(--z1);box-shadow:0 0 0 3px var(--z4)}
+.u-btn,.u-btn2,.u-dng{height:44px;padding:0 18px;border-radius:10px;font:inherit;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap;box-sizing:border-box}
+.u-btn{border:none;background:var(--z1);color:#FFFFFF;font-weight:600}
+.u-btn2{border:1px solid var(--u-in);background:transparent;color:var(--u-text);font-weight:500}
+.u-dng{border:none;background:#D1453B;color:#FFFFFF;font-weight:600}
+.u-btn:disabled,.u-btn2:disabled,.u-dng:disabled{opacity:.5;cursor:default}
+.u-sm{height:36px;padding:0 12px;font-size:13px}
+.u-muted{color:var(--u-muted);font-size:13px;line-height:1.5}
+.u-msg{font-size:14px;color:var(--z1)}
+.u-err{font-size:14px;color:#D1453B}
+.u-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.u-av{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--z3);color:var(--z1);font-weight:700;font-size:15px;overflow:hidden}
+.u-av img{width:100%;height:100%;object-fit:cover}
+.u-li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--u-bd);min-width:0}
+.u-chip{padding:7px 12px;border-radius:999px;border:1px solid var(--u-in);background:transparent;color:var(--u-text);font:inherit;font-size:13px;cursor:pointer}
+.u-chip.on{background:var(--z1);border-color:var(--z1);color:#FFFFFF}
+.u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
+.u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
+.u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z14)}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="min-height: 1180px; background: var(--z8); color: var(--z9); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<header class="top" style="padding: 16px 24px 0">
+<div style="max-width: 1360px; margin: 0 auto; background: var(--z10); border: 1px solid var(--z11); border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 20px var(--z12)">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z9)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z1); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 18px; font-weight: 700">{{L.k11}}</span>
+</a>
+<nav aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="Circle.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k12}}</a>
+<a href="Photos.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k13}}</a>
+<a href="Admin.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k14}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+<a href="Profile.dc.html" class="tab" title="{{L.k1}}" aria-label="{{L.k2}}" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border-radius: 999px; box-shadow: 0 0 0 2px var(--z1); background: var(--z15); text-decoration: none; color: var(--z9)">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: var(--z16); color: var(--z10); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{meCh}}</span>
+<span class="uname" style="font-size: 14px; font-weight: 600">{{meName}}</span>
+</a>
+<a href="Login.dc.html" onClick="{{zyLogout}}" aria-label="{{L.k3}}" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--z17)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></a>
+</div>
+</div>
+</header>
+
+<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 30px; font-weight: 700">{{pageTitle}}</h1>
+<p style="margin: 0; font-size: 14px; color: var(--z17)">{{t.sub}}</p>
+</div>
+<sc-if value="{{missing}}" hint-placeholder-val="{{false}}">
+<div class="u-card"><span class="u-err">{{t.notFound}}</span><a class="u-btn2" href="{{adminHref}}" style="align-self: flex-start">{{t.back}}</a></div>
+</sc-if>
+<sc-if value="{{show}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<aside aria-label="{{t.card}}" style="flex: 1 1 280px; box-sizing: border-box; background: var(--z9); color: var(--z18); border-radius: 20px; padding: 32px 28px; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center">
+<span style="font-size: 12px; letter-spacing: 4px; color: var(--z19)">{{t.card}}</span>
+<span style="width: 120px; height: 120px; border-radius: 50%; box-sizing: border-box; border: 4px solid var(--z18); background: var(--z1); color: var(--z10); display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 700; overflow: hidden"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt="" style="width: 100%; height: 100%; object-fit: cover"></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<span style="font-size: 28px; font-weight: 700; word-break: break-word">{{f.show}}</span>
+<span style="font-size: 15px; color: var(--z14)">{{f.sub}}</span>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px">
+<sc-for list="{{f.tags}}" as="tg" hint-placeholder-count="3"><span style="padding: 6px 12px; border-radius: 10px; background: var(--z20); font-size: 13px">{{tg}}</span></sc-for>
+</div>
+<sc-if value="{{mapHref}}" hint-placeholder-val="{{true}}"><a href="{{mapHref}}" style="margin-top: 8px; color: var(--z21); font-size: 14px">{{t.viewMap}}</a></sc-if>
+</aside>
+
+<form onSubmit="{{onSubmit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<section class="u-card">
+<h2 class="u-h2">{{t.basic}}</h2>
+<sc-if value="{{addNote}}" hint-placeholder-val="{{false}}"><span class="u-msg">{{t.addFor}}{{addNote}}</span></sc-if>
+<div class="u-row" style="gap: 18px">
+<span class="u-av" style="width: 72px; height: 72px; font-size: 28px; background: var(--z1); color: var(--z10)"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div class="u-row">
+<label class="u-btn u-sm" style="position: relative; cursor: pointer">{{t.photo}}<input class="u-file" type="file" accept="image/*" disabled="{{noUpload}}" onChange="{{pickAvatar}}"></label>
+<sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{clearAvatar}}">{{t.removePhoto}}</button></sc-if>
+</div>
+<span class="u-muted">{{t.photoHint}}</span>
+</div>
+</div>
+<div class="u-grid">
+<label class="u-label">{{t.surname}}<input class="u-in" type="text" value="{{f.surname}}" onInput="{{set.surname}}" placeholder="吴 / Ng"><span class="u-muted">{{t.surnameHint}}</span></label>
+<label class="u-label">{{t.name}}<input class="u-in" type="text" value="{{f.name}}" onInput="{{set.name}}"></label>
+<label class="u-label">{{t.nameEn}}<input class="u-in" type="text" value="{{f.nameEn}}" onInput="{{set.nameEn}}"></label>
+<label class="u-label">{{t.sex}}<select class="u-in" value="{{f.sex}}" onChange="{{set.sex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
+<label class="u-label">{{t.birth}}<input class="u-in" type="text" inputmode="numeric" value="{{f.birth}}" onInput="{{set.birth}}" placeholder="{{t.dateHint}}"></label>
+<label class="u-label">{{t.death}}<input class="u-in" type="text" inputmode="numeric" value="{{f.death}}" onInput="{{set.death}}" placeholder="{{t.dateHint}}"></label>
+<label class="u-label">{{t.nationality}}<input class="u-in" type="text" value="{{f.nationality}}" onInput="{{set.nationality}}" list="zy-countries"></label>
+<label class="u-label">{{t.hometown}}<input class="u-in" type="text" value="{{f.hometown}}" onInput="{{set.hometown}}"></label>
+<label class="u-label">{{t.city}}<input class="u-in" type="text" value="{{f.city}}" onInput="{{set.city}}"></label>
+<label class="u-label">{{t.job}}<input class="u-in" type="text" value="{{f.job}}" onInput="{{set.job}}"></label>
+<label class="u-label">{{t.phone}}<input class="u-in" type="tel" value="{{f.phone}}" onInput="{{set.phone}}"></label>
+<label class="u-label">{{t.email}}<input class="u-in" type="email" value="{{f.email}}" onInput="{{set.email}}"></label>
+</div>
+<datalist id="zy-countries"><sc-for list="{{countries}}" as="c" hint-placeholder-count="4"><option value="{{c}}"></option></sc-for></datalist>
+<label class="u-label">{{t.bio}}<textarea class="u-in" rows="3" value="{{f.bio}}" onInput="{{set.bio}}" placeholder="{{t.bioPh}}"></textarea></label>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.family}}</h2>
+<span class="u-muted">{{t.famHint}}</span>
+<div class="u-grid">
+<label class="u-label">{{t.father}}<select class="u-in" value="{{f.father}}" onChange="{{set.father}}"><option value="">{{t.none}}</option><sc-for list="{{opts.men}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+<label class="u-label">{{t.mother}}<select class="u-in" value="{{f.mother}}" onChange="{{set.mother}}"><option value="">{{t.none}}</option><sc-for list="{{opts.women}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+<label class="u-label">{{t.spouse}}<select class="u-in" value="{{f.spouse}}" onChange="{{set.spouse}}"><option value="">{{t.none}}</option><sc-for list="{{opts.all}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+</div>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.account}}</h2>
+<div class="u-grid">
+<label class="u-label">{{t.github}}<input class="u-in" type="text" autocomplete="off" value="{{f.github}}" onInput="{{set.github}}" placeholder="octocat"><span class="u-muted">{{t.githubHint}}</span></label>
+<label class="u-label">{{t.privacy}}<select class="u-in" value="{{f.privacy}}" onChange="{{set.privacy}}"><option value="all">{{t.pAll}}</option><option value="direct">{{t.pDirect}}</option><option value="self">{{t.pSelf}}</option></select><span class="u-muted">{{t.privacyHint}}</span></label>
+</div>
+</section>
+
+<div class="u-row" style="justify-content: space-between">
+<div class="u-row">
+<sc-if value="{{canDelete}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{askDel}}" hint-placeholder-val="{{false}}"><span class="u-err">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{delYes}}">{{t.delYes}}</button><button type="button" class="u-btn2 u-sm" onClick="{{delNo}}">{{t.delNo}}</button></sc-if>
+<sc-if value="{{noAsk}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2" onClick="{{delAsk}}" style="color: #D1453B">{{t.del}}</button></sc-if>
+</sc-if>
+</div>
+<div class="u-row">
+<span class="{{msgCls}}" role="status">{{msg}}</span>
+<button type="button" class="u-btn2" onClick="{{discard}}">{{t.reset}}</button>
+<button type="submit" class="u-btn" disabled="{{busy}}" style="padding: 0 30px">{{saveText}}</button>
+</div>
+</div>
+</form>
+</div>
+</sc-if>
+</main>
+<sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
+<nav class="tabbar" aria-label="{{tabAria}}"><a href="Circle.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="Photos.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="Admin.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{tabAdmin}}</span></a><a href="Profile.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1180}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    this._zyStop();
+  }
+  componentDidMount() {
+    this._loadTheme();
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    let v = this._rv();
+    if (st.lang === 'en') v = this._zyI18n(v, 0);
+    return Object.assign(v, this._zyChrome(st));
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
+      zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
+      zyLogout: () => { try { if (window.ZY) window.ZY.signOut(); } catch (e) {} },
+      tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyHref(name, query) {
+    let app = false;
+    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
+    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyMeName(en) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    if (me) return (en ? (me.nameEn || me.name) : (me.name || me.nameEn)) || '';
+    return (Z && Z.login) || (en ? 'Me' : '我');
+  }
+  _zyPill(en) {
+    const Z = window.ZY;
+    if (!Z) return { show: false };
+    if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
+    if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
+    if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
+    return { show: false };
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { cache: {}, E: {}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "家族空间导航", "k1": "编辑个人资料", "k2": "编辑个人资料", "k3": "退出登入", "k4": "名片预览", "k5": "例如：吴", "k6": "例如：黄小明", "k7": "例如：福建 · 泉州", "k8": "例如：悉尼", "k9": "例如：大学生", "k10": "写几句话介绍自己，让家人更了解你", "k11": "枝叶", "k12": "家族图谱", "k13": "照片与上传", "k14": "管理后台", "k15": "个人设置", "k16": "你的资料会显示在家族图谱上", "k17": "名片预览", "k18": "[中文姓名]", "k19": "国籍 · [待填写]", "k20": "籍贯 · [待填写]", "k21": "现居 · [待填写]", "k22": "在家族图谱中查看我", "k23": "基本资料", "k24": "上传新头像", "k25": "移除", "k26": "支持 JPG、PNG，建议正方形照片", "k27": "姓氏", "k28": "家族图谱按姓氏分成不同星座，默认跟随父亲", "k29": "中文姓名", "k30": "英文名", "k31": "性别", "k32": "请选择", "k33": "男", "k34": "女", "k35": "出生日期", "k36": "国籍", "k37": "请选择国籍", "k38": "马来西亚", "k39": "新加坡", "k40": "澳大利亚", "k41": "中国", "k42": "其他", "k43": "籍贯（祖籍）", "k44": "现居城市", "k45": "职业 / 学业", "k46": "手机号码", "k47": "电子邮箱", "k48": "个人简介", "k49": "隐私与安全", "k50": "谁可以看到我的联系方式", "k51": "全体家族成员", "k52": "仅直系亲属", "k53": "仅自己", "k54": "登入密码", "k55": "建议定期更换", "k56": "修改密码", "k57": "取消", "k58": "保存修改"}, LEN: {"k0": "Family space navigation", "k1": "Edit profile", "k2": "Edit profile", "k3": "Log out", "k4": "Card preview", "k5": "e.g. Wu", "k6": "e.g. 黄小明", "k7": "e.g. Fujian · Quanzhou", "k8": "e.g. Sydney", "k9": "e.g. University student", "k10": "Write a few lines about yourself so your family can get to know you", "k11": "ZY", "k12": "Family map", "k13": "Photos", "k14": "Admin", "k15": "Profile settings", "k16": "Your profile appears on the family map", "k17": "Card preview", "k18": "[Name]", "k19": "Nationality · [to fill in]", "k20": "Ancestral home · [to fill in]", "k21": "Lives in · [to fill in]", "k22": "Find me on the family map", "k23": "Basic info", "k24": "Upload new avatar", "k25": "Remove", "k26": "JPG or PNG. A square photo works best.", "k27": "Surname", "k28": "The family map gives each surname its own constellation. Defaults to your father's.", "k29": "Chinese name", "k30": "English name", "k31": "Gender", "k32": "Select", "k33": "Male", "k34": "Female", "k35": "Date of birth", "k36": "Nationality", "k37": "Select nationality", "k38": "Malaysia", "k39": "Singapore", "k40": "Australia", "k41": "China", "k42": "Other", "k43": "Ancestral home", "k44": "Current city", "k45": "Work / study", "k46": "Mobile number", "k47": "Email", "k48": "About me", "k49": "Privacy & security", "k50": "Who can see my contact details", "k51": "All family members", "k52": "Direct family only", "k53": "Only me", "k54": "Password", "k55": "Change it regularly", "k56": "Change password", "k57": "Cancel", "k58": "Save changes"} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+  _rv() {
+    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Account & privacy", github: "GitHub username", githubHint: "Used to recognise this person when they sign in.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "账号与隐私", github: "GitHub 用户名", githubHint: "登入时用来认出这个人。只有这个家人自己的账号需要填写。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
+    const Z = window.ZY;
+    const st = this.state || {};
+    const isNew = this._zyQ('new') === '1';
+    const qid = this._zyQ('id');
+    const ready = !!(Z && Z.loaded);
+    const id = isNew ? null : (qid || (Z && Z.meId) || null);
+    const p = id && Z ? Z.person(id) : null;
+    const missing = ready && !isNew && !!id && !p;
+    const EMPTY = { surname: '', name: '', nameEn: '', sex: 'm', birth: '', death: '', nationality: '', hometown: '', city: '', job: '', phone: '', email: '', bio: '', privacy: 'all', father: '', mother: '', spouse: '', github: '' };
+    const dk = (isNew ? 'new' : id) + '|' + (p ? (p.updatedAt || '') : '') + '|' + ready;
+    if (this._dk !== dk && !this._dirty) {
+      this._dk = dk;
+      const base = Object.assign({}, EMPTY);
+      if (p) Object.keys(EMPTY).forEach((k) => { if (p[k] !== undefined && p[k] !== null) base[k] = String(p[k]); });
+      if (isNew) {
+        const of = this._zyQ('of') ? Z && Z.person(this._zyQ('of')) : null;
+        if (of && !base.surname && this._zyQ('rel') === 'child' && of.sex !== 'f') base.surname = of.surname || '';
+        if (of && this._zyQ('rel') === 'sibling') base.surname = of.surname || '';
+      }
+      this._draft = base;
+    }
+    const f0 = this._draft || Object.assign({}, EMPTY);
+    const en = st.lang === 'en';
+    const nameOf = (x) => (x ? this._zyName(x) : '') || t.unnamed;
+    const show = (en ? (f0.nameEn || f0.name) : (f0.name || f0.nameEn)) || t.unnamed;
+    const tags = [f0.nationality, f0.hometown, f0.city].filter(Boolean);
+    const f = Object.assign({}, f0, { show: show, ch: (show.trim().charAt(0) || '?').toUpperCase(), sub: [en ? f0.name : f0.nameEn, f0.birth ? (f0.birth + (f0.death ? ' – ' + f0.death : '')) : ''].filter(Boolean).join(' · '), tags: tags });
+    const set = {};
+    Object.keys(EMPTY).forEach((k) => { set[k] = (e) => { this._draft = Object.assign({}, this._draft || EMPTY); this._draft[k] = e && e.target ? e.target.value : ''; this._dirty = true; this.setState({ tick: (this.state.tick || 0) + 1, msg: '' }); }; });
+    const everyone = (Z ? Z.people() : []).filter((x) => x.id !== id).map((x) => ({ id: x.id, sex: x.sex, label: nameOf(x) + (x.birth ? ' · ' + String(x.birth).slice(0, 4) : '') + (Z && x.id === Z.meId ? t.me : '') }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+    const opts = { men: everyone.filter((x) => x.sex !== 'f'), women: everyone.filter((x) => x.sex === 'f'), all: everyone };
+    const av = p && p.avatar ? p.avatar : '';
+    if (av && Z && this._avPath !== av) { this._avPath = av; this._avUrl = ''; Z.imageURL(av).then((u) => { if (this._avPath === av) { this._avUrl = u; this.setState({ tick: (this.state.tick || 0) + 1 }); } }); }
+    const avUrl = av ? (this._avUrl || '') : '';
+    const save = () => {
+      if (!Z) return;
+      const d = this._draft || EMPTY;
+      if (!String(d.name || '').trim() && !String(d.nameEn || '').trim()) { this.setState({ msg: t.needName, msgErr: true }); return; }
+      const fields = {};
+      Object.keys(EMPTY).forEach((k) => { fields[k] = String(d[k] || '').trim(); });
+      if (isNew) { fields.rel = this._zyQ('rel'); fields.of = this._zyQ('of'); } else fields.id = id;
+      this.setState({ busy: true, msg: t.saving, msgErr: false });
+      Z.savePerson(fields).then((nid) => {
+        this._dirty = false;
+        this._dk = '';
+        this.setState({ busy: false, msg: t.saved, msgErr: false });
+        if (isNew) { try { window.location.replace(this._zyHref('Profile', 'id=' + encodeURIComponent(nid))); } catch (e) {} }
+      }).catch((e) => this.setState({ busy: false, msg: t.failed + (e && e.message ? e.message : e), msgErr: true }));
+    };
+    const ofP = isNew && Z && this._zyQ('of') ? Z.person(this._zyQ('of')) : null;
+    const relKey = 'rel' + (this._zyQ('rel') || '');
+    return {
+      t: t, f: f, set: set, opts: opts, countries: en ? ['Malaysia', 'Singapore', 'Australia', 'China', 'New Zealand', 'Indonesia', 'United Kingdom', 'United States', 'Canada'] : ['马来西亚', '新加坡', '澳大利亚', '中国', '新西兰', '印度尼西亚', '英国', '美国', '加拿大'],
+      pageTitle: isNew ? t.titleNew : (Z && id && id === Z.meId ? t.title : t.titleOther),
+      missing: missing, show: !missing,
+      addNote: ofP ? nameOf(ofP) + (t[relKey] || '') : '',
+      avUrl: avUrl, noAv: !avUrl, noUpload: isNew || !id,
+      mapHref: !isNew && id ? this._zyHref('Circle', 'center=' + encodeURIComponent(id)) : '',
+      adminHref: this._zyHref('Admin'),
+      canDelete: !isNew && !!p && !!Z && id !== Z.meId, askDel: !!st.askDel, noAsk: !st.askDel,
+      delAsk: () => this.setState({ askDel: true }), delNo: () => this.setState({ askDel: false }),
+      delYes: () => { this.setState({ busy: true }); Z.deletePerson(id).then(() => { this._dirty = false; this._zyGo(this._zyHref('Admin')); }).catch((e) => this.setState({ busy: false, askDel: false, msg: t.failed + e.message, msgErr: true })); },
+      discard: () => { this._dirty = false; this._dk = ''; this.setState({ msg: '', askDel: false, tick: (st.tick || 0) + 1 }); },
+      onSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); save(); },
+      busy: !!st.busy, saveText: st.busy ? t.saving : t.save,
+      msg: st.msg || (Z && !Z.loaded ? t.loading : ''), msgCls: st.msgErr ? 'u-err' : 'u-msg',
+      pickAvatar: (e) => {
+        const file = e && e.target && e.target.files && e.target.files[0];
+        if (!file || !id) return;
+        this.setState({ busy: true, msg: t.saving, msgErr: false });
+        Z.setAvatar(id, file).then(() => this.setState({ busy: false, msg: t.saved })).catch((er) => this.setState({ busy: false, msg: t.failed + er.message, msgErr: true }));
+        try { e.target.value = ''; } catch (er) {}
+      },
+      clearAvatar: () => { this._avPath = ''; Z.clearAvatar(id).then(() => this.setState({ msg: t.saved })).catch((er) => this.setState({ msg: t.failed + er.message, msgErr: true })); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1800 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ZY FamilyTree · 家族图谱</title>
+<script src="./zy-store.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0B1532">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ZY FamilyTree">
+<meta name="application-name" content="ZY FamilyTree">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--zy-sky:radial-gradient(ellipse at 42% 50%, var(--z23) 0%, var(--z24) 48%, var(--z25) 100%);--z1:#2F5BEA;--z2:#1E3FAF;--z3:rgba(255,200,87,.45);--z4:rgba(255,200,87,.75);--z5:rgba(255,158,122,.45);--z6:rgba(255,158,122,.8);--z7:rgba(255,143,192,.45);--z8:rgba(255,143,192,.8);--z9:rgba(157,203,255,.55);--z10:rgba(157,203,255,0);--z11:rgba(255,255,255,.6);--z12:rgba(255,255,255,0);--z13:rgba(255,143,192,.35);--z14:rgba(201,182,255,.38);--z15:rgba(255,143,192,.75);--z16:rgba(201,182,255,.8);--z17:rgba(157,203,255,.26);--z18:rgba(207,228,255,.12);--z19:rgba(47,91,234,.25);--z20:rgba(14,24,58,.62);--z21:rgba(207,228,255,.16);--z22:rgba(207,228,255,.14);--z23:#17296A;--z24:#0B1532;--z25:#050B1E;--z26:#EAF2FF;--z27:#CFE4FF;--z28:#FFFFFF;--z29:rgba(7,14,36,.9);--z30:rgba(157,203,255,.6);--z31:#E6F2FF;--z32:rgba(157,203,255,.85);--z33:#9DCBFF;--z34:rgba(142,197,255,.14);--z35:rgba(157,203,255,.75);--z36:rgba(142,197,255,.28);--z37:#8EC5FF;--z38:#EAF4FF;--z39:rgba(255,255,255,0.10);--z40:rgba(255,255,255,0.28);--z41:rgba(0,0,0,.18);--z42:rgba(207,228,255,.28);--z43:#9FB4DA;--z44:rgba(207,228,255,.3);--z45:#C7D6F2;--z46:#FFC857;--z47:#FF9E7A;--z48:#FF8FC0;--z49:#C9B6FF;--z50:#8FA9D6;--z51:#FFB89E;--z52:#FFE3A3;--z53:#FFD6C6;--z54:#FFE0D3;--z55:#FFD3E6;--z56:#D6EAFF;--z57:#E8E0FF;--z58:rgba(255,200,87,.7);--z59:rgba(255,158,122,.7);--z60:rgba(255,143,192,.7);--z61:rgba(244,143,166,.8);--z62:rgba(142,197,255,.55);--z63:rgba(142,197,255,.3);--z64:rgba(157,203,255,.20);--z65:rgba(142,197,255,.07);--z66:rgba(207,228,255,.9);--z67:rgba(142,197,255,.35);--z68:#8FB8EE;--z69:#0F1D45;--z70:rgba(207,228,255,.95);--z71:rgba(157,203,255,.8);--z72:rgba(207,228,255,.35);--z73:rgba(255,190,220,.85);--z74:rgba(210,194,255,.88);--z75:rgba(255,143,192,.06);--z76:rgba(201,182,255,.06);--z77:rgba(201,182,255,.85);--z78:rgba(255,160,200,.8);--z79:rgba(210,194,255,.85);--z80:#FFC6DE;--z81:#DCD0FF;--z82:rgba(201,182,255,.7);--z83:rgba(157,203,255,.18);--z84:#3D0A22}
+.zy-l{--zy-sky:linear-gradient(165deg, #FFF3E8 0%, #F6EEFF 34%, #E9F1FF 66%, #F5F9FF 100%);--z1:#1748E6;--z2:#1B399E;--z3:rgba(230,173,55,0.34);--z4:rgba(230,173,55,0.56);--z5:rgba(230,103,55,0.34);--z6:rgba(230,103,55,0.6);--z7:rgba(230,55,132,0.34);--z8:rgba(230,55,132,0.6);--z9:rgba(55,137,230,0.41);--z10:rgba(55,137,230,0);--z11:rgba(46,71,158,0.54);--z12:rgba(255,255,255,0.45);--z13:rgba(230,55,132,0.26);--z14:rgba(101,55,230,0.29);--z15:rgba(230,55,132,0.56);--z16:rgba(101,55,230,0.6);--z17:rgba(55,137,230,0.2);--z18:rgba(46,71,158,0.11);--z19:rgba(21,65,208,0.25);--z20:rgba(255,255,255,0.62);--z21:rgba(46,71,158,0.14);--z22:rgba(46,71,158,0.13);--z23:#FFFFFF;--z24:#FFFFFF;--z25:#F9FAFD;--z26:#111732;--z27:#111732;--z28:#111732;--z29:rgba(255,255,255,0.85);--z30:rgba(55,137,230,0.45);--z31:#111732;--z32:rgba(55,137,230,0.64);--z33:#217ADE;--z34:rgba(55,140,230,0.11);--z35:rgba(55,137,230,0.56);--z36:rgba(55,140,230,0.21);--z37:#217DDE;--z38:#111732;--z39:rgba(255,255,255,0.75);--z40:rgba(255,255,255,0.78);--z41:rgba(255,255,255,0.18);--z42:rgba(46,71,158,0.25);--z43:#495683;--z44:rgba(46,71,158,0.27);--z45:#343F65;--z46:#D1961F;--z47:#DE5421;--z48:#DE2174;--z49:#5221DE;--z50:#495683;--z51:#DE5421;--z52:#D19B1F;--z53:#DE5621;--z54:#111732;--z55:#111732;--z56:#111732;--z57:#111732;--z58:rgba(230,173,55,0.52);--z59:rgba(230,103,55,0.52);--z60:rgba(230,55,132,0.52);--z61:rgba(209,21,63,0.8);--z62:rgba(55,140,230,0.41);--z63:rgba(55,140,230,0.22);--z64:rgba(55,137,230,0.15);--z65:rgba(55,140,230,0.05);--z66:rgba(46,71,158,0.81);--z67:rgba(55,140,230,0.26);--z68:#495683;--z69:#FFFFFF;--z70:rgba(46,71,158,0.85);--z71:rgba(55,137,230,0.6);--z72:rgba(46,71,158,0.32);--z73:rgba(230,55,136,0.64);--z74:rgba(101,55,230,0.66);--z75:rgba(230,55,132,0.04);--z76:rgba(101,55,230,0.04);--z77:rgba(101,55,230,0.64);--z78:rgba(230,55,129,0.6);--z79:rgba(101,55,230,0.64);--z80:#DE2171;--z81:#111732;--z82:rgba(101,55,230,0.52);--z83:rgba(55,137,230,0.14);--z84:#FFFFFF}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+
+.aurora-l{display:none}
+.zy-l .aurora-l{display:block}
+.zy-l .star{background:#6E93F0 !important;box-shadow:0 0 6px rgba(110,147,240,.7)}
+.zy-l .star:nth-child(3n){background:#F2A93B !important;box-shadow:0 0 6px rgba(242,169,59,.7)}
+.zy-l .star:nth-child(5n){background:#E86FA5 !important;box-shadow:0 0 6px rgba(232,111,165,.7)}
+.zy-l .sun{background:radial-gradient(circle at 38% 34%,#FFFBEA 0%,#FFD66B 45%,#F29D1E 100%) !important}
+.zy-l .comet span{background:#FFFFFF !important}
+@keyframes blobA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8%,6%) scale(1.15)}}
+@keyframes blobB{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-10%,4%) scale(.95)}}
+@keyframes blobC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-8%) scale(1.2)}}
+
+/* —— 浅色模式头像：与深色模式同样大小；白色光核铺满整个圆，边缘过渡成彩色，外面一圈柔光（不用实心色块、不用边框、不用粗体） —— */
+@keyframes lglow{0%,100%{box-shadow:0 0 6px 0 var(--hc)}50%{box-shadow:0 0 16px 4px var(--hc)}}
+.zy-l .tn-gold,.zy-l .tn-coral,.zy-l .tn-pink,.zy-l .tn-sky,.zy-l .tn-lav,.zy-l .tn-me{border-color:transparent !important;outline:none !important;filter:none !important;font-weight:500 !important;text-shadow:none !important}
+.zy-l .tn-gold{--hc:rgba(236,160,20,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(236,160,20,.22) 82%,rgba(236,160,20,.5) 100%) !important;color:#9A5A00 !important}
+.zy-l .tn-coral{--hc:rgba(240,106,60,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(240,106,60,.22) 82%,rgba(240,106,60,.5) 100%) !important;color:#A8380F !important}
+.zy-l .tn-pink{--hc:rgba(226,70,140,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(226,70,140,.22) 82%,rgba(226,70,140,.5) 100%) !important;color:#A01F5C !important}
+.zy-l .tn-sky{--hc:rgba(70,120,235,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(70,120,235,.22) 82%,rgba(70,120,235,.5) 100%) !important;color:#1E4BB0 !important}
+.zy-l .tn-lav{--hc:rgba(125,90,230,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(125,90,230,.22) 82%,rgba(125,90,230,.5) 100%) !important;color:#4C2DB0 !important}
+.zy-l .tn-me{--hc:rgba(52,72,207,.5);background:radial-gradient(circle closest-side,#FFFFFF 0%,#FFFFFF 62%,rgba(52,72,207,.22) 82%,rgba(52,72,207,.5) 100%) !important;color:#2433A8 !important}
+.zy-l .tn-sky,.zy-l .tn-lav{box-shadow:0 0 8px var(--hc) !important}
+.zy-l .gold.tn-gold,.zy-l .coral.tn-coral,.zy-l .pink.tn-pink,.zy-l .meav.tn-me{box-shadow:0 0 6px 0 var(--hc) !important}
+.zy-l .gold::after,.zy-l .coral::after,.zy-l .pink::after{box-shadow:0 0 16px 4px var(--hc)}
+.zy-l .meav::after{background:var(--hc)}
+.zy-l .nlabel{text-shadow:0 0 3px #FFFFFF,0 0 8px #FFFFFF !important}
+.zy-l .sel{border:2px solid rgba(52,72,207,.35) !important}
+.zy-l .clu{background:rgba(255,255,255,.7) !important;border:none !important;box-shadow:0 0 0 1px rgba(70,120,235,.18),0 6px 18px rgba(70,120,235,.18) !important}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes breathe{0%,100%{box-shadow:0 0 8px 1px var(--z3)}50%{box-shadow:0 0 18px 4px var(--z4)}}
+@keyframes breatheCoral{0%,100%{box-shadow:0 0 8px 1px var(--z5)}50%{box-shadow:0 0 18px 4px var(--z6)}}
+@keyframes breathePink{0%,100%{box-shadow:0 0 8px 1px var(--z7)}50%{box-shadow:0 0 18px 4px var(--z8)}}
+@keyframes meHalo{0%{box-shadow:0 0 0 0 var(--z9)}100%{box-shadow:0 0 0 26px var(--z10)}}
+@keyframes selHalo{0%{box-shadow:0 0 0 0 var(--z11)}100%{box-shadow:0 0 0 14px var(--z12)}}
+@keyframes appear{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.star{animation:twinkle 4s ease-in-out infinite}
+.orbit{animation:fadeIn 1.2s ease backwards}
+.comet{animation:spin linear infinite}
+@property --rot{syntax:'<angle>';inherits:true;initial-value:0deg}
+.spin{transform:rotate(var(--rot))}
+.upright{transform:rotate(calc(-1 * var(--rot)))}
+@keyframes galaxy{to{transform:rotate(360deg)}}
+.gal{animation:galaxy 260s linear infinite}
+.gal.rev{animation-direction:reverse;animation-duration:310s}
+@keyframes starTurn{to{transform:rotate(-360deg)}}
+.skyturn{animation:starTurn 900s linear infinite}
+@keyframes bgSway{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.6)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(5deg) scale(.64)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.6)}}
+@keyframes bgFloat{0%,100%{translate:0 0}50%{translate:0 -14px}}
+@keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-34px,-20px,0)}}
+@keyframes threadFlow{to{stroke-dashoffset:-44}}
+.bg3d{animation:bgSway 24s ease-in-out infinite;transform-origin:50% 50%}
+.bgwrap{opacity:.96;transition:opacity .45s ease;animation:bgFloat 9s ease-in-out infinite}
+.bgwrap:hover{opacity:1}
+.bgwrap:hover .bg3d{outline:none}
+@keyframes bgSwayL{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.6)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(-5deg) scale(.64)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.6)}}
+.bg3dl{animation-name:bgSwayL;animation-duration:27s}
+@keyframes bgSwayS{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.42)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(2deg) scale(.45)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.42)}}
+@keyframes bgSwaySL{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.42)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(-2deg) scale(.45)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.42)}}
+.bg3ds{animation-name:bgSwayS;animation-duration:31s}
+.bg3dsl{animation-name:bgSwaySL;animation-duration:33s}
+.bgfar{opacity:.78}
+.bgfar:hover{opacity:1}
+.drift{animation:drift 46s ease-in-out infinite alternate}
+.thread{animation:threadFlow 2.6s linear infinite}
+.av{animation:appear .7s cubic-bezier(.2,.8,.3,1.2) backwards;transition:transform .25s ease}
+@keyframes glowOp{0%,100%{opacity:0}50%{opacity:1}}
+@keyframes haloOut{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+@keyframes ringOut{0%{transform:scale(1);opacity:1}100%{transform:scale(1.3);opacity:0}}
+.gold{animation:appear .7s cubic-bezier(.2,.8,.3,1.2) backwards;box-shadow:0 0 8px 1px var(--z3)}
+.coral{animation:appear .7s cubic-bezier(.2,.8,.3,1.2) backwards;box-shadow:0 0 8px 1px var(--z5)}
+.pink{animation:appear .7s cubic-bezier(.2,.8,.3,1.2) backwards;box-shadow:0 0 8px 1px var(--z7)}
+.gold::after,.coral::after,.pink::after{content:'';position:absolute;inset:-2px;border-radius:50%;pointer-events:none;opacity:0;animation:glowOp 3.6s ease-in-out 1s infinite;will-change:opacity}
+.gold::after{box-shadow:0 0 18px 4px var(--z4)}
+.coral::after{box-shadow:0 0 18px 4px var(--z6)}
+.pink::after{box-shadow:0 0 18px 4px var(--z8)}
+.meav{animation:appear .7s ease backwards}
+.meav::after{content:'';position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--z9);pointer-events:none;animation:haloOut 3s ease-out 1s infinite;will-change:transform,opacity}
+.sel::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--z11);pointer-events:none;animation:ringOut 1.6s ease-out infinite;will-change:transform,opacity}
+.node.upright{will-change:transform}
+.spin{will-change:transform}
+.bgwrap,.bg3d,.gal{will-change:transform}
+.node{transition:opacity .4s ease}
+.node:hover .clu{background:var(--z17)}
+.node:hover .av,.node:hover .gold,.node:hover .coral,.node:hover .pink{transform:scale(1.12)}
+.zoom{animation:zoomIn .7s cubic-bezier(.2,.8,.3,1) both;transform-origin:50% 50%}
+.ln{animation:fadeIn 1.2s ease backwards;transition:opacity .3s ease}
+.fu{animation:fadeUp .6s ease backwards}
+.top{animation:slideDown .5s ease backwards}
+.tab{transition:background .2s ease,color .2s ease}
+.tab:hover{background:var(--z18)}
+.btn{transition:transform .2s ease,box-shadow .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px var(--z19)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+@keyframes panelIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+.pop{animation:panelIn .35s cubic-bezier(.2,.8,.3,1) backwards}
+.glass{background:var(--z20);border:1px solid var(--z21);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pill{transition:background .2s ease,color .2s ease}
+.pill:hover{background:var(--z22)}
+.me-link{transition:box-shadow .25s ease}
+.me-link:hover{box-shadow:0 0 0 3px var(--z9)}
+.st0{animation:none !important;opacity:.55}
+.lang-en .nlabel{letter-spacing:0}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+
+.zy-d{--tbg:rgba(10,18,44,.84);--tbd:rgba(157,203,255,.18);--tfg:#A3B5DA;--ton:#FFFFFF;--tpill:rgba(157,203,255,.16)}
+.zy-l{--tbg:rgba(255,255,255,.9);--tbd:rgba(46,71,158,.14);--tfg:#5A6380;--ton:#1748E6;--tpill:rgba(23,72,230,.1)}
+.tabbar{display:none}
+.tbi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:52px;border-radius:14px;font-size:11px;font-weight:500;text-decoration:none;color:var(--tfg);-webkit-tap-highlight-color:transparent}
+.tbi.on{color:var(--ton);font-weight:600;background:var(--tpill)}
+@media (max-width:640px){
+header nav{display:none !important}
+header .uname{display:none !important}
+header{padding:10px 12px 0 !important}
+.tabbar{display:flex;position:fixed;z-index:60;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:5px;gap:4px;border-radius:20px;background:var(--tbg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+main{padding:20px 16px calc(110px + env(safe-area-inset-bottom)) !important}
+main h1{font-size:24px !important}
+}
+
+@media (max-width:640px){
+.sheet{left:12px !important;right:12px !important;top:auto !important;bottom:calc(82px + env(safe-area-inset-bottom)) !important;width:auto !important;max-width:none !important;max-height:52vh !important}
+.ctrls{left:12px !important;right:12px !important;bottom:calc(84px + env(safe-area-inset-bottom)) !important}
+.hintpill{display:none !important}
+.centerpill{left:12px !important;right:12px !important;top:76px !important}
+.has-sheet .ctrls{display:none !important}
+}
+
+.zy-pill{position:fixed;z-index:58;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 10px 9px 16px;border-radius:999px;font-size:13px;line-height:1.4;background:var(--tbg);color:var(--pfg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.zy-pill a{flex:none;padding:6px 12px;border-radius:999px;background:var(--ton);color:var(--pbtn) !important;text-decoration:none;font-weight:600}
+.zy-pill.err{border-color:#E5534B}
+.zy-d{--pfg:#EAF2FF;--pbtn:#0B1532}
+.zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
+.has-sheet .zy-pill{display:none}
+@media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+</style>
+</helmet>
+<div class="{{themeCls}}" data-zy-root="1" ref="{{rootRef}}" onClick="{{bgClick}}" onWheel="{{onWheel}}" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerCancel="{{onUp}}" onPointerLeave="{{onUp}}" style="position: relative; height: 100vh; min-height: 600px; overflow: hidden; touch-action: none; user-select: none; cursor: {{cursor}}; background: var(--zy-sky); color: var(--z26); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif">
+<div aria-hidden="true" class="aurora-l" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<span style="position: absolute; left: -10%; top: -15%; width: 60vmax; height: 60vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,140,.55) 0%, rgba(255,190,140,0) 65%); animation: blobA 22s ease-in-out infinite"></span>
+<span style="position: absolute; right: -15%; top: 5%; width: 65vmax; height: 65vmax; border-radius: 50%; background: radial-gradient(circle, rgba(170,140,255,.45) 0%, rgba(170,140,255,0) 65%); animation: blobB 28s ease-in-out infinite"></span>
+<span style="position: absolute; left: 20%; bottom: -25%; width: 70vmax; height: 70vmax; border-radius: 50%; background: radial-gradient(circle, rgba(110,170,255,.45) 0%, rgba(110,170,255,0) 65%); animation: blobC 34s ease-in-out infinite"></span>
+</div>
+
+
+<div aria-hidden="true" class="skyturn" style="position: absolute; left: 50%; top: calc(50% + 36px); width: 170vmax; height: 170vmax; margin-left: -85vmax; margin-top: -85vmax; will-change: transform; pointer-events: none">
+<sc-for list="{{stars}}" as="s" hint-placeholder-count="80">
+<span class="{{s.k}}" style="position: absolute; left: {{s.x}}%; top: {{s.y}}%; width: {{s.r}}px; height: {{s.r}}px; border-radius: 50%; background: var(--z27); animation-delay: {{s.d}}s; animation-duration: {{s.t}}s"></span>
+</sc-for>
+</div>
+
+<div style="position: absolute; left: 50%; top: calc(50% + 36px); width: {{S}}px; height: {{S}}px; margin-left: -{{H}}px; margin-top: -{{H}}px; transform: translate({{tx}}px, {{ty}}px) scale({{sc}}); transform-origin: 50% 50%; transition: {{trans}}; will-change: transform">
+<div data-rot="1" style="position: absolute; inset: 0">
+<sc-for list="{{bgs}}" as="b" hint-placeholder-count="2">
+<svg width="{{S}}" height="{{S}}" viewBox="0 0 {{S}} {{S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path class="thread" d="{{b.thread}}" data-fx="{{b.fx}}" data-fy="{{b.fy}}" data-bx="{{b.bx}}" data-by="{{b.by}}" data-ti="{{b.i}}" data-pi="{{b.pi}}" data-cx="{{b.cxo}}" data-cy="{{b.cyo}}" data-c="{{b.cc}}" data-spin="{{b.spinT}}" style="fill: none; stroke: {{b.thr}}; stroke-width: 1.8; stroke-dasharray: 4 7"></path></svg>
+<div class="{{b.cls}}" onClick="{{b.open}}" data-orb="{{b.i}}" data-bx="{{b.bx}}" data-by="{{b.by}}" data-c="{{b.cc}}" data-per="{{b.per}}" style="position: absolute; left: {{b.L}}px; top: {{b.T}}px; width: {{b.S}}px; height: {{b.S}}px; pointer-events: none">
+<div class="{{b.tilt}}" style="position: absolute; inset: 0; pointer-events: none; transform: {{b.base}}">
+<div class="{{b.gal}}" style="position: absolute; inset: 0; pointer-events: none">
+<sc-for list="{{b.orbits}}" as="o" hint-placeholder-count="4">
+<div title="{{b.tip}}" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; box-sizing: border-box; border-radius: 50%; border: 1.5px solid {{b.ring}}; background: {{b.fill}}; pointer-events: auto; cursor: pointer"></div>
+<div class="comet" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; animation-duration: {{o.speed}}s; animation-direction: {{o.dir}}; pointer-events: none"><span style="position: absolute; left: 50%; top: -4px; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: var(--z28); box-shadow: 0 0 12px 4px {{b.comet}}"></span></div>
+</sc-for>
+<sc-for list="{{b.lines}}" as="l" hint-placeholder-count="5">
+<svg width="{{l.S}}" height="{{l.S}}" viewBox="0 0 {{l.S}} {{l.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{l.op}}"><path d="{{l.d}}" style="fill: none; stroke: {{l.color}}; stroke-width: {{l.w}}; stroke-dasharray: {{l.dash}}; stroke-linecap: round"></path></svg>
+</sc-for>
+<sc-for list="{{b.nodes}}" as="n" hint-placeholder-count="15">
+<span style="position: absolute; left: {{n.left}}px; top: {{n.top}}px; width: {{n.w}}px; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none">
+<span class="{{n.tone}}" style="width: {{n.size}}px; height: {{n.size}}px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{n.rc}}; background: {{n.bg}}; color: {{n.fg}}; display: flex; align-items: center; justify-content: center; font-size: {{n.fs}}px; font-weight: 700; box-shadow: 0 0 14px {{n.rc}}">{{n.ch}}</span>
+<span class="nlabel" style="font-size: {{n.ls}}px; font-weight: 600; color: {{n.tc}}; white-space: nowrap">{{n.title}}</span>
+</span>
+</sc-for>
+</div>
+</div>
+</div>
+<span data-orbl="{{b.i}}" style="position: absolute; left: {{b.lx}}px; top: {{b.ly}}px; width: 260px; margin-left: -130px; text-align: center; font-size: {{b.fs}}px; font-weight: 700; letter-spacing: 2px; color: {{b.lc}}; text-shadow: 0 0 12px {{b.glow}}, 0 1px 6px var(--z29); pointer-events: none">{{b.label}}</span>
+</sc-for>
+<span style="position: absolute; left: {{mainLX}}px; top: {{mainLY}}px; width: 320px; margin-left: -160px; text-align: center; font-size: 16px; font-weight: 700; letter-spacing: 4px; color: var(--z27); text-shadow: 0 0 14px var(--z30); pointer-events: none">{{mainLabel}}</span>
+
+
+<sc-if value="{{upA}}" hint-placeholder-val="{{true}}">
+<div class="zoom" style="position: absolute; inset: 0">
+<div class="{{spinCls}}" style="position: absolute; inset: 0; transform-origin: 50% 50%">
+<sc-for list="{{orbits}}" as="o" hint-placeholder-count="5">
+<div class="orbit" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{o.color}}; background: {{o.fill}}; animation-delay: {{o.delay}}s"></div>
+<div class="comet" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; animation-duration: {{o.speed}}s; animation-direction: {{o.dir}}; pointer-events: none"><span style="position: absolute; left: 50%; top: -3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--z31); box-shadow: 0 0 10px 3px var(--z32)"></span></div>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{o.lleft}}px; top: {{o.ltop}}px; width: 100px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--z33)">{{o.label}}</span>
+</sc-for>
+<sc-for list="{{areas}}" as="ar" hint-placeholder-count="1">
+<svg width="{{ar.S}}" height="{{ar.S}}" viewBox="0 0 {{ar.S}} {{ar.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path d="{{ar.d}}" onMouseEnter="{{ar.enter}}" onMouseLeave="{{ar.leave}}" onClick="{{ar.tap}}" style="pointer-events: visiblePainted; cursor: pointer; fill: {{ar.fill}}; stroke: {{ar.stroke}}; stroke-width: 1.5; stroke-dasharray: 5 6; filter: {{ar.glow}}; transition: fill .3s ease, stroke .3s ease"></path></svg>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{ar.lx}}px; top: {{ar.ly}}px; width: 160px; margin-left: -80px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: {{ar.lc}}; text-shadow: 0 1px 6px var(--z29); pointer-events: none; transition: color .3s ease">{{ar.label}}</span>
+</sc-for>
+<sc-for list="{{trails}}" as="tr" hint-placeholder-count="6">
+<svg width="{{tr.S}}" height="{{tr.S}}" viewBox="0 0 {{tr.S}} {{tr.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{tr.op}}"><path d="{{tr.d}}" style="fill: none; stroke: {{tr.color}}; stroke-width: {{tr.w}}; stroke-linecap: round"></path></svg>
+</sc-for>
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="8">
+<svg class="ln" width="{{l.S}}" height="{{l.S}}" viewBox="0 0 {{l.S}} {{l.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{l.op}}; animation-delay: {{l.delay}}s"><path d="{{l.d}}" style="fill: none; stroke: {{l.color}}; stroke-width: {{l.w}}; stroke-dasharray: {{l.dash}}; stroke-linecap: round; stroke-linejoin: round; filter: {{l.glow}}"></path></svg>
+</sc-for>
+<sc-for list="{{nodes}}" as="n" hint-placeholder-count="24">
+<button type="button" class="node upright" onClick="{{n.pick}}" onDoubleClick="{{n.dbl}}" aria-label="{{n.aria}}" title="{{n.tip}}" style="transform-origin: 50% {{n.half}}px; position: absolute; left: {{n.left}}px; top: {{n.top}}px; width: {{n.w}}px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{n.op}}">
+<span class="{{n.klass}}" style="position: relative; width: {{n.size}}px; height: {{n.size}}px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{n.rc}}; background: {{n.bg}}; color: {{n.fg}}; display: flex; align-items: center; justify-content: center; font-size: {{n.fs}}px; font-weight: 700; animation-delay: {{n.delay}}s">{{n.ch}}<sc-if value="{{n.sel}}" hint-placeholder-val="{{false}}"><span class="sel" style="position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--z28)"></span></sc-if></span>
+<span class="nlabel" style="font-size: {{n.ls}}px; font-weight: 600; color: {{n.tc}}; white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{n.title}}</span>
+</button>
+</sc-for>
+<sc-for list="{{clusters}}" as="g" hint-placeholder-count="2">
+<button type="button" class="node upright" onClick="{{g.open}}" aria-label="{{g.aria}}" title="{{L.k0}}" style="transform-origin: 80px 19px; position: absolute; left: {{g.left}}px; top: {{g.top}}px; width: 160px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{g.op}}">
+<span class="clu av" style="display: flex; align-items: center; padding: 5px 12px 5px 10px; border-radius: 999px; background: var(--z34); border: 1.5px dashed var(--z35); box-shadow: 0 0 16px var(--z36); animation-delay: {{g.delay}}s">
+<sc-for list="{{g.minis}}" as="m" hint-placeholder-count="3"><span style="width: 26px; height: 26px; margin-left: -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--z37); background: {{m.bg}}; color: {{m.fg}}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">{{m.ch}}</span></sc-for>
+<sc-if value="{{g.hasMore}}" hint-placeholder-val="{{true}}"><span style="margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--z38)">+{{g.more}}</span></sc-if>
+</span>
+<span style="font-size: 12px; font-weight: 600; color: var(--z27); white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{g.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{upB}}" hint-placeholder-val="{{false}}">
+<div class="zoom" style="position: absolute; inset: 0">
+<div class="{{spinCls}}" style="position: absolute; inset: 0; transform-origin: 50% 50%">
+<sc-for list="{{orbits}}" as="o" hint-placeholder-count="5">
+<div class="orbit" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{o.color}}; background: {{o.fill}}; animation-delay: {{o.delay}}s"></div>
+<div class="comet" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; animation-duration: {{o.speed}}s; animation-direction: {{o.dir}}; pointer-events: none"><span style="position: absolute; left: 50%; top: -3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--z31); box-shadow: 0 0 10px 3px var(--z32)"></span></div>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{o.lleft}}px; top: {{o.ltop}}px; width: 100px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--z33)">{{o.label}}</span>
+</sc-for>
+<sc-for list="{{areas}}" as="ar" hint-placeholder-count="1">
+<svg width="{{ar.S}}" height="{{ar.S}}" viewBox="0 0 {{ar.S}} {{ar.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path d="{{ar.d}}" onMouseEnter="{{ar.enter}}" onMouseLeave="{{ar.leave}}" onClick="{{ar.tap}}" style="pointer-events: visiblePainted; cursor: pointer; fill: {{ar.fill}}; stroke: {{ar.stroke}}; stroke-width: 1.5; stroke-dasharray: 5 6; filter: {{ar.glow}}; transition: fill .3s ease, stroke .3s ease"></path></svg>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{ar.lx}}px; top: {{ar.ly}}px; width: 160px; margin-left: -80px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: {{ar.lc}}; text-shadow: 0 1px 6px var(--z29); pointer-events: none; transition: color .3s ease">{{ar.label}}</span>
+</sc-for>
+<sc-for list="{{trails}}" as="tr" hint-placeholder-count="6">
+<svg width="{{tr.S}}" height="{{tr.S}}" viewBox="0 0 {{tr.S}} {{tr.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{tr.op}}"><path d="{{tr.d}}" style="fill: none; stroke: {{tr.color}}; stroke-width: {{tr.w}}; stroke-linecap: round"></path></svg>
+</sc-for>
+<sc-for list="{{lines}}" as="l" hint-placeholder-count="8">
+<svg class="ln" width="{{l.S}}" height="{{l.S}}" viewBox="0 0 {{l.S}} {{l.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{l.op}}; animation-delay: {{l.delay}}s"><path d="{{l.d}}" style="fill: none; stroke: {{l.color}}; stroke-width: {{l.w}}; stroke-dasharray: {{l.dash}}; stroke-linecap: round; stroke-linejoin: round; filter: {{l.glow}}"></path></svg>
+</sc-for>
+<sc-for list="{{nodes}}" as="n" hint-placeholder-count="24">
+<button type="button" class="node upright" onClick="{{n.pick}}" onDoubleClick="{{n.dbl}}" aria-label="{{n.aria}}" title="{{n.tip}}" style="transform-origin: 50% {{n.half}}px; position: absolute; left: {{n.left}}px; top: {{n.top}}px; width: {{n.w}}px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{n.op}}">
+<span class="{{n.klass}}" style="position: relative; width: {{n.size}}px; height: {{n.size}}px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{n.rc}}; background: {{n.bg}}; color: {{n.fg}}; display: flex; align-items: center; justify-content: center; font-size: {{n.fs}}px; font-weight: 700; animation-delay: {{n.delay}}s">{{n.ch}}<sc-if value="{{n.sel}}" hint-placeholder-val="{{false}}"><span class="sel" style="position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--z28)"></span></sc-if></span>
+<span class="nlabel" style="font-size: {{n.ls}}px; font-weight: 600; color: {{n.tc}}; white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{n.title}}</span>
+</button>
+</sc-for>
+<sc-for list="{{clusters}}" as="g" hint-placeholder-count="2">
+<button type="button" class="node upright" onClick="{{g.open}}" aria-label="{{g.aria}}" title="{{L.k1}}" style="transform-origin: 80px 19px; position: absolute; left: {{g.left}}px; top: {{g.top}}px; width: 160px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{g.op}}">
+<span class="clu av" style="display: flex; align-items: center; padding: 5px 12px 5px 10px; border-radius: 999px; background: var(--z34); border: 1.5px dashed var(--z35); box-shadow: 0 0 16px var(--z36); animation-delay: {{g.delay}}s">
+<sc-for list="{{g.minis}}" as="m" hint-placeholder-count="3"><span style="width: 26px; height: 26px; margin-left: -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--z37); background: {{m.bg}}; color: {{m.fg}}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">{{m.ch}}</span></sc-for>
+<sc-if value="{{g.hasMore}}" hint-placeholder-val="{{true}}"><span style="margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--z38)">+{{g.more}}</span></sc-if>
+</span>
+<span style="font-size: 12px; font-weight: 600; color: var(--z27); white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{g.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{downA}}" hint-placeholder-val="{{false}}">
+<div class="zoom" style="position: absolute; inset: 0">
+<div class="{{spinCls}}" style="position: absolute; inset: 0; transform-origin: 50% 50%">
+<sc-for list="{{orbits2}}" as="o" hint-placeholder-count="5">
+<div class="orbit" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{o.color}}; background: {{o.fill}}; animation-delay: {{o.delay}}s"></div>
+<div class="comet" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; animation-duration: {{o.speed}}s; animation-direction: {{o.dir}}; pointer-events: none"><span style="position: absolute; left: 50%; top: -3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--z31); box-shadow: 0 0 10px 3px var(--z32)"></span></div>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{o.lleft}}px; top: {{o.ltop}}px; width: 100px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--z33)">{{o.label}}</span>
+</sc-for>
+<sc-for list="{{areas2}}" as="ar" hint-placeholder-count="1">
+<svg width="{{ar.S}}" height="{{ar.S}}" viewBox="0 0 {{ar.S}} {{ar.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path d="{{ar.d}}" onMouseEnter="{{ar.enter}}" onMouseLeave="{{ar.leave}}" onClick="{{ar.tap}}" style="pointer-events: visiblePainted; cursor: pointer; fill: {{ar.fill}}; stroke: {{ar.stroke}}; stroke-width: 1.5; stroke-dasharray: 5 6; filter: {{ar.glow}}; transition: fill .3s ease, stroke .3s ease"></path></svg>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{ar.lx}}px; top: {{ar.ly}}px; width: 160px; margin-left: -80px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: {{ar.lc}}; text-shadow: 0 1px 6px var(--z29); pointer-events: none; transition: color .3s ease">{{ar.label}}</span>
+</sc-for>
+<sc-for list="{{trails2}}" as="tr" hint-placeholder-count="6">
+<svg width="{{tr.S}}" height="{{tr.S}}" viewBox="0 0 {{tr.S}} {{tr.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{tr.op}}"><path d="{{tr.d}}" style="fill: none; stroke: {{tr.color}}; stroke-width: {{tr.w}}; stroke-linecap: round"></path></svg>
+</sc-for>
+<sc-for list="{{lines2}}" as="l" hint-placeholder-count="8">
+<svg class="ln" width="{{l.S}}" height="{{l.S}}" viewBox="0 0 {{l.S}} {{l.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{l.op}}; animation-delay: {{l.delay}}s"><path d="{{l.d}}" style="fill: none; stroke: {{l.color}}; stroke-width: {{l.w}}; stroke-dasharray: {{l.dash}}; stroke-linecap: round; stroke-linejoin: round; filter: {{l.glow}}"></path></svg>
+</sc-for>
+<sc-for list="{{nodes2}}" as="n" hint-placeholder-count="24">
+<button type="button" class="node upright" onClick="{{n.pick}}" onDoubleClick="{{n.dbl}}" aria-label="{{n.aria}}" title="{{n.tip}}" style="transform-origin: 50% {{n.half}}px; position: absolute; left: {{n.left}}px; top: {{n.top}}px; width: {{n.w}}px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{n.op}}">
+<span class="{{n.klass}}" style="position: relative; width: {{n.size}}px; height: {{n.size}}px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{n.rc}}; background: {{n.bg}}; color: {{n.fg}}; display: flex; align-items: center; justify-content: center; font-size: {{n.fs}}px; font-weight: 700; animation-delay: {{n.delay}}s">{{n.ch}}<sc-if value="{{n.sel}}" hint-placeholder-val="{{false}}"><span class="sel" style="position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--z28)"></span></sc-if></span>
+<span class="nlabel" style="font-size: {{n.ls}}px; font-weight: 600; color: {{n.tc}}; white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{n.title}}</span>
+</button>
+</sc-for>
+<sc-for list="{{clusters2}}" as="g" hint-placeholder-count="2">
+<button type="button" class="node upright" onClick="{{g.open}}" aria-label="{{g.aria}}" title="{{L.k2}}" style="transform-origin: 80px 19px; position: absolute; left: {{g.left}}px; top: {{g.top}}px; width: 160px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{g.op}}">
+<span class="clu av" style="display: flex; align-items: center; padding: 5px 12px 5px 10px; border-radius: 999px; background: var(--z34); border: 1.5px dashed var(--z35); box-shadow: 0 0 16px var(--z36); animation-delay: {{g.delay}}s">
+<sc-for list="{{g.minis}}" as="m" hint-placeholder-count="3"><span style="width: 26px; height: 26px; margin-left: -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--z37); background: {{m.bg}}; color: {{m.fg}}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">{{m.ch}}</span></sc-for>
+<sc-if value="{{g.hasMore}}" hint-placeholder-val="{{true}}"><span style="margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--z38)">+{{g.more}}</span></sc-if>
+</span>
+<span style="font-size: 12px; font-weight: 600; color: var(--z27); white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{g.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{downB}}" hint-placeholder-val="{{false}}">
+<div class="zoom" style="position: absolute; inset: 0">
+<div class="{{spinCls}}" style="position: absolute; inset: 0; transform-origin: 50% 50%">
+<sc-for list="{{orbits2}}" as="o" hint-placeholder-count="5">
+<div class="orbit" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; box-sizing: border-box; border-radius: 50%; border: 1px solid {{o.color}}; background: {{o.fill}}; animation-delay: {{o.delay}}s"></div>
+<div class="comet" style="position: absolute; left: {{o.pos}}px; top: {{o.pos}}px; width: {{o.size}}px; height: {{o.size}}px; animation-duration: {{o.speed}}s; animation-direction: {{o.dir}}; pointer-events: none"><span style="position: absolute; left: 50%; top: -3px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--z31); box-shadow: 0 0 10px 3px var(--z32)"></span></div>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{o.lleft}}px; top: {{o.ltop}}px; width: 100px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 2px; color: var(--z33)">{{o.label}}</span>
+</sc-for>
+<sc-for list="{{areas2}}" as="ar" hint-placeholder-count="1">
+<svg width="{{ar.S}}" height="{{ar.S}}" viewBox="0 0 {{ar.S}} {{ar.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path d="{{ar.d}}" onMouseEnter="{{ar.enter}}" onMouseLeave="{{ar.leave}}" onClick="{{ar.tap}}" style="pointer-events: visiblePainted; cursor: pointer; fill: {{ar.fill}}; stroke: {{ar.stroke}}; stroke-width: 1.5; stroke-dasharray: 5 6; filter: {{ar.glow}}; transition: fill .3s ease, stroke .3s ease"></path></svg>
+<span class="upright" style="transform-origin: 50% 50%; position: absolute; left: {{ar.lx}}px; top: {{ar.ly}}px; width: 160px; margin-left: -80px; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: {{ar.lc}}; text-shadow: 0 1px 6px var(--z29); pointer-events: none; transition: color .3s ease">{{ar.label}}</span>
+</sc-for>
+<sc-for list="{{trails2}}" as="tr" hint-placeholder-count="6">
+<svg width="{{tr.S}}" height="{{tr.S}}" viewBox="0 0 {{tr.S}} {{tr.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{tr.op}}"><path d="{{tr.d}}" style="fill: none; stroke: {{tr.color}}; stroke-width: {{tr.w}}; stroke-linecap: round"></path></svg>
+</sc-for>
+<sc-for list="{{lines2}}" as="l" hint-placeholder-count="8">
+<svg class="ln" width="{{l.S}}" height="{{l.S}}" viewBox="0 0 {{l.S}} {{l.S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; opacity: {{l.op}}; animation-delay: {{l.delay}}s"><path d="{{l.d}}" style="fill: none; stroke: {{l.color}}; stroke-width: {{l.w}}; stroke-dasharray: {{l.dash}}; stroke-linecap: round; stroke-linejoin: round; filter: {{l.glow}}"></path></svg>
+</sc-for>
+<sc-for list="{{nodes2}}" as="n" hint-placeholder-count="24">
+<button type="button" class="node upright" onClick="{{n.pick}}" onDoubleClick="{{n.dbl}}" aria-label="{{n.aria}}" title="{{n.tip}}" style="transform-origin: 50% {{n.half}}px; position: absolute; left: {{n.left}}px; top: {{n.top}}px; width: {{n.w}}px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{n.op}}">
+<span class="{{n.klass}}" style="position: relative; width: {{n.size}}px; height: {{n.size}}px; box-sizing: border-box; border-radius: 50%; border: 2px solid {{n.rc}}; background: {{n.bg}}; color: {{n.fg}}; display: flex; align-items: center; justify-content: center; font-size: {{n.fs}}px; font-weight: 700; animation-delay: {{n.delay}}s">{{n.ch}}<sc-if value="{{n.sel}}" hint-placeholder-val="{{false}}"><span class="sel" style="position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--z28)"></span></sc-if></span>
+<span class="nlabel" style="font-size: {{n.ls}}px; font-weight: 600; color: {{n.tc}}; white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{n.title}}</span>
+</button>
+</sc-for>
+<sc-for list="{{clusters2}}" as="g" hint-placeholder-count="2">
+<button type="button" class="node upright" onClick="{{g.open}}" aria-label="{{g.aria}}" title="{{L.k3}}" style="transform-origin: 80px 19px; position: absolute; left: {{g.left}}px; top: {{g.top}}px; width: 160px; padding: 0; border: none; background: transparent; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{g.op}}">
+<span class="clu av" style="display: flex; align-items: center; padding: 5px 12px 5px 10px; border-radius: 999px; background: var(--z34); border: 1.5px dashed var(--z35); box-shadow: 0 0 16px var(--z36); animation-delay: {{g.delay}}s">
+<sc-for list="{{g.minis}}" as="m" hint-placeholder-count="3"><span style="width: 26px; height: 26px; margin-left: -5px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--z37); background: {{m.bg}}; color: {{m.fg}}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700">{{m.ch}}</span></sc-for>
+<sc-if value="{{g.hasMore}}" hint-placeholder-val="{{true}}"><span style="margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--z38)">+{{g.more}}</span></sc-if>
+</span>
+<span style="font-size: 12px; font-weight: 600; color: var(--z27); white-space: nowrap; text-shadow: 0 1px 6px var(--z29)">{{g.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+
+<header class="top" onClick="{{stop}}" onPointerDown="{{stop}}" style="position: relative; z-index: 2; padding: 16px 24px 0">
+<div style="max-width: 1360px; margin: 0 auto; border-radius: 16px; background: var(--z39); border: 1px solid var(--z40); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 8px 30px var(--z41); padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="AppCircle.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z28)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z1); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 17px; letter-spacing: -.2px; font-weight: 700">ZY FamilyTree</span>
+</a>
+<nav aria-label="{{L.k4}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="AppCircle.dc.html" class="tab" aria-current="page" style="padding: 10px 16px; border-radius: 10px; background: var(--z21); color: var(--z28); font-weight: 600; text-decoration: none">{{L.k18}}</a>
+<a href="AppPhotos.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z27); text-decoration: none">{{L.k19}}</a>
+<a href="AppAdmin.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z27); text-decoration: none">{{L.k20}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 8px">
+<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z42); background: transparent; color: var(--z26); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z42); background: transparent; color: var(--z26); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+<a href="AppProfile.dc.html" class="me-link" title="{{L.k5}}" aria-label="{{L.k6}}" style="display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border-radius: 999px; text-decoration: none; color: var(--z28)">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: var(--z38); color: var(--z24); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">{{meCh}}</span>
+<span class="uname" style="font-size: 14px; font-weight: 600">{{meName}}</span>
+</a>
+<a href="AppLogin.dc.html" onClick="{{zyLogout}}" aria-label="{{L.k7}}" class="tab" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--z27)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></a>
+</div>
+</div>
+</header>
+
+
+<sc-if value="{{notMe}}" hint-placeholder-val="{{false}}">
+<div class="glass pop centerpill" onClick="{{stop}}" onPointerDown="{{stop}}" style="position: fixed; z-index: 2; left: 24px; top: 96px; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border-radius: 14px; cursor: default">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 14px; color: var(--z27)">{{L.k21}}<b style="color: var(--z28)">{{centerName}}</b>{{L.k22}}</span><sc-if value="{{noUp}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: var(--z43)">{{L.k23}}</span></sc-if></span>
+<button type="button" class="btn" onClick="{{backToMe}}" style="height: 36px; padding: 0 14px; border: none; border-radius: 9px; background: var(--z38); color: var(--z24); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{L.k24}}</button>
+</div>
+</sc-if>
+<sc-if value="{{panels}}" hint-placeholder-val="{{false}}">
+<div class="sheet" onClick="{{stop}}" onPointerDown="{{stop}}" onWheel="{{stop}}" style="position: fixed; z-index: 2; top: 96px; right: 24px; cursor: default; width: 300px; max-width: calc(100% - 48px); max-height: calc(100% - 120px); overflow-y: auto; display: flex; flex-direction: column; gap: 12px">
+<aside class="glass pop" aria-label="{{L.k8}}" style="box-sizing: border-box; border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 18px;">
+<div style="position: relative; display: flex; align-items: center; gap: 14px; padding-right: 36px">
+<button type="button" onClick="{{closePanel}}" aria-label="{{L.k9}}" class="pill" style="position: absolute; right: -6px; top: -6px; width: 36px; height: 36px; border: none; border-radius: 10px; background: transparent; color: var(--z27); font: inherit; font-size: 20px; line-height: 1; cursor: pointer">×</button>
+<span style="width: 60px; height: 60px; flex: none; border-radius: 50%; box-sizing: border-box; border: 3px solid {{d.rc}}; background: var(--z24); color: var(--z28); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; box-shadow: 0 0 16px {{d.rc}}">{{d.ch}}</span>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 22px; font-weight: 700; color: var(--z28)">{{d.title}}</span>
+<span style="font-size: 13px; color: var(--z43)">{{d.nm}}</span>
+</div>
+</div>
+<dl style="margin: 0; display: grid; grid-template-columns: 52px 1fr; row-gap: 12px; column-gap: 10px; font-size: 14px">
+<dt style="color: var(--z43)">{{L.k26}}</dt><dd style="margin: 0; color: var(--z28); font-weight: 500">{{d.path}}</dd>
+<dt style="color: var(--z43)">{{L.k27}}</dt><dd style="margin: 0; color: var(--z28); font-weight: 500">{{d.kind}}</dd>
+<dt style="color: var(--z43)">{{L.k28}}</dt><dd style="margin: 0; color: var(--z28); font-weight: 500">{{d.side}}</dd>
+<dt style="color: var(--z43)">{{L.k29}}</dt><dd style="margin: 0; color: var(--z28); font-weight: 500">{{d.gen}}</dd>
+</dl>
+<div style="display: flex; gap: 8px">
+<button type="button" class="btn" onClick="{{recenter}}" style="flex: 1; height: 42px; border-radius: 10px; border: none; background: var(--z38); color: var(--z24); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{L.k30}}</button>
+<a href="{{d.editHref}}" class="pill" style="flex: 1; height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 10px; border: 1px solid var(--z44); background: transparent; color: var(--z26); font-size: 14px; font-weight: 500; text-decoration: none">{{t.edit}}</a>
+</div>
+<a href="{{d.addHref}}" class="pill" style="height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 10px; border: 1px dashed var(--z44); color: var(--z26); font-size: 14px; font-weight: 500; text-decoration: none">＋ {{t.addRel}}</a>
+<div style="padding-top: 14px; border-top: 1px solid var(--z22); display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--z45)">
+<span style="display: flex; align-items: center; gap: 10px"><span style="width: 20px; border-top: 3px solid var(--z46)"></span>{{L.k32}}</span>
+<span style="display: flex; align-items: center; gap: 10px"><span style="width: 20px; border-top: 3px solid var(--z47)"></span>{{L.k33}}</span>
+<span style="display: flex; align-items: center; gap: 10px"><span style="width: 20px; border-top: 3px dashed var(--z48)"></span>{{L.k34}}</span>
+<span style="display: flex; align-items: center; gap: 10px"><span style="width: 20px; border-top: 2px solid var(--z37)"></span>{{L.k35}}</span>
+<span style="display: flex; align-items: center; gap: 10px"><span style="width: 12px; height: 12px; margin: 0 4px; border-radius: 50%; border: 2px solid var(--z49); box-sizing: border-box"></span>{{L.k36}}</span>
+</div>
+</aside>
+<div class="glass pop" role="region" aria-label="{{L.k10}}" style="box-sizing: border-box; animation-delay: .06s; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--z50); width: 34px">{{L.k37}}</span>
+<div role="group" aria-label="{{L.k11}}" style="display: flex; gap: 4px">
+<a href="AppCircle.dc.html" aria-current="page" class="pill" style="padding: 8px 14px; border-radius: 9px; background: var(--z38); color: var(--z24); font-size: 14px; font-weight: 600; text-decoration: none">{{L.k38}}</a>
+<a href="AppTree.dc.html" class="pill" style="padding: 8px 14px; border-radius: 9px; color: var(--z27); font-size: 14px; text-decoration: none">{{L.k39}}</a>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--z50); width: 34px">{{L.k40}}</span>
+<div role="group" aria-label="{{L.k12}}" style="display: flex; gap: 4px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="2"><button type="button" class="pill" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="height: 36px; padding: 0 14px; border: none; border-radius: 9px; background: {{m.bg}}; color: {{m.fg}}; font: inherit; font-size: 14px; font-weight: {{m.fw}}; cursor: pointer">{{m.name}}</button></sc-for>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<span style="font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--z50); width: 34px">{{L.k41}}</span>
+<div role="group" aria-label="{{L.k13}}" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
+<button type="button" class="pill" onClick="{{f.pick}}" aria-pressed="{{f.on}}" style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid {{f.bd}}; background: {{f.bg}}; color: {{f.fg}}; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">{{f.name}}</button>
+</sc-for>
+<button type="button" class="pill" onClick="{{toggleFam}}" aria-pressed="{{famOn}}" style="height: 36px; padding: 0 14px; border-radius: 9px; border: 1px solid {{famBd}}; background: {{famBg}}; color: {{famFg}}; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">{{famLabel}}</button>
+</div>
+</div>
+
+</div>
+</div>
+</sc-if>
+
+<div class="ctrls" onClick="{{stop}}" onPointerDown="{{stop}}" style="position: fixed; z-index: 2; left: 24px; bottom: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; cursor: default">
+<div class="glass" role="group" aria-label="{{L.k14}}" style="display: flex; align-items: center; gap: 6px; padding: 6px; border-radius: 12px">
+<button type="button" class="pill" onClick="{{zoomOut}}" aria-label="{{L.k15}}" style="height: 36px; min-width: 36px; padding: 0 10px; border: 1px solid var(--z42); border-radius: 9px; background: transparent; color: var(--z26); font: inherit; font-size: 15px; cursor: pointer">−</button>
+<span style="min-width: 48px; text-align: center; font-size: 13px; color: var(--z27)">{{pct}}</span>
+<button type="button" class="pill" onClick="{{zoomIn}}" aria-label="{{L.k16}}" style="height: 36px; min-width: 36px; padding: 0 10px; border: 1px solid var(--z42); border-radius: 9px; background: transparent; color: var(--z26); font: inherit; font-size: 15px; cursor: pointer">+</button>
+<button type="button" class="pill" onClick="{{resetView}}" style="height: 36px; min-width: 36px; padding: 0 10px; border: 1px solid var(--z42); border-radius: 9px; background: transparent; color: var(--z26); font: inherit; font-size: 15px; cursor: pointer; font-size: 13px">{{L.k42}}</button>
+<button type="button" class="pill" onClick="{{toggleSpin}}" aria-pressed="{{spinOn}}" style="height: 36px; min-width: 36px; padding: 0 12px; border: 1px solid {{spinBd}}; border-radius: 9px; background: {{spinBg}}; color: {{spinFg}}; font: inherit; font-size: 13px; cursor: pointer">{{spinText}}</button>
+</div>
+<span class="glass hintpill" style="padding: 8px 14px; border-radius: 999px; font-size: 12px; color: var(--z27)">{{hint}}</span>
+</div>
+
+<sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
+<nav class="tabbar" aria-label="{{tabAria}}"><a href="AppCircle.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="AppPhotos.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="AppAdmin.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{tabAdmin}}</span></a><a href="AppProfile.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  _zyPWA() {
+    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    const key = [st.theme, st.lang, st.sel, st.filter, st.fam, st.mode, st.hover, st.expand, st.center, st.phase, st.spin, st.titleFrom, window.ZY ? window.ZY.rev : 0].join('|');
+    if (this._mk !== key || !this._mv) {
+      let v = this._rv();
+      if (st.lang === 'en') v = this._zyI18n(v, 0);
+      this._mv = Object.assign(v, this._zyChrome(st));
+      this._mk = key;
+      this._gen = (this._gen || 0) + 1;
+    }
+    const v = this._mv;
+    const open = !!v.panels;
+    const sc = st.sc || 1;
+    let phone = false;
+    let vh = 844;
+    try { phone = window.innerWidth <= 640; vh = window.innerHeight || 844; } catch (e) {}
+    return Object.assign({}, v, {
+      themeCls: v.themeCls + (open ? ' has-sheet' : ''),
+      tx: Math.round((st.tx || 0) + (open && !phone ? -160 : 0)), ty: Math.round((st.ty || 0) + (open && phone ? -Math.round(vh * 0.22) : 0)), sc: sc.toFixed(3), pct: Math.round(sc * 100) + '%',
+      trans: st.dragging ? 'none' : 'transform .45s cubic-bezier(.2,.8,.3,1)', cursor: st.dragging ? 'grabbing' : 'grab'
+    });
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
+      zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
+      zyLogout: () => { try { if (window.ZY) window.ZY.signOut(); } catch (e) {} },
+      tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyHref(name, query) {
+    let app = false;
+    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
+    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyMeName(en) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    if (me) return (en ? (me.nameEn || me.name) : (me.name || me.nameEn)) || '';
+    return (Z && Z.login) || (en ? 'Me' : '我');
+  }
+  _zyPill(en) {
+    const Z = window.ZY;
+    if (!Z) return { show: false };
+    if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
+    if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
+    if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
+    return { show: false };
+  }
+  // Turns the saved family (ZY.data) into the shape the star chart uses. "me" is always the signed-in person.
+  _zyBase() {
+    const Z = window.ZY;
+    const rev = Z ? Z.rev : 0;
+    const en = (this.state || {}).lang === 'en';
+    const C0 = Component.__zyB;
+    if (C0 && C0.rev === rev && C0.en === en) return C0;
+    const people = (Z && Z.data && Z.data.people) || {};
+    let meReal = Z ? Z.meId : null;
+    if (meReal && !people[meReal]) meReal = null;
+    const BASE = {};
+    const BY = {};
+    const SUR = {};
+    const RID = {};
+    const EID = {};
+    const nm = (p) => (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+    Object.keys(people).forEach((rid) => { const id = rid === meReal ? 'me' : (rid === 'me' ? 'me_' : rid); EID[rid] = id; RID[id] = rid; });
+    const blank = (id, name, sex) => ({ id: id, name: name, sex: sex, parent: null, spouse: null, lv: 0, title: '', ch: '', side: '', path: '', cat: '', gen: '' });
+    if (!meReal) { BASE.me = blank('me', (Z && Z.login) || (en ? 'Me' : '我'), 'm'); RID.me = null; }
+    Object.keys(people).forEach((rid) => {
+      const p = people[rid];
+      const id = EID[rid];
+      BASE[id] = blank(id, nm(p), p.sex === 'f' ? 'f' : 'm');
+      const y = parseInt(String(p.birth || '').slice(0, 4), 10);
+      if (y) BY[id] = y;
+      if (p.surname) SUR[id] = p.surname;
+    });
+    const hasPar = (rid) => !!(rid && people[rid] && ((people[rid].father && people[people[rid].father]) || (people[rid].mother && people[people[rid].mother])));
+    Object.keys(people).forEach((rid) => {
+      const p = people[rid];
+      const fa = p.father && people[p.father] ? p.father : null;
+      const mo = p.mother && people[p.mother] ? p.mother : null;
+      let par = fa || mo;
+      if (fa && mo && !hasPar(fa) && hasPar(mo)) par = mo;
+      BASE[EID[rid]].parent = par ? EID[par] : null;
+    });
+    // Couples: the chart expects the partner who married in to point at the blood relative.
+    Object.keys(people).forEach((rid) => {
+      const p = people[rid];
+      if (!p.spouse || !people[p.spouse]) return;
+      const a = EID[rid];
+      const b = EID[p.spouse];
+      if (BASE[a].spouse || BASE[b].spouse) return;
+      const pa = !!BASE[a].parent;
+      const pb = !!BASE[b].parent;
+      let from = a;
+      let to = b;
+      if (pa && !pb) { from = b; to = a; }
+      else if (pa === pb) {
+        if (a === 'me') { from = b; to = a; }
+        else if (b !== 'me' && BASE[a].sex === 'm' && BASE[b].sex === 'f') { from = b; to = a; }
+      }
+      BASE[from].spouse = to;
+    });
+    // Generation of everyone relative to me (parents +1, children -1).
+    const adj = {};
+    const link = (x, y, dl) => { (adj[x] = adj[x] || []).push([y, dl]); (adj[y] = adj[y] || []).push([x, -dl]); };
+    Object.keys(people).forEach((rid) => {
+      const p = people[rid];
+      if (p.father && people[p.father]) link(EID[rid], EID[p.father], 1);
+      if (p.mother && people[p.mother]) link(EID[rid], EID[p.mother], 1);
+      if (p.spouse && people[p.spouse]) link(EID[rid], EID[p.spouse], 0);
+    });
+    const lv = { me: 0 };
+    const q = ['me'];
+    while (q.length) { const x = q.shift(); (adj[x] || []).forEach((e) => { if (lv[e[0]] === undefined) { lv[e[0]] = lv[x] + e[1]; q.push(e[0]); } }); }
+    Object.keys(BASE).forEach((id) => { BASE[id].lv = lv[id] !== undefined ? lv[id] : 0; });
+    // Surname of each paternal line comes from its earliest known man (or anyone below him who has one).
+    const fat = (id) => { const pr = BASE[id].parent; if (!pr) return null; if (BASE[pr].sex === 'm') return pr; return null; };
+    Object.keys(BASE).forEach((id) => {
+      if (!SUR[id]) return;
+      let x = id;
+      let g = 0;
+      while (fat(x) && g++ < 40) x = fat(x);
+      if (!SUR[x]) SUR[x] = SUR[id];
+    });
+    const out = { rev: rev, en: en, BASE: BASE, BY: BY, SUR: SUR, RID: RID, EID: EID, myName: BASE.me.name || (en ? 'Me' : '我') };
+    Component.__zyB = out;
+    return out;
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { TI: true, cache: {}, E: {"本人": "Self", "Yao 本人": "Yao (self)", "配偶": "Spouse", "我的配偶": "My spouse", "妻子": "Wife", "丈夫": "Husband", "父亲": "Father", "母亲": "Mother", "我的父亲": "My father", "我的母亲": "My mother", "我的儿子": "My son", "我的女儿": "My daughter", "我的家庭": "My family", "妻家": "Wife's family", "岳父": "Father-in-law", "岳母": "Mother-in-law", "公公": "Father-in-law", "婆婆": "Mother-in-law", "爷爷": "Grandpa", "奶奶": "Grandma", "外公": "Grandpa", "外婆": "Grandma", "曾祖父": "Great-grandpa", "曾祖母": "Great-grandma", "外曾祖父": "Great-grandpa", "外曾祖母": "Great-grandma", "高祖父": "Great-great-grandpa", "高祖母": "Great-great-grandma", "外高祖父": "Great-great-grandpa", "外高祖母": "Great-great-grandma", "远祖": "Ancestor", "伯公": "Great-uncle", "叔公": "Great-uncle", "姑公": "Great-uncle", "舅公": "Great-uncle", "伯婆": "Great-aunt", "叔婆": "Great-aunt", "姑婆": "Great-aunt", "舅婆": "Great-aunt", "堂伯公": "Great-uncle", "堂叔公": "Great-uncle", "表伯公": "Great-uncle", "表叔公": "Great-uncle", "堂伯婆": "Great-aunt", "堂叔婆": "Great-aunt", "堂姑婆": "Great-aunt", "表叔婆": "Great-aunt", "表姑婆": "Great-aunt", "曾伯公": "Great-great-uncle", "曾叔公": "Great-great-uncle", "曾姑公": "Great-great-uncle", "曾伯婆": "Great-great-aunt", "曾叔婆": "Great-great-aunt", "曾姑婆": "Great-great-aunt", "伯父": "Uncle", "叔叔": "Uncle", "姑丈": "Uncle", "舅舅": "Uncle", "姨丈": "Uncle", "伯母": "Aunt", "婶婶": "Aunt", "姑姑": "Aunt", "舅妈": "Aunt", "姨妈": "Aunt", "大伯": "Eldest uncle", "二伯": "2nd uncle", "二叔": "2nd uncle", "三叔": "3rd uncle", "四叔": "4th uncle", "五叔": "5th uncle", "小叔": "Youngest uncle", "大伯母": "Eldest aunt", "二伯母": "2nd aunt", "二婶": "2nd aunt", "三婶": "3rd aunt", "四婶": "4th aunt", "五婶": "5th aunt", "小婶": "Youngest aunt", "大姑": "Eldest aunt", "二姑": "2nd aunt", "小姑": "Youngest aunt", "大姑丈": "Eldest uncle", "二姑丈": "2nd uncle", "小姑丈": "Youngest uncle", "大舅": "Eldest uncle", "二舅": "2nd uncle", "小舅": "Youngest uncle", "大舅妈": "Eldest aunt", "二舅妈": "2nd aunt", "小舅妈": "Youngest aunt", "堂伯": "Uncle", "堂叔": "Uncle", "表伯": "Uncle", "表叔": "Uncle", "堂伯母": "Aunt", "堂婶": "Aunt", "堂姑": "Aunt", "表姑": "Aunt", "表姨": "Aunt", "堂姑丈": "Uncle", "哥哥": "Older brother", "弟弟": "Younger brother", "姐姐": "Older sister", "妹妹": "Younger sister", "兄弟姐妹": "Siblings", "同胞": "Sibling", "大哥": "Eldest brother", "二哥": "2nd brother", "小弟": "Youngest brother", "大姐": "Eldest sister", "二姐": "2nd sister", "小妹": "Youngest sister", "嫂子": "Sister-in-law", "弟媳": "Sister-in-law", "姐夫": "Brother-in-law", "妹夫": "Brother-in-law", "妯娌": "Sister-in-law", "舅嫂": "Sister-in-law", "连襟": "Brother-in-law", "大伯子": "Brother-in-law", "小叔子": "Brother-in-law", "大姑子": "Sister-in-law", "小姑子": "Sister-in-law", "大舅子": "Brother-in-law", "小舅子": "Brother-in-law", "大姨子": "Sister-in-law", "小姨子": "Sister-in-law", "堂哥": "Cousin", "堂姐": "Cousin", "堂弟": "Cousin", "堂妹": "Cousin", "表哥": "Cousin", "表姐": "Cousin", "表弟": "Cousin", "表妹": "Cousin", "堂嫂": "Cousin's wife", "堂弟媳": "Cousin's wife", "堂姐夫": "Cousin's husband", "堂妹夫": "Cousin's husband", "表妹夫": "Cousin's husband", "堂侄": "Cousin's son", "堂侄女": "Cousin's daughter", "堂侄媳": "Cousin's son's wife", "堂侄女婿": "Cousin's son-in-law", "表侄": "Cousin's son", "表外甥": "Cousin's son", "表外甥女": "Cousin's daughter", "远房堂哥": "Distant cousin", "远房堂姐": "Distant cousin", "远房堂弟": "Distant cousin", "远房堂妹": "Distant cousin", "远房表妹": "Distant cousin", "远房表哥": "Distant cousin", "远房堂嫂": "Distant cousin's wife", "远房堂姐夫": "Distant cousin's husband", "远房堂妹夫": "Distant cousin's husband", "远房堂叔": "Distant uncle", "远房堂伯": "Distant uncle", "远房表叔": "Distant uncle", "远房表伯": "Distant uncle", "远房堂姑": "Distant aunt", "远房表姑": "Distant aunt", "远房晚辈": "Distant relative", "儿子": "Son", "女儿": "Daughter", "儿媳": "Daughter-in-law", "女婿": "Son-in-law", "子女": "children", "孙子": "Grandson", "孙女": "Granddaughter", "外孙": "Grandson", "外孙女": "Granddaughter", "孙媳": "Granddaughter-in-law", "外孙媳": "Granddaughter-in-law", "孙女婿": "Grandson-in-law", "外孙女婿": "Grandson-in-law", "侄子": "Nephew", "侄女": "Niece", "外甥": "Nephew", "外甥女": "Niece", "侄媳": "Niece-in-law", "侄女婿": "Nephew-in-law", "侄孙": "Grandnephew", "侄孙女": "Grandniece", "侄孙媳": "Grandnephew's wife", "侄孙女婿": "Grandniece's husband", "外甥孙女": "Grandniece", "长子": "eldest son", "次子": "second son", "三子": "third son", "幼子": "youngest son", "长女": "eldest daughter", "幼女": "youngest daughter", "本辈": "My generation", "父辈": "Parents", "祖辈": "Grandparents", "曾祖辈": "Great-grandparents", "高祖辈": "Great-great-grandparents", "子辈": "Children", "孙辈": "grandchildren", "曾孙辈": "great-grandchildren", "侄甥辈": "Nieces & nephews", "侄孙辈": "Grandnieces & grandnephews", "本辈 · 同一代": "My generation", "父辈 · 长一辈": "Parents' generation", "祖辈 · 长两辈": "Grandparents' generation", "曾祖辈 · 长三辈": "Great-grandparents' generation", "高祖辈 · 长四辈": "Great-great-grandparents' generation", "子辈 · 晚一辈": "Children's generation", "孙辈 · 晚两辈": "Grandchildren's generation", "直系 · 长辈": "Direct line · Elders", "直系 · 晚辈": "Direct line · Younger", "兄弟姐妹的后代": "Siblings' descendants", "直系血脉": "Direct line", "兄弟姐妹的子女": "Siblings' children", "旁系亲属": "Extended family", "姻亲": "In-law", "父系": "Paternal", "母系": "Maternal", "全部": "All", "当前中心": "Current center", "外家": "Mother's family", "岳家": "Wife's family", "夫家": "Husband's family", "外婆的娘家": "Grandma's family", "岳母的娘家": "Mother-in-law's family", "婆婆的娘家": "Mother-in-law's family", "本宗": "Main line", "小家庭": "household", "我的小家庭": "My household", "TA的小家庭": "Their household", "其他": "other", "外姓": "other surname", "点击展开": "tap to expand", "点击收起": "tap to collapse", "星空：转动": "Sky: rotating", "星空：静止": "Sky: still", "本辈与长辈": "Me & elders", "本辈与晚辈": "Me & younger", "单击切换长辈 / 晚辈": "Click to switch elders / younger", "单击切换本辈与长辈 / 本辈与晚辈": "click to switch elders / younger", "滚轮缩放": "Scroll to zoom", "拖动移动": "Drag to move", "只显示 TA 与后代": "Showing them and descendants only", "单击中间的你：切换到晚辈": "Click yourself: show younger", "单击中间的你：切换到长辈": "Click yourself: show elders", "单击家人：查看资料": "Click a relative: view profile", "点击虚线胶囊：展开大家庭": "Click a dashed capsule: expand the family", "点阴影区或空白处：收起": "Click a shaded area or empty space: collapse", "TA": "them", "吴": "Wu", "陈": "Chen", "林": "Lin", "张": "Zhang", "黄": "Huang", "李": "Li", "王": "Wang", "父母": "Parents"}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "点击展开", "k1": "点击展开", "k2": "点击展开", "k3": "点击展开", "k4": "家族空间导航", "k5": "编辑个人资料", "k6": "编辑个人资料", "k7": "退出登入", "k8": "家人资料", "k9": "关闭", "k10": "视图与筛选", "k11": "视图切换", "k12": "范围", "k13": "筛选", "k14": "缩放", "k15": "缩小", "k16": "放大", "k17": "枝叶", "k18": "家族图谱", "k19": "照片与上传", "k20": "管理后台", "k21": "正在以「", "k22": "」为中心", "k23": "TA 的长辈不在本家族图谱中，只显示 TA 与后代", "k24": "回到我", "k25": "姓名：—", "k26": "关系", "k27": "类别", "k28": "所属", "k29": "辈分", "k30": "以 TA 为中心", "k31": "查看资料", "k32": "直系血脉", "k33": "兄弟姐妹", "k34": "配偶", "k35": "旁系亲属", "k36": "姻亲（亲属的配偶）", "k37": "视图", "k38": "关系圈", "k39": "族谱树", "k40": "范围", "k41": "筛选", "k42": "复位"}, LEN: {"k0": "tap to expand", "k1": "tap to expand", "k2": "tap to expand", "k3": "tap to expand", "k4": "Family space navigation", "k5": "Edit profile", "k6": "Edit profile", "k7": "Log out", "k8": "Family profile", "k9": "Close", "k10": "View and filters", "k11": "Switch view", "k12": "Scope", "k13": "Filter", "k14": "Zoom", "k15": "Zoom out", "k16": "Zoom in", "k17": "ZY", "k18": "Family map", "k19": "Photos", "k20": "Admin", "k21": "Centered on “", "k22": "”", "k23": "Their elders aren't in this family map, so only they and their descendants are shown", "k24": "Back to me", "k25": "Name: —", "k26": "Relationship", "k27": "Category", "k28": "Branch", "k29": "Generation", "k30": "Center on them", "k31": "View profile", "k32": "Direct line", "k33": "Siblings", "k34": "Spouse", "k35": "Extended family", "k36": "In-laws (relatives' spouses)", "k37": "View", "k38": "Circle", "k39": "Tree", "k40": "Scope", "k41": "Filter", "k42": "Reset"} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = { theme: 'dark',  sel: null, filter: 'all', fam: true, mode: 'up', tx: 0, ty: 0, sc: 1, dragging: false, hover: null, expand: null, center: 'me', phase: 0 };
+    this.drag = null;
+    this.moved = false;
+    this.stageSize = 1100;
+  }
+  fitScale() {
+    try {
+      const w = window.innerWidth || 1440;
+      const h = window.innerHeight || 900;
+      const S = this.stageSize || 1100;
+      const phone = w <= 640;
+      return Math.max(0.25, Math.min(1, (h - (phone ? 190 : 110)) / S, (w - (phone ? 16 : 40)) / S));
+    } catch (e) { return 1; }
+  }
+  _queue(p) {
+    this._pend = Object.assign(this._pend || {}, p);
+    if (this._pf) return;
+    this._pf = requestAnimationFrame(() => { this._pf = 0; const q = this._pend; this._pend = null; if (q) this.setState(q); });
+  }
+  _flushNow(extra) {
+    if (this._pf) { cancelAnimationFrame(this._pf); this._pf = 0; }
+    const q = Object.assign(this._pend || {}, extra || {});
+    this._pend = null;
+    if (q.dragging === false && !this.state.dragging && Object.keys(q).length === 1) return;
+    this.setState(q);
+  }
+  _scan(el) {
+    const num = (n, k) => parseFloat(n.getAttribute(k));
+    const orbs = Array.prototype.map.call(el.querySelectorAll('[data-orb]'), (w) => ({ el: w, i: w.getAttribute('data-orb'), bx: num(w, 'data-bx'), by: num(w, 'data-by'), c: num(w, 'data-c'), per: num(w, 'data-per') || 600 }));
+    const labels = Array.prototype.map.call(el.querySelectorAll('[data-orbl]'), (n) => ({ el: n, i: n.getAttribute('data-orbl') }));
+    const threads = Array.prototype.map.call(el.querySelectorAll('path.thread'), (p) => ({ el: p, ti: p.getAttribute('data-ti'), pi: p.getAttribute('data-pi'), fx: num(p, 'data-fx'), fy: num(p, 'data-fy'), c: num(p, 'data-c'), bx: num(p, 'data-bx'), by: num(p, 'data-by'), cx: num(p, 'data-cx'), cy: num(p, 'data-cy'), spin: p.getAttribute('data-spin') === '1' }));
+    const rot = el.querySelector('[data-rot]');
+    return { orbs: orbs, labels: labels, threads: threads, rot: rot, probe: rot || (orbs[0] && orbs[0].el) };
+  }
+  componentWillUnmount() {
+    this._zyStop();
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._pf) cancelAnimationFrame(this._pf);
+    if (this._hovEl) { this._hovEl.removeEventListener('pointerover', this._hovFn); this._hovEl.removeEventListener('pointerleave', this._unhovFn); }
+  }
+  componentDidMount() {
+    this._loadTheme();
+    this._zyPWA();
+    const qc = this._zyQ('center');
+    if (qc && window.ZY) window.ZY.ready().then(() => { const e = this._zyBase().EID[qc]; if (e && e !== 'me') this.setState({ center: e }); });
+    this._rot = 0;
+    this._orbT = 0;
+    this._lastDraw = 0;
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    const PERIOD = 420;
+    const FRAME = 33;
+    const E = 0.72;
+    this._hovFn = (e) => { const t = e.target; if (!t || !t.closest) return; this._hovNode = !!t.closest('.node'); this._hovBg = !!t.closest('.bgwrap'); };
+    this._unhovFn = () => { this._hovNode = false; this._hovBg = false; };
+    const tick = (now) => {
+      this._raf = requestAnimationFrame(tick);
+      if (this._lastDraw && now - this._lastDraw < FRAME) return;
+      const dt = this._lastDraw ? Math.min(100, now - this._lastDraw) : 0;
+      this._lastDraw = now;
+      try { if (document.hidden) return; } catch (e) {}
+      let el = this.rootEl;
+      if (!el || !el.isConnected) { try { el = this.rootEl = document.querySelector('[data-zy-root]'); } catch (e) { el = null; } }
+      if (!el) return;
+      if (el !== this._hovEl) {
+        if (this._hovEl) { this._hovEl.removeEventListener('pointerover', this._hovFn); this._hovEl.removeEventListener('pointerleave', this._unhovFn); }
+        el.addEventListener('pointerover', this._hovFn);
+        el.addEventListener('pointerleave', this._unhovFn);
+        this._hovEl = el;
+        this._lists = null;
+      }
+      const st = this.state;
+      const open = !!(st.sel && st.sel !== (st.center || 'me'));
+      const run = !reduce && st.spin !== false;
+      const rotOn = run && !open && !this._hovNode;
+      const orbOn = run && !this._hovBg;
+      const fresh = !this._lists || this._listsGen !== this._gen || !this._lists.probe || !this._lists.probe.isConnected;
+      if (!rotOn && !orbOn && !fresh) return;
+      if (fresh) { this._lists = this._scan(el); this._listsGen = this._gen; }
+      const Ls = this._lists;
+      if (rotOn) this._rot = (this._rot - dt / 1000 * 360 / PERIOD) % 360;
+      if (orbOn) this._orbT += dt / 1000;
+      if (Ls.rot) Ls.rot.style.setProperty('--rot', this._rot.toFixed(2) + 'deg');
+      const a = this._rot * Math.PI / 180;
+      const ca = Math.cos(a);
+      const sa = Math.sin(a);
+      const pos = {};
+      for (let n = 0; n < Ls.orbs.length; n++) {
+        const o = Ls.orbs[n];
+        const vx = o.bx - o.c;
+        const vy = (o.by - o.c) / E;
+        const th = Math.atan2(vy, vx) - this._orbT / o.per * Math.PI * 2;
+        const rho = Math.hypot(vx, vy);
+        const nx = o.c + rho * Math.cos(th);
+        const ny = o.c + E * rho * Math.sin(th);
+        const sc = 0.9 + 0.14 * Math.sin(th);
+        o.el.style.transform = 'translate(' + (nx - o.bx).toFixed(1) + 'px, ' + (ny - o.by).toFixed(1) + 'px) scale(' + sc.toFixed(3) + ')';
+        pos[o.i] = { x: nx, y: ny, dx: nx - o.bx, dy: ny - o.by };
+      }
+      for (let n = 0; n < Ls.labels.length; n++) {
+        const lb = Ls.labels[n];
+        const o = pos[lb.i];
+        if (o) lb.el.style.transform = 'translate(' + o.dx.toFixed(1) + 'px, ' + o.dy.toFixed(1) + 'px)';
+      }
+      for (let n = 0; n < Ls.threads.length; n++) {
+        const p = Ls.threads[n];
+        const tgt = pos[p.ti];
+        const par = pos[p.pi];
+        if (isNaN(p.fx) && !par) continue;
+        const bx = tgt ? tgt.x : p.bx;
+        const by = tgt ? tgt.y : p.by;
+        let px = par ? par.x : p.fx;
+        let py = par ? par.y : p.fy;
+        if (!par && p.spin) {
+          const dx = p.fx - p.c;
+          const dy = p.fy - p.c;
+          px = p.c + dx * ca - dy * sa;
+          py = p.c + dx * sa + dy * ca;
+        }
+        const qx = (px + bx) / 2 + p.cx;
+        const qy = (py + by) / 2 + p.cy;
+        p.el.setAttribute('d', 'M ' + px.toFixed(1) + ' ' + py.toFixed(1) + ' Q ' + qx.toFixed(1) + ' ' + qy.toFixed(1) + ' ' + bx.toFixed(1) + ' ' + by.toFixed(1));
+      }
+    };
+    this._raf = requestAnimationFrame(tick);
+    this.setState({ sc: this.fitScale() });
+  }
+  _rv() {
+    const LT = (this.state || {}).theme === 'light';
+    const COL = { direct: 'var(--z46)', sib: 'var(--z47)', sibkid: 'var(--z51)', spouse: 'var(--z48)', side: 'var(--z37)', inlaw: 'var(--z49)', me: 'var(--z27)' };
+    const TXT = { direct: 'var(--z52)', sib: 'var(--z53)', sibkid: 'var(--z54)', spouse: 'var(--z55)', side: 'var(--z56)', inlaw: 'var(--z57)', me: 'var(--z28)' };
+    const CLS = { direct: 'gold', sib: 'coral', sibkid: 'coral', spouse: 'pink', side: 'av', inlaw: 'av', me: 'meav' };
+    const TONE = { direct: 'tn-gold', sib: 'tn-coral', sibkid: 'tn-coral', spouse: 'tn-pink', side: 'tn-sky', inlaw: 'tn-lav', me: 'tn-me' };
+    const KIND = { direct: '直系血脉', sib: '兄弟姐妹', sibkid: '兄弟姐妹的子女', spouse: '配偶', side: '旁系亲属', inlaw: '姻亲', me: '本人' };
+    const STY = {
+      direct: { w: 2, kind: 'solid', color: 'var(--z46)', glow: '0 0 8px var(--z58)' },
+      sib: { w: 2, kind: 'solid', color: 'var(--z47)', glow: '0 0 8px var(--z59)' },
+      spouse: { w: 2, kind: 'dashed', color: 'var(--z48)', glow: '0 0 8px var(--z60)' },
+      couple: { w: 1.5, kind: 'dashed', color: 'var(--z61)', glow: 'none' },
+      side: { w: 1.5, kind: 'solid', color: 'var(--z62)', glow: '0 0 6px var(--z63)' }
+    };
+    const f = this.state.filter;
+    const fam = this.state.fam;
+    let isUp = this.state.mode !== 'down';
+    const dim = (side) => (f !== 'all' && (side === '父系' || side === '母系') && side !== f) ? 0.15 : 1;
+    const toggleMode = () => { if (noUp) return; this.setState({ mode: isUp ? 'down' : 'up', sel: null, hover: null }); };
+    const noop = () => {};
+    const G0 = '本辈 · 同一代';
+    const G1 = '父辈 · 长一辈';
+    const GK = '子辈 · 晚一辈';
+
+    // ================= 家族数据：来自 ZY 资料库（示例家族或 GitHub 私有资料库） =================
+    const ZD = this._zyBase();
+    const BASE = JSON.parse(JSON.stringify(ZD.BASE));
+    const MYN = ZD.myName;
+    const RIDOF = (id) => ZD.RID[id] || null;
+    const G2 = '祖辈 · 长两辈';
+    const G3 = '曾祖辈 · 长三辈';
+    const G4 = '高祖辈 · 长四辈';
+    // ================= 称谓引擎：以任何人为中心，自动推算对每个人的称呼 =================
+    // 出生年份（示例数据，用来判断年长 / 年幼，例如 伯 / 叔、哥 / 弟）
+    const BY = ZD.BY;
+    const ME = BASE[this.state.center] ? this.state.center : 'me';
+    const FEM = '母奶婆姐妹姑婶嫂妈妻女姨';
+    const keyChar = (t) => (t.length >= 2 && '亲子儿'.indexOf(t.slice(-1)) >= 0) ? t.slice(-2, -1) : t.slice(-1);
+    const sexOf = (id) => (BASE[id] && BASE[id].sex) ? BASE[id].sex : (FEM.indexOf(keyChar(BASE[id].title)) >= 0 ? 'f' : 'm');
+    const older = (a, b) => (BY[a] || 0) < (BY[b] || 0);
+    const REV = {};
+    Object.keys(BASE).forEach((id) => { if (BASE[id].spouse) REV[BASE[id].spouse] = id; });
+    const spouseOf = (id) => BASE[id].spouse || REV[id] || null;
+    const kidsBase = {};
+    Object.keys(BASE).forEach((id) => { const pr = BASE[id].parent; if (pr) (kidsBase[pr] = kidsBase[pr] || []).push(id); });
+    const parentsOf = (id) => { const pr = BASE[id].parent; if (!pr) return []; const q = spouseOf(pr); return q ? [pr, q] : [pr]; };
+    const upCache = {};
+    const ups = (id) => {
+      if (upCache[id]) return upCache[id];
+      const out = {};
+      out[id] = [id];
+      const q = [id];
+      while (q.length) { const x = q.shift(); parentsOf(x).forEach((pp) => { if (!out[pp]) { out[pp] = out[x].concat([pp]); q.push(pp); } }); }
+      upCache[id] = out;
+      return out;
+    };
+    const blood = (X, Y) => {
+      const UX = ups(X);
+      const UY = ups(Y);
+      let best = null;
+      Object.keys(UX).forEach((a) => { if (UY[a]) { const n = UX[a].length + UY[a].length; if (!best || n < best.n) best = { n: n, cx: UX[a], cy: UY[a] }; } });
+      if (!best) return null;
+      return { u: best.cx.length - 1, d: best.cy.length - 1, cx: best.cx, cy: best.cy };
+    };
+    const ORD = ['大', '二', '三', '四', '五', '六', '七', '八', '九'];
+    const BASEFORM = { 伯: '伯父', 叔: '叔叔', 姑: '姑姑', 舅: '舅舅', 姨: '姨妈' };
+    const rank = (Y, word, P1) => {
+      const sx = sexOf(Y);
+      const sibs = (kidsBase[BASE[P1].parent] || []).filter((k) => sexOf(k) === sx).sort((a, b) => (BY[a] || 0) - (BY[b] || 0));
+      if (sibs.filter((k) => k !== P1).length <= 1) return BASEFORM[word];
+      const i = sibs.indexOf(Y);
+      return (i === sibs.length - 1 && sibs.length >= 3 ? '小' : ORD[i]) + word;
+    };
+    const bloodTerm = (X, Y, b) => {
+      const s = sexOf(Y);
+      const m = s === 'm';
+      const u = b.u;
+      const d = b.d;
+      const cx = b.cx;
+      const cy = b.cy;
+      const P1 = cx[1];
+      const viaM = P1 && sexOf(P1) === 'f';
+      const ab = (ref) => older(Y, ref) ? (m ? '哥' : '姐') : (m ? '弟' : '妹');
+      if (u === 0) {
+        if (d === 1) return m ? '儿子' : '女儿';
+        const viaDau = sexOf(cy[d - 1]) === 'f';
+        if (d === 2) return viaDau ? (m ? '外孙' : '外孙女') : (m ? '孙子' : '孙女');
+        if (d === 3) return (viaDau ? '外' : '') + (m ? '曾孙' : '曾孙女');
+        return m ? '玄孙' : '玄孙女';
+      }
+      if (d === 0) {
+        if (u === 1) return m ? '父亲' : '母亲';
+        if (u === 2) return viaM ? (m ? '外公' : '外婆') : (m ? '爷爷' : '奶奶');
+        const pre = viaM ? '外' : '';
+        if (u === 3) return pre + (m ? '曾祖父' : '曾祖母');
+        if (u === 4) return pre + (m ? '高祖父' : '高祖母');
+        return '远祖';
+      }
+      if (u === 1) {
+        if (d === 1) return older(Y, X) ? (m ? '哥哥' : '姐姐') : (m ? '弟弟' : '妹妹');
+        const sm = sexOf(cy[d - 1]) === 'm';
+        if (d === 2) return sm ? (m ? '侄子' : '侄女') : (m ? '外甥' : '外甥女');
+        if (d === 3) return (sm ? '侄孙' : '外甥孙') + (m ? '' : '女');
+        return '远房晚辈';
+      }
+      if (u === 2) {
+        const Q1 = cy[d - 1];
+        if (d === 1) {
+          if (!viaM) return m ? rank(Y, older(Y, P1) ? '伯' : '叔', P1) : rank(Y, '姑', P1);
+          return m ? rank(Y, '舅', P1) : rank(Y, '姨', P1);
+        }
+        const pre = (sexOf(P1) === 'm' && sexOf(Q1) === 'm') ? '堂' : '表';
+        if (d === 2) return pre + ab(X);
+        if (d === 3) return pre + (sexOf(cy[1]) === 'm' ? '侄' : '外甥') + (m ? '' : '女');
+        return '远房晚辈';
+      }
+      if (u === 3) {
+        const P2 = cx[2];
+        const Q2 = cy[d - 1];
+        if (d === 1) {
+          if (sexOf(P2) === 'm') return m ? (older(Y, P2) ? '伯公' : '叔公') : '姑婆';
+          return m ? '舅公' : '姨婆';
+        }
+        const tang = sexOf(P1) === 'm' && sexOf(P2) === 'm' && sexOf(Q2) === 'm';
+        if (d === 2) {
+          if (tang) return m ? (older(Y, P1) ? '堂伯' : '堂叔') : '堂姑';
+          if (!viaM) return m ? (older(Y, P1) ? '表伯' : '表叔') : '表姑';
+          return m ? '表舅' : '表姨';
+        }
+        if (d === 3) return '远房' + (tang && sexOf(cy[1]) === 'm' ? '堂' : '表') + ab(X);
+        return '远房晚辈';
+      }
+      if (u === 4) {
+        const P2 = cx[2];
+        const P3 = cx[3];
+        const Q3 = cy[d - 1];
+        if (d === 1) {
+          if (sexOf(P3) === 'm') return '曾' + (m ? (older(Y, P3) ? '伯公' : '叔公') : '姑婆');
+          return '曾' + (m ? '舅公' : '姨婆');
+        }
+        const tang = sexOf(P1) === 'm' && sexOf(P2) === 'm' && sexOf(P3) === 'm' && sexOf(Q3) === 'm';
+        if (d === 2) {
+          const pre = tang ? '堂' : '表';
+          if (sexOf(P2) === 'm') return pre + (m ? (older(Y, P2) ? '伯公' : '叔公') : '姑婆');
+          return pre + (m ? '舅公' : '姨婆');
+        }
+        if (d === 3) return '远房' + (tang && sexOf(cy[1]) === 'm' ? '堂' : '表') + (m ? (older(Y, P1) ? '伯' : '叔') : '姑');
+      }
+      const g = u - d;
+      return g > 0 ? '远房长辈' : g < 0 ? '远房晚辈' : '远房平辈';
+    };
+    const SPW = { 父亲: '母亲', 母亲: '父亲', 爷爷: '奶奶', 奶奶: '爷爷', 外公: '外婆', 外婆: '外公', 儿子: '儿媳', 女儿: '女婿', 哥哥: '嫂子', 弟弟: '弟媳', 姐姐: '姐夫', 妹妹: '妹夫', 伯父: '伯母', 叔叔: '婶婶', 姑姑: '姑丈', 舅舅: '舅妈', 姨妈: '姨丈', 伯公: '伯婆', 叔公: '叔婆', 姑婆: '姑公', 舅公: '舅婆', 姨婆: '姨公', 孙子: '孙媳', 孙女: '孙女婿', 侄子: '侄媳', 侄女: '侄女婿', 外甥: '外甥媳', 外甥女: '外甥女婿' };
+    const spouseTerm = (t, Y) => {
+      if (SPW[t]) return SPW[t];
+      if (/祖父$/.test(t)) return t.replace(/父$/, '母');
+      if (/祖母$/.test(t)) return t.replace(/母$/, '父');
+      const last = t.slice(-1);
+      const head = t.slice(0, -1);
+      const R1 = { 伯: t + '母', 叔: head + '婶', 姑: t + '丈', 舅: t + '妈', 姨: t + '丈', 哥: head + '嫂', 弟: t + '媳', 姐: t + '夫', 妹: t + '夫', 侄: t + '媳', 甥: t + '媳', 女: t + '婿', 孙: t + '媳', 公: head + '婆', 婆: head + '公' };
+      if (R1[last]) return R1[last];
+      return t + '的' + (sexOf(Y) === 'm' ? '丈夫' : '妻子');
+    };
+    const termOf = (X, Y, viaSp) => {
+      if (X === Y) return '本人';
+      if (spouseOf(X) === Y) return sexOf(Y) === 'm' ? '丈夫' : '妻子';
+      const b = blood(X, Y);
+      if (b) return bloodTerm(X, Y, b);
+      const Z = spouseOf(Y);
+      if (Z) { const bz = blood(X, Z); if (bz) return spouseTerm(bloodTerm(X, Z, bz), Y); }
+      if (viaSp) {
+        const S = spouseOf(X);
+        if (S) {
+          const t = termOf(S, Y, false);
+          if (t) {
+            const xf = sexOf(X) === 'f';
+            const MAP = xf ? { 父亲: '公公', 母亲: '婆婆', 哥哥: '大伯子', 弟弟: '小叔子', 姐姐: '大姑子', 妹妹: '小姑子' } : { 父亲: '岳父', 母亲: '岳母', 哥哥: '大舅子', 弟弟: '小舅子', 姐姐: '大姨子', 妹妹: '小姨子' };
+            if (MAP[t]) return MAP[t];
+            if (xf && (t === '嫂子' || t === '弟媳')) return '妯娌';
+            if (!xf && (t === '姐夫' || t === '妹夫')) return '连襟';
+            return (xf ? '丈夫' : '妻子') + '的' + t;
+          }
+        }
+      }
+      return null;
+    };
+    const chOf = (t) => {
+      if (/^外?(曾|高)/.test(t)) return t.indexOf('曾') >= 0 ? '曾' : '高';
+      const last = t.slice(-1);
+      if (t.length >= 2 && '亲子'.indexOf(last) >= 0) return t.slice(-2, -1);
+      if (t.length >= 2 && last === '女' && t !== '女儿') return t.slice(-2, -1);
+      return last;
+    };
+    Object.keys(BASE).forEach((id) => {
+      const o = BASE[id];
+      if (id === 'me') { o.title = MYN; o.ch = (MYN.trim().charAt(0) || 'Y').toUpperCase(); o.path = MYN; return; }
+      const tt = termOf('me', id, true) || o.name || '亲属';
+      o.title = tt;
+      o.ch = chOf(String(tt).split('的').pop() || tt);
+      o.path = tt;
+    });
+    const GENL = { 0: '本辈 · 同一代', 1: '父辈 · 长一辈', 2: '祖辈 · 长两辈', 3: '曾祖辈 · 长三辈', 4: '高祖辈 · 长四辈', '-1': '子辈 · 晚一辈', '-2': '孙辈 · 晚两辈', '-3': '曾孙辈 · 晚三辈' };
+    // DIRECT：中心人物的直系祖先（嫁入 / 入赘的人，用配偶那一支）
+    const DIRECT = {};
+    DIRECT[ME] = 1;
+    Object.keys(ups(ME)).forEach((a) => { DIRECT[a] = 1; });
+    // ================= 同姓一宗：每个星座只放同一父系血脉 =================
+    // 姓氏（测试数据）：按每一支最上面的男性祖先记录
+    const SURNAME = ZD.SUR;
+    const fatherOf = (id) => parentsOf(id).filter((x) => sexOf(x) === 'm')[0] || null;
+    const motherOf = (id) => parentsOf(id).filter((x) => sexOf(x) === 'f')[0] || null;
+    const patriTop = (id) => { let x = id; let g = 0; while (fatherOf(x) && g++ < 30) x = fatherOf(x); return x; };
+    const LTOP = patriTop(ME);
+    const inLin = (id) => patriTop(id) === LTOP;
+    // 外姓：本宗女儿的后代（例如姑姑、姐姐的孩子），以及他们的配偶
+    const outerMemo = {};
+    const outerDesc = (id) => {
+      if (outerMemo[id] !== undefined) return outerMemo[id];
+      outerMemo[id] = false;
+      if (inLin(id)) return false;
+      const r = parentsOf(id).some((q) => (inLin(q) && sexOf(q) === 'f') || outerDesc(q));
+      outerMemo[id] = r;
+      return r;
+    };
+    const keepMain = (id) => inLin(id) || outerDesc(id) || (spouseOf(id) && (inLin(spouseOf(id)) || outerDesc(spouseOf(id))));
+    const TF = this.state.titleFrom || null;
+    // 以中心人物重新生成整张数据表：称谓、颜色类别、所属、辈分
+    const DB = {};
+    const myLv = BASE[ME].lv;
+    const sideOf = (b) => sexOf(b.cx[1]) === 'm' ? '父系' : '母系';
+    Object.keys(BASE).forEach((id) => {
+      const t = termOf(ME, id, false);
+      if (t === null) return;
+      if (!keepMain(id)) return;
+      const o = BASE[id];
+      const b = id === ME ? null : blood(ME, id);
+      let cat = 'side';
+      let side = '父系';
+      let kind = '旁系亲属';
+      if (id === ME) { cat = 'me'; side = '本人'; kind = '本人'; }
+      else if (spouseOf(ME) === id) { cat = 'spouse'; side = '我的家庭'; kind = '配偶'; }
+      else if (b) {
+        if (b.u === 0) { cat = 'direct'; side = '我的家庭'; kind = '直系 · 晚辈'; }
+        else if (b.d === 0) { cat = 'direct'; side = sideOf(b); kind = '直系 · 长辈'; }
+        else if (b.u === 1) { cat = b.d === 1 ? 'sib' : 'sibkid'; side = '同胞'; kind = b.d === 1 ? '兄弟姐妹' : '兄弟姐妹的后代'; }
+        else { side = sideOf(b); }
+      } else {
+        cat = 'inlaw';
+        kind = '姻亲';
+        const Z = spouseOf(id);
+        const bz = Z ? blood(ME, Z) : null;
+        side = bz ? (bz.u === 0 ? '我的家庭' : bz.u === 1 ? '同胞' : sideOf(bz)) : '配偶家';
+      }
+      const isMe = ME === 'me';
+      let title = id === ME ? (isMe ? MYN : MYN + '的' + o.title) : (isMe ? o.title : t);
+      let ch = id === ME ? o.ch : (isMe ? o.ch : chOf(t));
+      if (TF) {
+        // 背景星座：称谓仍然从前景中心人物的角度来叫
+        title = TF === 'me' ? (id === 'me' ? MYN : o.title) : (id === TF ? '中心' : (termOf(TF, id, true) || t));
+        ch = TF === 'me' ? o.ch : chOf(title);
+      }
+      DB[id] = {
+        id: id, title: title, ch: ch, outer: outerDesc(id) || (spouseOf(id) && outerDesc(spouseOf(id)) && !inLin(spouseOf(id))),
+        side: side, cat: cat, kind: kind,
+        path: isMe ? o.path : (id === 'me' ? MYN + ' 本人' : (id === ME ? '当前中心' : MYN + ' 称 TA「' + o.title + '」')),
+        nm: o.name || '',
+        gen: id === ME ? '本人' : (GENL[o.lv - myLv] || ''), lv: o.lv - myLv,
+        parent: o.parent, spouse: o.spouse
+      };
+    });
+    // 子女挂在“属于这个家族”的那位父母下面（例如以母亲为中心时，孩子挂在母亲下，而不是父亲下）
+    Object.keys(DB).forEach((id) => {
+      const pr = BASE[id].parent;
+      const cands = (pr ? [pr, spouseOf(pr)] : []).filter((c) => c && DB[c]);
+      const good = cands.filter((c) => DB[c].cat !== 'spouse' && DB[c].cat !== 'inlaw');
+      DB[id].parent = good.length ? good[0] : (cands[0] || null);
+      if (DB[id].spouse && !DB[DB[id].spouse]) DB[id].spouse = null;
+    });
+    const famIds = {};
+    if (spouseOf(ME)) famIds[spouseOf(ME)] = 1;
+    (kidsBase[ME] || []).concat(spouseOf(ME) ? (kidsBase[spouseOf(ME)] || []) : []).forEach((k) => { famIds[k] = 1; });
+    const topDB = (id) => { let x = id; while (DB[x].parent) x = DB[x].parent; return x; };
+    const myPars = DB[ME].parent ? [DB[ME].parent, spouseOf(DB[ME].parent)].filter((x) => x && DB[x]) : [];
+    const myFa = myPars.filter((x) => sexOf(x) === 'm')[0];
+    const myMo = myPars.filter((x) => sexOf(x) === 'f')[0];
+    let pRoot = myFa ? topDB(myFa) : null;
+    let mRoot = myMo && DB[myMo].parent ? topDB(myMo) : null;
+    if (!pRoot) { pRoot = mRoot || ME; mRoot = null; }
+    if (mRoot === pRoot) mRoot = null;
+    // 没有长辈资料的人（嫁入 / 入赘的亲戚）：只能看本人与后代
+    const noUp = ME !== 'me' && !DB[ME].parent;
+    if (noUp) isUp = false;
+
+
+    // ================= 扇区排布 =================
+    // 每个家庭在圆上分到一段扇区，子孙都排在祖先的扇区之内，不同分支的连线不会交叉。
+    // 父系在左半边、母系在右半边，直系血脉排在最靠近正上方的位置。
+    const childrenOf = {};
+    const attached = {};
+    Object.keys(DB).forEach((id) => {
+      const p = DB[id];
+      if (p.parent) (childrenOf[p.parent] = childrenOf[p.parent] || []).push(id);
+    });
+    Object.keys(DB).forEach((id) => {
+      if (id === ME || id === pRoot || id === mRoot || DB[id].parent) return;
+      const q = spouseOf(id);
+      if (q && DB[q] && (q === ME || DB[q].parent || q === pRoot || q === mRoot)) attached[q] = id;
+    });
+    const TAU = Math.PI * 2;
+
+    // ================= 大家庭折叠 =================
+    // 子女超过 BIG 人的父母：除直系外的子女、他们的配偶和所有子孙，默认收进一个“虚线胶囊”。
+    // 点击胶囊展开这一家；同一时间只展开一家，其他大家庭保持折叠。
+    const BIG = 4;
+    const GROUPS = {};
+    const OUTERG = {};
+    Object.keys(childrenOf).forEach((par) => {
+      if (childrenOf[par].length > BIG) GROUPS[par] = childrenOf[par].filter((k) => !DIRECT[k]);
+      // 本宗的女儿（不是中心本人）：她的孩子属于外姓，默认收进胶囊
+      if (par !== ME && DB[par] && !DB[par].outer && inLin(par) && sexOf(par) === 'f') {
+        const ok = childrenOf[par].filter((k) => DB[k].outer && !DIRECT[k]);
+        if (ok.length) { GROUPS[par] = ok; OUTERG[par] = 1; }
+      }
+    });
+    const depthIn = {};
+    Object.keys(GROUPS).forEach((par) => {
+      const dm = {};
+      const walk = (id, dep) => { dm[id] = dep; if (attached[id]) dm[attached[id]] = dep; (childrenOf[id] || []).forEach((k) => walk(k, dep + 1)); };
+      GROUPS[par].forEach((m) => walk(m, 1));
+      depthIn[par] = dm;
+    });
+    const expand = GROUPS[this.state.expand] ? this.state.expand : null;
+    const hiddenBy = {};
+    Object.keys(GROUPS).forEach((par) => {
+      if (par === expand) return;
+      Object.keys(depthIn[par]).forEach((id) => { if (!hiddenBy[id]) hiddenBy[id] = par; });
+    });
+    const DEPTH = ['', '子女', '孙辈', '曾孙辈', '玄孙辈'];
+    const CHW = 74;
+
+    const layoutView = (visAll, ringOf, base, MINSP) => {
+      // 折叠掉的人不画出来，按“家庭 + 圈”统计成胶囊
+      const vis = {};
+      const clu = {};
+      Object.keys(visAll).forEach((id) => {
+        const g = hiddenBy[id];
+        if (!g) { vis[id] = 1; return; }
+        const k = ringOf(id);
+        const key = '__c:' + g + ':' + k;
+        if (!clu[key]) clu[key] = { key: key, par: g, ring: k, ids: [] };
+        clu[key].ids.push(id);
+      });
+      const cluOf = {};
+      Object.keys(clu).forEach((k) => { (cluOf[clu[k].par] = cluOf[clu[k].par] || []).push(clu[k]); });
+      const onRing = (id) => !!vis[id] && ringOf(id) > 0;
+      const slot = (id) => onRing(id) || (id === ME && !!vis[ME]);
+      const wSelf = (id) => id.indexOf('__g:') === 0 ? 2.4 : (slot(id) ? 1 : 0) + (attached[id] && vis[attached[id]] ? 1 : 0);
+      const kidsOf = (id, side) => {
+        if (id.indexOf('__g:') === 0) return [];
+        const k = (childrenOf[id] || []).filter((x) => hiddenBy[x] !== id);
+        const di = k.filter((x) => DIRECT[x]);
+        const rest = k.filter((x) => !DIRECT[x]);
+        if (cluOf[id]) rest.splice(Math.floor(rest.length / 2), 0, '__g:' + id);
+        return side === 'p' ? rest.concat(di) : di.concat(rest);
+      };
+      const wt = {};
+      const weigh = (id, side) => { let s = 0; kidsOf(id, side).forEach((k) => { s += weigh(k, side); }); wt[id] = Math.max(wSelf(id), s); return wt[id]; };
+      const Wp = weigh(pRoot, 'p');
+      const Wm = mRoot ? weigh(mRoot, 'm') : 0;
+      const u = TAU / Math.max(1, Wp + Wm);
+      const want = {};
+      const place = (id, a0, side) => {
+        const mid = a0 + wt[id] * u / 2;
+        if (id.indexOf('__g:') === 0) { (cluOf[id.slice(4)] || []).forEach((c) => { want[c.key] = mid; }); return; }
+        const sp = attached[id] && vis[attached[id]] ? attached[id] : null;
+        const key = id === ME ? '__me' : id;
+        const dir = side === 'm' ? -1 : 1;
+        if (slot(id)) want[key] = sp ? mid - dir * u / 2 : mid;
+        if (sp) want[sp === ME ? '__me' : sp] = slot(id) ? mid + dir * u / 2 : mid;
+        const ks = kidsOf(id, side);
+        let tot = 0;
+        ks.forEach((k) => { tot += wt[k]; });
+        let a = mid - tot * u / 2;
+        ks.forEach((k) => { place(k, a, side); a += wt[k] * u; });
+      };
+      const top = TAU - Math.PI / 2;
+      place(pRoot, top - Wp * u, 'p');
+      if (mRoot) place(mRoot, top, 'm');
+      const PA = DB[ME].parent;
+      if (want.__me !== undefined && PA && vis[PA] && ringOf(PA) === 2) want[PA] = want.__me;
+      const ids = Object.keys(vis);
+      const byRing = {};
+      const HW = {};
+      ids.forEach((id) => { const k = ringOf(id); if (k > 0) (byRing[k] = byRing[k] || []).push(id); });
+      if (want.__me !== undefined) (byRing[1] = byRing[1] || []).push('__me');
+      Object.keys(clu).forEach((k) => { (byRing[clu[k].ring] = byRing[clu[k].ring] || []).push(k); HW[k] = CHW; });
+      const R = base.slice();
+      for (let k = 1; k < R.length; k++) {
+        const need = (byRing[k] || []).reduce((sum, id) => sum + 2 * (HW[id] || MINSP[k] / 2), 0) / (TAU * 0.8);
+        R[k] = Math.round(Math.max(base[k], need, k > 1 ? R[k - 1] + 96 : 0));
+      }
+      const ang = {};
+      const lab = [];
+      for (let k = 1; k < R.length; k++) {
+        const list = (byRing[k] || []).slice().sort((x, y) => want[x] - want[y]);
+        const a = list.map((id) => want[id]);
+        const hw = list.map((id) => (HW[id] || MINSP[k] / 2) / R[k]);
+        const n = a.length;
+        for (let it = 0; it < 900 && n > 1; it++) {
+          let moved = false;
+          for (let i = 0; i < n; i++) {
+            const j = (i + 1) % n;
+            const d = j === 0 ? a[0] + TAU - a[n - 1] : a[j] - a[i];
+            const g = hw[i] + hw[j];
+            if (d < g - 1e-6) { const push = (g - d) / 2; a[i] -= push; a[j] += push; moved = true; }
+          }
+          if (!moved) break;
+        }
+        list.forEach((id, i) => { ang[id] = a[i]; });
+        let best = -1;
+        let la = -Math.PI / 2;
+        for (let i = 0; i < n; i++) {
+          const j = (i + 1) % n;
+          const d = (j === 0 ? a[0] + TAU - a[n - 1] : a[j] - a[i]) - hw[i] - hw[j];
+          if (d > best) { best = d; la = a[i] + hw[i] + d / 2; }
+        }
+        lab[k] = la;
+      }
+      const C = R[R.length - 1] + 90;
+      const pos = {};
+      pos[ME] = { x: C, y: C };
+      ids.forEach((id) => { const k = ringOf(id); if (k > 0) pos[id] = { x: C + R[k] * Math.cos(ang[id]), y: C + R[k] * Math.sin(ang[id]) }; });
+      const clusters = Object.keys(clu).map((k) => {
+        const c = clu[k];
+        pos[k] = { x: C + R[c.ring] * Math.cos(ang[k]), y: C + R[c.ring] * Math.sin(ang[k]) };
+        const dep = depthIn[c.par][c.ids[0]];
+        const other = (childrenOf[c.par] || []).some((x) => DIRECT[x]);
+        const blood = c.ids.filter((id) => !(DB[id].spouse && !DB[id].parent));
+        return Object.assign({}, c, {
+          x: pos[k].x, y: pos[k].y, n: c.ids.length, blood: blood.length,
+          label: (c.par === DB[ME].parent ? (['', '兄弟姐妹', '侄甥辈', '侄孙辈'][dep] || '后代') : (c.par === ME ? (ME === 'me' ? '我的' : 'TA的') + (DEPTH[dep] || '后代') : DB[c.par].title + '的' + (other ? '其他' : '') + (DEPTH[dep] || '后代'))) + ' · ' + blood.length + ' 位' + (OUTERG[c.par] ? ' · 外姓' : '')
+        });
+      });
+      const listOut = ids.map((id) => ({ id: id, ring: ringOf(id) }));
+      return { R: R, C: C, pos: pos, S: C * 2, lab: lab, clusters: clusters, list: listOut, meAng: ang.__me };
+    };
+    const visUp = {};
+    const visDown = {};
+    Object.keys(DB).forEach((id) => {
+      if (!fam && famIds[id]) return;
+      const lv = DB[id].lv;
+      if (id === ME || (lv >= 0 && lv <= 4)) visUp[id] = 1;
+      if (id === ME || (lv <= 0 && lv >= -2)) visDown[id] = 1;
+    });
+    const ringUp = (id) => id === ME ? 0 : DB[id].lv + 1;
+    const ringDown = (id) => id === ME ? 0 : 1 - DB[id].lv;
+    const LU = layoutView(visUp, ringUp, [0, 150, 260, 355, 440, 515], [0, 62, 62, 60, 56, 52]);
+    const LD = layoutView(visDown, ringDown, [0, 170, 330, 450], [0, 64, 62, 60]);
+    const upList = LU.list;
+    const downList = LD.list;
+    // ---------- 生成节点与连线 ----------
+    const SZ = { up: [92, 46, 46, 44, 40, 36], down: [92, 48, 46, 44] };
+    const people = {};
+    const render = (list, L, sizes, tag) => {
+      const ids = {};
+      list.forEach((it) => { ids[it.id] = it.ring; });
+      // 找出子女超过 4 人的父母：不连线，改为一块阴影区域
+      const kids = {};
+      list.forEach((it) => { const par = DB[it.id].parent; if (it.id !== ME && par && ids[par] !== undefined) (kids[par] = kids[par] || []).push(it.id); });
+      const groups = {};
+      Object.keys(kids).forEach((par) => { if (kids[par].length > BIG) groups[par] = kids[par]; });
+      const member = {};
+      const areas = [];
+      Object.keys(groups).forEach((par) => {
+        const key = tag + ':' + par;
+        const mem = groups[par].slice();
+        // 子女的配偶（自己没有父母在图中）也算在区域里
+        list.forEach((it) => { const sp = DB[it.id].spouse; if (sp && mem.indexOf(sp) >= 0 && !(DB[it.id].parent && ids[DB[it.id].parent] !== undefined)) mem.push(it.id); });
+        mem.forEach((m) => { member[m] = member[m] || []; member[m].push(key); });
+        const ring = ids[groups[par][0]];
+        const r = L.R[ring];
+        const angs = mem.map((m) => Math.atan2(L.pos[m].y - L.C, L.pos[m].x - L.C)).sort((a, b) => a - b);
+        let gi = 0;
+        let best = -1;
+        for (let k = 0; k < angs.length; k++) {
+          const nx = k === angs.length - 1 ? angs[0] + 2 * Math.PI : angs[k + 1];
+          if (nx - angs[k] > best) { best = nx - angs[k]; gi = k; }
+        }
+        const pad = 34 / r;
+        let a0 = angs[(gi + 1) % angs.length] - pad;
+        let a1 = angs[gi] + pad;
+        if (a1 < a0) a1 += 2 * Math.PI;
+        const r0 = r - 40;
+        const r1 = r + 46;
+        const C = L.C;
+        const pt = (rr, t) => (C + rr * Math.cos(t)).toFixed(1) + ' ' + (C + rr * Math.sin(t)).toFixed(1);
+        const large = (a1 - a0) > Math.PI ? 1 : 0;
+        const d = 'M ' + pt(r1, a0) + ' A ' + r1 + ' ' + r1 + ' 0 ' + large + ' 1 ' + pt(r1, a1) + ' L ' + pt(r0, a1) + ' A ' + r0 + ' ' + r0 + ' 0 ' + large + ' 0 ' + pt(r0, a0) + ' Z';
+        const on = this.state.hover === key;
+        const pa = Math.atan2(L.pos[par].y - C, L.pos[par].x - C);
+        // 父母连到区域上离自己最近的一点
+        let t = pa;
+        while (t < a0) t += 2 * Math.PI;
+        while (t > a0 + 2 * Math.PI) t -= 2 * Math.PI;
+        if (t > a1) t = (t - a1 < a0 + 2 * Math.PI - t) ? a1 : a0;
+        const ep = { x: C + r1 * Math.cos(t), y: C + r1 * Math.sin(t) };
+        const mid = (a0 + a1) / 2;
+        const lr = r1 + 18;
+        areas.push({
+          key: key, par: par, mem: mem, ep: ep, S: L.S, d: d, r1: r1, mid: mid,
+          fill: on ? 'var(--z64)' : 'var(--z65)',
+          stroke: on ? 'var(--z66)' : 'var(--z67)',
+          glow: on ? 'drop-shadow(0 0 10px var(--z30))' : 'none',
+          lx: Math.round(C + lr * Math.cos(mid)), ly: Math.round(C + lr * Math.sin(mid) - 8),
+          lc: on ? 'var(--z28)' : 'var(--z68)',
+          label: DB[par].title + '的子女 · ' + groups[par].length + ' 位 · 点击收起',
+          enter: () => { if (this.state.hover !== key) this.setState({ hover: key }); },
+          leave: () => { if (this.state.hover === key) this.setState({ hover: null }); },
+          tap: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.moved) { this.moved = false; return; } this.setState({ expand: null, hover: null, sel: null }); }
+        });
+      });
+      const hov = areas.filter((a) => a.key === this.state.hover)[0];
+      const lit = {};
+      if (hov) { hov.mem.forEach((m) => { lit[m] = 1; }); lit[hov.par] = 1; }
+      const hl = (id) => (!hov || lit[id]) ? 1 : 0.22;
+      const nodes = list.map((it) => {
+        const p = DB[it.id];
+        const ring = it.ring;
+        const s = sizes[ring];
+        const w = s + 50;
+        const me = p.cat === 'me';
+        people[it.id] = { title: p.title, ch: p.ch, side: p.side, path: p.path, gen: p.gen, kind: p.kind, rc: COL[p.cat], nm: p.nm || '—', editHref: RIDOF(it.id) ? this._zyHref('Profile', 'id=' + encodeURIComponent(RIDOF(it.id))) : this._zyHref('Admin', 'link=1'), addHref: RIDOF(it.id) ? this._zyHref('Admin', 'of=' + encodeURIComponent(RIDOF(it.id))) : this._zyHref('Admin') };
+        const pick = (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.moved) { this.moved = false; return; } if (me) { toggleMode(); } else { this.setState({ sel: it.id }); } };
+        return {
+          title: p.title, ch: p.ch, size: s, w: w, half: Math.round(s / 2),
+          aria: me ? p.title + '（单击切换本辈与长辈 / 本辈与晚辈）' : '查看' + p.title + '的资料', tip: me ? '单击切换长辈 / 晚辈' : p.path,
+          left: Math.round(L.pos[it.id].x - w / 2), top: Math.round(L.pos[it.id].y - s / 2),
+          rc: COL[p.cat], bg: me ? 'var(--z38)' : 'var(--z69)', fg: me ? 'var(--z24)' : TXT[p.cat], tc: TXT[p.cat],
+          cls: CLS[p.cat], tone: TONE[p.cat], klass: CLS[p.cat] + ' ' + TONE[p.cat],
+          fs: me ? 34 : Math.round(s * 0.38), ls: me ? 16 : (s <= 40 ? 11 : 12),
+          delay: (0.15 + ring * 0.16).toFixed(2),
+          sel: this.state.sel === it.id && !me,
+          op: (dim(p.side) * hl(it.id)).toFixed(2),
+          pick: pick, dbl: noop
+        };
+      });
+      const links = [];
+      const PAR = DB[ME].parent;
+      const spo = (x) => DB[x] && (DB[x].spouse || Object.keys(DB).filter((k) => DB[k].spouse === x)[0]) || null;
+      const SPM = spo(ME);
+      list.forEach((it) => {
+        const p = DB[it.id];
+        if (p.spouse && ids[p.spouse] !== undefined) links.push([(p.spouse === ME || it.id === ME) ? 'spouse' : 'couple', p.spouse, it.id]);
+        if (it.id !== ME && p.parent && ids[p.parent] !== undefined && !(groups[p.parent] && (p.cat !== 'direct' || p.lv < 0))) {
+          const type = p.cat === 'direct' ? 'direct' : (p.cat === 'sib' || p.cat === 'sibkid') ? 'sib' : 'side';
+          const myKid = p.parent === ME || (SPM && p.parent === SPM && p.cat === 'direct');
+          links.push([type, ((PAR && p.parent === PAR && p.cat === 'sib') || myKid) ? ME : p.parent, it.id]);
+        }
+      });
+      // 直系：中心人物与祖先连到父母双方；中心人物的子孙也连到父母双方
+      list.forEach((it) => {
+        const p = DB[it.id];
+        const isAnc = DIRECT[it.id];
+        if (!isAnc) return;
+        const pr = p.parent;
+        if (!pr) return;
+        const q2 = spo(pr);
+        [pr].concat(q2 && attached[pr] !== q2 ? [q2] : []).forEach((q) => { if (q && ids[q] !== undefined) links.push(['direct', it.id, q]); });
+      });
+      const order = { side: 0, couple: 1, sib: 2, spouse: 3, direct: 4 };
+      const seen = {};
+      const C = L.C;
+      const polar = (id) => {
+        const q = L.pos[id];
+        return { r: Math.hypot(q.x - C, q.y - C), t: Math.atan2(q.y - C, q.x - C) };
+      };
+      const xy = (r, t) => ({ x: C + r * Math.cos(t), y: C + r * Math.sin(t) });
+      const f1 = (n) => n.toFixed(1);
+      // 弧线：沿着半径 r 从角度 t0 走到 t1（取较短方向）
+      const arcPts = (r, t0, t1, out) => {
+        let d = t1 - t0;
+        while (d > Math.PI) d -= 2 * Math.PI;
+        while (d < -Math.PI) d += 2 * Math.PI;
+        const steps = Math.max(2, Math.ceil(Math.abs(d) * r / 14));
+        for (let i = 1; i <= steps; i++) out.push(xy(r, t0 + d * i / steps));
+        return d;
+      };
+      const pathOf = (pts) => 'M ' + pts.map((p) => f1(p.x) + ' ' + f1(p.y)).join(' L ');
+      // 父母与子女：先沿半径走到两圈之间，再沿弧线绕到子女的方向，最后沿半径到子女
+      const elbow = (a, b, rEnd, tEnd) => {
+        const A = polar(a);
+        const B = b ? polar(b) : { r: rEnd, t: tEnd };
+        if (A.r < 1 || B.r < 1) return [L.pos[a] || xy(A.r, A.t), b ? L.pos[b] : xy(B.r, B.t)];
+        const rm = (A.r + B.r) / 2;
+        const pts = [xy(A.r, A.t), xy(rm, A.t)];
+        arcPts(rm, A.t, B.t, pts);
+        pts.push(xy(B.r, B.t));
+        return pts;
+      };
+      // 同一圈的夫妻：沿着圈的弧线相连
+      const along = (a, b) => {
+        const A = polar(a);
+        const B = polar(b);
+        if (Math.abs(A.r - B.r) > 2 || A.r < 1) return [L.pos[a], L.pos[b]];
+        const pts = [xy(A.r, A.t)];
+        arcPts(A.r, A.t, B.t, pts);
+        return pts;
+      };
+      const lines = links
+        .sort((a, b) => order[b[0]] - order[a[0]])
+        .filter((l) => { const k = [l[1], l[2]].sort().join('|'); if (seen[k]) return false; seen[k] = 1; return true; })
+        .sort((a, b) => order[a[0]] - order[b[0]])
+        .map((l) => {
+          const ab = [l[1], l[2]];
+          const sa = DB[l[1]].side;
+          const sb = DB[l[2]].side;
+          const side = (sb === '父系' || sb === '母系') ? sb : sa;
+          const ring = Math.max(ids[l[1]], ids[l[2]]);
+          const sameRing = ids[l[1]] === ids[l[2]];
+          const fromMe = l[1] === ME || l[2] === ME;
+          const other = l[1] === ME ? l[2] : l[1];
+          let pts;
+          if (fromMe && ids[other] >= 2 && L.meAng !== undefined) {
+            const B = polar(other);
+            const r1 = L.R[1];
+            const rm = (r1 + B.r) / 2;
+            pts = [L.pos[ME], xy(r1, L.meAng), xy(rm, L.meAng)];
+            arcPts(rm, L.meAng, B.t, pts);
+            pts.push(xy(B.r, B.t));
+          } else pts = fromMe ? [L.pos[l[1]], L.pos[l[2]]] : (sameRing ? along(l[1], l[2]) : elbow(l[1], l[2]));
+          return Object.assign({
+            pts: pts, d: pathOf(pts),
+            delay: (0.3 + ring * 0.16).toFixed(2),
+            op: l[0] === 'couple' ? Math.min(dim(sa), dim(sb)) : dim(side), _ab: ab, type: l[0]
+          }, STY[l[0]]);
+        });
+      lines.forEach((ln) => { const ab = ln._ab; if (hov && !(lit[ab[0]] && lit[ab[1]])) ln.op = ln.op * 0.15; });
+      areas.forEach((a) => {
+        const on = this.state.hover === a.key;
+        const pts = ((PAR && a.par === PAR) || a.par === ME || (SPM && a.par === SPM)) ? [L.pos[ME], xy(a.r1 - 86, a.mid)] : elbow(a.par, null, a.r1, a.mid);
+        lines.unshift(Object.assign({ pts: pts, d: pathOf(pts), delay: '0.5', op: (hov && !on) ? 0.2 : 1, _ab: [a.par, 'area'], type: 'side' },
+          STY.side, on ? { color: 'var(--z70)', glow: '0 0 8px var(--z71)', w: 2 } : {}));
+      });
+      // 折叠的家庭：虚线胶囊，点击展开
+      const clusters = L.clusters.map((c) => {
+        const minis = c.ids.filter((id) => !(DB[id].spouse && !DB[id].parent)).slice(0, 3).map((id) => ({ ch: DB[id].ch, bg: 'var(--z69)', fg: TXT[DB[id].cat] }));
+        const more = c.blood - minis.length;
+        const sideOp = dim(DB[c.par].side);
+        return {
+          left: Math.round(c.x - 80), top: Math.round(c.y - 19),
+          minis: minis, more: more, hasMore: more > 0, label: c.label,
+          aria: c.label + '，点击展开', op: (hov ? 0.25 : 1) * sideOp,
+          delay: (0.2 + c.ring * 0.16).toFixed(2),
+          open: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.moved) { this.moved = false; return; } this.setState({ expand: c.par, sel: null, hover: null }); }
+        };
+      });
+      const byPar = {};
+      L.clusters.forEach((c) => { (byPar[c.par] = byPar[c.par] || []).push(c); });
+      Object.keys(byPar).forEach((par) => {
+        const cs = byPar[par].slice().sort((a, b) => b.ring - a.ring);
+        const head = ((PAR && par === PAR) || (SPM && par === SPM)) ? ME : par;
+        const chain = (ids[head] !== undefined ? [head] : []).concat(cs.map((c) => c.key));
+        for (let i = 0; i + 1 < chain.length; i++) {
+          const pts = elbow(chain[i], chain[i + 1]);
+          lines.unshift(Object.assign({ pts: pts, d: pathOf(pts), delay: '0.5', op: (hov ? 0.2 : 0.9) * dim(DB[par].side), _ab: [chain[i], chain[i + 1]], type: 'side' }, STY.side, { kind: 'dashed' }));
+        }
+      });
+      // 同一种样式、同一亮度的线合并成一条路径，减少页面元素
+      const groupsOut = {};
+      lines.forEach((ln) => {
+        const op = (+ln.op).toFixed(2);
+        const k = ln.type + '|' + ln.color + '|' + ln.w + '|' + op;
+        if (!groupsOut[k]) groupsOut[k] = { d: '', color: ln.color, w: ln.w, dash: ln.kind === 'dashed' ? '6 5' : 'none', glow: ln.glow === 'none' ? 'none' : 'drop-shadow(' + ln.glow.replace(/^0 0 /, '0 0 ') + ')', op: op, delay: ln.delay, S: L.S, order: order[ln.type] };
+        groupsOut[k].d += (groupsOut[k].d ? ' ' : '') + ln.d;
+      });
+      const strokes = Object.keys(groupsOut).map((k) => groupsOut[k]).sort((a, b) => a.order - b.order);
+      // 星轨：每颗星身后沿着自己的圈拖一段渐淡的光迹（星空逆时针转，光迹在顺时针一侧）
+      const tg = {};
+      const TOP = [0.5, 0.3, 0.16, 0.07];
+      list.forEach((it) => {
+        if (it.id === ME || !L.pos[it.id]) return;
+        const P0 = polar(it.id);
+        if (P0.r < 1) return;
+        const col = COL[DB[it.id].cat];
+        const w = Math.max(2, Math.round(sizes[it.ring] * 0.16));
+        const dl = 16 / P0.r;
+        for (let k = 0; k < 4; k++) {
+          const a0 = P0.t + (k * dl) + (k === 0 ? sizes[it.ring] * 0.5 / P0.r : 0);
+          const a1 = P0.t + ((k + 1) * dl) + sizes[it.ring] * 0.5 / P0.r;
+          const A0 = xy(P0.r, a0);
+          const A1 = xy(P0.r, a1);
+          const key = col + '|' + k + '|' + w;
+          if (!tg[key]) tg[key] = { d: '', color: col, op: (TOP[k] * dim(DB[it.id].side) * hl(it.id)).toFixed(2), w: w, S: L.S };
+          tg[key].d += (tg[key].d ? ' ' : '') + 'M ' + f1(A0.x) + ' ' + f1(A0.y) + ' A ' + f1(P0.r) + ' ' + f1(P0.r) + ' 0 0 1 ' + f1(A1.x) + ' ' + f1(A1.y);
+        }
+      });
+      const trails = Object.keys(tg).map((k) => tg[k]);
+      return { nodes: nodes, lines: strokes, areas: areas, clusters: clusters, trails: trails, _raw: lines };
+    };
+    const pUp = {};
+    const pDown = {};
+    const A = render(upList, LU, SZ.up, 'up');
+    Object.assign(pUp, people);
+    for (const k in people) delete people[k];
+    const B = render(downList, LD, SZ.down, 'down');
+    Object.assign(pDown, people);
+
+    const orbitList = (L, labels, la) => L.R.map((r, i) => i).filter((i) => i > 0).reverse().map((i) => {
+      const a = L.lab && L.lab[i] !== undefined ? L.lab[i] : la * Math.PI / 180;
+      return {
+        pos: L.C - L.R[i], size: L.R[i] * 2,
+        color: (LT ? 'rgba(70,90,220,' : 'rgba(' + [207, 183, 157, 142, 126][i - 1] + ',' + [228, 215, 203, 197, 186][i - 1] + ',255,') + [0.55, 0.45, 0.38, 0.32, 0.26][i - 1] + ')',
+        fill: (LT ? 'rgba(120,140,255,' : 'rgba(157,203,255,') + [0.07, 0.045, 0.03, 0.02, 0.012][i - 1] + ')',
+        delay: (0.1 + i * 0.15).toFixed(2), speed: 30 + i * 14, dir: i % 2 ? 'normal' : 'reverse',
+        lleft: Math.round(L.C + L.R[i] * Math.cos(a) - 50), ltop: Math.round(L.C + L.R[i] * Math.sin(a) - 8), label: labels[i]
+      };
+    });
+    const orbitsA = orbitList(LU, ['', '', '父辈', '祖辈', '曾祖辈', '高祖辈'], -90);
+    const orbitsB = orbitList(LD, ['', '本辈', '子辈', '孙辈'], -118);
+
+    let seed = 7;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const stars = [];
+    for (let i = 0; i < 150; i++) {
+      stars.push({ x: (rnd() * 99).toFixed(2), y: (rnd() * 99).toFixed(2), r: rnd() < 0.2 ? 3 : (rnd() < 0.5 ? 2 : 1), d: (rnd() * 4).toFixed(2), t: (3 + rnd() * 4).toFixed(2), k: i % 3 === 0 ? 'star' : 'star st0' });
+    }
+    const FL = [['all', '全部'], ['父系', '父系'], ['母系', '母系']];
+    const filters = FL.map((x) => {
+      const on = f === x[0];
+      return { name: x[1], on: on ? 'true' : 'false', bg: on ? 'var(--z38)' : 'transparent', fg: on ? 'var(--z24)' : 'var(--z27)', bd: on ? 'var(--z38)' : 'var(--z42)', pick: () => this.setState({ filter: x[0] }) };
+    });
+    const MD = [['up', '本辈与长辈'], ['down', '本辈与晚辈']];
+    const modes = MD.map((x) => {
+      const on = (isUp ? 'up' : 'down') === x[0];
+      const off = noUp && x[0] === 'up';
+      return { name: x[1], on: on ? 'true' : 'false', bg: on ? 'var(--z38)' : 'transparent', fg: on ? 'var(--z24)' : (off ? 'var(--z72)' : 'var(--z27)'), fw: on ? 600 : 500, sh: 'none', pick: () => { if (!off) this.setState({ mode: x[0], sel: null }); } };
+    });
+    const L = isUp ? LU : LD;
+    this.stageSize = L.S;
+    const pv = isUp ? pUp : pDown;
+    const d = (this.state.sel && pv[this.state.sel]) || pv[ME];
+    const open = !!(this.state.sel && this.state.sel !== ME && pv[this.state.sel]);
+    const phase = this.state.phase ? 1 : 0;
+    // 背景星座：外家（母亲的父系）与岳家 / 夫家（配偶的父系），各自一个星座
+    const Sm = L.S;
+    const SPc = spouseOf(ME);
+    const MOM = motherOf(ME);
+    // 第一层：外家（母亲的父系）、岳家 / 夫家（配偶的父系）
+    // 第二层：再往外一层——这些家族里“母亲那一边”的家族，例如岳母的娘家
+    const specs = [];
+    const shownTops = {};
+    shownTops[LTOP] = 1;
+    const addSpec = (who, kind, side, level, parent) => {
+      if (!who || !BASE[who] || !fatherOf(who)) return null;
+      const top = patriTop(who);
+      if (shownTops[top]) return null;
+      shownTops[top] = 1;
+      const sp = { who: who, kind: kind, side: side, level: level, parent: parent || null, top: top };
+      specs.push(sp);
+      return sp;
+    };
+    const s1m = (MOM && DB[MOM]) ? addSpec(MOM, 'mother', -1, 1) : null;
+    const s1s = (fam && SPc && DB[SPc]) ? addSpec(SPc, 'spouse', 1, 1) : null;
+    if (s1m) addSpec(motherOf(MOM), 'mother2', -1, 2, s1m);
+    if (s1s) addSpec(motherOf(SPc), 'spouse2', 1, 2, s1s);
+    const nameOf = (sp) => {
+      const sn = SURNAME[sp.top];
+      const wife = SPc && sexOf(SPc) === 'f';
+      const rel = { mother: '外家', spouse: wife ? '岳家' : '夫家', mother2: '外婆的娘家', spouse2: wife ? '岳母的娘家' : '婆婆的娘家' }[sp.kind];
+      return (sn ? sn + '氏 · ' : '') + rel;
+    };
+    const bgs = [];
+    if (!this._inner) {
+      this._bgCache = this._bgCache || {};
+      specs.forEach((sp) => {
+        const key = sp.who + '|' + ME + '|' + ZD.rev + '|' + (ZD.en ? 'en' : 'zh');
+        let r = this._bgCache[key];
+        if (!r) {
+          const sh = Object.create(Object.getPrototypeOf(this));
+          sh._inner = true;
+          sh.moved = false;
+          sh.props = this.props;
+          sh.state = Object.assign({}, this.state, { lang: 'zh', center: sp.who, titleFrom: ME, mode: 'up', expand: null, sel: null, hover: null, filter: 'all', fam: false });
+          sh.setState = () => {};
+          try { r = sh.renderVals(); } catch (err) { r = null; }
+          this._bgCache[key] = r;
+        }
+        if (!r) return;
+        const left = sp.side < 0;
+        const far = sp.level === 2;
+        const k = far ? 0.42 : 0.6;
+        const bx = Math.round(Sm / 2 + sp.side * Sm * (far ? 1.22 : 0.64));
+        const by = Math.round(Sm / 2 - Sm * (far ? 0.2 : 0.44));
+        sp.bx = bx;
+        sp.by = by;
+        sp.idx = bgs.length;
+        // 第一层从前景里的那个人连出来；第二层从上一层星座的中心连出来
+        const from = far ? (sp.parent && sp.parent.bx !== undefined ? { x: sp.parent.bx, y: sp.parent.by } : null) : L.pos[sp.who];
+        const bend = (left ? -1 : 1) * (far ? 90 : 60);
+        const pink = !left;
+        bgs.push({
+          S: r.S, L: bx - Math.round(r.S / 2), T: by - Math.round(r.S / 2),
+          nodes: r.nodes, lines: r.lines, orbits: r.orbits,
+          i: bgs.length, pi: far && sp.parent && sp.parent.idx !== undefined ? sp.parent.idx : -1, per: far ? 900 : 600,
+          fx: far ? '' : (from ? from.x.toFixed(1) : ''), fy: far ? '' : (from ? from.y.toFixed(1) : ''), bx: bx, by: by, cxo: bend, cyo: far ? -50 : 40, cc: Math.round(Sm / 2), spinT: far ? '0' : '1',
+          thread: from ? ('M ' + from.x.toFixed(1) + ' ' + from.y.toFixed(1) + ' Q ' + ((from.x + bx) / 2 + bend).toFixed(1) + ' ' + ((from.y + by) / 2 + (far ? -50 : 40)).toFixed(1) + ' ' + bx + ' ' + by) : '',
+          label: nameOf(sp), tip: '点击进入' + nameOf(sp),
+          lx: bx, ly: Math.round(by - r.S * k * 0.5 * 0.6 - (far ? 36 : 46)),
+          cls: (pink ? 'bgwrap bgp' : 'bgwrap bgv') + (far ? ' bgfar' : ''),
+          tilt: far ? (left ? 'bg3d bg3dsl' : 'bg3d bg3ds') : (left ? 'bg3d bg3dl' : 'bg3d'),
+          gal: left ? 'gal rev' : 'gal',
+          base: 'perspective(1600px) rotateX(55deg) rotateZ(' + (left ? 6 : -6) + 'deg) scale(' + k + ')',
+          ring: pink ? 'var(--z73)' : 'var(--z74)', fill: pink ? 'var(--z75)' : 'var(--z76)',
+          comet: pink ? 'var(--z8)' : 'var(--z77)', thr: pink ? 'var(--z78)' : 'var(--z79)',
+          lc: pink ? 'var(--z80)' : 'var(--z81)', glow: pink ? 'var(--z60)' : 'var(--z82)', fs: far ? 13 : 15,
+          open: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.moved) { this.moved = false; return; } recenter(sp.who); }
+        });
+      });
+    }
+    const mainLabel = SURNAME[LTOP] ? SURNAME[LTOP] + '氏 · 本宗' : (LTOP === ME ? (ME === 'me' ? '我的小家庭' : BASE[ME].title + '的小家庭') : BASE[LTOP].title + '家 · 本宗');
+    const recenter = (id) => {
+      this.setState({ center: id, sel: null, hover: null, expand: null, mode: 'up', tx: 0, ty: 0, phase: 1 - phase }, () => this.setState({ sc: this.fitScale() }));
+    };
+    return {
+      t: ((this.state || {}).lang === 'en' ? {edit: "Edit profile", addRel: "Add a relative"} : {edit: "编辑资料", addRel: "添加 TA 的家人"}),
+      isUp: isUp, isDown: !isUp, panels: open,
+      upA: isUp && !phase, upB: isUp && !!phase, downA: !isUp && !phase, downB: !isUp && !!phase,
+      notMe: ME !== 'me', centerName: DB[ME].title, famLabel: ME === 'me' ? '我的小家庭' : 'TA的小家庭',
+      recenter: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (this.state.sel && DB[this.state.sel]) recenter(this.state.sel); },
+      backToMe: (e) => { if (e && e.stopPropagation) e.stopPropagation(); recenter('me'); },
+      bgs: bgs, mainLabel: mainLabel, mainLX: Math.round(Sm / 2), mainLY: 24,
+      S: L.S, H: Math.round(L.S / 2),
+      nodes: A.nodes, lines: A.lines, orbits: orbitsA, areas: A.areas, clusters: A.clusters, trails: A.trails || [], trails2: B.trails || [],
+      spinCls: 'spin',
+      rootRef: this._refCb || (this._refCb = (el) => { this.rootEl = el; }),
+      spinOn: this.state.spin === false ? 'false' : 'true', spinText: this.state.spin === false ? '星空：静止' : '星空：转动',
+      spinBg: this.state.spin === false ? 'transparent' : 'var(--z83)', spinFg: 'var(--z26)', spinBd: this.state.spin === false ? 'var(--z42)' : 'var(--z30)',
+      toggleSpin: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ spin: this.state.spin === false }); },
+      nodes2: B.nodes, lines2: B.lines, orbits2: orbitsB, areas2: B.areas, clusters2: B.clusters,
+      stars: stars, filters: filters, modes: modes, d: d,
+      tx: Math.round(this.state.tx + (open ? -160 : 0)), ty: Math.round(this.state.ty), sc: this.state.sc.toFixed(3),
+      pct: Math.round(this.state.sc * 100) + '%',
+      trans: this.state.dragging ? 'none' : 'transform .45s cubic-bezier(.2,.8,.3,1)',
+      cursor: this.state.dragging ? 'grabbing' : 'grab',
+      onWheel: (e) => {
+        const cur = Object.assign({}, this.state, this._pend || {});
+        const s0 = cur.sc;
+        const s1 = Math.max(0.3, Math.min(2.5, s0 * Math.exp(-(e.deltaY || 0) * 0.0015)));
+        if (s1 === s0) return;
+        let ox = 0;
+        let oy = 0;
+        try {
+          const r = e.currentTarget.getBoundingClientRect();
+          ox = e.clientX - (r.left + r.width / 2 + cur.tx + (open ? -160 : 0));
+          oy = e.clientY - (r.top + r.height / 2 + 36 + cur.ty);
+        } catch (err) {}
+        const k = 1 - s1 / s0;
+        this._queue({ sc: s1, tx: cur.tx + ox * k, ty: cur.ty + oy * k, dragging: true });
+        clearTimeout(this.wheelT);
+        this.wheelT = setTimeout(() => this._flushNow({ dragging: false }), 120);
+      },
+      onDown: (e) => {
+        this._pts = this._pts || {};
+        if (e.pointerId !== undefined) this._pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+        const pid = Object.keys(this._pts);
+        if (pid.length >= 2) {
+          const p1 = this._pts[pid[0]];
+          const p2 = this._pts[pid[1]];
+          const cur0 = Object.assign({}, this.state, this._pend || {});
+          let rcx = 0;
+          let rcy = 0;
+          try { const r = e.currentTarget.getBoundingClientRect(); rcx = r.left + r.width / 2; rcy = r.top + r.height / 2 + 36; } catch (err) {}
+          const mx = (p1.x + p2.x) / 2;
+          const my = (p1.y + p2.y) / 2;
+          this.pinch = { d: Math.hypot(p1.x - p2.x, p1.y - p2.y) || 1, sc: cur0.sc, tx: cur0.tx, ty: cur0.ty, mx: mx, my: my, cx: rcx + cur0.tx, cy: rcy + cur0.ty };
+          this.drag = null;
+          this.moved = true;
+          return;
+        }
+        if (e.button !== undefined && e.button !== 0) return;
+        const cur = Object.assign({}, this.state, this._pend || {});
+        this.drag = { x: e.clientX, y: e.clientY, tx: cur.tx, ty: cur.ty };
+        this.moved = false;
+      },
+      onMove: (e) => {
+        if (this._pts && e.pointerId !== undefined && this._pts[e.pointerId]) this._pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+        if (this.pinch) {
+          const pid = Object.keys(this._pts || {});
+          if (pid.length < 2) return;
+          const p1 = this._pts[pid[0]];
+          const p2 = this._pts[pid[1]];
+          const pn = this.pinch;
+          const s1 = Math.max(0.25, Math.min(2.5, pn.sc * (Math.hypot(p1.x - p2.x, p1.y - p2.y) || 1) / pn.d));
+          const k = s1 / pn.sc;
+          const mx = (p1.x + p2.x) / 2;
+          const my = (p1.y + p2.y) / 2;
+          this._queue({ sc: s1, tx: pn.tx + (mx - pn.mx) - (pn.mx - pn.cx) * (k - 1), ty: pn.ty + (my - pn.my) - (pn.my - pn.cy) * (k - 1), dragging: true });
+          return;
+        }
+        if (!this.drag) return;
+        const dx = e.clientX - this.drag.x;
+        const dy = e.clientY - this.drag.y;
+        if (!this.moved && Math.abs(dx) + Math.abs(dy) < 5) return;
+        this.moved = true;
+        this._queue({ tx: this.drag.tx + dx, ty: this.drag.ty + dy, dragging: true });
+      },
+      onUp: (e) => {
+        if (this._pts && e && e.pointerId !== undefined) delete this._pts[e.pointerId];
+        if (this.pinch) {
+          if (Object.keys(this._pts || {}).length < 2) { this.pinch = null; this.drag = null; this._flushNow({ dragging: false }); }
+          return;
+        }
+        if (!this.drag) return;
+        this.drag = null;
+        this._flushNow({ dragging: false });
+      },
+      zoomIn: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ sc: Math.min(2.5, this.state.sc * 1.2) }); },
+      zoomOut: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ sc: Math.max(0.3, this.state.sc / 1.2) }); },
+      resetView: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ sc: this.fitScale(), tx: 0, ty: 0 }); },
+      closePanel: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.setState({ sel: null }); },
+      bgClick: () => { if (this.moved) { this.moved = false; return; } if (this.state.sel || this.state.hover || this.state.expand) this.setState({ sel: null, hover: null, expand: null }); },
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      noUp: noUp,
+      hint: '滚轮缩放 · 拖动移动 · ' + (noUp ? '只显示 TA 与后代' : '单击中间的你：' + (isUp ? '切换到晚辈' : '切换到长辈')) + ' · 单击家人：查看资料 · 点击虚线胶囊：展开大家庭 · 点阴影区或空白处：收起',
+      famOn: fam ? 'true' : 'false', famBg: fam ? 'var(--z48)' : 'transparent', famFg: fam ? 'var(--z84)' : 'var(--z27)', famBd: fam ? 'var(--z48)' : 'var(--z42)',
+      toggleFam: () => this.setState({ fam: !fam })
+    };
+  }
+}
+</script>
+</body>
+</html>

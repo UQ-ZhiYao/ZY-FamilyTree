@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>枝叶 · 关于</title>
+<script src="./zy-store.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--zy-sky:radial-gradient(ellipse at 30% 10%, var(--z9) 0%, var(--z10) 42%, var(--z11) 100%);--z1:#9DCBFF;--z2:#FFFFFF;--z3:rgba(157,203,255,.45);--z4:rgba(157,203,255,.6);--z5:rgba(255,255,255,.07);--z6:rgba(207,228,255,.16);--z7:rgba(207,228,255,.12);--z8:rgba(157,203,255,.35);--z9:#1B2E78;--z10:#0B1532;--z11:#050B1E;--z12:#EAF2FF;--z13:#CFE4FF;--z14:#2F5BEA;--z15:rgba(94,140,242,.6);--z16:rgba(207,228,255,.14);--z17:rgba(207,228,255,.28);--z18:#EAF4FF;--z19:#FFC857;--z20:rgba(255,200,87,.5);--z21:#C7D6F2;--z22:rgba(157,203,255,.7);--z23:rgba(157,203,255,0);--z24:#FF9E7A;--z25:#8FA9D6}
+.zy-l{--zy-sky:linear-gradient(165deg, #FFF3E8 0%, #F6EEFF 34%, #E9F1FF 66%, #F5F9FF 100%);--z1:#217ADE;--z2:#111732;--z3:rgba(55,137,230,0.34);--z4:rgba(55,137,230,0.45);--z5:rgba(255,255,255,0.66);--z6:rgba(46,71,158,0.14);--z7:rgba(46,71,158,0.11);--z8:rgba(55,137,230,0.26);--z9:#FFFFFF;--z10:#FFFFFF;--z11:#F9FAFD;--z12:#111732;--z13:#111732;--z14:#1748E6;--z15:rgba(55,110,230,0.45);--z16:rgba(46,71,158,0.13);--z17:rgba(46,71,158,0.25);--z18:#111732;--z19:#D1961F;--z20:rgba(230,173,55,0.38);--z21:#343F65;--z22:rgba(55,137,230,0.52);--z23:rgba(55,137,230,0);--z24:#DE5421;--z25:#495683}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+
+.aurora-l{display:none}
+.zy-l .aurora-l{display:block}
+.zy-l .star{background:#6E93F0 !important;box-shadow:0 0 6px rgba(110,147,240,.7)}
+.zy-l .star:nth-child(3n){background:#F2A93B !important;box-shadow:0 0 6px rgba(242,169,59,.7)}
+.zy-l .star:nth-child(5n){background:#E86FA5 !important;box-shadow:0 0 6px rgba(232,111,165,.7)}
+.zy-l .sun{background:radial-gradient(circle at 38% 34%,#FFFBEA 0%,#FFD66B 45%,#F29D1E 100%) !important}
+.zy-l .comet span{background:#FFFFFF !important}
+@keyframes blobA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8%,6%) scale(1.15)}}
+@keyframes blobB{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-10%,4%) scale(.95)}}
+@keyframes blobC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-8%) scale(1.2)}}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes twinkle{0%,100%{opacity:.18}50%{opacity:.95}}
+@keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-30px,-20px,0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 30px 8px var(--z3)}50%{box-shadow:0 0 46px 14px var(--z4)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.star{animation:twinkle 4s ease-in-out infinite}
+.sky{animation:drift 50s ease-in-out infinite alternate}
+.sun{box-shadow:0 0 38px 11px var(--z3);animation:pulseS 5s ease-in-out infinite;will-change:transform}
+@keyframes pulseS{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.rise{animation:rise .8s ease backwards}
+.glass{background:var(--z5);border:1px solid var(--z6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.navlink{transition:background .2s ease,color .2s ease}
+.navlink:hover{background:var(--z7);color:var(--z2)}
+.cta{transition:transform .2s ease,box-shadow .25s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--z8)}
+@keyframes sweep{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.line-glow{background-size:200% 100% !important;animation:sweep 6s linear infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+.st0{animation:none !important;opacity:.55}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+section[id]{scroll-margin-top:96px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 1500px; background: var(--zy-sky); color: var(--z12); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif">
+<div aria-hidden="true" class="aurora-l" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<span style="position: absolute; left: -10%; top: -15%; width: 60vmax; height: 60vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,140,.55) 0%, rgba(255,190,140,0) 65%); animation: blobA 22s ease-in-out infinite"></span>
+<span style="position: absolute; right: -15%; top: 5%; width: 65vmax; height: 65vmax; border-radius: 50%; background: radial-gradient(circle, rgba(170,140,255,.45) 0%, rgba(170,140,255,0) 65%); animation: blobB 28s ease-in-out infinite"></span>
+<span style="position: absolute; left: 20%; bottom: -25%; width: 70vmax; height: 70vmax; border-radius: 50%; background: radial-gradient(circle, rgba(110,170,255,.45) 0%, rgba(110,170,255,0) 65%); animation: blobC 34s ease-in-out infinite"></span>
+</div>
+
+
+<div aria-hidden="true" class="sky" style="position: absolute; inset: -40px; pointer-events: none">
+<sc-for list="{{stars}}" as="s" hint-placeholder-count="100">
+<span class="{{s.k}}" style="position: absolute; left: {{s.x}}%; top: {{s.y}}%; width: {{s.r}}px; height: {{s.r}}px; border-radius: 50%; background: var(--z13); animation-delay: {{s.d}}s; animation-duration: {{s.t}}s"></span>
+</sc-for>
+</div>
+
+<header style="position: sticky; top: 0; z-index: 50; padding: 16px 24px 0">
+<div class="glass" style="max-width: 1160px; margin: 0 auto; border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z2)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z14); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 18px var(--z15)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 18px; font-weight: 700">{{L.k1}}</span>
+</a>
+<nav aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="Main.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k2}}</a>
+<a href="Main.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k3}}</a>
+<a href="Main.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k4}}</a>
+<a href="About.dc.html" class="navlink" aria-current="page" style="padding: 10px 12px; border-radius: 10px; background: var(--z16); color: var(--z2); font-weight: 600; text-decoration: none">{{L.k5}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 8px">
+<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z17); background: transparent; color: var(--z12); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z17); background: transparent; color: var(--z12); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+<a href="Login.dc.html" class="navlink" style="padding: 10px 14px; border-radius: 10px; color: var(--z2); font-size: 15px; font-weight: 500; text-decoration: none">{{L.k6}}</a>
+<a href="Login.dc.html" class="cta" style="padding: 10px 16px; background: var(--z18); color: var(--z10); border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none">{{L.k7}}</a>
+</div>
+</div>
+</header>
+
+<article class="rise" style="position: relative; z-index: 1; max-width: 700px; margin: 0 auto; padding: 96px 24px 80px; display: flex; flex-direction: column; gap: 26px">
+<span aria-hidden="true" class="sun" style="width: 18px; height: 18px; border-radius: 50%; background: var(--z2)"></span>
+<span style="font-size: 13px; letter-spacing: 3px; color: var(--z1)">{{L.k8}}</span>
+<h1 style="margin: 0; font-size: 46px; line-height: 1.3; font-weight: 700; color: var(--z2)">{{L.k9}}<span style="color: var(--z19); text-shadow: 0 0 22px var(--z20)">{{L.k10}}</span></h1>
+<p style="margin: 0; font-size: 18px; line-height: 1.9; color: var(--z21)">{{L.k11}}</p>
+
+<div style="position: relative; padding: 30px 0 0; display: flex; flex-direction: column; gap: 12px"><span aria-hidden="true" class="line-glow" style="position: absolute; left: 0; top: 0; width: 100%; height: 1px; background: linear-gradient(90deg, var(--z22), var(--z23))"></span>
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; color: var(--z2)">{{L.k12}}</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.9; color: var(--z21)">{{L.k13}}</p>
+</div>
+
+<div style="position: relative; padding: 30px 0 0; display: flex; flex-direction: column; gap: 14px"><span aria-hidden="true" class="line-glow" style="position: absolute; left: 0; top: 0; width: 100%; height: 1px; background: linear-gradient(90deg, var(--z22), var(--z23))"></span>
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; color: var(--z2)">{{L.k14}}</h2>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 16px; line-height: 1.8; color: var(--z21)">
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="width: 8px; height: 8px; flex: none; margin-top: 10px; border-radius: 50%; background: var(--z19); box-shadow: 0 0 10px var(--z19)"></span><span><b style="color: var(--z2)">{{L.k15}}</b>{{L.k16}}</span></li>
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="width: 8px; height: 8px; flex: none; margin-top: 10px; border-radius: 50%; background: var(--z24); box-shadow: 0 0 10px var(--z24)"></span><span><b style="color: var(--z2)">{{L.k17}}</b>{{L.k18}}</span></li>
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="width: 8px; height: 8px; flex: none; margin-top: 10px; border-radius: 50%; background: var(--z1); box-shadow: 0 0 10px var(--z1)"></span><span><b style="color: var(--z2)">{{L.k19}}</b>{{L.k20}}</span></li>
+</ul>
+</div>
+
+<div style="position: relative; padding: 30px 0 0; display: flex; flex-direction: column; gap: 12px"><span aria-hidden="true" class="line-glow" style="position: absolute; left: 0; top: 0; width: 100%; height: 1px; background: linear-gradient(90deg, var(--z22), var(--z23))"></span>
+<h2 style="margin: 0; font-size: 21px; font-weight: 700; color: var(--z2)">{{L.k21}}</h2>
+<p style="margin: 0; font-size: 16px; line-height: 1.9; color: var(--z21)">{{L.k22}}</p>
+</div>
+
+<div style="margin-top: 12px; display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Login.dc.html" class="cta" style="padding: 15px 26px; background: var(--z18); color: var(--z10); border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none">{{L.k23}}</a>
+</div>
+</article>
+
+<footer style="position: relative; z-index: 1; border-top: 1px solid var(--z7)">
+<div style="max-width: 1160px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--z25)">
+<span>{{L.k24}}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 20px"><a href="About.dc.html" style="color: var(--z25)">{{L.k25}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k26}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k27}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k28}}</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    this._zyStop();
+  }
+  componentDidMount() {
+    this._loadTheme();
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    let v = this._rv();
+    if (st.lang === 'en') v = this._zyI18n(v, 0);
+    return Object.assign(v, this._zyChrome(st));
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyHref(name, query) {
+    let app = false;
+    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
+    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { cache: {}, E: {}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "主导航", "k1": "枝叶", "k2": "功能", "k3": "使用方法", "k4": "常见问题", "k5": "关于", "k6": "登入", "k7": "注册", "k8": "关于枝叶", "k9": "让家人", "k10": "彼此相连", "k11": "家人住得越来越分散，很多亲戚一年只见一次，有的甚至叫不出名字。枝叶给每个家庭一个自己的空间：认识彼此、分享照片、记下谁是谁。", "k12": "名字的由来", "k13": "“枝叶”取自“开枝散叶”。一个家族就像一片星空：每一颗星都在不同的位置发光，但都属于同一片夜空。", "k14": "我们怎么做", "k15": "保持简单。", "k16": "不需要任何专业知识，从你自己开始添加家人即可。", "k17": "登入后才能查看。", "k18": "家族空间不对外公开，只有加入的成员能看到。", "k19": "由家人自己管理。", "k20": "每个家族空间都有管理员，负责整理和修改资料。", "k21": "联系我们", "k22": "有问题或建议，请发邮件到 [联系邮箱]。", "k23": "建立我的家族空间", "k24": "© 2026 枝叶", "k25": "关于", "k26": "隐私政策", "k27": "服务条款", "k28": "联系我们"}, LEN: {"k0": "Main navigation", "k1": "ZY", "k2": "Features", "k3": "How it works", "k4": "FAQ", "k5": "About", "k6": "Log in", "k7": "Sign up", "k8": "About ZY", "k9": "Keeping families ", "k10": "connected", "k11": "Families live further apart than ever. Many relatives meet only once a year, and some names are hard to remember. ZY gives every family a space of its own to get to know each other, share photos and keep track of who's who.", "k12": "Where the name comes from", "k13": "ZY is short for Zenith Yield. Our Chinese name, 枝叶 (zhī yè, “branches and leaves”), comes from the saying 开枝散叶: a family branching out and growing. A family is like a night sky: every star shines from a different place, yet they all belong to the same sky.", "k14": "How we work", "k15": "Keep it simple. ", "k16": "No expertise needed. Start with yourself and add family from there.", "k17": "Visible only after logging in. ", "k18": "Family spaces are not public. Only members who join can see them.", "k19": "Run by families themselves. ", "k20": "Every family space has admins who organise and edit the details.", "k21": "Contact us", "k22": "Questions or suggestions? Email us at [contact email].", "k23": "Create my family space", "k24": "© 2026 ZY · Zenith Yield", "k25": "About", "k26": "Privacy policy", "k27": "Terms of service", "k28": "Contact us"} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+
+  _rv() {
+    let seed = 37;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const stars = [];
+    for (let i = 0; i < 100; i++) {
+      stars.push({ x: (rnd() * 100).toFixed(2), y: (rnd() * 100).toFixed(2), r: rnd() < 0.15 ? 3 : (rnd() < 0.5 ? 2 : 1), d: (rnd() * 5).toFixed(2), t: (3 + rnd() * 5).toFixed(2), k: i % 3 === 0 ? 'star' : 'star st0' });
+    }
+    return { stars: stars };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>ZY FamilyTree · 管理</title>
+<script src="./zy-store.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0B1532">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ZY FamilyTree">
+<meta name="application-name" content="ZY FamilyTree">
+<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--z1:#496FED;--z2:#92A6EC;--z3:#06102C;--z4:rgba(73,111,237,0.15);--z5:rgba(20,23,31,0.08);--z6:rgba(73,111,237,0.16);--z7:#081024;--z8:#0B1322;--z9:#E0E3EB;--z10:#0B0D14;--z11:#1F2531;--z12:rgba(20,23,31,0.07);--z13:#BDC1CC;--z14:#051136;--z15:#242A36;--z16:#C8D0F6;--z17:#A6B2CF;--z18:#AFB9D4;--z19:#0F131E;--z20:#0B2F3C;--z21:#8FD5EE;--z22:#9EE0F6;--z23:#130538;--z24:#AD9CE2}
+.zy-l{--z1:#2F5BEA;--z2:#1E3FAF;--z3:#F1F4FD;--z4:rgba(47,91,234,.15);--z5:rgba(20,23,31,.06);--z6:rgba(47,91,234,.16);--z7:#F6F8FD;--z8:#F6F8FC;--z9:#14171F;--z10:#FFFFFF;--z11:#E6E9EF;--z12:rgba(20,23,31,0.05);--z13:#4A5060;--z14:#E9EEFD;--z15:#DADEE6;--z16:#0E1A52;--z17:#6A7080;--z18:#545A6A;--z19:#F7F8FB;--z20:#E3F4FA;--z21:#1C8DB5;--z22:#0B5E7A;--z23:#EEE8FD;--z24:#4B2FA0}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.top{animation:slideDown .5s ease backwards}
+main > *{animation:fadeUp .6s ease backwards}
+main > *:nth-child(1){animation-delay:.08s}
+main > *:nth-child(2){animation-delay:.16s}
+main > *:nth-child(3){animation-delay:.24s}
+main > *:nth-child(4){animation-delay:.32s}
+main > *:nth-child(5){animation-delay:.4s}
+.tab{transition:background .2s ease,color .2s ease}
+.tab:hover{background:var(--z3)}
+button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:hover{transform:translateY(-1px)}
+input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--z1) !important;box-shadow:0 0 0 4px var(--z4)}
+section,aside{transition:box-shadow .25s ease}
+section:hover,aside:hover{box-shadow:0 10px 28px var(--z5)}
+figure{animation:rise .55s cubic-bezier(.2,.8,.3,1.1) backwards;transition:transform .25s ease,box-shadow .25s ease}
+figure:hover{transform:translateY(-5px);box-shadow:0 14px 30px var(--z6)}
+figure:nth-child(2){animation-delay:.05s}figure:nth-child(3){animation-delay:.1s}figure:nth-child(4){animation-delay:.15s}
+figure:nth-child(5){animation-delay:.2s}figure:nth-child(6){animation-delay:.25s}figure:nth-child(7){animation-delay:.3s}figure:nth-child(8){animation-delay:.35s}
+tbody tr{transition:background .2s ease}
+tbody tr:hover{background:var(--z7)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+
+.zy-d{--tbg:rgba(10,18,44,.84);--tbd:rgba(157,203,255,.18);--tfg:#A3B5DA;--ton:#FFFFFF;--tpill:rgba(157,203,255,.16)}
+.zy-l{--tbg:rgba(255,255,255,.9);--tbd:rgba(46,71,158,.14);--tfg:#5A6380;--ton:#1748E6;--tpill:rgba(23,72,230,.1)}
+.tabbar{display:none}
+.tbi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:52px;border-radius:14px;font-size:11px;font-weight:500;text-decoration:none;color:var(--tfg);-webkit-tap-highlight-color:transparent}
+.tbi.on{color:var(--ton);font-weight:600;background:var(--tpill)}
+@media (max-width:640px){
+header nav{display:none !important}
+header .uname{display:none !important}
+header{padding:10px 12px 0 !important}
+.tabbar{display:flex;position:fixed;z-index:60;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:5px;gap:4px;border-radius:20px;background:var(--tbg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+main{padding:20px 16px calc(110px + env(safe-area-inset-bottom)) !important}
+main h1{font-size:24px !important}
+}
+
+.zy-pill{position:fixed;z-index:58;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 10px 9px 16px;border-radius:999px;font-size:13px;line-height:1.4;background:var(--tbg);color:var(--pfg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.zy-pill a{flex:none;padding:6px 12px;border-radius:999px;background:var(--ton);color:var(--pbtn) !important;text-decoration:none;font-weight:600}
+.zy-pill.err{border-color:#E5534B}
+.zy-d{--pfg:#EAF2FF;--pbtn:#0B1532}
+.zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
+.has-sheet .zy-pill{display:none}
+@media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+
+.u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
+.u-h2{margin:0;font-size:19px;font-weight:700}
+.u-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.u-label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:500;min-width:0}
+.u-in{height:46px;width:100%;box-sizing:border-box;padding:0 12px;border:1px solid var(--u-in);border-radius:10px;font:inherit;font-size:15px;font-weight:400;color:var(--u-text);background:var(--u-card)}
+textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
+.u-in:focus{outline:none;border-color:var(--z1);box-shadow:0 0 0 3px var(--z4)}
+.u-btn,.u-btn2,.u-dng{height:44px;padding:0 18px;border-radius:10px;font:inherit;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap;box-sizing:border-box}
+.u-btn{border:none;background:var(--z1);color:#FFFFFF;font-weight:600}
+.u-btn2{border:1px solid var(--u-in);background:transparent;color:var(--u-text);font-weight:500}
+.u-dng{border:none;background:#D1453B;color:#FFFFFF;font-weight:600}
+.u-btn:disabled,.u-btn2:disabled,.u-dng:disabled{opacity:.5;cursor:default}
+.u-sm{height:36px;padding:0 12px;font-size:13px}
+.u-muted{color:var(--u-muted);font-size:13px;line-height:1.5}
+.u-msg{font-size:14px;color:var(--z1)}
+.u-err{font-size:14px;color:#D1453B}
+.u-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.u-av{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--z3);color:var(--z1);font-weight:700;font-size:15px;overflow:hidden}
+.u-av img{width:100%;height:100%;object-fit:cover}
+.u-li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--u-bd);min-width:0}
+.u-chip{padding:7px 12px;border-radius:999px;border:1px solid var(--u-in);background:transparent;color:var(--u-text);font:inherit;font-size:13px;cursor:pointer}
+.u-chip.on{background:var(--z1);border-color:var(--z1);color:#FFFFFF}
+.u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
+.u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
+.u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z15)}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="min-height: 100vh; background: var(--z8); color: var(--z9); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<header class="top" style="padding: 16px 24px 0">
+<div style="max-width: 1360px; margin: 0 auto; background: var(--z10); border: 1px solid var(--z11); border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 20px var(--z12)">
+<a href="AppCircle.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z9)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z1); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 17px; letter-spacing: -.2px; font-weight: 700">ZY FamilyTree</span>
+</a>
+<nav aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="AppCircle.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k7}}</a>
+<a href="AppPhotos.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k8}}</a>
+<a href="AppAdmin.dc.html" class="tab" aria-current="page" style="padding: 10px 16px; border-radius: 10px; background: var(--z14); color: var(--z1); font-weight: 600; text-decoration: none">{{L.k9}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z15); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z15); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+<a href="AppProfile.dc.html" class="tab" title="{{L.k1}}" aria-label="{{L.k2}}" style="display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border-radius: 999px; text-decoration: none; color: var(--z9)">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: var(--z16); color: var(--z10); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{meCh}}</span>
+<span class="uname" style="font-size: 14px; font-weight: 600">{{meName}}</span>
+</a>
+<a href="AppLogin.dc.html" onClick="{{zyLogout}}" aria-label="{{L.k3}}" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--z17)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></a>
+</div>
+</div>
+</header>
+
+<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h1 style="margin: 0; font-size: 30px; font-weight: 700">{{t.title}}</h1>
+<p style="margin: 0; font-size: 14px; color: var(--z17); max-width: 760px; line-height: 1.6">{{t.sub}}</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+
+<sc-if value="{{needMe}}" hint-placeholder-val="{{false}}">
+<section class="u-card" style="border-color: var(--z1)">
+<h2 class="u-h2">{{t.whoami}}</h2>
+<span class="u-muted">{{t.whoHint}}</span>
+<div class="u-row"><select class="u-in" style="flex: 1 1 220px; width: auto" value="{{raw.pick}}" onChange="{{setPick}}"><sc-for list="{{opts.all}}" as="o" hint-placeholder-count="3"><option value="{{o.id}}">{{o.label}}</option></sc-for></select><button type="button" class="u-btn" onClick="{{linkMe}}">{{t.thisIsMe}}</button></div>
+</section>
+</sc-if>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.add}}</h2>
+<form onSubmit="{{addSubmit}}" style="display: flex; flex-direction: column; gap: 16px">
+<div class="u-grid">
+<label class="u-label">{{t.name}}<input class="u-in" type="text" value="{{raw.aName}}" onInput="{{setA.name}}"></label>
+<label class="u-label">{{t.sex}}<select class="u-in" value="{{raw.aSex}}" onChange="{{setA.sex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
+<label class="u-label">{{t.birth}}<input class="u-in" type="text" inputmode="numeric" value="{{raw.aBirth}}" onInput="{{setA.birth}}" placeholder="1965"></label>
+<label class="u-label">{{t.rel}}<select class="u-in" value="{{raw.aRel}}" onChange="{{setA.rel}}"><option value="child">{{t.rchild}}</option><option value="parent">{{t.rparent}}</option><option value="spouse">{{t.rspouse}}</option><option value="sibling">{{t.rsibling}}</option><option value="">{{t.rnone}}</option></select></label>
+<label class="u-label">{{t.of}}<select class="u-in" value="{{raw.aOf}}" onChange="{{setA.of}}"><sc-for list="{{opts.all}}" as="o" hint-placeholder-count="3"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+</div>
+<div class="u-row"><button type="submit" class="u-btn" disabled="{{busy}}">＋ {{t.addBtn}}</button><span class="{{addCls}}" role="status">{{addMsg}}</span><sc-if value="{{addedHref}}" hint-placeholder-val="{{false}}"><a class="u-btn2 u-sm" href="{{addedHref}}">{{t.more}}</a></sc-if></div>
+</form>
+</section>
+
+<section class="u-card">
+<div class="u-row" style="justify-content: space-between"><h2 class="u-h2">{{t.list}} <span class="u-muted" style="font-weight: 400">· {{total}} {{t.count}}</span></h2></div>
+<input class="u-in" type="search" value="{{raw.q}}" onInput="{{setQ}}" placeholder="{{t.search}}">
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div class="u-li">
+<span class="u-av">{{r.ch}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.sub}}</span></span>
+<sc-if value="{{r.asking}}" hint-placeholder-val="{{false}}"><span class="u-err" style="font-size: 13px">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{r.yes}}">{{t.yes}}</button><button type="button" class="u-btn2 u-sm" onClick="{{r.no}}">{{t.no}}</button></sc-if>
+<sc-if value="{{r.idle}}" hint-placeholder-val="{{true}}"><a class="u-btn2 u-sm" href="{{r.href}}">{{t.edit}}</a><sc-if value="{{r.canDel}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{r.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></sc-if>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<section class="u-card">
+<h2 class="u-h2">{{t.accounts}}</h2>
+<sc-if value="{{isGh}}" hint-placeholder-val="{{false}}">
+<span class="u-muted">{{t.accHint}}</span>
+<span class="u-muted">{{t.repo}}<a href="{{repoUrl}}" target="_blank" rel="noopener" style="color: var(--z1)">{{raw.repo}}</a></span>
+<sc-if value="{{meLine}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.youAre}}<b style="color: var(--u-text)">{{meLine}}</b> · <a href="{{changeHref}}" style="color: var(--z1)">{{t.change}}</a></span></sc-if>
+<form onSubmit="{{inviteSubmit}}" class="u-row"><input class="u-in" style="flex: 1 1 160px; width: auto" type="text" autocomplete="off" value="{{raw.inv}}" onInput="{{setInv}}" placeholder="{{t.invitePh}}"><button type="submit" class="u-btn">{{t.invite}}</button></form>
+<span class="{{invCls}}" role="status">{{invMsg}}</span>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{rows2}}" as="m" hint-placeholder-count="2"><div class="u-li"><span class="u-av" style="width: 32px; height: 32px; font-size: 12px">{{m.ch}}</span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis">{{m.login}}</span><span class="u-muted">{{m.badge}}</span><sc-if value="{{m.canRemove}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{m.remove}}">{{t.remove}}</button></sc-if></div></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{isDemo}}" hint-placeholder-val="{{true}}"><span class="u-muted">{{t.demoAcc}}</span></sc-if>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.family}}</h2>
+<form onSubmit="{{nameSubmit}}" class="u-row"><input class="u-in" style="flex: 1 1 160px; width: auto" type="text" value="{{raw.fam}}" onInput="{{setFam}}"><button type="submit" class="u-btn2">{{t.saveName}}</button></form>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.backup}}</h2>
+<span class="u-muted">{{t.backupHint}}</span>
+<div class="u-row"><button type="button" class="u-btn2 u-sm" onClick="{{doExport}}">{{t.export}}</button><label class="u-btn2 u-sm" style="position: relative; cursor: pointer">{{t.import}}<input class="u-file" type="file" accept="application/json,.json" onChange="{{doImport}}"></label><sc-if value="{{isDemo}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{doReset}}">{{t.resetDemo}}</button></sc-if></div>
+<span class="{{bkCls}}" role="status">{{bkMsg}}</span>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.log}}</h2>
+<sc-if value="{{noLog}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.noLog}}</span></sc-if>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{rows3}}" as="g" hint-placeholder-count="4"><div class="u-li" style="flex-direction: column; align-items: flex-start; gap: 2px"><span style="font-size: 14px">{{g.what}}</span><span class="u-muted" style="font-size: 12px">{{g.meta}}</span></div></sc-for>
+</div>
+</section>
+</aside>
+</div>
+</main>
+<sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
+<nav class="tabbar" aria-label="{{tabAria}}"><a href="AppCircle.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="AppPhotos.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="AppAdmin.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{tabAdmin}}</span></a><a href="AppProfile.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1080}}'>
+class Component extends DCLogic {
+  _zyPWA() {
+    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+  }
+  componentWillUnmount() {
+    this._zyStop();
+  }
+  componentDidMount() {
+    this._loadTheme();
+    this._zyPWA();
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    let v = this._rv();
+    if (st.lang === 'en') v = this._zyI18n(v, 0);
+    return Object.assign(v, this._zyChrome(st));
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
+      zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
+      zyLogout: () => { try { if (window.ZY) window.ZY.signOut(); } catch (e) {} },
+      tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyHref(name, query) {
+    let app = false;
+    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
+    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyMeName(en) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    if (me) return (en ? (me.nameEn || me.name) : (me.name || me.nameEn)) || '';
+    return (Z && Z.login) || (en ? 'Me' : '我');
+  }
+  _zyPill(en) {
+    const Z = window.ZY;
+    if (!Z) return { show: false };
+    if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
+    if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
+    if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
+    return { show: false };
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { cache: {}, E: {"爷爷": "Grandpa", "奶奶": "Grandma", "配偶": "Spouse", "父亲": "Father", "父母 → 子女": "Parent → Child", "母亲": "Mother", "Yao（我）": "Yao (me)", "伯父": "Uncle", "兄弟姐妹": "Siblings"}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "家族空间导航", "k1": "编辑个人资料", "k2": "编辑个人资料", "k3": "退出登入", "k4": "管理功能", "k5": "资料审核", "k6": "枝叶", "k7": "家族图谱", "k8": "照片与上传", "k9": "管理后台", "k10": "管理后台", "k11": "设置关系链、修改成员资料、管理账号权限", "k12": "＋ 添加成员", "k13": "成员管理", "k14": "关系设置", "k15": "资料审核", "k16": "用户权限", "k17": "新增关系", "k18": "成员 A", "k19": "父亲", "k20": "母亲", "k21": "爷爷", "k22": "关系", "k23": "是…的父亲 / 母亲", "k24": "是…的配偶", "k25": "是…的兄弟姐妹", "k26": "成员 B", "k27": "Yao（我）", "k28": "哥哥", "k29": "姐姐", "k30": "添加关系", "k31": "预览", "k32": "父", "k33": "父亲", "k34": "是 Yao 的", "k35": "父亲", "k36": "现有关系", "k37": "成员 A", "k38": "关系", "k39": "成员 B", "k40": "操作", "k41": "编辑", "k42": "删除", "k43": "待审核的资料修改", "k44": "姐姐", "k45": "申请修改 现居城市", "k46": "[旧值] → [新值]", "k47": "批准", "k48": "拒绝", "k49": "堂哥", "k50": "上传了新头像", "k51": "等待确认后显示在图谱上", "k52": "批准", "k53": "拒绝", "k54": "成员修改自己的资料后，需要管理员确认才会更新。"}, LEN: {"k0": "Family space navigation", "k1": "Edit profile", "k2": "Edit profile", "k3": "Log out", "k4": "Admin tools", "k5": "Profile review", "k6": "ZY", "k7": "Family map", "k8": "Photos", "k9": "Admin", "k10": "Admin", "k11": "Set relationships, edit member profiles and manage account permissions", "k12": "＋ Add member", "k13": "Members", "k14": "Relationships", "k15": "Profile review", "k16": "User permissions", "k17": "New relationship", "k18": "Member A", "k19": "Father", "k20": "Mother", "k21": "Grandpa", "k22": "Relationship", "k23": "is the father / mother of", "k24": "is the spouse of", "k25": "is a sibling of", "k26": "Member B", "k27": "Yao (me)", "k28": "Older brother", "k29": "Older sister", "k30": "Add relationship", "k31": "Preview", "k32": "F", "k33": "Father", "k34": "is Yao's", "k35": "Father", "k36": "Existing relationships", "k37": "Member A", "k38": "Relationship", "k39": "Member B", "k40": "Actions", "k41": "Edit", "k42": "Delete", "k43": "Pending profile changes", "k44": "Older sister", "k45": "requested a change to Current city", "k46": "[old value] → [new value]", "k47": "Approve", "k48": "Reject", "k49": "Cousin", "k50": "uploaded a new avatar", "k51": "Shown on the map once approved", "k52": "Approve", "k53": "Reject", "k54": "When members edit their own profiles, an admin must approve the change before it updates."} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+  _rv() {
+    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or GitHub username", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Family accounts", accHint: "Family data lives in a private GitHub repository. Invite relatives as collaborators; once they accept, they can sign in, view and edit.", demoAcc: "The demo family has no accounts. Sign in to your family repository to invite relatives here.", invite: "Invite", invitePh: "Relative's GitHub username", invited: "Invitation sent: ", pending: "Pending", owner: "Admin", remove: "Remove", repo: "Repository: ", open: "Open on GitHub", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人管理", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或 GitHub 用户名", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "家族成员账号", accHint: "家族资料存放在一个私有 GitHub 资料库里。邀请家人成为资料库的协作者，他们接受邀请后就能登入、查看和修改。", demoAcc: "示例家族不需要账号。登入你的家族资料库后，这里可以邀请家人。", invite: "邀请", invitePh: "家人的 GitHub 用户名", invited: "已发出邀请：", pending: "等待接受", owner: "管理员", remove: "移除", repo: "资料库：", open: "在 GitHub 打开", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
+    const Z = window.ZY;
+    const st = this.state || {};
+    const en = st.lang === 'en';
+    const all = Z ? Z.people() : [];
+    const meId = Z ? Z.meId : null;
+    const nameOf = (x) => (x ? this._zyName(x) : '') || t.unnamed;
+    const yr = (x) => String((x && x.birth) || '').slice(0, 4);
+    const label = (x) => nameOf(x) + (yr(x) ? ' · ' + yr(x) : '') + (x.id === meId ? ' (' + t.me + ')' : '');
+    const sorted = all.slice().sort((a, b) => (parseInt(yr(a), 10) || 9999) - (parseInt(yr(b), 10) || 9999) || nameOf(a).localeCompare(nameOf(b)));
+    const optsAll = sorted.map((x) => ({ id: x.id, label: label(x) }));
+    const ofDefault = this._zyQ('of') || meId || (sorted[0] && sorted[0].id) || '';
+    if (!this._a) this._a = { name: '', sex: 'm', birth: '', rel: this._zyQ('of') ? 'child' : 'child', of: ofDefault };
+    if (!this._a.of && ofDefault) this._a.of = ofDefault;
+    const A = this._a;
+    const bump = () => this.setState({ tick: (this.state.tick || 0) + 1 });
+    const setA = {};
+    ['name', 'sex', 'birth', 'rel', 'of'].forEach((k) => { setA[k] = (e) => { A[k] = e.target.value; bump(); }; });
+    const q = String(st.q || '').trim().toLowerCase();
+    const rows = sorted.filter((x) => !q || [x.name, x.nameEn, x.github, x.birth, x.surname].some((v) => String(v || '').toLowerCase().indexOf(q) >= 0)).map((x) => {
+      const fa = Z.person(x.father);
+      const mo = Z.person(x.mother);
+      const sp = Z.person(x.spouse);
+      const sub = [yr(x), fa ? t.father + ' ' + nameOf(fa) : '', mo ? t.mother + ' ' + nameOf(mo) : '', sp ? t.spouse + ' ' + nameOf(sp) : '', x.github ? '@' + x.github : ''].filter(Boolean).join(' · ');
+      const asking = st.ask === x.id;
+      return {
+        name: nameOf(x) + (x.id === meId ? ' (' + t.me + ')' : ''), ch: (nameOf(x).trim().charAt(0) || '?').toUpperCase(), sub: sub,
+        href: this._zyHref('Profile', 'id=' + encodeURIComponent(x.id)), asking: asking, idle: !asking, canDel: x.id !== meId,
+        ask: () => this.setState({ ask: x.id }), no: () => this.setState({ ask: null }),
+        yes: () => { this.setState({ ask: null }); Z.deletePerson(x.id).catch((e) => this.setState({ bkMsg: t.failed + e.message, bkErr: true })); }
+      };
+    });
+    const isGh = !!(Z && Z.mode === 'github');
+    if (isGh && !this._collab && !this._collabLoading) {
+      this._collabLoading = true;
+      Z.collaborators().then((c) => { this._collab = c; this._collabLoading = false; bump(); }).catch(() => { this._collabLoading = false; });
+    }
+    const col = this._collab || { members: [], invites: [] };
+    const myLogin = Z ? Z.login : '';
+    const amAdmin = col.members.some((m) => m.login === myLogin && m.admin);
+    const rows2 = col.members.map((m) => ({ login: m.login, ch: m.login.charAt(0).toUpperCase(), badge: m.admin ? t.owner : '', canRemove: amAdmin && !m.admin, remove: () => Z.removeMember(m.login).then(() => { this._collab = null; bump(); }).catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true })) }))
+      .concat(col.invites.map((i) => ({ login: i.login || '?', ch: '…', badge: t.pending, canRemove: false })));
+    const rows3 = ((Z && Z.data && Z.data.log) || []).slice(0, 15).map((g) => ({ what: g.what || '', meta: String(g.at || '').replace('T', ' ').slice(0, 16) + (g.by ? ' · ' + g.by : '') }));
+    const fam = st.fam !== undefined ? st.fam : ((Z && Z.data && Z.data.family && Z.data.family.name) || '');
+    const pick = st.pick || (sorted[0] && sorted[0].id) || '';
+    const me = Z && Z.me;
+    return {
+      t: t, opts: { all: optsAll }, rows: rows, rows2: rows2, rows3: rows3, noLog: rows3.length === 0, total: all.length,
+      raw: { aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', inv: st.inv || '', fam: fam, pick: pick, repo: Z ? Z.repo || '' : '' },
+      setA: setA, busy: !!st.busy,
+      setQ: (e) => this.setState({ q: e.target.value }),
+      setInv: (e) => this.setState({ inv: e.target.value }),
+      setFam: (e) => this.setState({ fam: e.target.value }),
+      setPick: (e) => this.setState({ pick: e.target.value }),
+      needMe: !!(Z && Z.loaded && (Z.mode === 'github' ? !meId : this._zyQ('link') === '1')),
+      linkMe: () => { if (pick) Z.linkMe(pick).then(() => { this.setState({ addMsg: t.saved }); this._zyGo(this._zyHref('Circle')); }).catch((e) => this.setState({ addMsg: t.failed + e.message, addErr: true })); },
+      meLine: me ? nameOf(me) : '', changeHref: this._zyHref('Admin', 'link=1'),
+      addMsg: st.addMsg || (Z && !Z.loaded ? t.loading : ''), addCls: st.addErr ? 'u-err' : 'u-msg', addedHref: st.addedHref || '',
+      addSubmit: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (!String(A.name).trim()) { this.setState({ addMsg: t.needName, addErr: true, addedHref: '' }); return; }
+        const fields = { name: String(A.name).trim(), sex: A.sex, birth: String(A.birth).trim() };
+        if (A.rel && A.of) { fields.rel = A.rel; fields.of = A.of; }
+        this.setState({ busy: true, addMsg: '', addedHref: '' });
+        Z.savePerson(fields).then((nid) => {
+          const nm = fields.name;
+          this._a = { name: '', sex: A.sex, birth: '', rel: A.rel, of: A.of };
+          this.setState({ busy: false, addMsg: t.added + nm, addErr: false, addedHref: this._zyHref('Profile', 'id=' + encodeURIComponent(nid)) });
+        }).catch((er) => this.setState({ busy: false, addMsg: t.failed + er.message, addErr: true }));
+      },
+      isGh: isGh, isDemo: !isGh, repoUrl: Z && Z.repo ? 'https://github.com/' + Z.repo : '#',
+      invMsg: st.invMsg || '', invCls: st.invErr ? 'u-err' : 'u-msg',
+      inviteSubmit: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const who = String(st.inv || '').trim();
+        if (!who) return;
+        Z.invite(who).then(() => { this._collab = null; this.setState({ inv: '', invMsg: t.invited + who, invErr: false }); }).catch((er) => this.setState({ invMsg: t.failed + er.message, invErr: true }));
+      },
+      nameSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); Z.setFamilyName(String(fam).trim()).then(() => this.setState({ fam: undefined, bkMsg: t.saved, bkErr: false })).catch((er) => this.setState({ bkMsg: t.failed + er.message, bkErr: true })); },
+      bkMsg: st.bkMsg || '', bkCls: st.bkErr ? 'u-err' : 'u-msg',
+      doExport: () => {
+        try {
+          const blob = new Blob([Z.exportJSON()], { type: 'application/json' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'zy-familytree-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        } catch (er) { this.setState({ bkMsg: t.failed + er.message, bkErr: true }); }
+      },
+      doImport: (e) => {
+        const file = e && e.target && e.target.files && e.target.files[0];
+        if (!file) return;
+        file.text().then((txt) => Z.importJSON(txt)).then(() => this.setState({ bkMsg: t.imported, bkErr: false })).catch((er) => this.setState({ bkMsg: t.failed + er.message, bkErr: true }));
+        try { e.target.value = ''; } catch (er) {}
+      },
+      doReset: () => { Z.resetDemo().then(() => this.setState({ bkMsg: t.saved, bkErr: false })); }
+    };
+  }
+}
+</script>
+</body>
+</html>
