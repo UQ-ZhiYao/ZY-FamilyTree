@@ -86,6 +86,7 @@ main h1{font-size:24px !important}
 .has-sheet .zy-pill{display:none}
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+@media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
 
 .u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
 .u-h2{margin:0;font-size:19px;font-weight:700}
@@ -112,7 +113,33 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
 .u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
 .u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.u-plus{width:38px;height:38px;border-radius:50%;border:none;background:var(--z1);color:#FFFFFF;font:inherit;font-size:24px;font-weight:400;line-height:1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;position:relative;text-decoration:none;box-shadow:0 6px 16px rgba(37,99,235,.28)}
+.u-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.u-top h1{margin:0;font-size:24px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.u-top h1 small{font-size:14px;font-weight:500;color:var(--u-muted)}
+@keyframes uOvIn{from{opacity:0}to{opacity:1}}
+.u-ov{animation:uOvIn .15s ease both !important;position:fixed;inset:0;z-index:80;background:rgba(5,10,25,.55);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.u-sheet{width:100%;max-width:520px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;background:var(--u-card);color:var(--u-text);border-radius:20px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.u-sheet.wide{max-width:760px}
+.u-shh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.u-shh h2{margin:0;font-size:18px;font-weight:700}
+.u-x{width:34px;height:34px;flex:none;border-radius:50%;border:none;background:var(--z3);color:var(--u-text);font:inherit;font-size:18px;line-height:1;cursor:pointer}
+.u-menu{background:var(--u-card);border:1px solid var(--u-bd);border-radius:18px;overflow:hidden}
+.u-mi{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;box-sizing:border-box;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:16px;text-align:left;cursor:pointer;text-decoration:none}
+.u-mi + .u-mi{border-top:1px solid var(--u-bd)}
+.u-mi svg{flex:none;opacity:.85}
+.u-mi .u-chev{margin-left:auto;opacity:.45;font-size:18px}
+@media (max-width:640px){.u-ov{align-items:flex-end;padding:0}.u-sheet{border-radius:20px 20px 0 0;max-height:92vh;max-height:92dvh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}}
 .zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z14)}
+
+.mehead{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0 8px;text-align:center}
+.mav{width:92px;height:92px;border-radius:50%;box-sizing:border-box;border:3px solid var(--z1);background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;overflow:hidden}
+.mav img{width:100%;height:100%;object-fit:cover}
+.mname{font-size:24px;font-weight:700;word-break:break-word}
+.mbadge{margin-top:4px;padding:6px 14px;border-radius:999px;border:1px solid var(--u-bd);background:var(--u-card);color:var(--z1);font-size:12px;font-weight:700;letter-spacing:1px}
+.u-back{border:none;background:transparent;color:var(--z1);font:inherit;font-size:16px;font-weight:600;cursor:pointer;padding:6px 0}
+.pfmain>.mehead,.pfmain>.u-menu,.pfmain>p,.pfmain>div:has(>.u-back),.pfmain>.u-card,.pfmain>form.u-card{width:100%;max-width:560px;margin-left:auto;margin-right:auto;box-sizing:border-box}
+@media (max-width:640px){.pfmain{padding:18px 14px 110px !important}}
 .u-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:600;letter-spacing:1px;padding:10px 12px;border-radius:10px;background:var(--z3);color:var(--z1);user-select:all}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -142,7 +169,66 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </header>
 
-<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px">
+<main class="pfmain" style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 24px 20px 120px; display: flex; flex-direction: column; gap: 18px">
+<sc-if value="{{vHome}}" hint-placeholder-val="{{true}}">
+<div class="mehead">
+<span class="mav"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<span class="mname">{{f.show}}</span>
+<sc-if value="{{raw.email}}" hint-placeholder-val="{{true}}"><span class="u-muted" style="font-size: 14px">{{raw.email}}</span></sc-if>
+<span class="mbadge">{{raw.badge}}</span>
+</div>
+<div class="u-menu">
+<button type="button" class="u-mi" onClick="{{go.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{t.mProfile}}</span><span class="u-chev">›</span></button>
+<sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}"><button type="button" class="u-mi" onClick="{{go.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{t.mPass}}</span><span class="u-chev">›</span></button></sc-if>
+<button type="button" class="u-mi" onClick="{{go.invite}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="M10.8 12.2 20 3M17 6l3 3M15 8l2 2"></path></svg><span>{{t.mInvite}}</span><span class="u-chev">›</span></button>
+<a class="u-mi" href="{{raw.mapHref}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle></svg><span>{{t.viewMap}}</span><span class="u-chev">›</span></a>
+</div>
+<div class="u-menu">
+<button type="button" class="u-mi" onClick="{{go.settings}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg><span>{{t.mSettings}}</span><span class="u-chev">›</span></button>
+</div>
+<div class="u-menu">
+<a class="u-mi" href="Login.dc.html" onClick="{{zyLogout}}" style="color: #D1453B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{t.logout}}</span></a>
+</div>
+<p class="u-muted" style="text-align: center; margin: 6px auto 0">{{raw.foot}}</p>
+</sc-if>
+
+<sc-if value="{{vBack}}" hint-placeholder-val="{{false}}"><div><button type="button" class="u-back" onClick="{{go.home}}">‹ {{t.mMe}}</button></div></sc-if>
+
+<sc-if value="{{vSettings}}" hint-placeholder-val="{{false}}">
+<section class="u-card">
+<h2 class="u-h2">{{t.mSettings}}</h2>
+<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefLang}}</span><span class="zprefs"><button type="button" class="{{zyp.lzCls}}" onClick="{{zyp.setLangZh}}">中文</button><button type="button" class="{{zyp.leCls}}" onClick="{{zyp.setLangEn}}">English</button></span></div>
+<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefTheme}}</span><span class="zprefs"><button type="button" class="{{zyp.tdCls}}" onClick="{{zyp.setThemeDark}}">{{zyp.darkText}}</button><button type="button" class="{{zyp.tlCls}}" onClick="{{zyp.setThemeLight}}">{{zyp.lightText}}</button></span></div>
+<span class="u-muted">{{t.prefsHint}}</span>
+</section>
+</sc-if>
+
+<sc-if value="{{vInvite}}" hint-placeholder-val="{{false}}">
+<section class="u-card">
+<h2 class="u-h2">{{t.mInvite}}</h2>
+<sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}">
+<span class="u-muted">{{t.invHint}}</span>
+<span class="u-key" style="font-size: 26px; letter-spacing: 4px; text-align: center; padding: 14px">{{raw.joinCode}}</span>
+<div class="u-row"><button type="button" class="u-btn" onClick="{{copyLink}}">{{t.copy}}</button></div>
+<sc-if value="{{raw.invMsg}}" hint-placeholder-val="{{false}}"><span class="u-msg" role="status" style="word-break: break-all">{{raw.invMsg}}</span></sc-if>
+<span class="u-muted">{{t.familyKey}} · {{keys.family}}</span>
+</sc-if>
+<sc-if value="{{raw.demo}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.demoInv}}</span></sc-if>
+</section>
+</sc-if>
+
+<sc-if value="{{vPass}}" hint-placeholder-val="{{false}}">
+<form class="u-card" onSubmit="{{savePass}}">
+<h2 class="u-h2">{{t.mPass}}</h2>
+<span class="u-muted">{{raw.email}}</span>
+<label class="u-label">{{t.newPw}}<input class="u-in" type="password" autocomplete="new-password" value="{{raw.pw1}}" onInput="{{setPw1}}"></label>
+<label class="u-label">{{t.newPw2}}<input class="u-in" type="password" autocomplete="new-password" value="{{raw.pw2}}" onInput="{{setPw2}}"></label>
+<sc-if value="{{raw.pwMsg}}" hint-placeholder-val="{{false}}"><span class="{{raw.pwCls}}" role="status">{{raw.pwMsg}}</span></sc-if>
+<div class="u-row"><button type="submit" class="u-btn">{{t.pwSave}}</button></div>
+</form>
+</sc-if>
+
+<sc-if value="{{vForm}}" hint-placeholder-val="{{false}}">
 <div style="display: flex; flex-direction: column; gap: 4px">
 <h1 style="margin: 0; font-size: 30px; font-weight: 700">{{pageTitle}}</h1>
 <p style="margin: 0; font-size: 14px; color: var(--z17)">{{t.sub}}</p>
@@ -164,15 +250,6 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </aside>
 
 <form onSubmit="{{onSubmit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
-<sc-if value="{{isMine}}" hint-placeholder-val="{{true}}">
-<section class="u-card">
-<h2 class="u-h2">{{t.prefs}}</h2>
-<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefLang}}</span><span class="zprefs"><button type="button" class="{{zyp.lzCls}}" onClick="{{zyp.setLangZh}}">中文</button><button type="button" class="{{zyp.leCls}}" onClick="{{zyp.setLangEn}}">English</button></span></div>
-<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefTheme}}</span><span class="zprefs"><button type="button" class="{{zyp.tdCls}}" onClick="{{zyp.setThemeDark}}">{{zyp.darkText}}</button><button type="button" class="{{zyp.tlCls}}" onClick="{{zyp.setThemeLight}}">{{zyp.lightText}}</button></span></div>
-<span class="u-muted">{{t.prefsHint}}</span>
-<div class="u-row"><a class="u-btn2 u-sm" href="Login.dc.html" onClick="{{zyLogout}}">{{t.logout}}</a></div>
-</section>
-</sc-if>
 <section class="u-card">
 <h2 class="u-h2">{{t.basic}}</h2>
 <sc-if value="{{addNote}}" hint-placeholder-val="{{false}}"><span class="u-msg">{{t.addFor}}{{addNote}}</span></sc-if>
@@ -243,6 +320,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </form>
 </div>
+</sc-if>
 </sc-if>
 </main>
 <sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
@@ -335,6 +413,14 @@ class Component extends DCLogic {
         this.setState({ lang: nl }, () => this._zyPost());
       }
     };
+  }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
   }
   _zyInitials(n) {
     n = String(n || '').trim();
@@ -456,7 +542,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Keys, account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", logout: "Sign out", prefs: "Preferences", prefsHint: "Changes the language and colours you see on this device.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "编号、账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", logout: "退出登入", prefs: "偏好设置", prefsHint: "只影响你在这台设备上看到的语言和颜色。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Keys, account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", logout: "Log out", mMe: "Me", mProfile: "Personal profile", mPass: "Password & security", mInvite: "Invitation key", mSettings: "Settings", invHint: "Send the code or link to relatives. After signing up they enter the code to join this family.", copy: "Copy invite link", copied: "Copied: ", demoInv: "The demo family has no invite code. Sign in to your family to see it here.", newPw: "New password (8+ characters)", newPw2: "Repeat new password", pwSave: "Update password", pwShort: "The password needs at least 8 characters.", pwDiff: "The two passwords do not match.", pwDone: "Password updated.", verified: "Family member", prefs: "Preferences", prefsHint: "Changes the language and colours you see on this device.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "编号、账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", logout: "退出登入", mMe: "我的", mProfile: "个人资料", mPass: "密码与安全", mInvite: "邀请码", mSettings: "设置", invHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能加入这个家族。", copy: "复制邀请链接", copied: "已复制：", demoInv: "示例家族没有邀请码。登入你的家族后，这里会显示邀请码。", newPw: "新密码（至少 8 个字符）", newPw2: "再输入一次", pwSave: "更新密码", pwShort: "密码至少需要 8 个字符。", pwDiff: "两次输入的密码不一样。", pwDone: "密码已更新。", verified: "家族成员", prefs: "偏好设置", prefsHint: "只影响你在这台设备上看到的语言和颜色。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
     const Z = window.ZY;
     const st = this.state || {};
     const isNew = this._zyQ('new') === '1';
@@ -512,7 +598,30 @@ class Component extends DCLogic {
     const fam = (Z && Z.data && Z.data.family) || {};
     const clanOf = p && p.clanKey ? p.clanKey + (p.surname ? ' · ' + p.surname : '') : '';
     const isMe = !!(Z && p && id === Z.meId);
+    const meView = !isNew && (!qid || (Z && qid === Z.meId));
+    const view = meView ? (st.view || this._zyQ('view') || 'home') : 'profile';
+    const goV = (v) => () => { this.setState({ view: v, pwMsg: '', invMsg: '' }); try { window.scrollTo(0, 0); } catch (e) {} };
+    const famI = (Z && Z.data && Z.data.family) || {};
+    const isCloud = !!(Z && Z.mode === 'cloud');
     return {
+      vHome: view === 'home', vBack: meView && view !== 'home', vSettings: view === 'settings', vInvite: view === 'invite', vPass: view === 'pass', vForm: view === 'profile',
+      go: { home: goV('home'), profile: goV('profile'), settings: goV('settings'), invite: goV('invite'), pass: goV('pass') },
+      raw: {
+        email: (Z && Z.user && Z.user.email) || '', cloud: isCloud, demo: !isCloud,
+        badge: [p && p.key ? p.key : '', (famI.name || '')].filter(Boolean).join(' · ') || t.verified,
+        mapHref: this._zyHref('Circle'), joinCode: famI.joinCode || '—', invMsg: st.invMsg || '',
+        foot: 'Zenith Yield · 枝叶' + (famI.key ? ' · ' + famI.key : ''),
+        pw1: st.pw1 || '', pw2: st.pw2 || '', pwMsg: st.pwMsg || '', pwCls: st.pwErr ? 'u-err' : 'u-msg'
+      },
+      copyLink: () => { const link = Z.joinLink(); const done = () => this.setState({ invMsg: t.copied + link }); try { navigator.clipboard.writeText(link).then(done, done); } catch (e) { done(); } },
+      setPw1: (e) => this.setState({ pw1: e.target.value }), setPw2: (e) => this.setState({ pw2: e.target.value }),
+      savePass: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const a = String(st.pw1 || ''); const b = String(st.pw2 || '');
+        if (a.length < 8) { this.setState({ pwMsg: t.pwShort, pwErr: true }); return; }
+        if (a !== b) { this.setState({ pwMsg: t.pwDiff, pwErr: true }); return; }
+        Z.updatePassword(a).then(() => this.setState({ pw1: '', pw2: '', pwMsg: t.pwDone, pwErr: false })).catch((er) => this.setState({ pwMsg: t.failed + er.message, pwErr: true }));
+      },
       keys: { member: p && p.key ? p.key : t.newKey, clan: clanOf || t.noClan, family: fam.key || '—' },
       isMine: isNew ? false : (isMe || !qid),
       linkText: isMe ? t.youLinked : (p && p.userId ? t.linked : t.notLinked),

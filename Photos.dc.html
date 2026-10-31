@@ -86,6 +86,7 @@ main h1{font-size:24px !important}
 .has-sheet .zy-pill{display:none}
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+@media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
 
 .u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
 .u-h2{margin:0;font-size:19px;font-weight:700}
@@ -112,8 +113,35 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
 .u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
 .u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.u-plus{width:38px;height:38px;border-radius:50%;border:none;background:var(--z1);color:#FFFFFF;font:inherit;font-size:24px;font-weight:400;line-height:1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;position:relative;text-decoration:none;box-shadow:0 6px 16px rgba(37,99,235,.28)}
+.u-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.u-top h1{margin:0;font-size:24px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.u-top h1 small{font-size:14px;font-weight:500;color:var(--u-muted)}
+@keyframes uOvIn{from{opacity:0}to{opacity:1}}
+.u-ov{animation:uOvIn .15s ease both !important;position:fixed;inset:0;z-index:80;background:rgba(5,10,25,.55);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.u-sheet{width:100%;max-width:520px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;background:var(--u-card);color:var(--u-text);border-radius:20px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.u-sheet.wide{max-width:760px}
+.u-shh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.u-shh h2{margin:0;font-size:18px;font-weight:700}
+.u-x{width:34px;height:34px;flex:none;border-radius:50%;border:none;background:var(--z3);color:var(--u-text);font:inherit;font-size:18px;line-height:1;cursor:pointer}
+.u-menu{background:var(--u-card);border:1px solid var(--u-bd);border-radius:18px;overflow:hidden}
+.u-mi{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;box-sizing:border-box;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:16px;text-align:left;cursor:pointer;text-decoration:none}
+.u-mi + .u-mi{border-top:1px solid var(--u-bd)}
+.u-mi svg{flex:none;opacity:.85}
+.u-mi .u-chev{margin-left:auto;opacity:.45;font-size:18px}
+@media (max-width:640px){.u-ov{align-items:flex-end;padding:0}.u-sheet{border-radius:20px 20px 0 0;max-height:92vh;max-height:92dvh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}}
 .zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z15)}
-@media (max-width:640px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:12px !important}.pimg{height:130px !important}}
+
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.acell{position:relative;aspect-ratio:1/1;border:none;padding:0;margin:0;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font:inherit}
+.acell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.acap{font-size:12px;padding:0 8px;max-width:100%;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vimg{border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:200px;max-height:62vh}
+.vimg img{width:100%;max-height:62vh;object-fit:contain;display:block}
+.upick{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:22px 16px;border:2px dashed var(--z15);border-radius:16px;text-align:center;cursor:pointer}
+.uthumbs{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.uthumbs img{width:56px;height:56px;border-radius:8px;object-fit:cover}
+@media (max-width:640px){.agrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}.acell{border-radius:4px}.pmain{padding:16px 12px 110px !important}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -142,60 +170,81 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </header>
 
-<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<h1 style="margin: 0; font-size: 30px; font-weight: 700">{{t.title}}</h1>
-<p style="margin: 0; font-size: 14px; color: var(--z17)">{{t.sub}}</p>
+<main class="pmain" style="width: 100%; max-width: 1180px; margin: 0 auto; box-sizing: border-box; padding: 22px 20px 120px; display: flex; flex-direction: column; gap: 14px">
+<div class="u-top">
+<h1>{{t.title}} <small>{{raw.count}}</small></h1>
+<button type="button" class="u-plus" onClick="{{openUp}}" aria-label="{{t.drop}}" title="{{t.drop}}">+</button>
 </div>
-
-<section class="u-card">
-<div class="u-grid">
-<label class="u-label">{{t.ptitle}}<input class="u-in" type="text" value="{{raw.upTitle}}" onInput="{{setUpTitle}}"></label>
-<label class="u-label">{{t.album}}<select class="u-in" value="{{raw.upAlbum}}" onChange="{{setUpAlbum}}"><sc-for list="{{opts.albums}}" as="o" hint-placeholder-count="4"><option value="{{o.v}}">{{o.label}}</option></sc-for></select></label>
-<label class="u-label">{{t.tagWho}}<select class="u-in" value="" onChange="{{addUpTag}}"><option value="">{{t.addTag}}</option><sc-for list="{{opts.people}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+<sc-if value="{{hasChips}}" hint-placeholder-val="{{true}}">
+<div role="group" aria-label="{{t.album}}" class="u-row achips" style="gap: 8px">
+<sc-for list="{{opts.chips}}" as="al" hint-placeholder-count="4"><button type="button" class="{{al.cls}}" onClick="{{al.pick}}" aria-pressed="{{al.on}}">{{al.name}} · {{al.n}}</button></sc-for>
 </div>
-<sc-if value="{{hasUpTags}}" hint-placeholder-val="{{false}}"><div class="u-row"><sc-for list="{{opts.upTags}}" as="g" hint-placeholder-count="2"><span class="u-tag">{{g.label}}<button type="button" onClick="{{g.remove}}" aria-label="×">×</button></span></sc-for></div></sc-if>
-<label style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 30px 20px; border: 2px dashed var(--z15); border-radius: 18px; background: var(--z18); text-align: center; cursor: pointer">
-<span style="width: 56px; height: 56px; border-radius: 50%; background: var(--z19); color: var(--z20); display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"></path></svg></span>
-<span style="font-size: 17px; font-weight: 700">{{t.drop}}</span>
-<span class="u-muted">{{t.dropHint}}</span>
-<input class="u-file" type="file" multiple accept="image/*" onChange="{{upload}}">
-</label>
-<span class="{{msgCls}}" role="status">{{msg}}</span>
-</section>
-
-<div role="group" aria-label="{{t.album}}" class="u-row">
-<sc-for list="{{chips}}" as="al" hint-placeholder-count="5"><button type="button" class="{{al.cls}}" onClick="{{al.pick}}" aria-pressed="{{al.on}}">{{al.name}} · {{al.n}}</button></sc-for>
-</div>
-
-<sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><div class="u-card"><span class="u-muted">{{t.empty}}</span></div></sc-if>
-<div class="pgrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px">
-<sc-for list="{{cards}}" as="ph" hint-placeholder-count="8">
-<figure style="margin: 0; background: var(--z10); border: 1px solid var(--z11); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; min-width: 0">
-<div class="pimg" style="height: 190px; background: {{ph.tint}}; display: flex; align-items: center; justify-content: center; color: {{ph.ink}}; overflow: hidden">
-<sc-if value="{{ph.url}}" hint-placeholder-val="{{false}}"><img src="{{ph.url}}" alt="{{ph.title}}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover"></sc-if>
-<sc-if value="{{ph.noUrl}}" hint-placeholder-val="{{true}}"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg></sc-if>
-</div>
-<figcaption style="padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
-<sc-if value="{{ph.view}}" hint-placeholder-val="{{true}}">
-<span style="font-size: 16px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ph.title}}</span>
-<span class="u-muted">{{ph.meta}}</span>
-<span class="u-muted" style="font-size: 12px">{{ph.who}}</span>
-<div class="u-row" style="gap: 6px"><button type="button" class="u-btn2 u-sm" onClick="{{ph.edit}}">{{t.edit}}</button>
-<sc-if value="{{ph.asking}}" hint-placeholder-val="{{false}}"><button type="button" class="u-dng u-sm" onClick="{{ph.yes}}">{{t.del}}</button><button type="button" class="u-btn2 u-sm" onClick="{{ph.no}}">{{t.no}}</button></sc-if>
-<sc-if value="{{ph.idle}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{ph.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></div>
 </sc-if>
-<sc-if value="{{ph.editing}}" hint-placeholder-val="{{false}}">
-<input class="u-in" type="text" value="{{ph.title}}" onInput="{{ph.setTitle}}">
-<select class="u-in" value="{{ph.album}}" onChange="{{ph.setAlbum}}"><sc-for list="{{opts.albums}}" as="o" hint-placeholder-count="4"><option value="{{o.v}}">{{o.label}}</option></sc-for></select>
-<div class="u-row" style="gap: 6px"><sc-for list="{{ph.tags}}" as="g" hint-placeholder-count="2"><span class="u-tag">{{g.label}}<button type="button" onClick="{{g.remove}}" aria-label="×">×</button></span></sc-for></div>
-<select class="u-in" value="" onChange="{{ph.addTag}}"><option value="">{{t.addTag}}</option><sc-for list="{{opts.people}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select>
-<button type="button" class="u-btn u-sm" onClick="{{ph.done}}">{{t.done}}</button>
+<sc-if value="{{raw.msg}}" hint-placeholder-val="{{false}}"><span class="{{raw.msgCls}}" role="status">{{raw.msg}}</span></sc-if>
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+<button type="button" onClick="{{openUp}}" style="border: 2px dashed var(--z15); border-radius: 18px; background: transparent; color: var(--u-muted); font: inherit; font-size: 15px; padding: 48px 20px; cursor: pointer">{{t.empty}}</button>
 </sc-if>
-</figcaption>
-</figure>
+<div class="agrid">
+<sc-for list="{{cards}}" as="ph" hint-placeholder-count="12">
+<button type="button" class="acell" onClick="{{ph.open}}" aria-label="{{ph.title}}" style="background: {{ph.tint}}; color: {{ph.ink}}">
+<sc-if value="{{ph.url}}" hint-placeholder-val="{{false}}"><img src="{{ph.url}}" alt="" loading="lazy"></sc-if>
+<sc-if value="{{ph.noUrl}}" hint-placeholder-val="{{true}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg><span class="acap">{{ph.title}}</span></sc-if>
+</button>
 </sc-for>
 </div>
+
+<sc-if value="{{vwOpen}}" hint-placeholder-val="{{false}}">
+<div class="u-ov" onClick="{{closeView}}">
+<div class="u-sheet wide" role="dialog" aria-modal="true" aria-label="{{raw.vTitle}}" onClick="{{stop}}">
+<div class="u-shh"><h2 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{raw.vTitle}}</h2><button type="button" class="u-x" onClick="{{closeView}}" aria-label="{{t.close}}">×</button></div>
+<div class="vimg" style="background: var(--z3); color: var(--u-muted)">
+<sc-if value="{{raw.vUrl}}" hint-placeholder-val="{{false}}"><img src="{{raw.vUrl}}" alt="{{raw.vTitle}}"></sc-if>
+<sc-if value="{{raw.vNoUrl}}" hint-placeholder-val="{{true}}"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg></sc-if>
+</div>
+<sc-if value="{{raw.vView}}" hint-placeholder-val="{{true}}">
+<span class="u-muted">{{raw.vMeta}}</span>
+<div class="u-row" style="gap: 6px"><sc-for list="{{opts.vTags}}" as="g" hint-placeholder-count="2"><span class="u-tag" style="padding: 4px 10px">{{g.label}}</span></sc-for><sc-if value="{{raw.vNoTags}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.untagged}}</span></sc-if></div>
+<sc-if value="{{raw.vCanAv}}" hint-placeholder-val="{{true}}">
+<div class="u-row"><select class="u-in" style="flex: 1 1 180px; width: auto; height: 40px" value="{{raw.avFor}}" onChange="{{setAvFor}}" aria-label="{{t.asAvFor}}"><sc-for list="{{opts.people}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select><button type="button" class="u-btn u-sm" onClick="{{useAsAv}}" disabled="{{raw.busy}}">{{t.asAv}}</button></div>
+</sc-if>
+<div class="u-row" style="justify-content: flex-end">
+<sc-if value="{{raw.asking}}" hint-placeholder-val="{{false}}"><span class="u-err">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{delYes}}">{{t.del}}</button><button type="button" class="u-btn2 u-sm" onClick="{{delNo}}">{{t.no}}</button></sc-if>
+<sc-if value="{{raw.idle}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{delAsk}}" style="color: #D1453B">{{t.del}}</button><button type="button" class="u-btn2 u-sm" onClick="{{startEdit}}">{{t.edit}}</button></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{raw.vEdit}}" hint-placeholder-val="{{false}}">
+<label class="u-label">{{t.ptitle}}<input class="u-in" type="text" value="{{raw.eTitle}}" onInput="{{setETitle}}"></label>
+<label class="u-label">{{t.album}}<select class="u-in" value="{{raw.eAlbum}}" onChange="{{setEAlbum}}"><sc-for list="{{opts.albums}}" as="o" hint-placeholder-count="4"><option value="{{o.v}}">{{o.label}}</option></sc-for></select></label>
+<div class="u-label">{{t.tagWho}}
+<div class="u-row" style="gap: 6px"><sc-for list="{{opts.eTags}}" as="g" hint-placeholder-count="2"><span class="u-tag">{{g.label}}<button type="button" onClick="{{g.remove}}" aria-label="×">×</button></span></sc-for></div>
+<select class="u-in" value="" onChange="{{addETag}}"><option value="">{{t.addTag}}</option><sc-for list="{{opts.people}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select>
+</div>
+<div class="u-row" style="justify-content: flex-end"><button type="button" class="u-btn2 u-sm" onClick="{{cancelEdit}}">{{t.no}}</button><button type="button" class="u-btn u-sm" onClick="{{saveEdit}}">{{t.done}}</button></div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{upOpen}}" hint-placeholder-val="{{false}}">
+<div class="u-ov" onClick="{{closeUp}}">
+<form class="u-sheet" role="dialog" aria-modal="true" aria-label="{{t.drop}}" onClick="{{stop}}" onSubmit="{{doUpload}}">
+<div class="u-shh"><h2>{{t.drop}}</h2><button type="button" class="u-x" onClick="{{closeUp}}" aria-label="{{t.close}}">×</button></div>
+<label class="upick">
+<sc-if value="{{raw.noFiles}}" hint-placeholder-val="{{true}}"><span class="u-plus" aria-hidden="true">+</span><span style="font-weight: 600">{{t.pick}}</span><span class="u-muted">{{t.pickHint}}</span></sc-if>
+<sc-if value="{{raw.hasFiles}}" hint-placeholder-val="{{false}}"><span style="font-weight: 600">{{t.picked}} {{raw.nFiles}}</span><div class="uthumbs"><sc-for list="{{opts.thumbs}}" as="th" hint-placeholder-count="3"><img src="{{th.u}}" alt=""></sc-for></div></sc-if>
+<input class="u-file" type="file" multiple accept="image/*" onChange="{{pickFiles}}">
+</label>
+<label class="u-label">{{t.ptitle}}<input class="u-in" type="text" value="{{raw.upTitle}}" onInput="{{setUpTitle}}" placeholder="{{t.ptitlePh}}"></label>
+<div class="u-label">{{t.tagWho}}
+<sc-if value="{{raw.hasUpTags}}" hint-placeholder-val="{{false}}"><div class="u-row" style="gap: 6px"><sc-for list="{{opts.upTags}}" as="g" hint-placeholder-count="2"><span class="u-tag">{{g.label}}<button type="button" onClick="{{g.remove}}" aria-label="×">×</button></span></sc-for></div></sc-if>
+<select class="u-in" value="" onChange="{{addUpTag}}"><option value="">{{t.addTag}}</option><sc-for list="{{opts.people}}" as="o" hint-placeholder-count="4"><option value="{{o.id}}">{{o.label}}</option></sc-for></select>
+</div>
+<label class="u-label">{{t.album}}<select class="u-in" value="{{raw.upAlbum}}" onChange="{{setUpAlbum}}"><sc-for list="{{opts.albums}}" as="o" hint-placeholder-count="4"><option value="{{o.v}}">{{o.label}}</option></sc-for></select></label>
+<sc-if value="{{raw.upMsg}}" hint-placeholder-val="{{false}}"><span class="{{raw.upMsgCls}}" role="status">{{raw.upMsg}}</span></sc-if>
+<div class="u-row" style="justify-content: flex-end"><button type="button" class="u-btn2" onClick="{{closeUp}}">{{t.no}}</button><button type="submit" class="u-btn" disabled="{{raw.busy}}">{{t.upBtn}}</button></div>
+</form>
+</div>
+</sc-if>
 </main>
 <sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
 <nav class="tabbar" aria-label="{{tabAria}}"><a href="Circle.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="Photos.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="Admin.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{tabAdmin}}</span></a><a href="Profile.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
@@ -287,6 +336,14 @@ class Component extends DCLogic {
         this.setState({ lang: nl }, () => this._zyPost());
       }
     };
+  }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
   }
   _zyInitials(n) {
     n = String(n || '').trim();
@@ -413,7 +470,7 @@ class Component extends DCLogic {
     this.state = { theme: 'dark', album: '' };
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Photos", sub: "Keep every important family moment. Everyone in the family can see and tag them.", drop: "Upload photos", dropHint: "Click to choose photos, several at once if you like. They are resized before saving.", ptitle: "Title (optional)", album: "Album", tagWho: "Who's in it (optional)", all: "All", uploading: "Uploading", uploaded: "Upload complete", failed: "Failed: ", empty: "No photos yet. Upload the first one!", tagged: "tagged", edit: "Edit", done: "Done", del: "Delete", delQ: "Delete this photo?", no: "Cancel", addTag: "+ Tag someone", untagged: "Nobody tagged yet", save: "Save", unnamed: "Unnamed", noImage: "Demo photo (no image file)", loading: "Loading…"} : {title: "照片与上传", sub: "保存家族的每一个重要时刻。所有家人都能看到、补充标记。", drop: "上传照片", dropHint: "点击选择照片，可以一次选多张。照片会自动缩小后保存。", ptitle: "标题（可选）", album: "相册", tagWho: "照片里有谁（可选）", all: "全部", uploading: "正在上传", uploaded: "上传完成", failed: "失败：", empty: "还没有照片。上传第一张吧！", tagged: "标记了", edit: "编辑", done: "完成", del: "删除", delQ: "删除这张照片？", no: "取消", addTag: "+ 标记家人", untagged: "还没有标记家人", save: "保存", unnamed: "未命名", noImage: "示例照片（没有图片文件）", loading: "正在读取…"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Photos", photos: "photos", drop: "Upload photos", pick: "Choose photos", picked: "Selected", pickHint: "Pick several at once if you like. Photos are resized before saving.", ptitle: "Title", ptitlePh: "e.g. New Year dinner", album: "Album", tagWho: "Tag family", all: "All", uploading: "Uploading", uploaded: "Upload complete", failed: "Failed: ", empty: "No photos yet. Tap + at the top right to upload the first one!", edit: "Edit", done: "Save", del: "Delete", delQ: "Delete this photo?", no: "Cancel", addTag: "+ Tag someone", untagged: "Nobody tagged yet", unnamed: "Unnamed", noImage: "Demo photo (no image file)", close: "Close", upBtn: "Upload", needFile: "Please choose a photo first.", asAv: "Use as profile photo", asAvFor: "Profile photo for", avDone: "Profile photo set: ", noImg: "This photo has no image file."} : {title: "照片", photos: "张", drop: "上传照片", pick: "选择照片", picked: "已选择", pickHint: "可以一次选多张，照片会自动缩小后保存。", ptitle: "标题", ptitlePh: "例如：春节团圆饭", album: "相册", tagWho: "标记家人", all: "全部", uploading: "正在上传", uploaded: "上传完成", failed: "失败：", empty: "还没有照片。点右上角的 + 上传第一张吧！", edit: "编辑", done: "保存", del: "删除", delQ: "删除这张照片？", no: "取消", addTag: "+ 标记家人", untagged: "还没有标记家人", unnamed: "未命名", noImage: "示例照片（没有图片文件）", close: "关闭", upBtn: "上传", needFile: "请先选择照片。", asAv: "设为头像", asAvFor: "设为谁的头像", avDone: "已设为头像：", noImg: "这张照片没有图片文件。"});
     const AL = [["节日团聚", "Festivals"], ["婚礼喜事", "Weddings"], ["老照片", "Old photos"], ["旅行", "Travel"], ["日常", "Everyday"]];
     const Z = window.ZY;
     const st = this.state || {};
@@ -423,6 +480,7 @@ class Component extends DCLogic {
     const people = Z ? Z.people() : [];
     const nameOf = (id) => { const p = Z && Z.person(id); return (p ? this._zyName(p) : '') || t.unnamed; };
     const bump = () => this.setState({ tick: (this.state.tick || 0) + 1 });
+    const fail = (er) => this.setState({ busy: false, msg: t.failed + (er && er.message ? er.message : er), msgErr: true, upMsg: t.failed + (er && er.message ? er.message : er) });
     if (!this._urls) this._urls = {};
     photos.forEach((ph) => {
       if (ph.path && this._urls[ph.path] === undefined && Z) { this._urls[ph.path] = ''; Z.imageURL(ph.path).then((u) => { this._urls[ph.path] = u; bump(); }); }
@@ -432,57 +490,89 @@ class Component extends DCLogic {
     const optAlbums = albumsUsed.map((a) => ({ v: a, label: albumName(a) }));
     const optPeople = people.map((p) => ({ id: p.id, label: (this._zyName(p) || t.unnamed) + (p.birth ? ' · ' + String(p.birth).slice(0, 4) : '') })).sort((a, b) => a.label.localeCompare(b.label));
     const cur = st.album || '';
-    const chips = [{ v: '', name: t.all, n: photos.length }].concat(albumsUsed.filter((a) => photos.some((p) => p.album === a)).map((a) => ({ v: a, name: albumName(a), n: photos.filter((p) => p.album === a).length })))
+    const withPhotos = albumsUsed.filter((a) => photos.some((p) => p.album === a));
+    const chips = [{ v: '', name: t.all, n: photos.length }].concat(withPhotos.map((a) => ({ v: a, name: albumName(a), n: photos.filter((p) => p.album === a).length })))
       .map((c) => ({ name: c.name, n: c.n, on: cur === c.v ? 'true' : 'false', cls: cur === c.v ? 'u-chip on' : 'u-chip', pick: () => this.setState({ album: c.v }) }));
     const TINT = ['var(--z14)', 'var(--z3)', 'var(--z19)', 'var(--z22)'];
     const INK = ['var(--z1)', 'var(--z17)', 'var(--z20)', 'var(--z23)'];
-    if (!this._edit) this._edit = {};
-    const cards = photos.filter((p) => !cur || p.album === cur).map((ph, i) => {
-      const editing = st.editId === ph.id;
-      const draft = editing ? (this._edit[ph.id] || (this._edit[ph.id] = { title: ph.title || '', album: ph.album || albumsUsed[0], tags: (ph.tags || []).slice() })) : null;
-      const tagIds = editing ? draft.tags : (ph.tags || []);
-      const url = ph.path ? (this._urls[ph.path] || '') : '';
-      const asking = st.askId === ph.id;
-      return {
-        url: url, noUrl: !url, tint: TINT[i % 4], ink: INK[i % 4],
-        title: editing ? draft.title : (ph.title || t.unnamed), album: editing ? draft.album : ph.album,
-        meta: albumName(ph.album) + (ph.date ? ' · ' + ph.date : '') + (!ph.path ? ' · ' + t.noImage : ''),
-        who: tagIds.length ? t.tagged + ' ' + tagIds.map(nameOf).join('、') : t.untagged,
-        view: !editing, editing: editing, asking: asking, idle: !asking,
-        tags: tagIds.map((id) => ({ label: nameOf(id), remove: () => { draft.tags = draft.tags.filter((x) => x !== id); bump(); } })),
-        edit: () => { delete this._edit[ph.id]; this.setState({ editId: ph.id, askId: null }); },
-        setTitle: (e) => { draft.title = e.target.value; },
-        setAlbum: (e) => { draft.album = e.target.value; bump(); },
-        addTag: (e) => { const v = e.target.value; if (v && draft.tags.indexOf(v) < 0) draft.tags.push(v); try { e.target.value = ''; } catch (er) {} bump(); },
-        done: () => { const d = draft; this.setState({ editId: null }); Z.updatePhoto(ph.id, { title: d.title, album: d.album, tags: d.tags }).catch((er) => this.setState({ msg: t.failed + er.message, msgErr: true })); },
-        ask: () => this.setState({ askId: ph.id }), no: () => this.setState({ askId: null }),
-        yes: () => { this.setState({ askId: null }); Z.deletePhoto(ph.id).catch((er) => this.setState({ msg: t.failed + er.message, msgErr: true })); }
-      };
-    });
-    if (!this._up) this._up = { title: '', album: AL[0][0], tags: [] };
+    const urlOf = (ph) => (ph && ph.path ? (this._urls[ph.path] || '') : '');
+    const shown = photos.filter((p) => !cur || p.album === cur);
+    const cards = shown.map((ph, i) => ({
+      url: urlOf(ph), noUrl: !urlOf(ph), tint: TINT[i % 4], ink: INK[i % 4], title: ph.title || t.unnamed,
+      open: () => this.setState({ view: ph.id, editing: false, asking: false, avFor: '', msg: '' })
+    }));
+    // ----- the photo being looked at -----
+    const V = st.view ? photos.filter((x) => x.id === st.view)[0] : null;
+    if (st.editing && V && (!this._e || this._e.id !== V.id)) this._e = { id: V.id, title: V.title || '', album: V.album || albumsUsed[0], tags: (V.tags || []).slice() };
+    const E = this._e || { title: '', album: '', tags: [] };
+    const avDefault = V ? ((V.tags || [])[0] || (Z && Z.meId) || (optPeople[0] && optPeople[0].id) || '') : '';
+    const avFor = st.avFor || avDefault;
+    // ----- new upload -----
+    if (!this._up) this._up = { title: '', album: AL[0][0], tags: [], files: [] };
     const U = this._up;
+    const clearFiles = () => { (U.files || []).forEach((f) => { try { URL.revokeObjectURL(f.u); } catch (e) {} }); U.files = []; };
     return {
-      t: t, cards: cards, chips: chips, empty: cards.length === 0,
-      opts: { albums: optAlbums, people: optPeople, upTags: U.tags.map((id) => ({ label: nameOf(id), remove: () => { U.tags = U.tags.filter((x) => x !== id); bump(); } })) },
-      raw: { upTitle: U.title, upAlbum: U.album }, hasUpTags: U.tags.length > 0,
+      t: t, cards: cards, empty: photos.length === 0, hasChips: withPhotos.length > 1,
+      opts: {
+        chips: chips, albums: optAlbums, people: optPeople,
+        upTags: U.tags.map((id) => ({ label: nameOf(id), remove: () => { U.tags = U.tags.filter((x) => x !== id); bump(); } })),
+        thumbs: (U.files || []).slice(0, 8).map((f) => ({ u: f.u })),
+        vTags: V ? (V.tags || []).map((id) => ({ label: nameOf(id) })) : [],
+        eTags: E.tags.map((id) => ({ label: nameOf(id), remove: () => { E.tags = E.tags.filter((x) => x !== id); bump(); } }))
+      },
+      raw: {
+        count: photos.length ? photos.length + ' ' + t.photos : '', msg: st.msg || '', msgCls: st.msgErr ? 'u-err' : 'u-msg', busy: !!st.busy,
+        vTitle: V ? (V.title || t.unnamed) : '', vUrl: urlOf(V), vNoUrl: !urlOf(V), vView: !st.editing, vEdit: !!st.editing,
+        vMeta: V ? [albumName(V.album), V.date || '', !V.path ? t.noImage : ''].filter(Boolean).join(' · ') : '',
+        vNoTags: !!(V && !(V.tags || []).length), vCanAv: !!(V && V.path), asking: !!st.asking, idle: !st.asking, avFor: avFor,
+        eTitle: E.title, eAlbum: E.album,
+        upTitle: U.title, upAlbum: U.album, hasUpTags: U.tags.length > 0, noFiles: !(U.files || []).length, hasFiles: !!(U.files || []).length, nFiles: (U.files || []).length,
+        upMsg: st.upMsg || '', upMsgCls: st.upErr ? 'u-err' : 'u-msg'
+      },
+      vwOpen: !!V, upOpen: !!st.upOpen,
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      closeView: () => this.setState({ view: null, editing: false, asking: false }),
+      startEdit: () => { this._e = null; this.setState({ editing: true }); },
+      cancelEdit: () => this.setState({ editing: false }),
+      setETitle: (e) => { E.title = e.target.value; },
+      setEAlbum: (e) => { E.album = e.target.value; bump(); },
+      addETag: (e) => { const v = e.target.value; if (v && E.tags.indexOf(v) < 0) E.tags.push(v); try { e.target.value = ''; } catch (er) {} bump(); },
+      saveEdit: () => { const d = this._e; this.setState({ editing: false }); Z.updatePhoto(d.id, { title: d.title, album: d.album, tags: d.tags }).catch(fail); },
+      delAsk: () => this.setState({ asking: true }), delNo: () => this.setState({ asking: false }),
+      delYes: () => { const id = V.id; this.setState({ view: null, asking: false }); Z.deletePhoto(id).catch(fail); },
+      setAvFor: (e) => this.setState({ avFor: e.target.value }),
+      useAsAv: () => {
+        const url = urlOf(V);
+        if (!url || !avFor) { this.setState({ msg: t.noImg, msgErr: true }); return; }
+        this.setState({ busy: true });
+        fetch(url).then((r) => r.blob()).then((b) => Z.setAvatar(avFor, new File([b], 'avatar.jpg', { type: /^image\//.test(b.type) ? b.type : 'image/jpeg' })))
+          .then(() => this.setState({ busy: false, view: null, msg: t.avDone + nameOf(avFor), msgErr: false })).catch(fail);
+      },
+      openUp: () => { this.setState({ upOpen: true, upMsg: '', upErr: false }); },
+      closeUp: () => { clearFiles(); this.setState({ upOpen: false, upMsg: '' }); },
+      pickFiles: (e) => {
+        clearFiles();
+        U.files = Array.prototype.slice.call((e && e.target && e.target.files) || []).map((f) => { let u = ''; try { u = URL.createObjectURL(f); } catch (er) {} return { f: f, u: u }; });
+        try { e.target.value = ''; } catch (er) {}
+        this.setState({ upMsg: '' });
+      },
       setUpTitle: (e) => { U.title = e.target.value; },
       setUpAlbum: (e) => { U.album = e.target.value; bump(); },
       addUpTag: (e) => { const v = e.target.value; if (v && U.tags.indexOf(v) < 0) U.tags.push(v); try { e.target.value = ''; } catch (er) {} bump(); },
-      msg: st.msg || '', msgCls: st.msgErr ? 'u-err' : 'u-msg',
-      upload: (e) => {
-        const files = Array.prototype.slice.call((e && e.target && e.target.files) || []);
-        if (!files.length || !Z) return;
+      doUpload: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const files = (U.files || []).map((x) => x.f);
+        if (!files.length || !Z) { this.setState({ upMsg: t.needFile, upErr: true }); return; }
         const meta = { title: U.title, album: U.album, tags: U.tags.slice() };
         let k = 0;
         const next = () => {
-          if (k >= files.length) { this._up = { title: '', album: U.album, tags: [] }; this.setState({ msg: t.uploaded, msgErr: false }); return; }
+          if (k >= files.length) { clearFiles(); this._up = { title: '', album: U.album, tags: [], files: [] }; this.setState({ busy: false, upOpen: false, msg: t.uploaded, msgErr: false }); return; }
           const f = files[k++];
-          this.setState({ msg: t.uploading + ' ' + k + ' / ' + files.length + '…', msgErr: false });
+          this.setState({ busy: true, upMsg: t.uploading + ' ' + k + ' / ' + files.length + '…', upErr: false });
           const m = Object.assign({}, meta, { title: meta.title ? (files.length > 1 ? meta.title + ' ' + k : meta.title) : f.name.replace(/\.[^.]+$/, '') });
-          Z.addPhoto(f, m).then(next).catch((er) => this.setState({ msg: t.failed + er.message, msgErr: true }));
+          Z.addPhoto(f, m).then(next).catch((er) => this.setState({ busy: false, upMsg: t.failed + er.message, upErr: true }));
         };
         next();
-        try { e.target.value = ''; } catch (er) {}
       }
     };
   }
