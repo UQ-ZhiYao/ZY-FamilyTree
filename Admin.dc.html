@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>管理后台</title>
+<script src="./zy-config.js"></script>
+<script src="./vendor/supabase.js"></script>
 <script src="./zy-store.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -97,9 +99,13 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
 .u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z15)}
+.u-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;letter-spacing:1px;padding:8px 12px;border-radius:10px;background:var(--z3);color:var(--z1);user-select:all}
+.u-keyi{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;font-size:12px;color:var(--z1)}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
 </helmet>
-<div class="{{themeCls}}" style="min-height: 1080px; background: var(--z8); color: var(--z9); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
+<div class="{{themeCls}}" style="min-height: 100vh; background: var(--z8); color: var(--z9); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
 
 <header class="top" style="padding: 16px 24px 0">
 <div style="max-width: 1360px; margin: 0 auto; background: var(--z10); border: 1px solid var(--z11); border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 20px var(--z12)">
@@ -160,7 +166,7 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
 <div class="u-li">
 <span class="u-av">{{r.ch}}</span>
-<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.sub}}</span></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><b class="u-keyi">{{r.key}}</b> {{r.sub}}</span></span>
 <sc-if value="{{r.asking}}" hint-placeholder-val="{{false}}"><span class="u-err" style="font-size: 13px">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{r.yes}}">{{t.yes}}</button><button type="button" class="u-btn2 u-sm" onClick="{{r.no}}">{{t.no}}</button></sc-if>
 <sc-if value="{{r.idle}}" hint-placeholder-val="{{true}}"><a class="u-btn2 u-sm" href="{{r.href}}">{{t.edit}}</a><sc-if value="{{r.canDel}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{r.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></sc-if>
 </div>
@@ -172,17 +178,28 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 <aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
 <section class="u-card">
 <h2 class="u-h2">{{t.accounts}}</h2>
-<sc-if value="{{isGh}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{isCloud}}" hint-placeholder-val="{{false}}">
 <span class="u-muted">{{t.accHint}}</span>
-<span class="u-muted">{{t.repo}}<a href="{{repoUrl}}" target="_blank" rel="noopener" style="color: var(--z1)">{{raw.repo}}</a></span>
-<sc-if value="{{meLine}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.youAre}}<b style="color: var(--u-text)">{{meLine}}</b> · <a href="{{changeHref}}" style="color: var(--z1)">{{t.change}}</a></span></sc-if>
-<form onSubmit="{{inviteSubmit}}" class="u-row"><input class="u-in" style="flex: 1 1 160px; width: auto" type="text" autocomplete="off" value="{{raw.inv}}" onInput="{{setInv}}" placeholder="{{t.invitePh}}"><button type="submit" class="u-btn">{{t.invite}}</button></form>
+<div class="u-row" style="justify-content: space-between"><span class="u-muted">{{t.code}}</span><span class="u-key" style="font-size: 20px; letter-spacing: 3px">{{raw.joinCode}}</span></div>
+<div class="u-row"><button type="button" class="u-btn u-sm" onClick="{{copyLink}}">{{t.copy}}</button><sc-if value="{{isAdmin}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{newCode}}" title="{{t.newCodeHint}}">{{t.newCode}}</button></sc-if></div>
 <span class="{{invCls}}" role="status">{{invMsg}}</span>
+<span class="u-muted">{{t.famKey}} · <b class="u-key" style="padding: 2px 6px; font-size: 13px">{{raw.famKey}}</b></span>
+<sc-if value="{{meLine}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.youAre}}<b style="color: var(--u-text)">{{meLine}}</b> · <a href="{{changeHref}}" style="color: var(--z1)">{{t.change}}</a></span></sc-if>
+<h3 style="margin: 6px 0 0; font-size: 15px">{{t.who}}</h3>
 <div style="display: flex; flex-direction: column">
-<sc-for list="{{rows2}}" as="m" hint-placeholder-count="2"><div class="u-li"><span class="u-av" style="width: 32px; height: 32px; font-size: 12px">{{m.ch}}</span><span style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis">{{m.login}}</span><span class="u-muted">{{m.badge}}</span><sc-if value="{{m.canRemove}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{m.remove}}">{{t.remove}}</button></sc-if></div></sc-for>
+<sc-for list="{{rows2}}" as="m" hint-placeholder-count="2"><div class="u-li"><span class="u-av" style="width: 32px; height: 32px; font-size: 12px">{{m.ch}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{m.email}}</span><span class="u-muted" style="font-size: 12px">{{m.badge}}{{m.person}}</span></span><sc-if value="{{m.canPromote}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{m.promote}}">{{t.makeAdmin}}</button></sc-if><sc-if value="{{m.canRemove}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" onClick="{{m.remove}}">{{t.remove}}</button></sc-if></div></sc-for>
 </div>
+<sc-if value="{{manyFam}}" hint-placeholder-val="{{false}}"><label class="u-label">{{t.switchFam}}<select class="u-in" value="{{raw.famId}}" onChange="{{switchFam}}"><sc-for list="{{opts.fams}}" as="o" hint-placeholder-count="2"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label></sc-if>
 </sc-if>
 <sc-if value="{{isDemo}}" hint-placeholder-val="{{true}}"><span class="u-muted">{{t.demoAcc}}</span></sc-if>
+</section>
+
+<section class="u-card">
+<h2 class="u-h2">{{t.clans}}</h2>
+<span class="u-muted">{{t.clansHint}}</span>
+<div style="display: flex; flex-direction: column">
+<sc-for list="{{rows4}}" as="c" hint-placeholder-count="3"><div class="u-li"><span class="u-av" style="width: 34px; height: 34px">{{c.surname}}</span><span class="u-key" style="flex: 1; padding: 4px 8px; font-size: 13px">{{c.key}}</span><span class="u-muted">{{c.count}} {{t.ppl}}</span></div></sc-for>
+</div>
 </section>
 
 <section class="u-card">
@@ -276,7 +293,7 @@ class Component extends DCLogic {
       L: en ? Component.__zy.LEN : Component.__zy.LZH,
       meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
       zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
-      zyLogout: () => { try { if (window.ZY) window.ZY.signOut(); } catch (e) {} },
+      zyLogout: (e) => { if (e && e.preventDefault) e.preventDefault(); const go = () => this._zyGo(this._zyHref('Login')); try { if (window.ZY) window.ZY.signOut().then(go, go); else go(); } catch (er) { go(); } },
       tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
       toggleTheme: (e) => {
         if (e && e.stopPropagation) e.stopPropagation();
@@ -320,6 +337,7 @@ class Component extends DCLogic {
     if (!Z) return { show: false };
     if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
     if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.needFamily) return { show: true, text: en ? 'You have not joined a family yet.' : '你还没有加入任何家族。', href: this._zyHref('Login'), link: en ? 'Create or join' : '新建或加入' };
     if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
     if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
     return { show: false };
@@ -389,12 +407,12 @@ class Component extends DCLogic {
     if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
     if (Object.getPrototypeOf(v) !== Object.prototype) return v;
     const o = {};
-    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
     if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or GitHub username", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Family accounts", accHint: "Family data lives in a private GitHub repository. Invite relatives as collaborators; once they accept, they can sign in, view and edit.", demoAcc: "The demo family has no accounts. Sign in to your family repository to invite relatives here.", invite: "Invite", invitePh: "Relative's GitHub username", invited: "Invitation sent: ", pending: "Pending", owner: "Admin", remove: "Remove", repo: "Repository: ", open: "Open on GitHub", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人管理", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或 GitHub 用户名", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "家族成员账号", accHint: "家族资料存放在一个私有 GitHub 资料库里。邀请家人成为资料库的协作者，他们接受邀请后就能登入、查看和修改。", demoAcc: "示例家族不需要账号。登入你的家族资料库后，这里可以邀请家人。", invite: "邀请", invitePh: "家人的 GitHub 用户名", invited: "已发出邀请：", pending: "等待接受", owner: "管理员", remove: "移除", repo: "资料库：", open: "在 GitHub 打开", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "Send the invite code or link to relatives. After signing up they enter the code and can view and edit the family.", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人管理", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能查看和修改家族资料。", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
     const Z = window.ZY;
     const st = this.state || {};
     const en = st.lang === 'en';
@@ -413,42 +431,58 @@ class Component extends DCLogic {
     const setA = {};
     ['name', 'sex', 'birth', 'rel', 'of'].forEach((k) => { setA[k] = (e) => { A[k] = e.target.value; bump(); }; });
     const q = String(st.q || '').trim().toLowerCase();
-    const rows = sorted.filter((x) => !q || [x.name, x.nameEn, x.github, x.birth, x.surname].some((v) => String(v || '').toLowerCase().indexOf(q) >= 0)).map((x) => {
+    const rows = sorted.filter((x) => !q || [x.name, x.nameEn, x.key, x.birth, x.surname, x.clanKey].some((v) => String(v || '').toLowerCase().indexOf(q) >= 0)).map((x) => {
       const fa = Z.person(x.father);
       const mo = Z.person(x.mother);
       const sp = Z.person(x.spouse);
-      const sub = [yr(x), fa ? t.father + ' ' + nameOf(fa) : '', mo ? t.mother + ' ' + nameOf(mo) : '', sp ? t.spouse + ' ' + nameOf(sp) : '', x.github ? '@' + x.github : ''].filter(Boolean).join(' · ');
+      const sub = [yr(x), fa ? t.father + ' ' + nameOf(fa) : '', mo ? t.mother + ' ' + nameOf(mo) : '', sp ? t.spouse + ' ' + nameOf(sp) : ''].filter(Boolean).join(' · ');
       const asking = st.ask === x.id;
       return {
-        name: nameOf(x) + (x.id === meId ? ' (' + t.me + ')' : ''), ch: (nameOf(x).trim().charAt(0) || '?').toUpperCase(), sub: sub,
+        name: nameOf(x) + (x.id === meId ? ' (' + t.me + ')' : ''), key: x.key || '', ch: (nameOf(x).trim().charAt(0) || '?').toUpperCase(), sub: sub,
         href: this._zyHref('Profile', 'id=' + encodeURIComponent(x.id)), asking: asking, idle: !asking, canDel: x.id !== meId,
         ask: () => this.setState({ ask: x.id }), no: () => this.setState({ ask: null }),
         yes: () => { this.setState({ ask: null }); Z.deletePerson(x.id).catch((e) => this.setState({ bkMsg: t.failed + e.message, bkErr: true })); }
       };
     });
-    const isGh = !!(Z && Z.mode === 'github');
-    if (isGh && !this._collab && !this._collabLoading) {
-      this._collabLoading = true;
-      Z.collaborators().then((c) => { this._collab = c; this._collabLoading = false; bump(); }).catch(() => { this._collabLoading = false; });
-    }
-    const col = this._collab || { members: [], invites: [] };
-    const myLogin = Z ? Z.login : '';
-    const amAdmin = col.members.some((m) => m.login === myLogin && m.admin);
-    const rows2 = col.members.map((m) => ({ login: m.login, ch: m.login.charAt(0).toUpperCase(), badge: m.admin ? t.owner : '', canRemove: amAdmin && !m.admin, remove: () => Z.removeMember(m.login).then(() => { this._collab = null; bump(); }).catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true })) }))
-      .concat(col.invites.map((i) => ({ login: i.login || '?', ch: '…', badge: t.pending, canRemove: false })));
+    const isCloud = !!(Z && Z.mode === 'cloud');
+    const fam = (Z && Z.data && Z.data.family) || {};
+    const accounts = (Z && Z.data && Z.data.accounts) || [];
+    const myUid = Z && Z.user ? Z.user.id : null;
+    const amAdmin = !!(Z && Z.isAdmin);
+    const personOf = (uid) => all.filter((x) => x.userId === uid)[0];
+    const rows2 = accounts.map((a) => {
+      const pp = personOf(a.userId);
+      return {
+        email: (a.email || '—') + (a.userId === myUid ? t.you : ''), ch: String(a.email || '?').charAt(0).toUpperCase(),
+        badge: a.role === 'admin' ? t.owner : t.member, person: pp ? ' · ' + nameOf(pp) : '',
+        canPromote: amAdmin && a.role !== 'admin', canRemove: amAdmin && a.userId !== myUid,
+        promote: () => Z.setRole(a.userId, 'admin').catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true })),
+        remove: () => Z.removeAccount(a.userId).catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true }))
+      };
+    });
+    const rows4 = Z ? Z.clans() : [];
+    const fams = Z ? Z.families : [];
     const rows3 = ((Z && Z.data && Z.data.log) || []).slice(0, 15).map((g) => ({ what: g.what || '', meta: String(g.at || '').replace('T', ' ').slice(0, 16) + (g.by ? ' · ' + g.by : '') }));
-    const fam = st.fam !== undefined ? st.fam : ((Z && Z.data && Z.data.family && Z.data.family.name) || '');
+    const famName = st.fam !== undefined ? st.fam : (fam.name || '');
     const pick = st.pick || (sorted[0] && sorted[0].id) || '';
     const me = Z && Z.me;
     return {
-      t: t, opts: { all: optsAll }, rows: rows, rows2: rows2, rows3: rows3, noLog: rows3.length === 0, total: all.length,
-      raw: { aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', inv: st.inv || '', fam: fam, pick: pick, repo: Z ? Z.repo || '' : '' },
+      t: t, opts: { all: optsAll, fams: fams.map((f) => ({ id: f.id, label: (f.name || f.key) + ' · ' + f.key })) }, rows: rows, rows2: rows2, rows3: rows3, noLog: rows3.length === 0, total: all.length,
+      raw: { aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', fam: famName, pick: pick, joinCode: fam.joinCode || '—', famKey: fam.key || '—', famId: Z ? Z.familyId : '' },
+      rows4: rows4, isAdmin: amAdmin, manyFam: fams.length > 1,
+      opts2: null,
+      copyLink: () => {
+        const link = Z.joinLink();
+        const done = () => this.setState({ invMsg: t.copied + '：' + link, invErr: false });
+        try { navigator.clipboard.writeText(link).then(done, done); } catch (e) { done(); }
+      },
+      newCode: () => Z.newJoinCode().catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true })),
+      switchFam: (e) => { Z.switchFamily(e.target.value); },
       setA: setA, busy: !!st.busy,
       setQ: (e) => this.setState({ q: e.target.value }),
-      setInv: (e) => this.setState({ inv: e.target.value }),
       setFam: (e) => this.setState({ fam: e.target.value }),
       setPick: (e) => this.setState({ pick: e.target.value }),
-      needMe: !!(Z && Z.loaded && (Z.mode === 'github' ? !meId : this._zyQ('link') === '1')),
+      needMe: !!(Z && Z.loaded && optsAll.length && (Z.mode === 'cloud' ? !meId : this._zyQ('link') === '1')),
       linkMe: () => { if (pick) Z.linkMe(pick).then(() => { this.setState({ addMsg: t.saved }); this._zyGo(this._zyHref('Circle')); }).catch((e) => this.setState({ addMsg: t.failed + e.message, addErr: true })); },
       meLine: me ? nameOf(me) : '', changeHref: this._zyHref('Admin', 'link=1'),
       addMsg: st.addMsg || (Z && !Z.loaded ? t.loading : ''), addCls: st.addErr ? 'u-err' : 'u-msg', addedHref: st.addedHref || '',
@@ -464,15 +498,9 @@ class Component extends DCLogic {
           this.setState({ busy: false, addMsg: t.added + nm, addErr: false, addedHref: this._zyHref('Profile', 'id=' + encodeURIComponent(nid)) });
         }).catch((er) => this.setState({ busy: false, addMsg: t.failed + er.message, addErr: true }));
       },
-      isGh: isGh, isDemo: !isGh, repoUrl: Z && Z.repo ? 'https://github.com/' + Z.repo : '#',
+      isCloud: isCloud, isDemo: !isCloud,
       invMsg: st.invMsg || '', invCls: st.invErr ? 'u-err' : 'u-msg',
-      inviteSubmit: (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-        const who = String(st.inv || '').trim();
-        if (!who) return;
-        Z.invite(who).then(() => { this._collab = null; this.setState({ inv: '', invMsg: t.invited + who, invErr: false }); }).catch((er) => this.setState({ invMsg: t.failed + er.message, invErr: true }));
-      },
-      nameSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); Z.setFamilyName(String(fam).trim()).then(() => this.setState({ fam: undefined, bkMsg: t.saved, bkErr: false })).catch((er) => this.setState({ bkMsg: t.failed + er.message, bkErr: true })); },
+      nameSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); Z.setFamilyName(String(famName).trim()).then(() => this.setState({ fam: undefined, bkMsg: t.saved, bkErr: false })).catch((er) => this.setState({ bkMsg: t.failed + er.message, bkErr: true })); },
       bkMsg: st.bkMsg || '', bkCls: st.bkErr ? 'u-err' : 'u-msg',
       doExport: () => {
         try {
