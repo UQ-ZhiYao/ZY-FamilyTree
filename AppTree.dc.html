@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<title>ZY FamilyTree · 族谱树</title>
+<title>Zenith Yield · 族谱树</title>
+<script src="./zy-config.js"></script>
+<script src="./vendor/supabase.js"></script>
 <script src="./zy-store.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -14,10 +16,10 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="ZY FamilyTree">
-<meta name="application-name" content="ZY FamilyTree">
-<link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+<meta name="apple-mobile-web-app-title" content="Zenith Yield">
+<meta name="application-name" content="Zenith Yield">
+<link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
 <style>
@@ -69,6 +71,8 @@ main h1{font-size:24px !important}
 .zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
 .has-sheet .zy-pill{display:none}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
 </helmet>
 <div class="{{themeCls}}" style="min-height: 100vh; background: var(--z7); color: var(--z8); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
@@ -77,7 +81,7 @@ main h1{font-size:24px !important}
 <div style="max-width: 1360px; margin: 0 auto; background: var(--z9); border: 1px solid var(--z10); border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 20px var(--z11)">
 <a href="AppCircle.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z8)">
 <span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z1); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
-<span style="font-size: 17px; letter-spacing: -.2px; font-weight: 700">ZY FamilyTree</span>
+<span style="font-size: 17px; letter-spacing: -.2px; font-weight: 700">Zenith Yield</span>
 </a>
 <nav aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
 <a href="AppCircle.dc.html" class="tab" aria-current="page" style="padding: 10px 16px; border-radius: 10px; background: var(--z12); color: var(--z1); font-weight: 600; text-decoration: none">{{L.k6}}</a>
@@ -202,7 +206,7 @@ class Component extends DCLogic {
       L: en ? Component.__zy.LEN : Component.__zy.LZH,
       meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
       zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
-      zyLogout: () => { try { if (window.ZY) window.ZY.signOut(); } catch (e) {} },
+      zyLogout: (e) => { if (e && e.preventDefault) e.preventDefault(); const go = () => this._zyGo(this._zyHref('Login')); try { if (window.ZY) window.ZY.signOut().then(go, go); else go(); } catch (er) { go(); } },
       tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
       toggleTheme: (e) => {
         if (e && e.stopPropagation) e.stopPropagation();
@@ -246,6 +250,7 @@ class Component extends DCLogic {
     if (!Z) return { show: false };
     if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
     if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.needFamily) return { show: true, text: en ? 'You have not joined a family yet.' : '你还没有加入任何家族。', href: this._zyHref('Login'), link: en ? 'Create or join' : '新建或加入' };
     if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
     if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
     return { show: false };
@@ -315,7 +320,7 @@ class Component extends DCLogic {
     if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
     if (Object.getPrototypeOf(v) !== Object.prototype) return v;
     const o = {};
-    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
     if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
     return o;
   }

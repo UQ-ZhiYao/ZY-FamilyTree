@@ -1,5 +1,5 @@
 /*
- * ZY FamilyTree page runtime.
+ * Zenith Yield page runtime.
  * Runs the *.dc.html pages on any static host (GitHub Pages) with no build step and no dependencies.
  * A page is: <x-dc> template (with <helmet> for <head> content) + <script type="text/x-dc"> class Component.
  * Template features: {{a.b}} holes, <sc-for list as>, <sc-if value>, onX="{{fn}}" events, ref="{{fn}}".

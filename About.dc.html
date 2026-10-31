@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>枝叶 · 关于</title>
+<script src="./zy-config.js"></script>
+<script src="./vendor/supabase.js"></script>
 <script src="./zy-store.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -55,9 +57,11 @@ a{color:var(--z1)}a:hover{color:var(--z2)}
 section[id]{scroll-margin-top:96px}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
 </helmet>
-<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 1500px; background: var(--zy-sky); color: var(--z12); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif">
+<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 100vh; background: var(--zy-sky); color: var(--z12); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif">
 <div aria-hidden="true" class="aurora-l" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
 <span style="position: absolute; left: -10%; top: -15%; width: 60vmax; height: 60vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,140,.55) 0%, rgba(255,190,140,0) 65%); animation: blobA 22s ease-in-out infinite"></span>
 <span style="position: absolute; right: -15%; top: 5%; width: 65vmax; height: 65vmax; border-radius: 50%; background: radial-gradient(circle, rgba(170,140,255,.45) 0%, rgba(170,140,255,0) 65%); animation: blobB 28s ease-in-out infinite"></span>
@@ -288,7 +292,7 @@ class Component extends DCLogic {
     if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
     if (Object.getPrototypeOf(v) !== Object.prototype) return v;
     const o = {};
-    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
     if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
     return o;
   }
