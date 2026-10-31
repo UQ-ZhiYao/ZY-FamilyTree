@@ -9,7 +9,8 @@
 --   clans         one row per surname line in a family.   clan_key   e.g. ZYC-R8TW2D (unique)
 --   members       every person in the tree.               member_key e.g. ZYM-4HXN8Q2P (unique)
 --   photos        photo metadata; the files are in Storage bucket "family-media"
---   activity      change log shown on the Family members page
+--   activity      change log
+--   messages      family chat: the family group room and one-to-one rooms between accounts
 -- Every table is protected by Row Level Security: you only ever see families you belong to.
 -- =====================================================================
 
@@ -113,6 +114,19 @@ create table if not exists public.activity (
   what        text not null default ''
 );
 create index if not exists activity_family on public.activity (family_id, at desc);
+
+-- Chat. room = 'family' (everyone in the family) or 'dm:<user id>:<user id>' (two accounts, ids sorted).
+create table if not exists public.messages (
+  id          uuid primary key default gen_random_uuid(),
+  family_id   uuid not null references public.families (id) on delete cascade,
+  room        text not null default 'family' check (room = 'family' or room like 'dm:%'),
+  sender      uuid default auth.uid() references auth.users (id) on delete set null,
+  sender_name text not null default '',
+  body        text not null default '' check (char_length(body) <= 4000),
+  photo_path  text not null default '',
+  created_at  timestamptz not null default now()
+);
+create index if not exists messages_room on public.messages (family_id, room, created_at desc);
 
 -- ---------------------------------------------------------------- helpers
 create or replace function public.zy_is_member(fid uuid)
@@ -249,6 +263,7 @@ alter table public.clans enable row level security;
 alter table public.members enable row level security;
 alter table public.photos enable row level security;
 alter table public.activity enable row level security;
+alter table public.messages enable row level security;
 
 drop policy if exists families_read on public.families;
 create policy families_read on public.families for select to authenticated using (public.zy_is_member(id));
@@ -275,6 +290,15 @@ drop policy if exists activity_read on public.activity;
 create policy activity_read on public.activity for select to authenticated using (public.zy_is_member(family_id));
 drop policy if exists activity_add on public.activity;
 create policy activity_add on public.activity for insert to authenticated with check (public.zy_is_member(family_id));
+-- Family room: every member. One-to-one room: only the two accounts named in it.
+drop policy if exists messages_read on public.messages;
+create policy messages_read on public.messages for select to authenticated
+  using (public.zy_is_member(family_id) and (room = 'family' or position(auth.uid()::text in room) > 0));
+drop policy if exists messages_add on public.messages;
+create policy messages_add on public.messages for insert to authenticated
+  with check (public.zy_is_member(family_id) and sender = auth.uid() and (room = 'family' or position(auth.uid()::text in room) > 0));
+drop policy if exists messages_remove on public.messages;
+create policy messages_remove on public.messages for delete to authenticated using (sender = auth.uid());
 
 -- Keys and join codes cannot be edited directly (join codes change only through zy_new_join_code).
 grant usage on schema public to anon, authenticated;
@@ -286,13 +310,14 @@ grant select, insert, update, delete on public.members to authenticated;
 grant select, insert, delete on public.photos to authenticated;
 grant update (path, title, album, taken_on, tags) on public.photos to authenticated;
 grant select, insert on public.activity to authenticated;
+grant select, insert, delete on public.messages to authenticated;
 grant execute on function public.zy_create_family(text, jsonb), public.zy_join_family(text), public.zy_link_me(uuid), public.zy_new_join_code(uuid), public.zy_set_role(uuid, uuid, text) to authenticated;
 
 -- ---------------------------------------------------------------- photo storage
 insert into storage.buckets (id, name, public) values ('family-media', 'family-media', false)
   on conflict (id) do nothing;
 
--- Files live under <family id>/photos/… and <family id>/avatars/…; only that family can read or write them.
+-- Files live under <family id>/photos/…, <family id>/avatars/… and <family id>/chat/…; only that family can read or write them.
 drop policy if exists zy_media_read on storage.objects;
 create policy zy_media_read on storage.objects for select to authenticated
   using (bucket_id = 'family-media' and public.zy_is_member(((storage.foldername(name))[1])::uuid));
@@ -314,5 +339,6 @@ begin
     begin alter publication supabase_realtime add table public.members; exception when duplicate_object then null; end;
     begin alter publication supabase_realtime add table public.photos; exception when duplicate_object then null; end;
     begin alter publication supabase_realtime add table public.families; exception when duplicate_object then null; end;
+    begin alter publication supabase_realtime add table public.messages; exception when duplicate_object then null; end;
   end if;
 end $$;
