@@ -486,7 +486,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <span style="min-width: 48px; text-align: center; font-size: 13px; color: var(--z27)">{{pct}}</span>
 <button type="button" class="pill" onClick="{{zoomIn}}" aria-label="{{L.k16}}" style="height: 36px; min-width: 36px; padding: 0 10px; border: 1px solid var(--z42); border-radius: 9px; background: transparent; color: var(--z26); font: inherit; font-size: 15px; cursor: pointer">+</button>
 <button type="button" class="pill" onClick="{{resetView}}" style="height: 36px; min-width: 36px; padding: 0 10px; border: 1px solid var(--z42); border-radius: 9px; background: transparent; color: var(--z26); font: inherit; font-size: 15px; cursor: pointer; font-size: 13px">{{L.k42}}</button>
-<button type="button" class="pill" onClick="{{toggleSpin}}" aria-pressed="{{spinOn}}" style="height: 36px; min-width: 36px; padding: 0 12px; border: 1px solid {{spinBd}}; border-radius: 9px; background: {{spinBg}}; color: {{spinFg}}; font: inherit; font-size: 13px; cursor: pointer">{{spinText}}</button>
+
 </div>
 <div class="glass fgrp" role="group" aria-label="{{L.k13}}" style="display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 12px">
 <sc-for list="{{filters}}" as="f" hint-placeholder-count="3">
@@ -943,7 +943,7 @@ class Component extends DCLogic {
       }
       const st = this.state;
       const open = !!(st.sel && st.sel !== (st.center || 'me'));
-      const run = !reduce && st.spin !== false;
+      const run = !reduce;
       const rotOn = run && !open && !this._hovNode;
       const orbOn = run && !this._hovBg;
       const fresh = !this._lists || this._listsGen !== this._gen || !this._lists.probe || !this._lists.probe.isConnected;
@@ -1749,10 +1749,10 @@ class Component extends DCLogic {
     for (let i = 0; i < 150; i++) {
       stars.push({ x: (rnd() * 99).toFixed(2), y: (rnd() * 99).toFixed(2), r: rnd() < 0.2 ? 3 : (rnd() < 0.5 ? 2 : 1), d: (rnd() * 4).toFixed(2), t: (3 + rnd() * 4).toFixed(2), k: i % 3 === 0 ? 'star' : 'star st0' });
     }
-    const FL = [['all', '全部'], ['父系', '父系'], ['母系', '母系']];
+    const FL = [['父系', '父系'], ['母系', '母系']];
     const filters = FL.map((x) => {
       const on = f === x[0];
-      return { name: x[1], on: on ? 'true' : 'false', bg: on ? 'var(--z38)' : 'transparent', fg: on ? 'var(--z24)' : 'var(--z27)', bd: on ? 'var(--z38)' : 'var(--z42)', pick: () => this.setState({ filter: x[0] }) };
+      return { name: x[1], on: on ? 'true' : 'false', bg: on ? 'var(--z38)' : 'transparent', fg: on ? 'var(--z24)' : 'var(--z27)', bd: on ? 'var(--z38)' : 'var(--z42)', pick: () => this.setState({ filter: on ? 'all' : x[0] }) };
     });
     const MD = [['up', '本辈与长辈'], ['down', '本辈与晚辈']];
     const modes = MD.map((x) => {
