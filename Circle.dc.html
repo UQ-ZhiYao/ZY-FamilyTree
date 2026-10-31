@@ -174,6 +174,7 @@ main h1{font-size:24px !important}
 .zy-d{--pfg:#EAF2FF;--pbtn:#0B1532}
 .zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
 .has-sheet .zy-pill{display:none}
+@media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -653,6 +654,18 @@ class Component extends DCLogic {
       if (fa && mo && !hasPar(fa) && hasPar(mo)) par = mo;
       BASE[EID[rid]].parent = par ? EID[par] : null;
     });
+    // A person can never be their own ancestor: cut any parent link that closes a loop.
+    Object.keys(BASE).forEach((id) => {
+      const seen = {};
+      let x = id;
+      seen[x] = 1;
+      while (BASE[x] && BASE[x].parent) {
+        const pr = BASE[x].parent;
+        if (!BASE[pr] || seen[pr]) { BASE[x].parent = null; break; }
+        seen[pr] = 1;
+        x = pr;
+      }
+    });
     // Couples: the chart expects the partner who married in to point at the blood relative.
     Object.keys(people).forEach((rid) => {
       const p = people[rid];
@@ -936,7 +949,7 @@ class Component extends DCLogic {
     const ME = BASE[this.state.center] ? this.state.center : 'me';
     const FEM = '母奶婆姐妹姑婶嫂妈妻女姨';
     const keyChar = (t) => (t.length >= 2 && '亲子儿'.indexOf(t.slice(-1)) >= 0) ? t.slice(-2, -1) : t.slice(-1);
-    const sexOf = (id) => (BASE[id] && BASE[id].sex) ? BASE[id].sex : (FEM.indexOf(keyChar(BASE[id].title)) >= 0 ? 'f' : 'm');
+    const sexOf = (id) => (BASE[id] && BASE[id].sex) ? BASE[id].sex : (BASE[id] && FEM.indexOf(keyChar(BASE[id].title || '')) >= 0 ? 'f' : 'm');
     const older = (a, b) => (BY[a] || 0) < (BY[b] || 0);
     const REV = {};
     Object.keys(BASE).forEach((id) => { if (BASE[id].spouse) REV[BASE[id].spouse] = id; });
@@ -1176,10 +1189,21 @@ class Component extends DCLogic {
       DB[id].parent = good.length ? good[0] : (cands[0] || null);
       if (DB[id].spouse && !DB[DB[id].spouse]) DB[id].spouse = null;
     });
+    Object.keys(DB).forEach((id) => {
+      const seen = {};
+      let x = id;
+      seen[x] = 1;
+      while (DB[x] && DB[x].parent) {
+        const pr = DB[x].parent;
+        if (!DB[pr] || seen[pr]) { DB[x].parent = null; break; }
+        seen[pr] = 1;
+        x = pr;
+      }
+    });
     const famIds = {};
     if (spouseOf(ME)) famIds[spouseOf(ME)] = 1;
     (kidsBase[ME] || []).concat(spouseOf(ME) ? (kidsBase[spouseOf(ME)] || []) : []).forEach((k) => { famIds[k] = 1; });
-    const topDB = (id) => { let x = id; while (DB[x].parent) x = DB[x].parent; return x; };
+    const topDB = (id) => { let x = id; const seen = {}; while (DB[x] && DB[x].parent && DB[DB[x].parent] && !seen[x]) { seen[x] = 1; x = DB[x].parent; } return x; };
     const myPars = DB[ME].parent ? [DB[ME].parent, spouseOf(DB[ME].parent)].filter((x) => x && DB[x]) : [];
     const myFa = myPars.filter((x) => sexOf(x) === 'm')[0];
     const myMo = myPars.filter((x) => sexOf(x) === 'f')[0];
@@ -1264,7 +1288,8 @@ class Component extends DCLogic {
         return side === 'p' ? rest.concat(di) : di.concat(rest);
       };
       const wt = {};
-      const weigh = (id, side) => { let s = 0; kidsOf(id, side).forEach((k) => { s += weigh(k, side); }); wt[id] = Math.max(wSelf(id), s); return wt[id]; };
+      const wSeen = {};
+      const weigh = (id, side) => { if (wSeen[id]) return wt[id] || 0; wSeen[id] = 1; let s = 0; kidsOf(id, side).forEach((k) => { s += weigh(k, side); }); wt[id] = Math.max(wSelf(id), s); return wt[id]; };
       const Wp = weigh(pRoot, 'p');
       const Wm = mRoot ? weigh(mRoot, 'm') : 0;
       const u = TAU / Math.max(1, Wp + Wm);
