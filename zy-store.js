@@ -94,6 +94,7 @@
     d.photos = d.photos || [];
     d.log = d.log || [];
     d.accounts = d.accounts || [];
+    d.messages = d.messages || [];
     var bySur = {};
     Object.keys(d.clans).forEach(function (k) { bySur[d.clans[k].surname] = d.clans[k]; });
     Object.keys(d.people).forEach(function (id) {
@@ -117,7 +118,7 @@
     Object.keys(d.people || {}).forEach(function (id) {
       var p = d.people[id];
       if (!p.key) p.key = code('ZYM-', 8);
-      var s = String(p.surname || '').trim();
+      var s = String(p.surname || '').trim().toUpperCase();
       p.surname = s;
       if (s && !bySur[s]) { var cid = 'c_' + code('', 8).toLowerCase(); d.clans[cid] = { id: cid, key: code('ZYC-', 6), surname: s }; bySur[s] = cid; }
       p.clanId = s ? bySur[s] : null;
@@ -136,6 +137,7 @@
     try { var raw = ls(K.demo); d = raw ? JSON.parse(raw) : null; } catch (e) { d = null; }
     if (!d || !d.people) d = clone(SEED);
     d = demoFix(d);
+    demoChatSeed(d);
     demoWrite(d);
     return d;
   }
@@ -170,6 +172,7 @@
     return sb;
   }
   function q(p) { return p.then(function (r) { if (r.error) throw r.error; return r.data; }); }
+  function fromMsg(m) { return { id: m.id, room: m.room || 'family', sender: m.sender, name: m.sender_name || '', body: m.body || '', photo: m.photo_path || '', at: m.created_at }; }
   function fromRow(r) {
     var p = { id: r.id, key: r.member_key, clanId: r.clan_id, userId: r.user_id, avatar: r.avatar_path || '', updatedAt: r.updated_at };
     Object.keys(COLS).forEach(function (k) { var v = r[COLS[k]]; p[k] = v === null || v === undefined ? (k === 'father' || k === 'mother' || k === 'spouse' ? null : '') : v; });
@@ -181,6 +184,7 @@
       if (f[k] === undefined) return;
       var v = f[k];
       if (k === 'father' || k === 'mother' || k === 'spouse') v = v ? v : null;
+      else if (k === 'surname') v = String(v || '').trim().toUpperCase();
       else v = v === null ? '' : String(v);
       r[COLS[k]] = v;
     });
@@ -207,7 +211,8 @@
           q(c.from('clans').select('id, clan_key, surname').eq('family_id', fid)),
           q(c.from('photos').select('*').eq('family_id', fid).order('created_at', { ascending: false })),
           q(c.from('activity').select('at, by_name, what').eq('family_id', fid).order('at', { ascending: false }).limit(40)),
-          q(c.from('family_users').select('user_id, role, email, joined_at').eq('family_id', fid))
+          q(c.from('family_users').select('user_id, role, email, joined_at').eq('family_id', fid)),
+          q(c.from('messages').select('*').eq('family_id', fid).order('created_at', { ascending: false }).limit(400)).catch(function () { return []; })
         ]).then(function (r) {
           var d = { family: { id: r[0].id, key: r[0].family_key, name: r[0].name, joinCode: r[0].join_code }, people: {}, clans: {}, photos: [], log: [], accounts: [] };
           r[1].forEach(function (row) { d.people[row.id] = fromRow(row); });
@@ -215,6 +220,7 @@
           d.photos = r[3].map(function (ph) { return { id: ph.id, key: ph.photo_key, path: ph.path, title: ph.title, album: ph.album, date: ph.taken_on, tags: ph.tags || [], at: ph.created_at }; });
           d.log = r[4].map(function (g) { return { at: g.at, by: g.by_name, what: g.what }; });
           d.accounts = r[5].map(function (a) { return { userId: a.user_id, role: a.role, email: a.email, joined: a.joined_at }; });
+          d.messages = (r[6] || []).map(fromMsg).reverse();
           listen(fid);
           return d;
         });
@@ -226,6 +232,13 @@
     try {
       if (channel) sb.removeChannel(channel);
       channel = sb.channel('zy-family-' + fid);
+      channel.on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: 'family_id=eq.' + fid }, function (ev) {
+        var d = state.data; if (!d) return;
+        d.messages = d.messages || [];
+        if (ev.eventType === 'INSERT' && ev.new && !d.messages.some(function (m) { return m.id === ev.new.id; })) d.messages.push(fromMsg(ev.new));
+        if (ev.eventType === 'DELETE' && ev.old) d.messages = d.messages.filter(function (m) { return m.id !== ev.old.id; });
+        emit();
+      });
       ['members', 'photos', 'families'].forEach(function (t) {
         channel.on('postgres_changes', { event: '*', schema: 'public', table: t, filter: (t === 'families' ? 'id' : 'family_id') + '=eq.' + fid }, function () {
           clearTimeout(reloadTimer);
@@ -379,6 +392,8 @@
         });
       });
     }
+    // surnames are always written in capitals (NG, SIAH); Chinese surnames are unchanged
+    ids.forEach(function (k) { var sn = P[k] && P[k].surname; if (sn && sn !== String(sn).toUpperCase()) put(k, 'surname', String(sn).toUpperCase()); });
     // 3. stand-ins nobody points at any more
     var del = ids.filter(function (k) {
       if (!isPh(P[k])) return false;
@@ -412,6 +427,22 @@
     return healing;
   }
 
+
+  // ---------------------------------------------------------------- chat
+  var DEMO_UID = 'demo-me';
+  function myUid() { return mode() === 'cloud' ? (state.user && state.user.id) : DEMO_UID; }
+  function readKey(room) { return 'zy-read:' + (state.familyId || 'demo') + ':' + room; }
+  function demoChatSeed(d) {
+    if (d.messages && d.messages.length) return;
+    var t = Date.now();
+    var at = function (min) { return new Date(t - min * 60000).toISOString(); };
+    d.messages = [
+      { id: 'm1', room: 'family', sender: 'demo-dad', name: '父亲', body: '周末回家吃饭吗？妈妈说要煮你最爱的咖喱鸡。', photo: '', at: at(300) },
+      { id: 'm2', room: 'family', sender: 'demo-sis', name: '姐姐', body: '我会带孩子回来 😊', photo: '', at: at(280) },
+      { id: 'm3', room: 'family', sender: 'demo-mom', name: '母亲', body: '好，六点开饭，别迟到哦。', photo: '', at: at(250) }
+    ];
+  }
+
   var ZY = {
     version: '2.0.0',
     get cloud() { return cloudConfigured(); },
@@ -441,7 +472,7 @@
     clans: function () {
       if (!state.data) return [];
       var ppl = ZY.people();
-      return Object.keys(state.data.clans).map(function (k) { var c = state.data.clans[k]; return { id: c.id, key: c.key, surname: c.surname, count: ppl.filter(function (p) { return p.clanId === c.id; }).length }; })
+      return Object.keys(state.data.clans).map(function (k) { var c = state.data.clans[k]; return { id: c.id, key: c.key, surname: String(c.surname || '').toUpperCase(), count: ppl.filter(function (p) { return p.clanId === c.id; }).length }; })
         .filter(function (c) { return c.count > 0; }).sort(function (a, b) { return b.count - a.count; });
     },
     childrenOf: function (id) { return ZY.people().filter(function (p) { return p.father === id || p.mother === id; }); },
@@ -494,7 +525,7 @@
     createFamily: function (o) {
       var nm = String(o.name || '').trim();
       var cjk = /[\u3400-\u9fff]/.test(nm);
-      return q(client().rpc('zy_create_family', { p_name: o.familyName || '', p_me: { name: cjk ? nm : '', nameEn: cjk ? (o.nameEn || '') : nm, surname: o.surname || '', sex: o.sex === 'f' ? 'f' : 'm' } })).then(function (fid) {
+      return q(client().rpc('zy_create_family', { p_name: o.familyName || '', p_me: { name: cjk ? nm : '', nameEn: cjk ? (o.nameEn || '') : nm, surname: String(o.surname || '').trim().toUpperCase(), sex: o.sex === 'f' ? 'f' : 'm' } })).then(function (fid) {
         ls(K.family, fid); ls(K.mode, 'cloud'); state.loaded = false; return load(true).then(function () { return fid; });
       });
     },
@@ -575,6 +606,68 @@
       }, null, (isNew ? 'Add ' : 'Update ') + nm).then(function (id) { return heal().then(function () { return id; }); });
     },
     heal: heal,
+
+    // ----- chat -----
+    get myUid() { return myUid(); },
+    dmRoom: function (uid) { return 'dm:' + [myUid(), uid].sort().join(':'); },
+    rooms: function () {
+      var d = state.data || {};
+      var msgs = d.messages || [];
+      var me = myUid();
+      var last = function (room) { var l = msgs.filter(function (m) { return m.room === room; }); return l[l.length - 1] || null; };
+      var out = [{ id: 'family', kind: 'family', name: (d.family && d.family.name) || '', last: last('family'), unread: ZY.unread('family') }];
+      (d.accounts || []).forEach(function (a) {
+        if (!a.userId || a.userId === me) return;
+        var room = ZY.dmRoom(a.userId);
+        var person = ZY.people().filter(function (p) { return p.userId === a.userId; })[0] || null;
+        out.push({ id: room, kind: 'dm', userId: a.userId, email: a.email || '', person: person, last: last(room), unread: ZY.unread(room) });
+      });
+      return out;
+    },
+    messages: function (room) { return ((state.data && state.data.messages) || []).filter(function (m) { return m.room === room; }); },
+    unread: function (room) {
+      var seen = Date.parse(ls(readKey(room)) || '') || 0;
+      var me = myUid();
+      return ZY.messages(room).filter(function (m) { return m.sender !== me && (Date.parse(m.at) || 0) > seen; }).length;
+    },
+    markRead: function (room) {
+      var l = ZY.messages(room);
+      var t = Math.max.apply(null, [Date.now()].concat(l.map(function (m) { return Date.parse(m.at) || 0; })));
+      if ((Date.parse(ls(readKey(room)) || '') || 0) < t) { ls(readKey(room), new Date(t).toISOString()); emit(); }
+    },
+    sendMessage: function (room, body, file) {
+      body = String(body || '').trim().slice(0, 4000);
+      if (!body && !file) return Promise.resolve(null);
+      var id = mode() === 'cloud' ? uuid() : 'm_' + code('', 10).toLowerCase();
+      var msg = { id: id, room: room, sender: myUid(), name: myName(), body: body, photo: '', at: now(), pending: true };
+      var d = state.data;
+      d.messages = d.messages || [];
+      d.messages.push(msg);
+      emit();
+      var pic = file ? resize(file, 1600, 0.82).then(function (blob) { return upload(ZY.familyId + '/chat/' + id + '.jpg', blob); }) : Promise.resolve('');
+      return pic.then(function (path) {
+        msg.photo = path || '';
+        if (mode() === 'cloud') {
+          return q(sb.from('messages').insert({ id: id, family_id: state.familyId, room: room, sender: myUid(), sender_name: msg.name, body: body, photo_path: msg.photo }));
+        }
+        var dd = demoRead(); dd.messages = dd.messages || []; demoChatSeed(dd);
+        dd.messages.push({ id: id, room: room, sender: msg.sender, name: msg.name, body: body, photo: msg.photo, at: msg.at });
+        if (dd.messages.length > 500) dd.messages = dd.messages.slice(-500);
+        demoWrite(dd);
+        notifyTabs();
+      }).then(function () { delete msg.pending; ZY.markRead(room); emit(); return id; }, function (e) {
+        msg.failed = true; delete msg.pending; state.error = errMsg(e); emit(); throw e;
+      });
+    },
+    deleteMessage: function (id) {
+      var d = state.data;
+      var m = ((d && d.messages) || []).filter(function (x) { return x.id === id; })[0];
+      if (!m || m.sender !== myUid()) return Promise.resolve();
+      d.messages = d.messages.filter(function (x) { return x.id !== id; });
+      emit();
+      var p = mode() === 'cloud' ? q(sb.from('messages').delete().eq('id', id)) : Promise.resolve().then(function () { var dd = demoRead(); dd.messages = (dd.messages || []).filter(function (x) { return x.id !== id; }); demoWrite(dd); notifyTabs(); });
+      return p.then(function () { if (m.photo) removeFile(m.photo); });
+    },
     _planHeal: planHeal,
     deletePerson: function (id) {
       var p = ZY.person(id);

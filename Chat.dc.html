@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Zenith Yield · 聊天</title>
+<script src="./zy-config.js"></script>
+<script src="./vendor/supabase.js"></script>
+<script src="./zy-store.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0B1532">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Zenith Yield">
+<meta name="application-name" content="Zenith Yield">
+<link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--z1:#496FED;--z2:#92A6EC;--z3:#06102C;--z4:rgba(73,111,237,0.15);--z5:rgba(20,23,31,0.08);--z6:rgba(73,111,237,0.16);--z7:#081024;--z8:#0B1322;--z9:#E0E3EB;--z10:#0B0D14;--z11:#1F2531;--z12:rgba(20,23,31,0.07);--z13:#BDC1CC;--z14:#051136;--z15:#242A36;--z16:#C8D0F6;--z17:#A6B2CF;--z18:#0F131E;--z19:#130538;--z20:#7C5DD7;--z21:#AFB9D4;--z22:#0B2F3C;--z23:#8FD5EE}
+.zy-l{--z1:#2F5BEA;--z2:#1E3FAF;--z3:#F1F4FD;--z4:rgba(47,91,234,.15);--z5:rgba(20,23,31,.06);--z6:rgba(47,91,234,.16);--z7:#F6F8FD;--z8:#F6F8FC;--z9:#14171F;--z10:#FFFFFF;--z11:#E6E9EF;--z12:rgba(20,23,31,0.05);--z13:#4A5060;--z14:#E9EEFD;--z15:#DADEE6;--z16:#0E1A52;--z17:#6A7080;--z18:#F7F8FB;--z19:#EEE8FD;--z20:#6A47D1;--z21:#545A6A;--z22:#E3F4FA;--z23:#1C8DB5}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.top{animation:slideDown .5s ease backwards}
+main > *{animation:fadeUp .6s ease backwards}
+main > *:nth-child(1){animation-delay:.08s}
+main > *:nth-child(2){animation-delay:.16s}
+main > *:nth-child(3){animation-delay:.24s}
+main > *:nth-child(4){animation-delay:.32s}
+main > *:nth-child(5){animation-delay:.4s}
+.tab{transition:background .2s ease,color .2s ease}
+.tab:hover{background:var(--z3)}
+button{transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+button:hover{transform:translateY(-1px)}
+input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--z1) !important;box-shadow:0 0 0 4px var(--z4)}
+section,aside{transition:box-shadow .25s ease}
+section:hover,aside:hover{box-shadow:0 10px 28px var(--z5)}
+figure{animation:rise .55s cubic-bezier(.2,.8,.3,1.1) backwards;transition:transform .25s ease,box-shadow .25s ease}
+figure:hover{transform:translateY(-5px);box-shadow:0 14px 30px var(--z6)}
+figure:nth-child(2){animation-delay:.05s}figure:nth-child(3){animation-delay:.1s}figure:nth-child(4){animation-delay:.15s}
+figure:nth-child(5){animation-delay:.2s}figure:nth-child(6){animation-delay:.25s}figure:nth-child(7){animation-delay:.3s}figure:nth-child(8){animation-delay:.35s}
+tbody tr{transition:background .2s ease}
+tbody tr:hover{background:var(--z7)}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+
+.zy-d{--tbg:rgba(10,18,44,.84);--tbd:rgba(157,203,255,.18);--tfg:#A3B5DA;--ton:#FFFFFF;--tpill:rgba(157,203,255,.16)}
+.zy-l{--tbg:rgba(255,255,255,.9);--tbd:rgba(46,71,158,.14);--tfg:#5A6380;--ton:#1748E6;--tpill:rgba(23,72,230,.1)}
+.tabbar{display:none}
+.tbi{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:52px;border-radius:14px;font-size:11px;font-weight:500;text-decoration:none;color:var(--tfg);-webkit-tap-highlight-color:transparent}
+.tbi.on{color:var(--ton);font-weight:600;background:var(--tpill)}
+@media (max-width:640px){
+header nav{display:none !important}
+header .uname{display:none !important}
+header{padding:10px 12px 0 !important}
+.tabbar{display:flex;position:fixed;z-index:60;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));padding:5px;gap:4px;border-radius:20px;background:var(--tbg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.22)}
+main{padding:20px 16px calc(110px + env(safe-area-inset-bottom)) !important}
+main h1{font-size:24px !important}
+}
+
+.zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
+.zp.on{opacity:1;font-weight:600}
+.zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
+.tabbar{transition:transform .28s ease,opacity .28s ease}
+html.zy-hidebar .tabbar{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
+.tbi{position:relative}
+.tbdot{position:absolute;top:2px;left:calc(50% + 6px);min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:#E5484D;color:#FFFFFF;font-size:10px;font-style:normal;font-weight:700;line-height:16px;text-align:center}
+
+.zy-pill{position:fixed;z-index:58;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 10px 9px 16px;border-radius:999px;font-size:13px;line-height:1.4;background:var(--tbg);color:var(--pfg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.zy-pill a{flex:none;padding:6px 12px;border-radius:999px;background:var(--ton);color:var(--pbtn) !important;text-decoration:none;font-weight:600}
+.zy-pill.err{border-color:#E5534B}
+.zy-d{--pfg:#EAF2FF;--pbtn:#0B1532}
+.zy-l{--pfg:#14171F;--pbtn:#FFFFFF}
+.has-sheet .zy-pill{display:none}
+@media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
+@media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+@media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
+
+.u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
+.u-h2{margin:0;font-size:19px;font-weight:700}
+.u-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.u-label{display:flex;flex-direction:column;gap:7px;font-size:14px;font-weight:500;min-width:0}
+.u-in{height:46px;width:100%;box-sizing:border-box;padding:0 12px;border:1px solid var(--u-in);border-radius:10px;font:inherit;font-size:15px;font-weight:400;color:var(--u-text);background:var(--u-card)}
+textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
+.u-in:focus{outline:none;border-color:var(--z1);box-shadow:0 0 0 3px var(--z4)}
+.u-btn,.u-btn2,.u-dng{height:44px;padding:0 18px;border-radius:10px;font:inherit;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap;box-sizing:border-box}
+.u-btn{border:none;background:var(--z1);color:#FFFFFF;font-weight:600}
+.u-btn2{border:1px solid var(--u-in);background:transparent;color:var(--u-text);font-weight:500}
+.u-dng{border:none;background:#D1453B;color:#FFFFFF;font-weight:600}
+.u-btn:disabled,.u-btn2:disabled,.u-dng:disabled{opacity:.5;cursor:default}
+.u-sm{height:36px;padding:0 12px;font-size:13px}
+.u-muted{color:var(--u-muted);font-size:13px;line-height:1.5}
+.u-msg{font-size:14px;color:var(--z1)}
+.u-err{font-size:14px;color:#D1453B}
+.u-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.u-av{width:40px;height:40px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--z3);color:var(--z1);font-weight:700;font-size:15px;overflow:hidden}
+.u-av img{width:100%;height:100%;object-fit:cover}
+.u-li{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--u-bd);min-width:0}
+.u-chip{padding:7px 12px;border-radius:999px;border:1px solid var(--u-in);background:transparent;color:var(--u-text);font:inherit;font-size:13px;cursor:pointer}
+.u-chip.on{background:var(--z1);border-color:var(--z1);color:#FFFFFF}
+.u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
+.u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
+.u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.u-plus{width:38px;height:38px;border-radius:50%;border:none;background:var(--z1);color:#FFFFFF;font:inherit;font-size:24px;font-weight:400;line-height:1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;position:relative;text-decoration:none;box-shadow:0 6px 16px rgba(37,99,235,.28)}
+.u-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.u-top h1{margin:0;font-size:24px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.u-top h1 small{font-size:14px;font-weight:500;color:var(--u-muted)}
+@keyframes uOvIn{from{opacity:0}to{opacity:1}}
+.u-ov{animation:uOvIn .15s ease both !important;position:fixed;inset:0;z-index:80;background:rgba(5,10,25,.55);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.u-sheet{width:100%;max-width:520px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;background:var(--u-card);color:var(--u-text);border-radius:20px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.u-sheet.wide{max-width:760px}
+.u-shh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.u-shh h2{margin:0;font-size:18px;font-weight:700}
+.u-x{width:34px;height:34px;flex:none;border-radius:50%;border:none;background:var(--z3);color:var(--u-text);font:inherit;font-size:18px;line-height:1;cursor:pointer}
+.u-menu{background:var(--u-card);border:1px solid var(--u-bd);border-radius:18px;overflow:hidden}
+.u-mi{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;box-sizing:border-box;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:16px;text-align:left;cursor:pointer;text-decoration:none}
+.u-mi + .u-mi{border-top:1px solid var(--u-bd)}
+.u-mi svg{flex:none;opacity:.85}
+.u-mi .u-chev{margin-left:auto;opacity:.45;font-size:18px}
+@media (max-width:640px){.u-ov{align-items:flex-end;padding:0}.u-sheet{border-radius:20px 20px 0 0;max-height:92vh;max-height:92dvh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}}
+.zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z15)}
+
+.croom-li{gap:12px;padding:14px 16px}
+.cav{width:48px;height:48px;font-size:17px}
+.cbadge{min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#E5484D;color:#FFFFFF;font-size:11px;font-style:normal;font-weight:700;line-height:20px;text-align:center;flex:none}
+.croom{display:flex;flex-direction:column;height:calc(100vh - 150px);height:calc(100dvh - 150px);min-height:420px;background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;overflow:hidden}
+.chead{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--u-bd);flex:none}
+.cback{width:36px;height:36px;border:none;background:transparent;color:var(--z1);font:inherit;font-size:30px;line-height:1;cursor:pointer;flex:none}
+.cmsgs{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 12px 16px;display:flex;flex-direction:column;gap:3px}
+.cday{display:flex;justify-content:center;margin:12px 0 6px}
+.cday span{font-size:12px;color:var(--u-muted);background:var(--z3);padding:3px 10px;border-radius:999px}
+.cmsg{display:flex;align-items:flex-end;gap:8px;max-width:100%}
+.cmsg.first{margin-top:8px}
+.cmsg.mine{justify-content:flex-end}
+.cbody{display:flex;flex-direction:column;gap:3px;max-width:76%;min-width:0}
+.cmsg.mine .cbody{align-items:flex-end}
+.cname{font-size:12px;color:var(--u-muted);padding-left:4px}
+.cbub{border:none;font:inherit;text-align:left;cursor:default;padding:9px 13px;border-radius:18px 18px 18px 6px;background:var(--z3);color:var(--u-text);font-size:15px;line-height:1.45;display:flex;flex-direction:column;gap:6px;max-width:100%;word-break:break-word;white-space:pre-wrap}
+.cmsg.mine .cbub{background:#4D7CFE;color:#FFFFFF;border-radius:18px 18px 6px 18px;cursor:pointer}
+.cpic{display:block;width:220px;max-width:100%;border-radius:12px;object-fit:cover;cursor:zoom-in}
+.cpicw{height:160px;background:rgba(127,127,127,.25)}
+.ctime{font-size:10px;color:var(--u-muted);padding:0 4px}
+.cbar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid var(--u-bd);flex:none;background:var(--u-card)}
+.cicon{position:relative;width:40px;height:40px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--z1);cursor:pointer}
+.cin{flex:1;min-width:0;height:42px;box-sizing:border-box;padding:0 16px;border-radius:999px;border:1px solid var(--u-in);background:transparent;color:var(--u-text);font:inherit;font-size:16px}
+.cin:focus{outline:none;border-color:var(--z1)}
+.csend{width:42px;height:42px;flex:none;border-radius:50%;border:none;background:#4D7CFE;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.csend:disabled{opacity:.4;cursor:default}
+html.zy-room .tabbar{display:none !important}
+@media (max-width:640px){
+.cmain{padding:calc(16px + env(safe-area-inset-top)) 12px 110px !important}
+.croom{position:fixed;inset:0;z-index:70;height:auto;min-height:0;border:none;border-radius:0;padding-top:env(safe-area-inset-top)}
+.cbar{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="min-height: 100vh; background: var(--z8); color: var(--z9); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
+
+<header class="top" style="padding: 16px 24px 0">
+<div style="max-width: 1360px; margin: 0 auto; background: var(--z10); border: 1px solid var(--z11); border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 6px 20px var(--z12)">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z9)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z1); display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 18px; font-weight: 700">{{L.k5}}</span>
+</a>
+<nav aria-label="{{tabAria}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="Circle.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{tabMap}}</a>
+<a href="Photos.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{tabPhotos}}</a>
+<a href="Chat.dc.html" class="tab" aria-current="page" style="padding: 10px 16px; border-radius: 10px; background: rgba(77,124,254,.16); color: #4D7CFE; font-weight: 600; text-decoration: none">{{tabChat}}</a>
+<a href="Profile.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{tabMe}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 10px">
+
+<a href="Profile.dc.html" class="tab" title="{{L.k1}}" aria-label="{{L.k2}}" style="display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border-radius: 999px; text-decoration: none; color: var(--z9)">
+<span style="width: 36px; height: 36px; border-radius: 50%; background: var(--z16); color: var(--z10); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{meCh}}</span>
+<span class="uname" style="font-size: 14px; font-weight: 600">{{meName}}</span>
+</a>
+<a href="Login.dc.html" onClick="{{zyLogout}}" aria-label="{{L.k3}}" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--z17)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"></path></svg></a>
+</div>
+</div>
+</header>
+
+<main class="cmain" style="width: 100%; max-width: 820px; margin: 0 auto; box-sizing: border-box; padding: 22px 20px 120px; display: flex; flex-direction: column; gap: 14px">
+<sc-if value="{{vList}}" hint-placeholder-val="{{true}}">
+<div class="u-top"><h1>{{t.title}}</h1></div>
+<div class="u-menu">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+<button type="button" class="u-mi croom-li" onClick="{{r.open}}">
+<span class="u-av cav" style="background: {{r.bg}}; color: {{r.fg}}"><sc-if value="{{r.img}}" hint-placeholder-val="{{false}}"><img src="{{r.img}}" alt=""></sc-if><sc-if value="{{r.group}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><circle cx="17" cy="9" r="2.8"></circle><path d="M16.5 14.6c2.6.2 4.4 1.9 5 5.4"></path></svg></sc-if><sc-if value="{{r.initials}}" hint-placeholder-val="{{true}}">{{r.ch}}</sc-if></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+<span style="display: flex; align-items: baseline; gap: 8px"><b style="flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</b><small class="u-muted" style="flex: none; font-size: 12px">{{r.time}}</small></span>
+<span style="display: flex; align-items: center; gap: 8px"><span class="u-muted" style="flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.preview}}</span><sc-if value="{{r.unread}}" hint-placeholder-val="{{false}}"><i class="cbadge">{{r.unread}}</i></sc-if></span>
+</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{raw.note}}" hint-placeholder-val="{{false}}"><div class="u-row"><span class="u-muted">{{raw.note}}</span><sc-if value="{{raw.inviteHref}}" hint-placeholder-val="{{false}}"><a class="u-btn2 u-sm" href="{{raw.inviteHref}}">{{t.invite}}</a></sc-if></div></sc-if>
+</sc-if>
+
+<sc-if value="{{vRoom}}" hint-placeholder-val="{{false}}">
+<section class="croom" aria-label="{{raw.rName}}">
+<div class="chead">
+<button type="button" class="cback" onClick="{{closeRoom}}" aria-label="{{t.back}}">‹</button>
+<span class="u-av" style="width: 38px; height: 38px; font-size: 14px; background: {{raw.rBg}}; color: {{raw.rFg}}"><sc-if value="{{raw.rImg}}" hint-placeholder-val="{{false}}"><img src="{{raw.rImg}}" alt=""></sc-if><sc-if value="{{raw.rGroup}}" hint-placeholder-val="{{false}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><circle cx="17" cy="9" r="2.8"></circle><path d="M16.5 14.6c2.6.2 4.4 1.9 5 5.4"></path></svg></sc-if><sc-if value="{{raw.rInit}}" hint-placeholder-val="{{true}}">{{raw.rCh}}</sc-if></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column"><b style="font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{raw.rName}}</b><small class="u-muted" style="font-size: 12px">{{raw.rSub}}</small></span>
+</div>
+<div class="cmsgs" ref="{{msgsRef}}">
+<sc-if value="{{raw.noMsgs}}" hint-placeholder-val="{{false}}"><p class="u-muted" style="text-align: center; margin: 40px 0">{{t.empty}}</p></sc-if>
+<sc-for list="{{rows2}}" as="m" hint-placeholder-count="6">
+<sc-if value="{{m.day}}" hint-placeholder-val="{{false}}"><div class="cday"><span>{{m.day}}</span></div></sc-if>
+<div class="{{m.cls}}">
+<sc-if value="{{m.showAv}}" hint-placeholder-val="{{true}}"><span class="u-av" style="width: 32px; height: 32px; font-size: 12px; align-self: flex-end; background: {{m.bg}}; color: {{m.fg}}"><sc-if value="{{m.img}}" hint-placeholder-val="{{false}}"><img src="{{m.img}}" alt=""></sc-if><sc-if value="{{m.noImg}}" hint-placeholder-val="{{true}}">{{m.ch}}</sc-if></span></sc-if>
+<sc-if value="{{m.gap}}" hint-placeholder-val="{{false}}"><span style="width: 32px; flex: none"></span></sc-if>
+<div class="cbody">
+<sc-if value="{{m.showName}}" hint-placeholder-val="{{true}}"><span class="cname">{{m.name}}</span></sc-if>
+<button type="button" class="cbub" onClick="{{m.tap}}">
+<sc-if value="{{m.pic}}" hint-placeholder-val="{{false}}"><img class="cpic" src="{{m.pic}}" alt="" onClick="{{m.view}}"></sc-if>
+<sc-if value="{{m.picWait}}" hint-placeholder-val="{{false}}"><span class="cpic cpicw"></span></sc-if>
+<sc-if value="{{m.body}}" hint-placeholder-val="{{true}}"><span class="ctext">{{m.body}}</span></sc-if>
+</button>
+<span class="ctime">{{m.time}}</span>
+<sc-if value="{{m.sel}}" hint-placeholder-val="{{false}}"><button type="button" class="u-btn2 u-sm" style="color: #D1453B; align-self: flex-end" onClick="{{m.del}}">{{t.del}}</button></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+<form class="cbar" onSubmit="{{send}}">
+<label class="cicon" title="{{t.photo}}" aria-label="{{t.photo}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><input class="u-file" type="file" accept="image/*" onChange="{{sendPhoto}}"></label>
+<input class="cin" type="text" enterkeyhint="send" autocomplete="off" value="{{raw.draft}}" onInput="{{setDraft}}" placeholder="{{t.ph}}" aria-label="{{t.ph}}">
+<button type="submit" class="csend" aria-label="{{t.send}}" disabled="{{raw.noDraft}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+</form>
+</section>
+</sc-if>
+
+<sc-if value="{{raw.viewPic}}" hint-placeholder-val="{{false}}">
+<div class="u-ov" onClick="{{closePic}}" style="align-items: center; padding: 16px"><img src="{{raw.viewPic}}" alt="" style="max-width: 100%; max-height: 90vh; border-radius: 12px"></div>
+</sc-if>
+</main>
+<sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
+<nav class="tabbar" aria-label="{{tabAria}}"><a href="Circle.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="Photos.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="Chat.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.4A8 8 0 1 1 21 12z"></path><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"></path></svg><sc-if value="{{zyUnread}}" hint-placeholder-val="{{false}}"><i class="tbdot">{{zyUnread}}</i></sc-if><span>{{tabChat}}</span></a><a href="Profile.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1160}}'>
+class Component extends DCLogic {
+  _zyPWA() {
+    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+  }
+  componentWillUnmount() {
+    this._zyStop();
+  }
+  componentDidMount() {
+    this._loadTheme();
+    this._zyPWA();
+    this._zyBar();
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    let v = this._rv();
+    if (st.lang === 'en') v = this._zyI18n(v, 0);
+    return Object.assign(v, this._zyChrome(st));
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      zyp: this._zyPrefs(st),
+      meName: this._zyMeName(en), meCh: this._zyInitials(this._zyMeName(en)),
+      zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
+      zyLogout: (e) => { if (e && e.preventDefault) e.preventDefault(); const go = () => this._zyGo(this._zyHref('Login')); try { if (window.ZY) window.ZY.signOut().then(go, go); else go(); } catch (er) { go(); } },
+      tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabChat: en ? 'Chat' : '聊天', zyUnread: (() => { try { const Z = window.ZY; if (!Z || !Z.rooms || !Z.signedIn) return ''; const n = Z.rooms().reduce((x, r) => x + (r.unread || 0), 0); return n ? (n > 99 ? '99+' : String(n)) : ''; } catch (e) { return ''; } })(), tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
+  }
+  _zyInitials(n) {
+    n = String(n || '').trim();
+    if (!n) return '?';
+    if (/[㐀-鿿]/.test(n.charAt(0))) return n.charAt(0);
+    const w = n.split(/\s+/).filter(Boolean);
+    return ((w[0] || '').charAt(0) + (w.length > 1 ? w[w.length - 1].charAt(0) : '')).toUpperCase();
+  }
+  _zyPrefs(st) {
+    const en = st.lang === 'en';
+    const light = st.theme === 'light';
+    const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
+    return {
+      setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
+      lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
+    };
+  }
+  _zyHref(name, query) {
+    let app = false;
+    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
+    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyMeName(en) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    if (me) return (en ? (me.nameEn || me.name) : (me.name || me.nameEn)) || '';
+    return (Z && Z.login) || (en ? 'Me' : '我');
+  }
+  _zyPill(en) {
+    const Z = window.ZY;
+    if (!Z) return { show: false };
+    if (Z.saving) return { show: true, text: en ? 'Saving…' : '正在保存…' };
+    if (Z.error) return { show: true, err: true, text: (en ? 'Could not reach the family data: ' : '无法读取家族资料：') + Z.error, href: this._zyHref('Login'), link: en ? 'Sign in again' : '重新登入' };
+    if (Z.needFamily) return { show: true, text: en ? 'You have not joined a family yet.' : '你还没有加入任何家族。', href: this._zyHref('Login'), link: en ? 'Create or join' : '新建或加入' };
+    if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
+    if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
+    return { show: false };
+  }
+  _zyBar() {
+    if (window.__zyBar) return;
+    window.__zyBar = 1;
+    let last = 0;
+    let t = 0;
+    const root = document.documentElement;
+    const on = () => {
+      const y = window.scrollY || 0;
+      if (y > last + 6 && y > 60) root.classList.add('zy-hidebar');
+      else if (y < last - 6) root.classList.remove('zy-hidebar');
+      last = y;
+      clearTimeout(t);
+      t = setTimeout(() => root.classList.remove('zy-hidebar'), 650);
+    };
+    try { window.addEventListener('scroll', on, { passive: true }); } catch (e) {}
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { cache: {}, E: {"全部": "All", "节日团聚": "Festivals", "婚礼喜事": "Weddings", "老照片": "Old photos", "旅行": "Travel", "春节团圆饭": "Lunar New Year dinner", "我": "Me", "祖屋门前": "At the ancestral home", "表姐婚礼": "Cousin's wedding", "中秋赏月": "Mid-Autumn moon viewing", "外公外婆年轻时": "Grandparents when young", "全家出游": "Family trip", "爷爷八十大寿": "Grandpa's 80th birthday", "父母结婚照": "Parents' wedding photo"}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "家族空间导航", "k1": "编辑个人资料", "k2": "编辑个人资料", "k3": "退出登入", "k4": "相册筛选", "k5": "枝叶", "k6": "家族图谱", "k7": "照片与上传", "k8": "管理后台", "k9": "照片与上传", "k10": "保存家族的每一个重要时刻", "k11": "上传照片", "k12": "把照片拖到这里，或点击选择文件", "k13": "上传后可以选择相册，并标记照片里的家人", "k14": "· [日期]", "k15": "已标记"}, LEN: {"k0": "Family space navigation", "k1": "Edit profile", "k2": "Edit profile", "k3": "Log out", "k4": "Album filter", "k5": "ZY", "k6": "Family map", "k7": "Photos", "k8": "Admin", "k9": "Photos", "k10": "Keep every important family moment", "k11": "Upload photos", "k12": "Drag photos here, or click to choose files", "k13": "After uploading, choose an album and tag family members in the photo", "k14": "· [date]", "k15": "Tagged"} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = { theme: 'dark' };
+  }
+  _rv() {
+    const t = ((this.state || {}).lang === 'en' ? {title: "Chat", family: "Family group", members: "members", empty: "No messages yet. Say hello!", ph: "Message…", send: "Send", photo: "Photo", sentPhoto: "[Photo]", back: "Back", del: "Delete", today: "Today", yesterday: "Yesterday", you: "Me", sending: "Sending…", failed: "Not sent", noOthers: "Invite relatives to sign up and you can chat with each of them one-to-one.", invite: "Invite family", demoNote: "The demo family only has the group chat. Sign in to your family to message each relative one-to-one.", direct: "Family members", noMsg: "No messages yet", close: "Close", unnamed: "Relative"} : {title: "聊天", family: "家族群", members: "位成员", empty: "还没有消息，打个招呼吧！", ph: "输入消息…", send: "发送", photo: "照片", sentPhoto: "[照片]", back: "返回", del: "删除", today: "今天", yesterday: "昨天", you: "我", sending: "发送中…", failed: "发送失败", noOthers: "邀请家人注册后，就能和他们单独聊天。", invite: "邀请家人", demoNote: "示例家族只有家族群。登入你的家族后，可以和每位家人单独聊天。", direct: "家人", noMsg: "还没有消息", close: "关闭", unnamed: "家人"});
+    const Z = window.ZY;
+    const st = this.state || {};
+    const en = st.lang === 'en';
+    const bump = () => this.setState({ tick: (this.state.tick || 0) + 1 });
+    const room = st.room !== undefined ? st.room : (this._zyQ('room') || null);
+    const ready = !!(Z && Z.signedIn && Z.data);
+    const rooms = ready ? Z.rooms() : [];
+    const people = ready ? Z.people() : [];
+    const me = Z ? Z.myUid : null;
+    const pByUid = {};
+    people.forEach((p) => { if (p.userId) pByUid[p.userId] = p; });
+    const COLS = [['#E8EEFF', '#3D63DD'], ['#FFF0E5', '#C2581B'], ['#E9F7EF', '#2F8A55'], ['#F7EAFB', '#9248AB'], ['#FFF5D6', '#9A6B00']];
+    const colOf = (k) => { let h = 0; String(k || '').split('').forEach((c) => { h = (h * 31 + c.charCodeAt(0)) % 997; }); return COLS[h % COLS.length]; };
+    const pad = (n) => (n < 10 ? '0' : '') + n;
+    const dayKey = (d) => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    const nowD = new Date();
+    const yd = new Date(nowD.getTime() - 86400000);
+    const hm = (d) => pad(d.getHours()) + ':' + pad(d.getMinutes());
+    const shortTime = (iso) => { if (!iso) return ''; const d = new Date(iso); if (isNaN(d)) return ''; if (dayKey(d) === dayKey(nowD)) return hm(d); if (dayKey(d) === dayKey(yd)) return t.yesterday; return (d.getMonth() + 1) + '/' + d.getDate(); };
+    const dayLabel = (d) => dayKey(d) === dayKey(nowD) ? t.today : (dayKey(d) === dayKey(yd) ? t.yesterday : (en ? d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' }) : d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日'));
+    const fam = (Z && Z.data && Z.data.family) || {};
+    const famName = (fam.name ? fam.name + ' · ' : '') + t.family;
+    const accN = ((Z && Z.data && Z.data.accounts) || []).length;
+    const roomInfo = (r) => {
+      if (r.kind === 'family') return { name: famName, sub: accN ? accN + ' ' + t.members : '', group: true, ch: '', img: '', col: ['var(--z3)', 'var(--z1)'] };
+      const p = r.person;
+      const nm = (p ? this._zyName(p) : '') || String(r.email || '').split('@')[0] || t.unnamed;
+      const img = p ? this._zyAv(p.avatar) : '';
+      return { name: nm, sub: r.email || '', group: false, ch: this._zyInitials(nm), img: img, col: colOf(r.userId) };
+    };
+    const preview = (m) => !m ? t.noMsg : ((m.sender === me ? t.you + '：' : (m.room === 'family' ? senderName(m) + '：' : '')) + (m.body || (m.photo ? t.sentPhoto : '')));
+    const senderName = (m) => { const p = pByUid[m.sender]; return (p ? this._zyName(p) : '') || m.name || t.unnamed; };
+    const open = (id) => { try { document.documentElement.classList.add('zy-room'); } catch (e) {} this._scrolled = 0; this.setState({ room: id, sel: null }); };
+    const rows = rooms.map((r) => {
+      const ri = roomInfo(r);
+      return { name: ri.name, ch: ri.ch, img: ri.img, group: ri.group, initials: !ri.img && !ri.group, bg: ri.col[0], fg: ri.col[1], time: r.last ? shortTime(r.last.at) : '', preview: preview(r.last), unread: r.unread ? String(r.unread) : '', open: () => open(r.id) };
+    });
+    const cur = room ? rooms.filter((r) => r.id === room)[0] : null;
+    const rows2 = [];
+    let rawRoom = {};
+    if (cur) {
+      try { document.documentElement.classList.add('zy-room'); } catch (e) {}
+      const ri = roomInfo(cur);
+      rawRoom = { rName: ri.name, rSub: ri.sub, rImg: ri.img, rGroup: ri.group, rInit: !ri.img && !ri.group, rCh: ri.ch, rBg: ri.col[0], rFg: ri.col[1] };
+      if (!this._urls) this._urls = {};
+      const list = Z.messages(cur.id);
+      let prevDay = '';
+      let prevSender = null;
+      list.forEach((m, i) => {
+        const d = new Date(m.at);
+        const dk = isNaN(d) ? '' : dayKey(d);
+        const mine = m.sender === me;
+        const nextSame = list[i + 1] && list[i + 1].sender === m.sender && dayKey(new Date(list[i + 1].at)) === dk;
+        const firstOfRun = prevSender !== m.sender || prevDay !== dk;
+        const p = pByUid[m.sender];
+        const nm = senderName(m);
+        if (m.photo && this._urls[m.photo] === undefined) { this._urls[m.photo] = ''; Z.imageURL(m.photo).then((u) => { this._urls[m.photo] = u; bump(); }); }
+        const pic = m.photo ? (this._urls[m.photo] || '') : '';
+        const col = colOf(m.sender || m.name);
+        const img = p ? this._zyAv(p.avatar) : '';
+        rows2.push({
+          day: dk !== prevDay && !isNaN(d) ? dayLabel(d) : '',
+          cls: 'cmsg' + (mine ? ' mine' : '') + (firstOfRun ? ' first' : ''),
+          showAv: !mine && !nextSame, gap: !mine && !!nextSame,
+          img: img, noImg: !img, ch: this._zyInitials(nm), bg: col[0], fg: col[1],
+          showName: !mine && cur.kind === 'family' && firstOfRun, name: nm,
+          body: m.body || '', pic: pic, picWait: !!m.photo && !pic,
+          time: m.pending ? t.sending : (m.failed ? t.failed : (isNaN(d) ? '' : hm(d))),
+          sel: mine && st.sel === m.id,
+          tap: () => { if (mine) this.setState({ sel: st.sel === m.id ? null : m.id }); },
+          view: (e) => { if (e && e.stopPropagation) e.stopPropagation(); if (pic) this.setState({ viewPic: pic }); },
+          del: () => { this.setState({ sel: null }); Z.deleteMessage(m.id); }
+        });
+        prevDay = dk;
+        prevSender = m.sender;
+      });
+      const last = list[list.length - 1];
+      const sig = cur.id + '|' + list.length + '|' + (last ? last.id + (last.pending ? 'p' : '') : '');
+      if (this._sig !== sig) {
+        this._sig = sig;
+        setTimeout(() => { try { const el = document.querySelector('.cmsgs'); if (el) el.scrollTop = el.scrollHeight; } catch (e) {} if (Z.unread(cur.id)) Z.markRead(cur.id); }, 30);
+      }
+    } else {
+      try { document.documentElement.classList.remove('zy-room'); } catch (e) {}
+    }
+    const isCloud = !!(Z && Z.mode === 'cloud');
+    const draft = st.draft || '';
+    const send = (body, file) => { if (!cur) return; Z.sendMessage(cur.id, body, file).catch(() => bump()); };
+    return {
+      t: t, rows: rows, rows2: rows2, vList: !cur, vRoom: !!cur,
+      raw: Object.assign({
+        draft: draft, noDraft: !String(draft).trim(), noMsgs: !!cur && rows2.length === 0, viewPic: st.viewPic || '',
+        note: !isCloud ? t.demoNote : (rooms.length <= 1 ? t.noOthers : ''), inviteHref: isCloud && rooms.length <= 1 ? this._zyHref('Admin', 'tab=invite') : ''
+      }, rawRoom),
+      msgsRef: (el) => { this._msgsEl = el; },
+      closeRoom: () => { try { document.documentElement.classList.remove('zy-room'); } catch (e) {} this.setState({ room: null, sel: null }); },
+      closePic: () => this.setState({ viewPic: '' }),
+      setDraft: (e) => this.setState({ draft: e.target.value }),
+      send: (e) => { if (e && e.preventDefault) e.preventDefault(); const b = String(this.state.draft || '').trim(); if (!b) return; this.setState({ draft: '' }); send(b, null); },
+      sendPhoto: (e) => { const f = e && e.target && e.target.files && e.target.files[0]; if (f) send(String(this.state.draft || '').trim(), f); this.setState({ draft: '' }); try { e.target.value = ''; } catch (er) {} }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -6,6 +6,7 @@ A family tree website and installable phone app. Each family gets its own privat
 - a classic family tree
 - profiles and photos
 - a members page where **anyone in the family can add, edit and delete relatives**
+- **chat**: a family group chat plus one-to-one chats between family accounts, with photos
 
 The site is in Chinese and English, with light and dark themes.
 
@@ -60,6 +61,8 @@ window.ZY_CONFIG = {
 The anon key is designed to be public. Family data stays private because every table and the photo bucket only allow
 signed‑in members of that family. **Never** put the `service_role` key in this repository.
 
+> **Updating from an earlier version?** Run `supabase/schema.sql` again in the SQL Editor. It is safe to re-run, and it adds new tables such as `messages` for chat.
+
 ## 2. Publish on GitHub Pages
 
 1. Push this repository to GitHub.
@@ -108,6 +111,7 @@ The app opens full‑screen with a bottom tab bar. The service worker caches the
 | `members` | every person, with `member_key`, `clan_id`, `father_id`, `mother_id`, `spouse_id`, profile fields, `avatar_path`, and `user_id` when linked to an account |
 | `photos` | `photo_key`, storage path, title, album, date, tagged member ids |
 | `activity` | change log |
+| `messages` | chat messages: room `family` or `dm:<user>:<user>`; only the two people in a one-to-one room can read it |
 
 Rules the database enforces:
 
