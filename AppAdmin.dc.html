@@ -86,6 +86,7 @@ main h1{font-size:24px !important}
 .has-sheet .zy-pill{display:none}
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+@media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
 
 .u-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;box-sizing:border-box;min-width:0}
 .u-h2{margin:0;font-size:19px;font-weight:700}
@@ -112,9 +113,27 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .u-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border-radius:999px;background:var(--z3);color:var(--u-text);font-size:12px}
 .u-tag button{width:20px;height:20px;border:none;border-radius:50%;background:transparent;color:var(--u-muted);cursor:pointer;font:inherit;font-size:14px;line-height:1}
 .u-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.u-plus{width:38px;height:38px;border-radius:50%;border:none;background:var(--z1);color:#FFFFFF;font:inherit;font-size:24px;font-weight:400;line-height:1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;position:relative;text-decoration:none;box-shadow:0 6px 16px rgba(37,99,235,.28)}
+.u-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.u-top h1{margin:0;font-size:24px;font-weight:700;display:flex;align-items:baseline;gap:8px}
+.u-top h1 small{font-size:14px;font-weight:500;color:var(--u-muted)}
+@keyframes uOvIn{from{opacity:0}to{opacity:1}}
+.u-ov{animation:uOvIn .15s ease both !important;position:fixed;inset:0;z-index:80;background:rgba(5,10,25,.55);display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.u-sheet{width:100%;max-width:520px;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow:auto;background:var(--u-card);color:var(--u-text);border-radius:20px;padding:20px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.u-sheet.wide{max-width:760px}
+.u-shh{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.u-shh h2{margin:0;font-size:18px;font-weight:700}
+.u-x{width:34px;height:34px;flex:none;border-radius:50%;border:none;background:var(--z3);color:var(--u-text);font:inherit;font-size:18px;line-height:1;cursor:pointer}
+.u-menu{background:var(--u-card);border:1px solid var(--u-bd);border-radius:18px;overflow:hidden}
+.u-mi{display:flex;align-items:center;gap:14px;padding:16px 18px;width:100%;box-sizing:border-box;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:16px;text-align:left;cursor:pointer;text-decoration:none}
+.u-mi + .u-mi{border-top:1px solid var(--u-bd)}
+.u-mi svg{flex:none;opacity:.85}
+.u-mi .u-chev{margin-left:auto;opacity:.45;font-size:18px}
+@media (max-width:640px){.u-ov{align-items:flex-end;padding:0}.u-sheet{border-radius:20px 20px 0 0;max-height:92vh;max-height:92dvh;padding:18px 16px calc(18px + env(safe-area-inset-bottom))}}
 .zy-d,.zy-l{--u-card:var(--z10);--u-bd:var(--z11);--u-text:var(--z9);--u-muted:var(--z17);--u-in:var(--z15)}
 .u-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;letter-spacing:1px;padding:8px 12px;border-radius:10px;background:var(--z3);color:var(--z1);user-select:all}
 .u-keyi{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;font-size:12px;color:var(--z1)}
+@media (max-width:640px){.amain{padding:16px 12px 110px !important}.redit{display:none !important}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -143,13 +162,14 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </header>
 
-<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<h1 style="margin: 0; font-size: 30px; font-weight: 700">{{t.title}}</h1>
-<p style="margin: 0; font-size: 14px; color: var(--z17); max-width: 760px; line-height: 1.6">{{t.sub}}</p>
+<main class="amain" style="width: 100%; max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding: 22px 20px 120px; display: flex; flex-direction: column; gap: 18px">
+<div class="u-top">
+<h1>{{t.title}} <small>{{total}} {{t.count}}</small></h1>
+<button type="button" class="u-plus" onClick="{{openAdd}}" aria-label="{{t.add}}" title="{{t.add}}">+</button>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
-<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<sc-if value="{{addMsg}}" hint-placeholder-val="{{false}}"><div class="u-row"><span class="{{addCls}}" role="status">{{addMsg}}</span><sc-if value="{{addedHref}}" hint-placeholder-val="{{false}}"><a class="u-btn2 u-sm" href="{{addedHref}}">{{t.more}}</a></sc-if></div></sc-if>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
 
 <sc-if value="{{needMe}}" hint-placeholder-val="{{false}}">
 <section class="u-card" style="border-color: var(--z1)">
@@ -159,39 +179,22 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </section>
 </sc-if>
 
-<section class="u-card">
-<h2 class="u-h2">{{t.add}}</h2>
-<form onSubmit="{{addSubmit}}" style="display: flex; flex-direction: column; gap: 16px">
-<div class="u-grid">
-<label class="u-label">{{t.name}}<input class="u-in" type="text" value="{{raw.aName}}" onInput="{{setA.name}}"></label>
-<label class="u-label">{{t.surname}}<input class="u-in" type="text" value="{{raw.aSur}}" onFocus="{{surFocus}}" onInput="{{setA.sur}}" title="{{t.surHint}}"></label>
-<label class="u-label">{{t.sex}}<select class="u-in" value="{{raw.aSex}}" onChange="{{setA.sex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
-<label class="u-label">{{t.birth}}<input class="u-in" type="text" inputmode="numeric" value="{{raw.aBirth}}" onInput="{{setA.birth}}" placeholder="1965"></label>
-<label class="u-label">{{t.rel}}<select class="u-in" value="{{raw.aRel}}" onChange="{{setA.rel}}"><option value="child">{{t.rchild}}</option><option value="parent">{{t.rparent}}</option><option value="spouse">{{t.rspouse}}</option><option value="sibling">{{t.rsibling}}</option><option value="">{{t.rnone}}</option></select></label>
-<label class="u-label">{{t.of}}<select class="u-in" value="{{raw.aOf}}" onChange="{{setA.of}}"><sc-for list="{{opts.all}}" as="o" hint-placeholder-count="3"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
-</div>
-<span class="u-muted">{{t.willAdd}}<b style="color: var(--u-text)">{{raw.preview}}</b></span>
-<div class="u-row"><button type="submit" class="u-btn" disabled="{{busy}}">＋ {{t.addBtn}}</button><span class="{{addCls}}" role="status">{{addMsg}}</span><sc-if value="{{addedHref}}" hint-placeholder-val="{{false}}"><a class="u-btn2 u-sm" href="{{addedHref}}">{{t.more}}</a></sc-if></div>
-</form>
-</section>
-
-<section class="u-card">
-<div class="u-row" style="justify-content: space-between"><h2 class="u-h2">{{t.list}} <span class="u-muted" style="font-weight: 400">· {{total}} {{t.count}}</span></h2></div>
-<input class="u-in" type="search" value="{{raw.q}}" onInput="{{setQ}}" placeholder="{{t.search}}">
+<section class="u-card" style="padding: 16px 18px; gap: 6px">
+<input class="u-in" type="search" value="{{raw.q}}" onInput="{{setQ}}" placeholder="{{t.search}}" style="margin-bottom: 6px">
 <div style="display: flex; flex-direction: column">
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
 <div class="u-li">
-<span class="u-av">{{r.ch}}</span>
+<a href="{{r.href}}" class="u-av" style="text-decoration: none"><sc-if value="{{r.img}}" hint-placeholder-val="{{false}}"><img src="{{r.img}}" alt=""></sc-if><sc-if value="{{r.noImg}}" hint-placeholder-val="{{true}}">{{r.ch}}</sc-if></a>
 <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><b class="u-keyi">{{r.key}}</b> {{r.sub}}</span></span>
 <sc-if value="{{r.asking}}" hint-placeholder-val="{{false}}"><span class="u-err" style="font-size: 13px">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{r.yes}}">{{t.yes}}</button><button type="button" class="u-btn2 u-sm" onClick="{{r.no}}">{{t.no}}</button></sc-if>
-<sc-if value="{{r.idle}}" hint-placeholder-val="{{true}}"><a class="u-btn2 u-sm" href="{{r.href}}">{{t.edit}}</a><sc-if value="{{r.canDel}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{r.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></sc-if>
+<sc-if value="{{r.idle}}" hint-placeholder-val="{{true}}"><a class="u-btn2 u-sm redit" href="{{r.href}}">{{t.edit}}</a><sc-if value="{{r.canDel}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{r.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></sc-if>
 </div>
 </sc-for>
 </div>
 </section>
 </div>
 
-<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
 <section class="u-card">
 <h2 class="u-h2">{{t.accounts}}</h2>
 <sc-if value="{{isCloud}}" hint-placeholder-val="{{false}}">
@@ -230,15 +233,27 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <span class="{{bkCls}}" role="status">{{bkMsg}}</span>
 </section>
 
-<section class="u-card">
-<h2 class="u-h2">{{t.log}}</h2>
-<sc-if value="{{noLog}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.noLog}}</span></sc-if>
-<div style="display: flex; flex-direction: column">
-<sc-for list="{{rows3}}" as="g" hint-placeholder-count="4"><div class="u-li" style="flex-direction: column; align-items: flex-start; gap: 2px"><span style="font-size: 14px">{{g.what}}</span><span class="u-muted" style="font-size: 12px">{{g.meta}}</span></div></sc-for>
-</div>
-</section>
 </aside>
 </div>
+
+<sc-if value="{{addOpen}}" hint-placeholder-val="{{false}}">
+<div class="u-ov" onClick="{{closeAdd}}">
+<form class="u-sheet wide" role="dialog" aria-modal="true" aria-label="{{t.add}}" onClick="{{stop}}" onSubmit="{{addSubmit}}">
+<div class="u-shh"><h2>{{t.add}}</h2><button type="button" class="u-x" onClick="{{closeAdd}}" aria-label="×">×</button></div>
+<div class="u-grid">
+<label class="u-label">{{t.name}}<input class="u-in" type="text" value="{{raw.aName}}" onInput="{{setA.name}}"></label>
+<label class="u-label">{{t.surname}}<input class="u-in" type="text" value="{{raw.aSur}}" onFocus="{{surFocus}}" onInput="{{setA.sur}}" title="{{t.surHint}}"></label>
+<label class="u-label">{{t.sex}}<select class="u-in" value="{{raw.aSex}}" onChange="{{setA.sex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
+<label class="u-label">{{t.birth}}<input class="u-in" type="text" inputmode="numeric" value="{{raw.aBirth}}" onInput="{{setA.birth}}" placeholder="1965"></label>
+<label class="u-label">{{t.rel}}<select class="u-in" value="{{raw.aRel}}" onChange="{{setA.rel}}"><option value="child">{{t.rchild}}</option><option value="parent">{{t.rparent}}</option><option value="spouse">{{t.rspouse}}</option><option value="sibling">{{t.rsibling}}</option><option value="">{{t.rnone}}</option></select></label>
+<label class="u-label">{{t.of}}<select class="u-in" value="{{raw.aOf}}" onChange="{{setA.of}}"><sc-for list="{{opts.all}}" as="o" hint-placeholder-count="3"><option value="{{o.id}}">{{o.label}}</option></sc-for></select></label>
+</div>
+<span class="u-muted">{{t.willAdd}}<b style="color: var(--u-text)">{{raw.preview}}</b></span>
+<sc-if value="{{raw.sheetMsg}}" hint-placeholder-val="{{false}}"><span class="u-err" role="status">{{raw.sheetMsg}}</span></sc-if>
+<div class="u-row" style="justify-content: flex-end"><button type="button" class="u-btn2" onClick="{{closeAdd}}">{{t.no}}</button><button type="submit" class="u-btn" disabled="{{busy}}">＋ {{t.addBtn}}</button></div>
+</form>
+</div>
+</sc-if>
 </main>
 <sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
 <nav class="tabbar" aria-label="{{tabAria}}"><a href="AppCircle.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"></circle><circle cx="19" cy="7" r="1.4" fill="currentColor"></circle><circle cx="5" cy="16" r="1.4" fill="currentColor"></circle></svg><span>{{tabMap}}</span></a><a href="AppPhotos.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-8 8"></path></svg><span>{{tabPhotos}}</span></a><a href="AppAdmin.dc.html" class="tbi on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg><span>{{tabAdmin}}</span></a><a href="AppProfile.dc.html" class="tbi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg><span>{{tabMe}}</span></a></nav>
@@ -330,6 +345,14 @@ class Component extends DCLogic {
         this.setState({ lang: nl }, () => this._zyPost());
       }
     };
+  }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
   }
   _zyInitials(n) {
     n = String(n || '').trim();
@@ -451,7 +474,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "Send the invite code or link to relatives. After signing up they enter the code and can view and edit the family.", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人管理", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能查看和修改家族资料。", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "Send the invite code or link to relatives. After signing up they enter the code and can view and edit the family.", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能查看和修改家族资料。", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
     const Z = window.ZY;
     const st = this.state || {};
     const en = st.lang === 'en';
@@ -483,7 +506,7 @@ class Component extends DCLogic {
       const sub = [yr(x), fa ? t.father + ' ' + nameOf(fa) : '', mo ? t.mother + ' ' + nameOf(mo) : '', sp ? t.spouse + ' ' + nameOf(sp) : ''].filter(Boolean).join(' · ');
       const asking = st.ask === x.id;
       return {
-        name: nameOf(x) + (x.id === meId ? ' (' + t.me + ')' : ''), key: x.key || '', ch: this._zyInitials(nameOf(x)), sub: sub,
+        name: nameOf(x) + (x.id === meId ? ' (' + t.me + ')' : ''), key: x.key || '', ch: this._zyInitials(nameOf(x)), sub: sub, img: this._zyAv(x.avatar), noImg: !this._zyAv(x.avatar),
         href: this._zyHref('Profile', 'id=' + encodeURIComponent(x.id)), asking: asking, idle: !asking, canDel: x.id !== meId,
         ask: () => this.setState({ ask: x.id }), no: () => this.setState({ ask: null }),
         yes: () => { this.setState({ ask: null }); Z.deletePerson(x.id).catch((e) => this.setState({ bkMsg: t.failed + e.message, bkErr: true })); }
@@ -507,14 +530,16 @@ class Component extends DCLogic {
     });
     const rows4 = Z ? Z.clans() : [];
     const fams = Z ? Z.families : [];
-    const rows3 = ((Z && Z.data && Z.data.log) || []).slice(0, 15).map((g) => ({ what: g.what || '', meta: String(g.at || '').replace('T', ' ').slice(0, 16) + (g.by ? ' · ' + g.by : '') }));
     const famName = st.fam !== undefined ? st.fam : (fam.name || '');
     const pick = st.pick || (sorted[0] && sorted[0].id) || '';
     const me = Z && Z.me;
     return {
-      t: t, opts: { all: optsAll, fams: fams.map((f) => ({ id: f.id, label: (f.name || f.key) + ' · ' + f.key })) }, rows: rows, rows2: rows2, rows3: rows3, noLog: rows3.length === 0, total: all.length,
+      t: t, opts: { all: optsAll, fams: fams.map((f) => ({ id: f.id, label: (f.name || f.key) + ' · ' + f.key })) }, rows: rows, rows2: rows2, total: all.length,
+      addOpen: st.addOpen !== undefined ? !!st.addOpen : !!this._zyQ('of'),
+      openAdd: () => this.setState({ addOpen: true, sheetMsg: '' }), closeAdd: () => this.setState({ addOpen: false, sheetMsg: '' }),
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
       surFocus: () => { if (!A.surTouched) { A.sur = ''; A.surTouched = true; bump(); } },
-      raw: { aSur: A.sur, preview: preview, aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', fam: famName, pick: pick, joinCode: fam.joinCode || '—', famKey: fam.key || '—', famId: Z ? Z.familyId : '' },
+      raw: { sheetMsg: st.sheetMsg || '', aSur: A.sur, preview: preview, aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', fam: famName, pick: pick, joinCode: fam.joinCode || '—', famKey: fam.key || '—', famId: Z ? Z.familyId : '' },
       rows4: rows4, isAdmin: amAdmin, manyFam: fams.length > 1,
       opts2: null,
       copyLink: () => {
@@ -534,7 +559,7 @@ class Component extends DCLogic {
       addMsg: st.addMsg || (Z && !Z.loaded ? t.loading : ''), addCls: st.addErr ? 'u-err' : 'u-msg', addedHref: st.addedHref || '',
       addSubmit: (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!String(A.name).trim()) { this.setState({ addMsg: t.needName, addErr: true, addedHref: '' }); return; }
+        if (!String(A.name).trim()) { this.setState({ sheetMsg: t.needName }); return; }
         const nm0 = String(A.name).trim();
         const fields = { sex: A.sex, birth: String(A.birth).trim(), surname: String(A.sur || '').trim() };
         if (/[\u3400-\u9fff]/.test(nm0)) fields.name = nm0; else fields.nameEn = nm0;
@@ -543,8 +568,8 @@ class Component extends DCLogic {
         Z.savePerson(fields).then((nid) => {
           const nm = nm0;
           this._a = { name: '', sex: A.sex, birth: '', rel: A.rel, of: A.of, sur: '', surTouched: false };
-          this.setState({ busy: false, addMsg: t.added + nm, addErr: false, addedHref: this._zyHref('Profile', 'id=' + encodeURIComponent(nid)) });
-        }).catch((er) => this.setState({ busy: false, addMsg: t.failed + er.message, addErr: true }));
+          this.setState({ busy: false, addOpen: false, addMsg: t.added + nm, addErr: false, addedHref: this._zyHref('Profile', 'id=' + encodeURIComponent(nid)) });
+        }).catch((er) => this.setState({ busy: false, sheetMsg: t.failed + er.message }));
       },
       isCloud: isCloud, isDemo: !isCloud,
       invMsg: st.invMsg || '', invCls: st.invErr ? 'u-err' : 'u-msg',

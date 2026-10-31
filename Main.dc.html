@@ -387,6 +387,14 @@ class Component extends DCLogic {
       }
     };
   }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
+  }
   _zyInitials(n) {
     n = String(n || '').trim();
     if (!n) return '?';
