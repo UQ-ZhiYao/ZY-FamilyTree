@@ -325,7 +325,7 @@
       if (noSur && sexNew !== 'f' && o.surname) extra.self.surname = o.surname;
       var otherParent = sexNew === 'f' ? o.father : o.mother;
       extra.other = { id: o.id, field: sexNew === 'f' ? 'mother' : 'father', value: newId };
-      if (otherParent && !fields.spouse) { var op = ZY.person(otherParent); if (op && !op.spouse) extra.self.spouse = otherParent; }
+      if (otherParent && !fields.spouse) { var op = ZY.person(otherParent); if (op && !isPh(op) && (!op.spouse || isPh(ZY.person(op.spouse)))) extra.self.spouse = otherParent; }
     } else if (fields.rel === 'spouse') {
       extra.self.spouse = o.id;
     } else if (fields.rel === 'sibling') {
@@ -333,6 +333,83 @@
       if (noSur && o.surname) extra.self.surname = o.surname;
     }
     return extra;
+  }
+
+
+  // ----- keeping parent links tidy -----
+  function isPh(p) { return !!p && !p.userId && (p.name === '（待补充）' || p.nameEn === '(to be added)'); }
+  // Finds links that are clearly missing or point at an unnamed stand-in parent, e.g. a sister
+  // added before the parents existed. Returns { set: {id: {field: value}}, del: [ids] }.
+  function planHeal(people) {
+    var P = {}; Object.keys(people || {}).forEach(function (k) { P[k] = Object.assign({}, people[k]); });
+    var set = {};
+    var put = function (id, f, v) { if (!P[id] || P[id][f] === v) return; P[id][f] = v; (set[id] = set[id] || {})[f] = v; };
+    var real = function (id) { return !!(id && P[id] && !isPh(P[id])); };
+    var ids = Object.keys(P);
+    for (var pass = 0; pass < 3; pass++) {
+      // 1. a stand-in father/mother whose partner's other children all have one real parent: merge into that parent
+      ids.forEach(function (ph) {
+        var x = P[ph]; if (!x || !isPh(x)) return;
+        var f = x.sex === 'f' ? 'mother' : 'father', g = f === 'father' ? 'mother' : 'father';
+        var kids = ids.filter(function (k) { return P[k] && P[k][f] === ph; });
+        var partner = real(x.spouse) ? x.spouse : null;
+        if (!partner) { var ms = {}; kids.forEach(function (k) { if (real(P[k][g])) ms[P[k][g]] = 1; }); var mk = Object.keys(ms); if (mk.length === 1) partner = mk[0]; }
+        if (!partner) return;
+        var c = {}; ids.forEach(function (k) { if (P[k] && P[k][g] === partner && real(P[k][f])) c[P[k][f]] = 1; });
+        if (P[partner] && real(P[partner].spouse) && P[P[partner].spouse].sex !== (f === 'mother' ? 'm' : 'f')) c[P[partner].spouse] = 1;
+        var ck = Object.keys(c); if (ck.length !== 1) return;
+        var to = ck[0];
+        kids.forEach(function (k) { put(k, f, to); if (!P[k][g]) put(k, g, partner); });
+        if (P[partner].spouse === ph || !P[partner].spouse) { put(partner, 'spouse', to); if (!P[to].spouse) put(to, 'spouse', partner); }
+      });
+      // 2. someone with only one parent whose brothers/sisters (same parent) all share one other parent
+      ids.forEach(function (k) {
+        var x = P[k]; if (!x) return;
+        ['father', 'mother'].forEach(function (f) {
+          var g = f === 'father' ? 'mother' : 'father';
+          if (real(x[f]) || !real(x[g])) return;
+          var G = x[g], c = {};
+          ids.forEach(function (y) { if (y !== k && P[y] && P[y][g] === G && real(P[y][f])) c[P[y][f]] = 1; });
+          var ck = Object.keys(c);
+          if (ck.length !== 1) return;
+          var cand = ck[0];
+          if (P[G].spouse !== cand && P[cand].spouse !== G) return;
+          if (cand === k) return;
+          put(k, f, cand);
+        });
+      });
+    }
+    // 3. stand-ins nobody points at any more
+    var del = ids.filter(function (k) {
+      if (!isPh(P[k])) return false;
+      return !ids.some(function (y) { return y !== k && P[y] && (P[y].father === k || P[y].mother === k); });
+    });
+    del.forEach(function (k) { Object.keys(set).forEach(function (y) { if (set[y].spouse === k) delete set[y].spouse; }); delete set[k]; });
+    Object.keys(set).forEach(function (y) { if (!Object.keys(set[y]).length) delete set[y]; });
+    return { set: set, del: del };
+  }
+  var healing = null;
+  var healedOnce = false;
+  function heal() {
+    if (healing) return healing;
+    var d = state.data;
+    if (!d || !d.people || (mode() === 'cloud' && !state.familyId)) return Promise.resolve(false);
+    var plan = planHeal(d.people);
+    var ids = Object.keys(plan.set);
+    if (!ids.length && !plan.del.length) return Promise.resolve(false);
+    healing = run(function (dd) {
+      ids.forEach(function (id) { if (dd.people[id]) Object.keys(plan.set[id]).forEach(function (f) { dd.people[id][f] = plan.set[id][f]; }); });
+      plan.del.forEach(function (id) {
+        delete dd.people[id];
+        Object.keys(dd.people).forEach(function (k) { var x = dd.people[k]; ['father', 'mother', 'spouse'].forEach(function (f) { if (x[f] === id) x[f] = null; }); });
+      });
+    }, function () {
+      var c = Promise.resolve();
+      ids.forEach(function (id) { c = c.then(function () { return q(sb.from('members').update(toRow(plan.set[id])).eq('id', id)); }); });
+      plan.del.forEach(function (id) { c = c.then(function () { return q(sb.from('members').delete().eq('id', id)); }); });
+      return c;
+    }, 'Tidy family links').then(function () { healing = null; return true; }, function () { healing = null; return false; });
+    return healing;
   }
 
   var ZY = {
@@ -356,7 +433,7 @@
     get loaded() { return state.loaded; },
     seed: SEED,
     label: label,
-    ready: function () { return load(false).catch(function () { return state.data; }); },
+    ready: function () { return load(false).then(function (d) { if (!healedOnce) { healedOnce = true; setTimeout(function () { heal(); }, 300); } return d; }).catch(function () { return state.data; }); },
     reload: function () { return load(true); },
     subscribe: function (fn) { listeners.push(fn); return function () { listeners = listeners.filter(function (f) { return f !== fn; }); }; },
     person: function (id) { return state.data && id ? state.data.people[id] || null : null; },
@@ -463,10 +540,15 @@
           return q(sb.from('members').insert(row)).then(function () {
             if (!ex.other) return nid;
             var upd = {}; upd[COLS[ex.other.field]] = nid;
-            return q(sb.from('members').update(upd).eq('id', ex.other.id)).then(function () { return nid; });
+            var oldP = o[ex.other.field];
+            return q(sb.from('members').update(upd).eq('id', ex.other.id)).then(function () {
+              // brothers and sisters who shared the stand-in parent get the real one too
+              if (!oldP || !isPh(ZY.person(oldP))) return nid;
+              return q(sb.from('members').update(upd).eq('family_id', state.familyId).eq(COLS[ex.other.field], oldP)).then(function () { return nid; });
+            });
           });
           });
-        }, (isNew ? 'Add ' : 'Update ') + nm);
+        }, (isNew ? 'Add ' : 'Update ') + nm).then(function (id) { return heal().then(function () { return id; }); });
       }
       return run(function (d) {
         var id = isNew ? 'p_' + code('', 10).toLowerCase() : fields.id;
@@ -483,11 +565,17 @@
           }
           var ex = relFields(fields, oo, id, p.sex);
           Object.keys(ex.self).forEach(function (k) { p[k] = ex.self[k]; });
-          if (ex.other && d.people[ex.other.id]) d.people[ex.other.id][ex.other.field] = id;
+          if (ex.other && d.people[ex.other.id]) {
+            var oldP = d.people[ex.other.id][ex.other.field];
+            d.people[ex.other.id][ex.other.field] = id;
+            if (oldP && isPh(d.people[oldP])) Object.keys(d.people).forEach(function (k) { if (d.people[k][ex.other.field] === oldP) d.people[k][ex.other.field] = id; });
+          }
         }
         return id;
-      }, null, (isNew ? 'Add ' : 'Update ') + nm);
+      }, null, (isNew ? 'Add ' : 'Update ') + nm).then(function (id) { return heal().then(function () { return id; }); });
     },
+    heal: heal,
+    _planHeal: planHeal,
     deletePerson: function (id) {
       var p = ZY.person(id);
       var av = p && p.avatar;
@@ -495,7 +583,7 @@
         delete d.people[id];
         Object.keys(d.people).forEach(function (k) { var x = d.people[k]; ['father', 'mother', 'spouse'].forEach(function (f) { if (x[f] === id) x[f] = null; }); });
         (d.photos || []).forEach(function (ph) { ph.tags = (ph.tags || []).filter(function (t) { return t !== id; }); });
-      }, function () { return q(sb.from('members').delete().eq('id', id)); }, 'Remove ' + (label(p) || id)).then(function (r) { if (av) removeFile(av); return r; });
+      }, function () { return q(sb.from('members').delete().eq('id', id)); }, 'Remove ' + (label(p) || id)).then(function (r) { if (av) removeFile(av); return heal().then(function () { return r; }); });
     },
     linkMe: function (id) {
       if (mode() !== 'cloud') { ls(K.me, id); emit(); return Promise.resolve(id); }
