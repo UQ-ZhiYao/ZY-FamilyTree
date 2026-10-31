@@ -1,6 +1,6 @@
 // Zenith Yield service worker: caches the app's own files so it opens offline after the first visit.
 // Family data (Supabase) is never cached here.
-const CACHE = 'zenith-yield-v6';
+const CACHE = 'zenith-yield-v7';
 const SHELL = [
   './AppLogin.dc.html', './AppCircle.dc.html', './AppTree.dc.html', './AppPhotos.dc.html', './AppProfile.dc.html', './AppAdmin.dc.html',
   './support.js', './zy-store.js', './zy-config.js', './vendor/supabase.js', './manifest.webmanifest',
@@ -22,7 +22,8 @@ self.addEventListener('fetch', (e) => {
       .catch(() => caches.match(req).then((r) => r || caches.match('./AppLogin.dc.html'))));
     return;
   }
-  if (url.origin === self.location.origin && /\/zy-config\.js$/.test(url.pathname)) {
+  // The app's own pages and scripts: network first, so an update reaches phones on the next open.
+  if (url.origin === self.location.origin && /\.(html|js|webmanifest)$/.test(url.pathname)) {
     e.respondWith(fetch(req).catch(() => caches.match(req)));
     return;
   }

@@ -82,7 +82,7 @@ a{color:var(--z1)}a:hover{color:var(--z2)}
 .gal.rev{animation-direction:reverse;animation-duration:310s}
 @keyframes starTurn{to{transform:rotate(-360deg)}}
 .skyturn{animation:starTurn 900s linear infinite}
-@keyframes bgSway{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.6)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(5deg) scale(.64)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.6)}}
+@keyframes bgSway{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.8)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(5deg) scale(.84)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(-14deg) scale(.8)}}
 @keyframes bgFloat{0%,100%{translate:0 0}50%{translate:0 -14px}}
 @keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-34px,-20px,0)}}
 @keyframes threadFlow{to{stroke-dashoffset:-44}}
@@ -90,10 +90,10 @@ a{color:var(--z1)}a:hover{color:var(--z2)}
 .bgwrap{opacity:.96;transition:opacity .45s ease;animation:bgFloat 9s ease-in-out infinite}
 .bgwrap:hover{opacity:1}
 .bgwrap:hover .bg3d{outline:none}
-@keyframes bgSwayL{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.6)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(-5deg) scale(.64)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.6)}}
+@keyframes bgSwayL{0%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.8)}50%{transform:perspective(1600px) rotateX(48deg) rotateZ(-5deg) scale(.84)}100%{transform:perspective(1600px) rotateX(58deg) rotateZ(14deg) scale(.8)}}
 .bg3dl{animation-name:bgSwayL;animation-duration:27s}
-@keyframes bgSwayS{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.42)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(2deg) scale(.45)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.42)}}
-@keyframes bgSwaySL{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.42)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(-2deg) scale(.45)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.42)}}
+@keyframes bgSwayS{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.55)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(2deg) scale(.58)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(-18deg) scale(.55)}}
+@keyframes bgSwaySL{0%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.55)}50%{transform:perspective(1600px) rotateX(50deg) rotateZ(-2deg) scale(.58)}100%{transform:perspective(1600px) rotateX(60deg) rotateZ(18deg) scale(.55)}}
 .bg3ds{animation-name:bgSwayS;animation-duration:31s}
 .bg3dsl{animation-name:bgSwaySL;animation-duration:33s}
 .bgfar{opacity:.78}
@@ -176,6 +176,14 @@ main h1{font-size:24px !important}
 .has-sheet .zy-pill{display:none}
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
+
+@media (max-width:820px),(pointer:coarse){
+.skyturn,.bg3d,.bgwrap,.gal,.comet,.drift,.thread,.star,.aurora-l span,.orbit,.ln,.gold::after,.coral::after,.pink::after,.meav::after,.sel::after,.gold,.coral,.pink{animation:none !important}
+.skyturn,.bg3d,.bgwrap,.gal,.spin,.node.upright,.gold::after,.coral::after,.pink::after,.meav::after,.sel::after{will-change:auto !important}
+.skyturn{width:120vmax !important;height:120vmax !important;margin-left:-60vmax !important;margin-top:-60vmax !important}
+.aurora-l span{filter:none !important}
+.st0{display:none}
+}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -651,7 +659,6 @@ class Component extends DCLogic {
       const fa = p.father && people[p.father] ? p.father : null;
       const mo = p.mother && people[p.mother] ? p.mother : null;
       let par = fa || mo;
-      if (fa && mo && !hasPar(fa) && hasPar(mo)) par = mo;
       BASE[EID[rid]].parent = par ? EID[par] : null;
     });
     // A person can never be their own ancestor: cut any parent link that closes a loop.
@@ -677,7 +684,11 @@ class Component extends DCLogic {
       const pb = !!BASE[b].parent;
       let from = a;
       let to = b;
-      if (pa && !pb) { from = b; to = a; }
+      // the partner the shared children hang from is the blood relative in this chart
+      const kidA = Object.keys(BASE).some((k) => BASE[k].parent === a);
+      const kidB = Object.keys(BASE).some((k) => BASE[k].parent === b);
+      if (kidA !== kidB) { if (kidA) { from = b; to = a; } }
+      else if (pa && !pb) { from = b; to = a; }
       else if (pa === pb) {
         if (a === 'me') { from = b; to = a; }
         else if (b !== 'me' && BASE[a].sex === 'm' && BASE[b].sex === 'f') { from = b; to = a; }
@@ -787,6 +798,9 @@ class Component extends DCLogic {
     this.moved = false;
     this.stageSize = 1100;
   }
+  _isLite() {
+    try { return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches; } catch (e) { return false; }
+  }
   fitScale() {
     try {
       const w = window.innerWidth || 1440;
@@ -794,7 +808,12 @@ class Component extends DCLogic {
       const S = this.stageSize || 1100;
       const phone = w <= 640;
       const D = 2 * Math.min(S / 2, (this.fitR > 0 ? this.fitR : S / 2));
-      return Math.max(0.25, Math.min(1.2, (h - (phone ? 190 : 110)) / D, (w - (phone ? 16 : 40)) / D));
+      const hh = h - (phone ? 190 : 110);
+      const ww = w - (phone ? 16 : 40);
+      const main = Math.min(1.2, hh / D, ww / D);
+      if (phone || !(this.fitW > 0)) return Math.max(0.25, main);
+      const all = Math.min(hh / (2 * Math.max(D / 2, this.fitH || 0)), ww / (2 * Math.max(D / 2, this.fitW)));
+      return Math.max(0.25, Math.min(main, Math.max(all, main * 0.72)));
     } catch (e) { return 1; }
   }
   _queue(p) {
@@ -908,7 +927,7 @@ class Component extends DCLogic {
       }
     };
     this._raf = requestAnimationFrame(tick);
-    this.setState({ sc: this.fitScale() });
+    this.setState(this._isLite() ? { sc: this.fitScale(), spin: false } : { sc: this.fitScale() });
     if (window.ZY) window.ZY.ready().then(() => setTimeout(() => this.setState({ sc: this.fitScale() }), 80));
   }
   _rv() {
@@ -1311,6 +1330,17 @@ class Component extends DCLogic {
       const top = TAU - Math.PI / 2;
       place(pRoot, top - Wp * u, 'p');
       if (mRoot) place(mRoot, top, 'm');
+      {
+        let fb = 0;
+        Object.keys(vis).forEach((id) => {
+          if (id === ME || ringOf(id) <= 0 || (want[id] !== undefined && isFinite(want[id]))) return;
+          const pa = DB[id] && DB[id].parent;
+          const sp = DB[id] && DB[id].spouse;
+          const w = pa && want[pa] !== undefined ? want[pa] : (sp && want[sp] !== undefined ? want[sp] : undefined);
+          want[id] = w !== undefined && isFinite(w) ? w + 0.05 * (++fb) : top + 0.6 * (++fb);
+        });
+        Object.keys(clu).forEach((k) => { if (want[k] === undefined || !isFinite(want[k])) want[k] = top + 0.6 * (++fb); });
+      }
       const PA = DB[ME].parent;
       if (want.__me !== undefined && PA && vis[PA] && ringOf(PA) === 2) want[PA] = want.__me;
       const ids = Object.keys(vis);
@@ -1319,7 +1349,9 @@ class Component extends DCLogic {
       ids.forEach((id) => { const k = ringOf(id); if (k > 0) (byRing[k] = byRing[k] || []).push(id); });
       if (want.__me !== undefined) (byRing[1] = byRing[1] || []).push('__me');
       Object.keys(clu).forEach((k) => { (byRing[clu[k].ring] = byRing[clu[k].ring] || []).push(k); HW[k] = CHW; });
-      const R = base.slice();
+      let maxK = 1;
+      Object.keys(byRing).forEach((k) => { if ((byRing[k] || []).length && +k > maxK) maxK = +k; });
+      const R = base.slice(0, Math.min(base.length, Math.max(2, maxK + 1)));
       for (let k = 1; k < R.length; k++) {
         const need = (byRing[k] || []).reduce((sum, id) => sum + 2 * (HW[id] || MINSP[k] / 2), 0) / (TAU * 0.8);
         R[k] = Math.round(Math.max(base[k], need, k > 1 ? R[k - 1] + 96 : 0));
@@ -1379,7 +1411,7 @@ class Component extends DCLogic {
     });
     const ringUp = (id) => id === ME ? 0 : DB[id].lv + 1;
     const ringDown = (id) => id === ME ? 0 : 1 - DB[id].lv;
-    const LU = layoutView(visUp, ringUp, [0, 150, 260, 355, 440, 515], [0, 62, 62, 60, 56, 52]);
+    const LU = layoutView(visUp, ringUp, [0, 150, 260, 355, 440, 515], [0, 66, 72, 64, 58, 52]);
     const LD = layoutView(visDown, ringDown, [0, 170, 330, 450], [0, 64, 62, 60]);
     const upList = LU.list;
     const downList = LD.list;
@@ -1463,7 +1495,7 @@ class Component extends DCLogic {
           rc: COL[p.cat], bg: me ? 'var(--z38)' : 'var(--z69)', fg: me ? 'var(--z24)' : TXT[p.cat], tc: TXT[p.cat],
           cls: CLS[p.cat], tone: TONE[p.cat], klass: CLS[p.cat] + ' ' + TONE[p.cat],
           fs: me ? 34 : Math.round(s * 0.38), ls: me ? 16 : (s <= 40 ? 11 : 12),
-          delay: (0.15 + ring * 0.16).toFixed(2),
+          delay: (0.15 + (ring || 0) * 0.16).toFixed(2),
           sel: this.state.sel === it.id && !me,
           op: (dim(p.side) * hl(it.id)).toFixed(2),
           pick: pick, dbl: noop
@@ -1555,7 +1587,7 @@ class Component extends DCLogic {
           } else pts = fromMe ? [L.pos[l[1]], L.pos[l[2]]] : (sameRing ? along(l[1], l[2]) : elbow(l[1], l[2]));
           return Object.assign({
             pts: pts, d: pathOf(pts),
-            delay: (0.3 + ring * 0.16).toFixed(2),
+            delay: (0.3 + (ring || 0) * 0.16).toFixed(2),
             op: l[0] === 'couple' ? Math.min(dim(sa), dim(sb)) : dim(side), _ab: ab, type: l[0]
           }, STY[l[0]]);
         });
@@ -1701,6 +1733,8 @@ class Component extends DCLogic {
       return (sn ? sn + '氏 · ' : '') + rel;
     };
     const bgs = [];
+    const LITE = this._isLite();
+    const ext = { w: 0, h: 0 };
     if (!this._inner) {
       this._bgCache = this._bgCache || {};
       specs.forEach((sp) => {
@@ -1713,15 +1747,24 @@ class Component extends DCLogic {
           sh.props = this.props;
           sh.state = Object.assign({}, this.state, { lang: 'zh', center: sp.who, titleFrom: ME, mode: 'up', expand: null, sel: null, hover: null, filter: 'all', fam: false });
           sh.setState = () => {};
-          try { r = sh.renderVals(); } catch (err) { r = null; }
+          try { r = sh.renderVals(); if (r) r.__fit = sh.fitR; } catch (err) { r = null; }
           this._bgCache[key] = r;
         }
         if (!r) return;
         const left = sp.side < 0;
         const far = sp.level === 2;
-        const k = far ? 0.42 : 0.6;
-        const bx = Math.round(Sm / 2 + sp.side * Sm * (far ? 1.22 : 0.64));
-        const by = Math.round(Sm / 2 - Sm * (far ? 0.2 : 0.44));
+        const k = far ? 0.55 : 0.8;
+        const Rm = Math.max(170, (this.fitR > 0 ? this.fitR : Sm / 2) - 80);
+        const rb = Math.max(110, ((r.__fit > 0 ? r.__fit : r.S / 2) - 80)) * k * 0.86;
+        const D = far && sp.parent && sp.parent.D ? sp.parent.D + sp.parent.rb + rb + 10 : Rm + rb + 10;
+        const tall = (window.innerHeight || 900) > (window.innerWidth || 1440) * 1.2;
+        const an = (tall ? (far ? 80 : 68) : (far ? 10 : 24)) * Math.PI / 180;
+        const bx = Math.round(Sm / 2 + sp.side * D * Math.cos(an));
+        const by = Math.round(Sm / 2 - D * Math.sin(an));
+        sp.D = D;
+        sp.rb = rb;
+        ext.w = Math.max(ext.w, Math.abs(bx - Sm / 2) + rb);
+        ext.h = Math.max(ext.h, Math.abs(by - Sm / 2) + rb * 0.62 + 50);
         sp.bx = bx;
         sp.by = by;
         sp.idx = bgs.length;
@@ -1736,11 +1779,11 @@ class Component extends DCLogic {
           fx: far ? '' : (from ? from.x.toFixed(1) : ''), fy: far ? '' : (from ? from.y.toFixed(1) : ''), bx: bx, by: by, cxo: bend, cyo: far ? -50 : 40, cc: Math.round(Sm / 2), spinT: far ? '0' : '1',
           thread: from ? ('M ' + from.x.toFixed(1) + ' ' + from.y.toFixed(1) + ' Q ' + ((from.x + bx) / 2 + bend).toFixed(1) + ' ' + ((from.y + by) / 2 + (far ? -50 : 40)).toFixed(1) + ' ' + bx + ' ' + by) : '',
           label: nameOf(sp), tip: '点击进入' + nameOf(sp),
-          lx: bx, ly: Math.round(by - r.S * k * 0.5 * 0.6 - (far ? 36 : 46)),
+          lx: bx, ly: Math.round(by - rb * 0.62 - (far ? 30 : 40)),
           cls: (pink ? 'bgwrap bgp' : 'bgwrap bgv') + (far ? ' bgfar' : ''),
           tilt: far ? (left ? 'bg3d bg3dsl' : 'bg3d bg3ds') : (left ? 'bg3d bg3dl' : 'bg3d'),
           gal: left ? 'gal rev' : 'gal',
-          base: 'perspective(1600px) rotateX(55deg) rotateZ(' + (left ? 6 : -6) + 'deg) scale(' + k + ')',
+          base: LITE ? 'rotate(' + (left ? 6 : -6) + 'deg) scale(' + k + ', ' + (k * 0.6).toFixed(3) + ')' : 'perspective(1600px) rotateX(55deg) rotateZ(' + (left ? 6 : -6) + 'deg) scale(' + k + ')',
           ring: pink ? 'var(--z73)' : 'var(--z74)', fill: pink ? 'var(--z75)' : 'var(--z76)',
           comet: pink ? 'var(--z8)' : 'var(--z77)', thr: pink ? 'var(--z78)' : 'var(--z79)',
           lc: pink ? 'var(--z80)' : 'var(--z81)', glow: pink ? 'var(--z60)' : 'var(--z82)', fs: far ? 13 : 15,
@@ -1748,6 +1791,7 @@ class Component extends DCLogic {
         });
       });
     }
+    if (!this._inner) { this.fitW = ext.w; this.fitH = ext.h; }
     const mainLabel = SURNAME[LTOP] ? SURNAME[LTOP] + '氏 · 本宗' : (LTOP === ME ? (ME === 'me' ? '我的小家庭' : BASE[ME].title + '的小家庭') : BASE[LTOP].title + '家 · 本宗');
     const recenter = (id) => {
       this.setState({ center: id, sel: null, hover: null, expand: null, mode: 'up', tx: 0, ty: 0, phase: 1 - phase }, () => this.setState({ sc: this.fitScale() }));
