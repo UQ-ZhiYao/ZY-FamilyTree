@@ -68,6 +68,7 @@ create table if not exists public.members (
   name        text not null default '',
   name_en     text not null default '',
   surname     text not null default '',
+  surname_zh  text not null default '',
   sex         text not null default 'm' check (sex in ('m', 'f')),
   birth       text not null default '',
   death       text not null default '',
@@ -134,6 +135,7 @@ alter table public.clans add column if not exists join_code text;
 update public.clans set join_code = public.zy_code('', 8) where join_code is null;
 alter table public.clans alter column join_code set default public.zy_code('', 8);
 create unique index if not exists clans_join_code on public.clans (join_code);
+alter table public.members add column if not exists surname_zh text not null default '';
 alter table public.members add column if not exists created_by uuid references auth.users (id) on delete set null;
 alter table public.members alter column created_by set default auth.uid();
 alter table public.family_users add column if not exists clan_id uuid references public.clans (id) on delete set null;
@@ -289,6 +291,15 @@ create or replace function public.zy_member_after()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
   if pg_trigger_depth() > 1 then return null; end if;
+  -- A stand-in "(to be added)" father being replaced: brothers and sisters get the real father too,
+  -- and the stand-in is removed once nobody points at it.
+  if tg_op = 'UPDATE' and old.father_id is not null and old.father_id is distinct from new.father_id
+     and exists (select 1 from public.members ph where ph.id = old.father_id and ph.user_id is null and (ph.name = '（待补充）' or ph.name_en = '(to be added)')) then
+    update public.members set father_id = new.father_id where father_id = old.father_id and id <> new.id;
+    if not exists (select 1 from public.members c where c.father_id = old.father_id or c.mother_id = old.father_id) then
+      delete from public.members where id = old.father_id;
+    end if;
+  end if;
   if tg_op = 'UPDATE' and old.spouse_id is not null and old.spouse_id is distinct from new.spouse_id then
     update public.members set spouse_id = null where id = old.spouse_id and spouse_id = new.id;
   end if;
@@ -310,7 +321,7 @@ end $$;
 drop trigger if exists zy_member_before on public.members;
 create trigger zy_member_before before insert or update on public.members for each row execute function public.zy_member_before();
 drop trigger if exists zy_member_after on public.members;
-create trigger zy_member_after after insert or update of spouse_id on public.members for each row execute function public.zy_member_after();
+create trigger zy_member_after after insert or update of spouse_id, father_id on public.members for each row execute function public.zy_member_after();
 drop trigger if exists zy_member_deleted on public.members;
 create trigger zy_member_deleted after delete on public.members for each row execute function public.zy_member_deleted();
 

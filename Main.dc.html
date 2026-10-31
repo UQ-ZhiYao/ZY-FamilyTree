@@ -20,7 +20,7 @@
 <meta name="application-name" content="Zenith Yield">
 <link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
 <style>
 .zy-d{--zy-sky:radial-gradient(ellipse at 70% 12%, var(--z17) 0%, var(--z12) 42%, var(--z18) 100%);--z1:#9DCBFF;--z2:#FFFFFF;--z3:rgba(157,203,255,.45);--z4:rgba(94,140,242,.25);--z5:rgba(157,203,255,.6);--z6:rgba(94,140,242,.32);--z7:rgba(255,255,255,.07);--z8:rgba(207,228,255,.16);--z9:rgba(255,255,255,.1);--z10:rgba(157,203,255,.35);--z11:rgba(207,228,255,.12);--z12:#0B1532;--z13:rgba(157,203,255,0);--z14:#CFE4FF;--z15:#EAF4FF;--z16:rgba(157,203,255,.75);--z17:#1B2E78;--z18:#050B1E;--z19:#EAF2FF;--z20:rgba(255,255,255,0);--z21:#2F5BEA;--z22:rgba(94,140,242,.6);--z23:rgba(207,228,255,.28);--z24:rgba(157,203,255,.08);--z25:#FFC857;--z26:rgba(255,200,87,.55);--z27:#B9C9E8;--z28:#DCEBFF;--z29:rgba(234,244,255,.95);--z30:rgba(157,203,255,.9);--z31:rgba(157,203,255,.7);--z32:rgba(157,203,255,.55);--z33:rgba(157,203,255,.12);--z34:rgba(157,203,255,.85);--z35:rgba(207,228,255,.14);--z36:rgba(207,228,255,.35);--z37:rgba(47,91,234,.35);--z38:rgba(14,26,82,.9);--z39:rgba(207,228,255,.6);--z40:#8FA9D6;--z41:rgba(255,200,87,.8);--z42:#FF9E7A;--z43:rgba(255,158,122,.75);--z44:#FF8FC0;--z45:rgba(255,143,192,.75);--z46:#B9771A;--z47:rgba(255,200,87,.6);--z48:#B4502C;--z49:rgba(255,158,122,.6);--z50:rgba(157,203,255,.65);--z51:rgba(157,203,255,.8);--z52:rgba(255,158,122,.8);--z53:rgba(201,182,255,.85)}
@@ -126,6 +126,9 @@ html{scroll-behavior:smooth}
 .zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
 .zp.on{opacity:1;font-weight:600}
 .zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+@media (max-width:640px){input,select,textarea{font-size:16px !important}}
 
 @media (max-width:640px){header nav{display:none !important}header .glass{flex-wrap:nowrap !important}h1{font-size:36px !important;line-height:1.25 !important}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
@@ -308,6 +311,16 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 class Component extends DCLogic {
   _zyPWA() {
     try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+    // Phone: pages do not zoom (pinch or double-tap). Only the family map zooms, with its own controls.
+    try {
+      if (!window.__zyNoZoom && !/Circle\.dc\.html/.test(window.location.pathname)) {
+        window.__zyNoZoom = 1;
+        const stop = (e) => { e.preventDefault(); };
+        document.addEventListener('gesturestart', stop, { passive: false });
+        document.addEventListener('gesturechange', stop, { passive: false });
+        document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+      }
+    } catch (e) {}
   }
   componentWillUnmount() {
     this._zyStop();

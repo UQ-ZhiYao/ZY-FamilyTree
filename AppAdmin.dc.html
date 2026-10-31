@@ -20,7 +20,7 @@
 <meta name="application-name" content="Zenith Yield">
 <link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
 <style>
 .zy-d{--z1:#496FED;--z2:#92A6EC;--z3:#06102C;--z4:rgba(73,111,237,0.15);--z5:rgba(20,23,31,0.08);--z6:rgba(73,111,237,0.16);--z7:#081024;--z8:#0B1322;--z9:#E0E3EB;--z10:#0B0D14;--z11:#1F2531;--z12:rgba(20,23,31,0.07);--z13:#BDC1CC;--z14:#051136;--z15:#242A36;--z16:#C8D0F6;--z17:#A6B2CF;--z18:#AFB9D4;--z19:#0F131E;--z20:#0B2F3C;--z21:#8FD5EE;--z22:#9EE0F6;--z23:#130538;--z24:#AD9CE2}
@@ -77,6 +77,9 @@ main h1{font-size:24px !important}
 .zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
 .zp.on{opacity:1;font-weight:600}
 .zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+@media (max-width:640px){input,select,textarea{font-size:16px !important}}
 
 @media (max-width:640px){
 html.zy-sub .tabbar{display:none !important}
@@ -258,6 +261,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <div class="u-grid">
 <label class="u-label">{{t.name}}<input class="u-in" type="text" value="{{raw.aName}}" onInput="{{setA.name}}"></label>
 <label class="u-label">{{t.surname}}<input class="u-in" type="text" style="text-transform: uppercase" value="{{raw.aSur}}" onFocus="{{surFocus}}" onInput="{{setA.sur}}" title="{{t.surHint}}"></label>
+<label class="u-label">{{t.surnameZh}}<input class="u-in" type="text" value="{{raw.aSurZh}}" onFocus="{{surZhFocus}}" onInput="{{setA.surZh}}" placeholder="伍 / 黄"></label>
 <label class="u-label">{{t.sex}}<select class="u-in" value="{{raw.aSex}}" onChange="{{setA.sex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
 <label class="u-label">{{t.birth}}<input class="u-in" type="text" inputmode="numeric" value="{{raw.aBirth}}" onInput="{{setA.birth}}" placeholder="1965"></label>
 <label class="u-label">{{t.rel}}<select class="u-in" value="{{raw.aRel}}" onChange="{{setA.rel}}"><option value="child">{{t.rchild}}</option><option value="parent">{{t.rparent}}</option><option value="spouse">{{t.rspouse}}</option><option value="sibling">{{t.rsibling}}</option><option value="">{{t.rnone}}</option></select></label>
@@ -278,6 +282,16 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 class Component extends DCLogic {
   _zyPWA() {
     try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+    // Phone: pages do not zoom (pinch or double-tap). Only the family map zooms, with its own controls.
+    try {
+      if (!window.__zyNoZoom && !/Circle\.dc\.html/.test(window.location.pathname)) {
+        window.__zyNoZoom = 1;
+        const stop = (e) => { e.preventDefault(); };
+        document.addEventListener('gesturestart', stop, { passive: false });
+        document.addEventListener('gesturechange', stop, { passive: false });
+        document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+      }
+    } catch (e) {}
   }
   componentWillUnmount() {
     this._zyStop();
@@ -506,7 +520,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "You come from more than one surname family, and each has its own invitation code. Send each code to relatives on that side: after signing up they only see that big family.", own: "Father’s side", mom: "Mother’s side", sp: "Spouse’s family", fam: " family", ppl2: "people", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", backMe: "Me", famSet: "Family settings", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "你来自几个姓氏家族，每个家族都有自己的邀请码。把对应的邀请码发给那一边的亲戚：他们注册后输入邀请码，只会看到那一个大家族。", own: "本宗 · 父系", mom: "外家 · 母系", sp: "配偶家族", fam: "氏家族", ppl2: "人", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", backMe: "我的", famSet: "家族设置", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname (English)", surnameZh: "Chinese surname (optional)", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "You come from more than one surname family, and each has its own invitation code. Send each code to relatives on that side: after signing up they only see that big family.", own: "Father’s side", mom: "Mother’s side", sp: "Spouse’s family", fam: " family", ppl2: "people", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", backMe: "Me", famSet: "Family settings", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏（英文 / 拼音）", surnameZh: "中文姓氏（可选）", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "你来自几个姓氏家族，每个家族都有自己的邀请码。把对应的邀请码发给那一边的亲戚：他们注册后输入邀请码，只会看到那一个大家族。", own: "本宗 · 父系", mom: "外家 · 母系", sp: "配偶家族", fam: "氏家族", ppl2: "人", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", backMe: "我的", famSet: "家族设置", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
     const Z = window.ZY;
     const st = this.state || {};
     const en = st.lang === 'en';
@@ -525,9 +539,11 @@ class Component extends DCLogic {
     const setA = {};
     ['name', 'sex', 'birth', 'rel', 'of'].forEach((k) => { setA[k] = (e) => { A[k] = e.target.value; bump(); }; });
     setA.sur = (e) => { A.sur = e.target.value; A.surTouched = true; };
+    setA.surZh = (e) => { A.surZh = e.target.value; A.surZhTouched = true; };
     const ofP = Z && A.of ? Z.person(A.of) : null;
     const preset = (ofP && ofP.surname) || (Z && Z.me && Z.me.surname) || '';
     if (!A.surTouched) A.sur = preset;
+    if (!A.surZhTouched) A.surZh = (ofP && ofP.surnameZh) || (Z && Z.me && Z.me.surnameZh) || '';
     const relName = { child: t.rchild, parent: t.rparent, spouse: t.rspouse, sibling: t.rsibling }[A.rel] || '';
     const preview = (String(A.sur || '').trim().toUpperCase() + String(A.name || '').trim() || '…') + (relName && ofP ? ' → ' + nameOf(ofP) + ' · ' + relName : '');
     const q = String(st.q || '').trim().toLowerCase();
@@ -564,7 +580,7 @@ class Component extends DCLogic {
     try { document.documentElement.classList.add('zy-sub'); } catch (e) {}
     const invRole = { own: t.own, mother: t.mom, spouse: t.sp };
     const optInv = (Z && Z.invites ? Z.invites() : []).map((iv) => ({
-      title: (iv.surname || '—') + t.fam, sub: (invRole[iv.role] || '') + (iv.people ? ' · ' + iv.people + ' ' + t.ppl2 : ''), code: iv.code || '—',
+      title: (Z.surnameLabel ? Z.surnameLabel(iv.surname, en) : iv.surname || '—') + t.fam, sub: (invRole[iv.role] || '') + (iv.people ? ' · ' + iv.people + ' ' + t.ppl2 : ''), code: iv.code || '—',
       copy: () => { const link = Z.joinLink(iv.code); const done = () => this.setState({ invMsg: t.copied + '：' + link, invErr: false }); try { navigator.clipboard.writeText(link).then(done, done); } catch (e) { done(); } },
       renew: () => Z.newClanCode(iv.clanId).catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true }))
     }));
@@ -579,8 +595,9 @@ class Component extends DCLogic {
       addOpen: st.addOpen !== undefined ? !!st.addOpen : !!this._zyQ('of'),
       openAdd: () => this.setState({ addOpen: true, sheetMsg: '' }), closeAdd: () => this.setState({ addOpen: false, sheetMsg: '' }),
       stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      surZhFocus: () => { if (!A.surZhTouched) { A.surZh = ''; A.surZhTouched = true; bump(); } },
       surFocus: () => { if (!A.surTouched) { A.sur = ''; A.surTouched = true; bump(); } },
-      raw: { sheetMsg: st.sheetMsg || '', aSur: A.sur, preview: preview, aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', fam: famName, pick: pick, joinCode: fam.joinCode || '—', famKey: fam.key || '—', famId: Z ? Z.familyId : '' },
+      raw: { sheetMsg: st.sheetMsg || '', aSur: A.sur, aSurZh: A.surZh || '', preview: preview, aName: A.name, aSex: A.sex, aBirth: A.birth, aRel: A.rel, aOf: A.of, q: st.q || '', fam: famName, pick: pick, joinCode: fam.joinCode || '—', famKey: fam.key || '—', famId: Z ? Z.familyId : '' },
       rows4: rows4, isAdmin: amAdmin, manyFam: fams.length > 1,
       opts2: null,
       copyLink: () => {
@@ -602,13 +619,13 @@ class Component extends DCLogic {
         if (e && e.preventDefault) e.preventDefault();
         if (!String(A.name).trim()) { this.setState({ sheetMsg: t.needName }); return; }
         const nm0 = String(A.name).trim();
-        const fields = { sex: A.sex, birth: String(A.birth).trim(), surname: String(A.sur || '').trim().toUpperCase() };
+        const fields = { sex: A.sex, birth: String(A.birth).trim(), surname: String(A.sur || '').trim().toUpperCase(), surnameZh: String(A.surZh || '').trim() };
         if (/[\u3400-\u9fff]/.test(nm0)) fields.name = nm0; else fields.nameEn = nm0;
         if (A.rel && A.of) { fields.rel = A.rel; fields.of = A.of; }
         this.setState({ busy: true, addMsg: '', addedHref: '' });
         Z.savePerson(fields).then((nid) => {
           const nm = nm0;
-          this._a = { name: '', sex: A.sex, birth: '', rel: A.rel, of: A.of, sur: '', surTouched: false };
+          this._a = { name: '', sex: A.sex, birth: '', rel: A.rel, of: A.of, sur: '', surTouched: false, surZh: '', surZhTouched: false };
           this.setState({ busy: false, addOpen: false, addMsg: t.added + nm, addErr: false, addedHref: this._zyHref('Profile', 'id=' + encodeURIComponent(nid)) });
         }).catch((er) => this.setState({ busy: false, sheetMsg: t.failed + er.message }));
       },
