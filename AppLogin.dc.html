@@ -62,6 +62,10 @@ section[id]{scroll-margin-top:96px}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
+.zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
+.zp.on{opacity:1;font-weight:600}
+.zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
 .lf{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500;color:var(--z18);min-width:0}
 .li{height:46px;width:100%;box-sizing:border-box;padding:0 12px;border:1px solid var(--z19);border-radius:10px;background:var(--z20);font:inherit;font-size:15px;font-weight:400;color:var(--z2)}
 .li:focus{outline:none;border-color:var(--z1);box-shadow:0 0 0 4px var(--z5)}
@@ -94,13 +98,13 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <span style="font-size: 17px; letter-spacing: -.2px; font-weight: 700">Zenith Yield</span>
 </a>
 <div style="display: flex; align-items: center; gap: 14px">
-<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z10); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z10); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+
 </div>
 </header>
 
 <main style="position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 12px 16px calc(32px + env(safe-area-inset-bottom))">
-<sc-if value="{{instShow}}" hint-placeholder-val="{{true}}">
-<div class="glass rise" role="region" aria-label="{{instTitle}}" style="width: 100%; max-width: 420px; box-sizing: border-box; border-radius: 16px; padding: 12px 10px 12px 12px; display: flex; align-items: center; gap: 12px"><img src="./icons/zy-icon-192.png" alt="" width="44" height="44" style="width: 44px; height: 44px; flex: none; border-radius: 11px"><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px; color: var(--z2)">{{instTitle}}</b><span style="font-size: 12px; line-height: 1.5; color: var(--z15)">{{instDesc}}</span></span><sc-if value="{{instCan}}" hint-placeholder-val="{{false}}"><button type="button" class="cta" onClick="{{instGo}}" style="height: 36px; flex: none; padding: 0 14px; border: none; border-radius: 9px; background: var(--z21); color: var(--z8); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{instBtn}}</button></sc-if><button type="button" onClick="{{instNo}}" aria-label="{{instLater}}" title="{{instLater}}" style="width: 32px; height: 32px; flex: none; border: none; border-radius: 8px; background: transparent; color: var(--z15); font: inherit; font-size: 20px; line-height: 1; cursor: pointer">×</button></div>
+<sc-if value="{{instShow}}" hint-placeholder-val="{{false}}">
+<div class="glass rise" role="region" aria-label="{{instTitle}}" style="width: 100%; max-width: 440px; box-sizing: border-box; border-radius: 16px; padding: 12px 10px 12px 12px; display: flex; align-items: center; gap: 12px"><img src="./icons/zy-icon-192.png" alt="" width="44" height="44" style="width: 44px; height: 44px; flex: none; border-radius: 11px"><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><b style="font-size: 14px; color: var(--z2)">{{instTitle}}</b><span style="font-size: 12px; line-height: 1.5; color: var(--z15)">{{instDesc}}</span></span><sc-if value="{{instCan}}" hint-placeholder-val="{{false}}"><button type="button" class="cta" onClick="{{instGo}}" style="height: 36px; flex: none; padding: 0 14px; border: none; border-radius: 9px; background: var(--z21); color: var(--z8); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{instBtn}}</button></sc-if><button type="button" onClick="{{instNo}}" aria-label="{{instLater}}" title="{{instLater}}" style="width: 32px; height: 32px; flex: none; border: none; border-radius: 8px; background: transparent; color: var(--z15); font: inherit; font-size: 20px; line-height: 1; cursor: pointer">×</button></div>
 </sc-if>
 <div class="glass rise" style="width: 100%; max-width: 440px; border-radius: 20px; padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 30px 80px var(--z16)">
 <sc-if value="{{showTabs}}" hint-placeholder-val="{{true}}">
@@ -163,6 +167,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <button type="button" onClick="{{demo}}" style="height: 46px; border-radius: 10px; border: 1px solid var(--z19); background: transparent; color: var(--z10); font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{t.demo}}</button>
 <span style="margin-top: -8px; font-size: 12px; color: var(--z15); text-align: center">{{t.demoHint}}</span>
 </sc-if>
+<div style="display: flex; justify-content: center; padding-top: 4px; color: var(--z15)"><span class="zprefs"><button type="button" class="{{zyp.lzCls}}" onClick="{{zyp.setLangZh}}">中文</button><button type="button" class="{{zyp.leCls}}" onClick="{{zyp.setLangEn}}">English</button><span aria-hidden="true" style="opacity:.4">·</span><button type="button" class="{{zyp.tdCls}}" onClick="{{zyp.setThemeDark}}">{{zyp.darkText}}</button><button type="button" class="{{zyp.tlCls}}" onClick="{{zyp.setThemeLight}}">{{zyp.lightText}}</button></span></div>
 </div>
 </main>
 </div>
@@ -239,6 +244,7 @@ class Component extends DCLogic {
       themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
       langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
       L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      zyp: this._zyPrefs(st),
       toggleTheme: (e) => {
         if (e && e.stopPropagation) e.stopPropagation();
         const nt = light ? 'dark' : 'light';
@@ -252,6 +258,24 @@ class Component extends DCLogic {
         try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
         this.setState({ lang: nl }, () => this._zyPost());
       }
+    };
+  }
+  _zyInitials(n) {
+    n = String(n || '').trim();
+    if (!n) return '?';
+    if (/[㐀-鿿]/.test(n.charAt(0))) return n.charAt(0);
+    const w = n.split(/\s+/).filter(Boolean);
+    return ((w[0] || '').charAt(0) + (w.length > 1 ? w[w.length - 1].charAt(0) : '')).toUpperCase();
+  }
+  _zyPrefs(st) {
+    const en = st.lang === 'en';
+    const light = st.theme === 'light';
+    const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
+    return {
+      setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
+      lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
   }
   _zyHref(name, query) {
@@ -430,17 +454,20 @@ class Component extends DCLogic {
     const enI = this.state.lang === 'en';
     let standalone = false;
     let ios = false;
-    try { standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; ios = /iphone|ipad|ipod/i.test(window.navigator.userAgent || ''); } catch (e) {}
+    let mobile = false;
+    try { standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; ios = /iphone|ipad|ipod/i.test(window.navigator.userAgent || ''); mobile = ios || /android|mobile/i.test(window.navigator.userAgent || ''); } catch (e) {}
     const can = !!this._bip;
-    return Object.assign(zyLogin, {
-      instShow: !this.state.instHide && !standalone, instCan: can,
+    const zyInst = {
+      instShow: !this.state.instHide && !standalone && (can || mobile), instCan: can,
       instTitle: enI ? 'Install Zenith Yield' : '安装 Zenith Yield',
       instDesc: can ? (enI ? 'Add it to your home screen and open it full screen, like any app.' : '加到主屏幕，像普通 App 一样全屏打开。')
         : (ios ? (enI ? 'In Safari, tap Share, then “Add to Home Screen”.' : '在 Safari 点“分享”，再选“添加到主屏幕”。')
           : (enI ? 'Open the browser menu and choose “Install app” or “Add to Home screen”.' : '在浏览器菜单中选择“安装应用”或“添加到主屏幕”。')),
       instBtn: enI ? 'Install' : '安装', instLater: enI ? 'Not now' : '以后再说',
       instGo: () => { const ev = this._bip; if (!ev) return; try { ev.prompt(); ev.userChoice.then(() => { this._bip = null; this.setState({ instHide: true }); }).catch(() => {}); } catch (e) {} },
-      instNo: () => { try { window.localStorage.setItem('zy-install-hide', '1'); } catch (e) {} this.setState({ instHide: true }); },
+      instNo: () => { try { window.localStorage.setItem('zy-install-hide', '1'); } catch (e) {} this.setState({ instHide: true }); }
+    };
+    return Object.assign(zyLogin, zyInst, {
       stars: stars, rings: rings,
       isLogin: L, isSignup: !L,
       selIn: L ? 'true' : 'false', selUp: L ? 'false' : 'true',
