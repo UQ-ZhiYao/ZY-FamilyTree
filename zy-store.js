@@ -415,7 +415,9 @@
 
     // ----- family spaces -----
     createFamily: function (o) {
-      return q(client().rpc('zy_create_family', { p_name: o.familyName || '', p_me: { name: o.name || '', nameEn: o.nameEn || '', surname: o.surname || '', sex: o.sex === 'f' ? 'f' : 'm' } })).then(function (fid) {
+      var nm = String(o.name || '').trim();
+      var cjk = /[\u3400-\u9fff]/.test(nm);
+      return q(client().rpc('zy_create_family', { p_name: o.familyName || '', p_me: { name: cjk ? nm : '', nameEn: cjk ? (o.nameEn || '') : nm, surname: o.surname || '', sex: o.sex === 'f' ? 'f' : 'm' } })).then(function (fid) {
         ls(K.family, fid); ls(K.mode, 'cloud'); state.loaded = false; return load(true).then(function () { return fid; });
       });
     },
@@ -447,6 +449,14 @@
         return run(null, function () {
           if (!isNew) return q(sb.from('members').update(toRow(fields)).eq('id', fields.id)).then(function () { return fields.id; });
           var nid = uuid();
+          var pre = Promise.resolve(null);
+          if (o && fields.rel === 'sibling' && !o.father && !o.mother) {
+            var phid = uuid();
+            pre = q(sb.from('members').insert({ id: phid, family_id: state.familyId, name: '（待补充）', name_en: '(to be added)', surname: o.surname || '', sex: 'm' }))
+              .then(function () { return q(sb.from('members').update({ father_id: phid }).eq('id', o.id)); })
+              .then(function () { o = Object.assign({}, o, { father: phid }); return phid; });
+          }
+          return pre.then(function () {
           var ex = relFields(fields, o, nid, fields.sex);
           var row = toRow(Object.assign({}, fields, ex.self));
           row.id = nid; row.family_id = state.familyId;
@@ -454,6 +464,7 @@
             if (!ex.other) return nid;
             var upd = {}; upd[COLS[ex.other.field]] = nid;
             return q(sb.from('members').update(upd).eq('id', ex.other.id)).then(function () { return nid; });
+          });
           });
         }, (isNew ? 'Add ' : 'Update ') + nm);
       }
@@ -464,7 +475,13 @@
         p.updatedAt = now();
         d.people[id] = p;
         if (isNew && o) {
-          var ex = relFields(fields, d.people[o.id], id, p.sex);
+          var oo = d.people[o.id];
+          if (fields.rel === 'sibling' && oo && !oo.father && !oo.mother) {
+            var phid = 'p_' + code('', 10).toLowerCase();
+            d.people[phid] = { id: phid, name: '（待补充）', nameEn: '(to be added)', surname: oo.surname || '', sex: 'm', createdAt: now(), updatedAt: now() };
+            oo.father = phid;
+          }
+          var ex = relFields(fields, oo, id, p.sex);
           Object.keys(ex.self).forEach(function (k) { p[k] = ex.self[k]; });
           if (ex.other && d.people[ex.other.id]) d.people[ex.other.id][ex.other.field] = id;
         }

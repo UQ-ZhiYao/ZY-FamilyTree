@@ -74,6 +74,10 @@ main{padding:20px 16px calc(110px + env(safe-area-inset-bottom)) !important}
 main h1{font-size:24px !important}
 }
 
+.zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
+.zp.on{opacity:1;font-weight:600}
+.zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
 .zy-pill{position:fixed;z-index:58;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 10px 9px 16px;border-radius:999px;font-size:13px;line-height:1.4;background:var(--tbg);color:var(--pfg);border:1px solid var(--tbd);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .zy-pill a{flex:none;padding:6px 12px;border-radius:999px;background:var(--ton);color:var(--pbtn) !important;text-decoration:none;font-weight:600}
 .zy-pill.err{border-color:#E5534B}
@@ -127,7 +131,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <a href="AppAdmin.dc.html" class="tab" style="padding: 10px 16px; border-radius: 10px; color: var(--z13); text-decoration: none">{{L.k14}}</a>
 </nav>
 <div style="display: flex; align-items: center; gap: 10px">
-<button type="button" class="themebtn" onClick="{{toggleTheme}}" aria-label="{{themeAria}}" title="{{themeAria}}" style="width: 40px; height: 40px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button><button type="button" class="themebtn langbtn" onClick="{{toggleLang}}" aria-label="{{langAria}}" title="{{langAria}}" style="min-width: 40px; height: 40px; padding: 0 10px; flex: none; border-radius: 10px; border: 1px solid var(--z14); background: transparent; color: var(--z13); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .5px">{{langText}}</button>
+
 <a href="AppProfile.dc.html" class="tab" title="{{L.k1}}" aria-label="{{L.k2}}" aria-current="page" style="display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 4px; border-radius: 999px; box-shadow: 0 0 0 2px var(--z1); background: var(--z15); text-decoration: none; color: var(--z9)">
 <span style="width: 36px; height: 36px; border-radius: 50%; background: var(--z16); color: var(--z10); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{meCh}}</span>
 <span class="uname" style="font-size: 14px; font-weight: 600">{{meName}}</span>
@@ -159,6 +163,14 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </aside>
 
 <form onSubmit="{{onSubmit}}" style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<sc-if value="{{isMine}}" hint-placeholder-val="{{true}}">
+<section class="u-card">
+<h2 class="u-h2">{{t.prefs}}</h2>
+<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefLang}}</span><span class="zprefs"><button type="button" class="{{zyp.lzCls}}" onClick="{{zyp.setLangZh}}">中文</button><button type="button" class="{{zyp.leCls}}" onClick="{{zyp.setLangEn}}">English</button></span></div>
+<div class="u-row" style="gap: 14px"><span style="min-width: 90px; font-weight: 500">{{zyp.prefTheme}}</span><span class="zprefs"><button type="button" class="{{zyp.tdCls}}" onClick="{{zyp.setThemeDark}}">{{zyp.darkText}}</button><button type="button" class="{{zyp.tlCls}}" onClick="{{zyp.setThemeLight}}">{{zyp.lightText}}</button></span></div>
+<span class="u-muted">{{t.prefsHint}}</span>
+</section>
+</sc-if>
 <section class="u-card">
 <h2 class="u-h2">{{t.basic}}</h2>
 <sc-if value="{{addNote}}" hint-placeholder-val="{{false}}"><span class="u-msg">{{t.addFor}}{{addNote}}</span></sc-if>
@@ -302,7 +314,8 @@ class Component extends DCLogic {
       themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
       langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
       L: en ? Component.__zy.LEN : Component.__zy.LZH,
-      meName: this._zyMeName(en), meCh: (this._zyMeName(en) || 'Y').trim().charAt(0).toUpperCase(),
+      zyp: this._zyPrefs(st),
+      meName: this._zyMeName(en), meCh: this._zyInitials(this._zyMeName(en)),
       zyPill: this._zyPill(en).show, zyPillText: this._zyPill(en).text, zyPillHref: this._zyPill(en).href, zyPillLink: this._zyPill(en).link, zyPillErr: this._zyPill(en).err ? 'zy-pill err' : 'zy-pill',
       zyLogout: (e) => { if (e && e.preventDefault) e.preventDefault(); const go = () => this._zyGo(this._zyHref('Login')); try { if (window.ZY) window.ZY.signOut().then(go, go); else go(); } catch (er) { go(); } },
       tabMap: en ? 'Family' : '家族图谱', tabPhotos: en ? 'Photos' : '照片', tabAdmin: en ? 'Admin' : '管理', tabMe: en ? 'Me' : '我的', tabAria: en ? 'App navigation' : 'App 导航',
@@ -319,6 +332,24 @@ class Component extends DCLogic {
         try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
         this.setState({ lang: nl }, () => this._zyPost());
       }
+    };
+  }
+  _zyInitials(n) {
+    n = String(n || '').trim();
+    if (!n) return '?';
+    if (/[㐀-鿿]/.test(n.charAt(0))) return n.charAt(0);
+    const w = n.split(/\s+/).filter(Boolean);
+    return ((w[0] || '').charAt(0) + (w.length > 1 ? w[w.length - 1].charAt(0) : '')).toUpperCase();
+  }
+  _zyPrefs(st) {
+    const en = st.lang === 'en';
+    const light = st.theme === 'light';
+    const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
+    return {
+      setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
+      lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
   }
   _zyHref(name, query) {
@@ -423,7 +454,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Keys, account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "编号、账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Keys, account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", prefs: "Preferences", prefsHint: "Changes the language and colours you see on this device.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "编号、账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", prefs: "偏好设置", prefsHint: "只影响你在这台设备上看到的语言和颜色。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
     const Z = window.ZY;
     const st = this.state || {};
     const isNew = this._zyQ('new') === '1';
@@ -450,7 +481,7 @@ class Component extends DCLogic {
     const nameOf = (x) => (x ? this._zyName(x) : '') || t.unnamed;
     const show = (en ? (f0.nameEn || f0.name) : (f0.name || f0.nameEn)) || t.unnamed;
     const tags = [p && p.key ? p.key : '', f0.nationality, f0.hometown, f0.city].filter(Boolean);
-    const f = Object.assign({}, f0, { show: show, ch: (show.trim().charAt(0) || '?').toUpperCase(), sub: [en ? f0.name : f0.nameEn, f0.birth ? (f0.birth + (f0.death ? ' – ' + f0.death : '')) : ''].filter(Boolean).join(' · '), tags: tags });
+    const f = Object.assign({}, f0, { show: show, ch: this._zyInitials(show), sub: [en ? f0.name : f0.nameEn, f0.birth ? (f0.birth + (f0.death ? ' – ' + f0.death : '')) : ''].filter(Boolean).join(' · '), tags: tags });
     const set = {};
     Object.keys(EMPTY).forEach((k) => { set[k] = (e) => { this._draft = Object.assign({}, this._draft || EMPTY); this._draft[k] = e && e.target ? e.target.value : ''; this._dirty = true; this.setState({ tick: (this.state.tick || 0) + 1, msg: '' }); }; });
     const everyone = (Z ? Z.people() : []).filter((x) => x.id !== id).map((x) => ({ id: x.id, sex: x.sex, label: nameOf(x) + (x.birth ? ' · ' + String(x.birth).slice(0, 4) : '') + (Z && x.id === Z.meId ? t.me : '') }))
@@ -481,6 +512,7 @@ class Component extends DCLogic {
     const isMe = !!(Z && p && id === Z.meId);
     return {
       keys: { member: p && p.key ? p.key : t.newKey, clan: clanOf || t.noClan, family: fam.key || '—' },
+      isMine: isNew ? false : (isMe || !qid),
       linkText: isMe ? t.youLinked : (p && p.userId ? t.linked : t.notLinked),
       canLinkMe: !!(Z && p && !isMe && !p.userId && !Z.meId),
       linkMe: () => { Z.linkMe(id).then(() => this.setState({ msg: t.saved, msgErr: false })).catch((er) => this.setState({ msg: t.failed + er.message, msgErr: true })); },
