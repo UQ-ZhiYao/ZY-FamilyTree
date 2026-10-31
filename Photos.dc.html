@@ -20,7 +20,7 @@
 <meta name="application-name" content="Zenith Yield">
 <link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
 <style>
 .zy-d{--z1:#496FED;--z2:#92A6EC;--z3:#06102C;--z4:rgba(73,111,237,0.15);--z5:rgba(20,23,31,0.08);--z6:rgba(73,111,237,0.16);--z7:#081024;--z8:#0B1322;--z9:#E0E3EB;--z10:#0B0D14;--z11:#1F2531;--z12:rgba(20,23,31,0.07);--z13:#BDC1CC;--z14:#051136;--z15:#242A36;--z16:#C8D0F6;--z17:#A6B2CF;--z18:#0F131E;--z19:#130538;--z20:#7C5DD7;--z21:#AFB9D4;--z22:#0B2F3C;--z23:#8FD5EE}
@@ -77,6 +77,9 @@ main h1{font-size:24px !important}
 .zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
 .zp.on{opacity:1;font-weight:600}
 .zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+@media (max-width:640px){input,select,textarea{font-size:16px !important}}
 
 @media (max-width:640px){
 html.zy-sub .tabbar{display:none !important}
@@ -267,6 +270,16 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 class Component extends DCLogic {
   _zyPWA() {
     try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+    // Phone: pages do not zoom (pinch or double-tap). Only the family map zooms, with its own controls.
+    try {
+      if (!window.__zyNoZoom && !/Circle\.dc\.html/.test(window.location.pathname)) {
+        window.__zyNoZoom = 1;
+        const stop = (e) => { e.preventDefault(); };
+        document.addEventListener('gesturestart', stop, { passive: false });
+        document.addEventListener('gesturechange', stop, { passive: false });
+        document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+      }
+    } catch (e) {}
   }
   componentWillUnmount() {
     this._zyStop();

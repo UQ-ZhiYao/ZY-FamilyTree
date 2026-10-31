@@ -81,8 +81,8 @@
   function blobToDataURL(blob) {
     return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(String(r.result)); }; r.onerror = rej; r.readAsDataURL(blob); });
   }
-  var FIELDS = ['name', 'nameEn', 'surname', 'sex', 'birth', 'death', 'nationality', 'hometown', 'city', 'job', 'phone', 'email', 'bio', 'privacy', 'father', 'mother', 'spouse'];
-  var COLS = { name: 'name', nameEn: 'name_en', surname: 'surname', sex: 'sex', birth: 'birth', death: 'death', nationality: 'nationality', hometown: 'hometown', city: 'city', job: 'job', phone: 'phone', email: 'email', bio: 'bio', privacy: 'privacy', father: 'father_id', mother: 'mother_id', spouse: 'spouse_id' };
+  var FIELDS = ['name', 'nameEn', 'surname', 'surnameZh', 'sex', 'birth', 'death', 'nationality', 'hometown', 'city', 'job', 'phone', 'email', 'bio', 'privacy', 'father', 'mother', 'spouse'];
+  var COLS = { name: 'name', nameEn: 'name_en', surname: 'surname', surnameZh: 'surname_zh', sex: 'sex', birth: 'birth', death: 'death', nationality: 'nationality', hometown: 'hometown', city: 'city', job: 'job', phone: 'phone', email: 'email', bio: 'bio', privacy: 'privacy', father: 'father_id', mother: 'mother_id', spouse: 'spouse_id' };
   function label(p) { return p ? (p.name || p.nameEn || '') : ''; }
 
   // ---------------------------------------------------------------- shared data shape
@@ -640,6 +640,15 @@
       }, null, (isNew ? 'Add ' : 'Update ') + nm).then(function (id) { return heal().then(function () { return id; }); });
     },
     heal: heal,
+    // A surname in the reader's language: "NG" in English, "伍" in Chinese when someone filled in the Chinese surname.
+    surnameLabel: function (sur, en) {
+      sur = String(sur || '').trim();
+      if (!sur) return '';
+      var zh = '';
+      ZY.people().some(function (p) { if (String(p.surname || '').toUpperCase() === sur.toUpperCase() && p.surnameZh) { zh = p.surnameZh; return true; } return false; });
+      if (/[\u3400-\u9fff]/.test(sur)) return sur;
+      return en ? sur : (zh || sur);
+    },
 
     // ----- chat -----
     get myUid() { return myUid(); },
