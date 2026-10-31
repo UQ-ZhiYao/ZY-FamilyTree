@@ -7,6 +7,6 @@
  * Leave both empty to run the site with the demo family only.
  */
 window.ZY_CONFIG = {
-  supabaseUrl: 'https://dmhalabbgbrjqbhfrqnh.supabase.co/rest/v1/',
+  supabaseUrl: 'https://dmhalabbgbrjqbhfrqnh.supabase.co',
   supabaseAnonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRtaGFsYWJiZ2JyanFiaGZycW5oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODU5NDEsImV4cCI6MjEwODk2MTk0MX0.N0D8-zHEIxlit-jaOCsvSMREjdGR1DQaBISfqlHK7VM'
 };
