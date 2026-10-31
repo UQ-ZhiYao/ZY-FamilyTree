@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>枝叶 · 登入与注册</title>
+<script src="./zy-config.js"></script>
+<script src="./vendor/supabase.js"></script>
 <script src="./zy-store.js"></script>
 <script src="./support.js"></script>
 </head>
@@ -53,10 +55,13 @@ html{scroll-behavior:smooth}
 
 .lf{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:500;color:var(--z18);min-width:0}
 .li{height:46px;width:100%;box-sizing:border-box;padding:0 12px;border:1px solid var(--z19);border-radius:10px;background:var(--z20);font:inherit;font-size:15px;font-weight:400;color:var(--z2)}
+.li:focus{outline:none;border-color:var(--z1);box-shadow:0 0 0 4px var(--z5)}
 button:disabled{opacity:.6;cursor:default}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
 </helmet>
-<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 900px; background: var(--zy-sky); color: var(--z10); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
+<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 100vh; background: var(--zy-sky); color: var(--z10); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; display: flex; flex-direction: column">
 <div aria-hidden="true" class="aurora-l" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
 <span style="position: absolute; left: -10%; top: -15%; width: 60vmax; height: 60vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,140,.55) 0%, rgba(255,190,140,0) 65%); animation: blobA 22s ease-in-out infinite"></span>
 <span style="position: absolute; right: -15%; top: 5%; width: 65vmax; height: 65vmax; border-radius: 50%; background: radial-gradient(circle, rgba(170,140,255,.45) 0%, rgba(170,140,255,0) 65%); animation: blobB 28s ease-in-out infinite"></span>
@@ -86,41 +91,67 @@ button:disabled{opacity:.6;cursor:default}
 </header>
 
 <main style="position: relative; z-index: 1; flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 24px 72px">
-<div class="glass rise" style="width: 100%; max-width: 440px; border-radius: 20px; padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 30px 80px var(--z16)">
+<div class="glass rise" style="width: 100%; max-width: 440px; border-radius: 20px; padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 30px 80px var(--z16)">
+<sc-if value="{{showTabs}}" hint-placeholder-val="{{true}}">
 <div role="tablist" aria-label="{{t.tabs}}" style="display: flex; padding: 4px; background: var(--z17); border-radius: 12px">
 <button type="button" role="tab" aria-selected="{{selIn}}" onClick="{{toLogin}}" style="flex: 1; height: 40px; border: none; border-radius: 9px; background: {{bgIn}}; color: {{fgIn}}; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.tIn}}</button>
-<button type="button" role="tab" aria-selected="{{selUp}}" onClick="{{toSignup}}" style="flex: 1; height: 40px; border: none; border-radius: 9px; background: {{bgUp}}; color: {{fgUp}}; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.tNew}}</button>
+<button type="button" role="tab" aria-selected="{{selUp}}" onClick="{{toSignup}}" style="flex: 1; height: 40px; border: none; border-radius: 9px; background: {{bgUp}}; color: {{fgUp}}; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.tUp}}</button>
 </div>
+</sc-if>
 
-<sc-if value="{{isLogin}}" hint-placeholder-val="{{true}}">
-<form onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 16px">
+<sc-if value="{{noCloud}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; line-height: 1.6; color: var(--z15); padding: 10px 12px; border-radius: 10px; background: var(--z17)">{{t.noCloud}}</span></sc-if>
+
+<sc-if value="{{vLogin}}" hint-placeholder-val="{{true}}">
+<form onSubmit="{{signIn}}" style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-direction: column; gap: 6px"><h1 style="margin: 0; font-size: 26px; font-weight: 700; color: var(--z2)">{{t.h}}</h1><p style="margin: 0; font-size: 14px; color: var(--z15)">{{t.hSub}}</p></div>
-<label class="lf">{{t.repo}}<input class="li" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" value="{{raw.repo}}" onInput="{{setRepo}}" placeholder="{{t.repoPh}}"></label>
-<label class="lf"><span style="display: flex; justify-content: space-between; gap: 8px">{{t.token}}<a href="#token-help" onClick="{{toggleHelp}}" style="font-weight: 400">{{t.getToken}}</a></span><input class="li" type="password" autocomplete="current-password" spellcheck="false" value="{{raw.token}}" onInput="{{setToken}}" placeholder="{{t.tokenPh}}"></label>
-<sc-if value="{{showHelp}}" hint-placeholder-val="{{false}}"><div id="token-help" style="font-size: 13px; line-height: 1.6; color: var(--z15); display: flex; flex-direction: column; gap: 6px"><span>{{helpA}}</span><a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=ZY%20FamilyTree" target="_blank" rel="noopener">github.com/settings/tokens/new</a><span>{{helpB}}</span></div></sc-if>
-<label style="display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--z15)"><input type="checkbox" checked="{{raw.remember}}" onChange="{{setRemember}}" style="width: 16px; height: 16px; accent-color: var(--z1)">{{t.remember}}</label>
+<label class="lf">{{t.email}}<input class="li" type="email" autocomplete="email" value="{{raw.email}}" onInput="{{setEmail}}" placeholder="name@example.com"></label>
+<label class="lf"><span style="display: flex; justify-content: space-between; gap: 8px">{{t.password}}<a href="#forgot" onClick="{{forgot}}" style="font-weight: 400">{{t.forgot}}</a></span><input class="li" type="password" autocomplete="current-password" value="{{raw.password}}" onInput="{{setPassword}}"></label>
 <button type="submit" class="cta" disabled="{{busy}}" style="height: 48px; border: none; border-radius: 10px; background: var(--z21); color: var(--z8); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{goText}}</button>
-<span role="status" style="font-size: 13px; line-height: 1.5; color: {{msgColor}}">{{msg}}</span>
-<span style="font-size: 12px; line-height: 1.6; color: var(--z15)">{{t.help}}</span>
 </form>
 </sc-if>
 
-<sc-if value="{{isSignup}}" hint-placeholder-val="{{false}}">
-<form onSubmit="{{create}}" style="display: flex; flex-direction: column; gap: 14px">
-<div style="display: flex; flex-direction: column; gap: 6px"><h1 style="margin: 0; font-size: 26px; font-weight: 700; color: var(--z2)">{{t.nh}}</h1><p style="margin: 0; font-size: 14px; color: var(--z15)">{{t.nhSub}}</p></div>
-<label class="lf"><span style="display: flex; justify-content: space-between; gap: 8px">{{t.token}}<a href="#token-help" onClick="{{toggleHelp}}" style="font-weight: 400">{{t.getToken}}</a></span><input class="li" type="password" spellcheck="false" value="{{raw.token}}" onInput="{{setToken}}" placeholder="{{t.tokenPh}}"></label>
-<sc-if value="{{showHelp}}" hint-placeholder-val="{{false}}"><div style="font-size: 13px; line-height: 1.6; color: var(--z15); display: flex; flex-direction: column; gap: 6px"><span>{{helpA}}</span><a href="https://github.com/settings/tokens/new?scopes=repo&amp;description=ZY%20FamilyTree" target="_blank" rel="noopener">github.com/settings/tokens/new</a><span>{{helpB}}</span></div></sc-if>
-<label class="lf">{{t.repoName}}<input class="li" type="text" autocapitalize="off" spellcheck="false" value="{{raw.repoName}}" onInput="{{setRepoName}}"></label>
-<div style="display: flex; gap: 12px"><label class="lf" style="flex: 2">{{t.yourName}}<input class="li" type="text" value="{{raw.name}}" onInput="{{setName}}"></label><label class="lf" style="flex: 1">{{t.sex}}<select class="li" value="{{raw.sex}}" onChange="{{setSex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label></div>
-<div style="display: flex; gap: 12px"><label class="lf" style="flex: 1">{{t.surname}}<input class="li" type="text" value="{{raw.surname}}" onInput="{{setSurname}}"></label><label class="lf" style="flex: 2">{{t.famName}}<input class="li" type="text" value="{{raw.fam}}" onInput="{{setFam}}"></label></div>
-<button type="submit" class="cta" disabled="{{busy}}" style="height: 48px; border: none; border-radius: 10px; background: var(--z21); color: var(--z8); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{createText}}</button>
-<span role="status" style="font-size: 13px; line-height: 1.5; color: {{msgColor}}">{{msg}}</span>
+<sc-if value="{{vSignup}}" hint-placeholder-val="{{false}}">
+<form onSubmit="{{signUp}}" style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 6px"><h1 style="margin: 0; font-size: 26px; font-weight: 700; color: var(--z2)">{{t.uh}}</h1><p style="margin: 0; font-size: 14px; color: var(--z15)">{{t.uhSub}}</p></div>
+<label class="lf">{{t.name}}<input class="li" type="text" autocomplete="name" value="{{raw.name}}" onInput="{{setName}}"></label>
+<label class="lf">{{t.email}}<input class="li" type="email" autocomplete="email" value="{{raw.email}}" onInput="{{setEmail}}" placeholder="name@example.com"></label>
+<label class="lf">{{t.password}}<input class="li" type="password" autocomplete="new-password" value="{{raw.password}}" onInput="{{setPassword}}" placeholder="{{t.pwPh}}"></label>
+<button type="submit" class="cta" disabled="{{busy}}" style="height: 48px; border: none; border-radius: 10px; background: var(--z21); color: var(--z8); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{upText}}</button>
+<span style="font-size: 12px; color: var(--z15)">{{t.agree}}</span>
 </form>
 </sc-if>
 
+<sc-if value="{{vFamily}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 6px"><h1 style="margin: 0; font-size: 26px; font-weight: 700; color: var(--z2)">{{t.fh}}</h1><p style="margin: 0; font-size: 14px; color: var(--z15)">{{t.fhSub}}</p><span style="font-size: 13px; color: var(--z15)">{{t.signedAs}}{{raw.who}} · <a href="#out" onClick="{{signOut}}">{{t.signOut}}</a></span></div>
+<form onSubmit="{{join}}" style="display: flex; flex-direction: column; gap: 10px">
+<label class="lf">{{t.joinCode}}<input class="li" type="text" autocapitalize="characters" spellcheck="false" value="{{raw.code}}" onInput="{{setCode}}" placeholder="{{t.joinPh}}" style="letter-spacing: 2px; text-transform: uppercase"></label>
+<button type="submit" class="cta" disabled="{{busy}}" style="height: 46px; border: none; border-radius: 10px; background: var(--z21); color: var(--z8); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.join}}</button>
+</form>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--z15)"><span style="flex: 1; height: 1px; background: var(--z19)"></span>{{t.or}}<span style="flex: 1; height: 1px; background: var(--z19)"></span></div>
+<form onSubmit="{{create}}" style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 15px; font-weight: 600; color: var(--z2)">{{t.newFam}}</span>
+<label class="lf">{{t.famName}}<input class="li" type="text" value="{{raw.fam}}" onInput="{{setFam}}" placeholder="{{t.famPh}}"></label>
+<div style="display: flex; gap: 12px"><label class="lf" style="flex: 1">{{t.name}}<input class="li" type="text" value="{{raw.name}}" onInput="{{setName}}"></label><label class="lf" style="flex: 1">{{t.surname}}<input class="li" type="text" value="{{raw.surname}}" onInput="{{setSurname}}"></label></div>
+<label class="lf">{{t.sex}}<select class="li" value="{{raw.sex}}" onChange="{{setSex}}"><option value="m">{{t.male}}</option><option value="f">{{t.female}}</option></select></label>
+<button type="submit" disabled="{{busy}}" style="height: 46px; border-radius: 10px; border: 1px solid var(--z19); background: transparent; color: var(--z10); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.create}}</button>
+</form>
+</sc-if>
+
+<sc-if value="{{vReset}}" hint-placeholder-val="{{false}}">
+<form onSubmit="{{savePw}}" style="display: flex; flex-direction: column; gap: 14px">
+<h1 style="margin: 0; font-size: 26px; font-weight: 700; color: var(--z2)">{{t.rh}}</h1>
+<label class="lf">{{t.newPw}}<input class="li" type="password" autocomplete="new-password" value="{{raw.password}}" onInput="{{setPassword}}" placeholder="{{t.pwPh}}"></label>
+<button type="submit" class="cta" disabled="{{busy}}" style="height: 48px; border: none; border-radius: 10px; background: var(--z21); color: var(--z8); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{t.savePw}}</button>
+</form>
+</sc-if>
+
+<span role="status" style="font-size: 13px; line-height: 1.5; color: {{msgColor}}">{{msg}}</span>
+
+<sc-if value="{{showDemo}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--z15)"><span style="flex: 1; height: 1px; background: var(--z19)"></span>{{t.or}}<span style="flex: 1; height: 1px; background: var(--z19)"></span></div>
 <button type="button" onClick="{{demo}}" style="height: 46px; border-radius: 10px; border: 1px solid var(--z19); background: transparent; color: var(--z10); font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{t.demo}}</button>
-<span style="margin-top: -10px; font-size: 12px; color: var(--z15); text-align: center">{{t.demoHint}}</span>
+<span style="margin-top: -8px; font-size: 12px; color: var(--z15); text-align: center">{{t.demoHint}}</span>
+</sc-if>
 </div>
 </main>
 </div>
@@ -284,14 +315,14 @@ class Component extends DCLogic {
     if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
     if (Object.getPrototypeOf(v) !== Object.prototype) return v;
     const o = {};
-    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards') ? v[k] : this._zyI18n(v[k], d + 1);
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
     if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
     return o;
   }
 
   constructor(props) {
     super(props);
-    this.state = { theme: 'dark', mode: this._zyQ && this._zyQ('new') === '1' ? 'signup' : 'login' };
+    this.state = { theme: 'dark', mode: this._zyQ && this._zyQ('join') ? 'signup' : 'login' };
   }
   _rv() {
     let seed = 23;
@@ -305,48 +336,75 @@ class Component extends DCLogic {
       { s: 860, t: 90, c: 'var(--z23)', g: 'var(--z24)' },
       { s: 1100, t: 130, c: 'var(--z25)', g: 'var(--z26)' }
     ].map((r) => Object.assign(r, { h: r.s / 2 }));
-    const t = ((this.state || {}).lang === 'en' ? {tabs: "Sign in or start a family", tIn: "Sign in", tNew: "New family", h: "Welcome back to the stars", hSub: "Sign in to your family’s data with your GitHub account.", token: "GitHub access token", tokenPh: "ghp_… or github_pat_…", repo: "Family data repository", repoPh: "owner/name, e.g. ng-family/family-data", remember: "Remember me on this device", go: "Sign in", working: "Connecting to GitHub…", getToken: "How do I get a token?", help: "First time? Ask your family admin to invite your GitHub username from “Family members”, accept the invitation, then sign in here. Your token stays in your own browser.", nh: "Start a family space", nhSub: "Creates a private repository in your GitHub account to hold the family’s data.", repoName: "Repository name", yourName: "Your name", sex: "Gender", male: "Male", female: "Female", surname: "Surname", famName: "Family name (optional)", create: "Create family space", demo: "Try the demo family", demoHint: "Demo data stays on this device. No account needed.", or: "or", eInput: "Enter a token and the repository as owner/name.", eNoWrite: "This token cannot write to that repository. Check that you accepted the invitation and that the token has repo access.", e401: "The token is invalid or has expired.", e404: "Repository not found, or your token cannot see it.", e422: "A repository with that name already exists. Choose another name.", eOther: "Something went wrong: "} : {tabs: "登入或新建家族", tIn: "登入", tNew: "新建家族", h: "欢迎回到星空", hSub: "用 GitHub 账号登入你的家族资料库。", token: "GitHub 访问令牌（token）", tokenPh: "ghp_… 或 github_pat_…", repo: "家族资料库", repoPh: "用户名/资料库名，例如 ng-family/family-data", remember: "在这台设备上记住我", go: "登入", working: "正在连接 GitHub…", getToken: "如何取得 token？", help: "第一次使用：请家族管理员在「家人管理」里邀请你的 GitHub 用户名，接受邀请后再来登入。token 只保存在你自己的浏览器里。", nh: "新建家族空间", nhSub: "会在你的 GitHub 账号下建立一个私有资料库来保存家族资料。", repoName: "资料库名称", yourName: "你的名字", sex: "性别", male: "男", female: "女", surname: "姓氏", famName: "家族名称（可选）", create: "建立家族空间", demo: "先看看示例家族", demoHint: "示例资料只保存在这台设备上，不需要账号。", or: "或", eInput: "请填写 token 和资料库（格式：用户名/资料库名）。", eNoWrite: "这个 token 没有修改这个资料库的权限。请确认你已接受邀请，而且 token 有 repo 权限。", e401: "token 无效或已过期。", e404: "找不到这个资料库，或你的 token 无法访问它。", e422: "这个名称的资料库已经存在，请换一个名称。", eOther: "出错了："});
+    const t = ((this.state || {}).lang === 'en' ? {tabs: "Sign in or sign up", tIn: "Sign in", tUp: "Sign up", h: "Welcome back to the stars", hSub: "Sign in to your Zenith Yield account.", email: "Email", password: "Password", pwPh: "At least 8 characters", forgot: "Forgot password?", go: "Sign in", working: "Please wait…", uh: "Create an account", uhSub: "After signing up, start a family or join one with the code a relative gave you.", name: "Your name", signup: "Sign up", agree: "By signing up you agree to the Terms and Privacy Policy.", confirm: "We sent you a confirmation email. Open the link in it, then come back and sign in.", fh: "Join your family", fhSub: "Join an existing family with an invite code, or start a new family space.", joinCode: "Invite code", joinPh: "8-character code, e.g. 7K3Q9MX2", join: "Join family", newFam: "Start a new family space", famName: "Family name", famPh: "e.g. The Ng family", surname: "Your surname", sex: "Gender", male: "Male", female: "Female", create: "Create family", signedAs: "Signed in as ", signOut: "Sign out", rh: "Set a new password", newPw: "New password", savePw: "Save new password", pwSaved: "Password updated.", resetSent: "If that email has an account, a reset link is on its way.", demo: "Try the demo family", demoHint: "Demo data stays on this device. No account needed.", or: "or", noCloud: "This site is not connected to Supabase yet, so only the demo family is available. See the README to set it up.", eInput: "Enter your email and a password of at least 8 characters.", eLogin: "Email or password is incorrect.", eConfirm: "Please open the link in your confirmation email first.", eExists: "This email is already registered. Please sign in.", eCode: "That invite code was not found. Please check it with your relative.", eOther: "Something went wrong: "} : {tabs: "登入或注册", tIn: "登入", tUp: "注册", h: "欢迎回到星空", hSub: "登入你的 Zenith Yield 账号。", email: "电子邮箱", password: "密码", pwPh: "至少 8 位", forgot: "忘记密码？", go: "登入", working: "请稍候…", uh: "创建账号", uhSub: "注册后可以新建家族，或用家人给你的邀请码加入。", name: "你的名字", signup: "注册", agree: "注册即表示同意服务条款与隐私政策。", confirm: "已发送确认邮件。请打开邮箱点击链接，然后回来登入。", fh: "加入你的家族", fhSub: "用邀请码加入已有的家族，或者新建一个家族空间。", joinCode: "邀请码", joinPh: "8 位邀请码，例如 7K3Q9MX2", join: "加入家族", newFam: "新建家族空间", famName: "家族名称", famPh: "例如：黄氏家族", surname: "你的姓氏", sex: "性别", male: "男", female: "女", create: "建立家族", signedAs: "已登入：", signOut: "退出", rh: "设置新密码", newPw: "新密码", savePw: "保存新密码", pwSaved: "密码已更新。", resetSent: "如果这个邮箱已注册，我们已发送重设密码的邮件。", demo: "先看看示例家族", demoHint: "示例资料只保存在这台设备上，不需要账号。", or: "或", noCloud: "这个网站还没有连接 Supabase，暂时只能试用示例家族。请站长按 README 设置。", eInput: "请填写电子邮箱和至少 8 位的密码。", eLogin: "邮箱或密码不正确。", eConfirm: "请先打开确认邮件里的链接。", eExists: "这个邮箱已经注册过，请直接登入。", eCode: "找不到这个邀请码，请向家人确认。", eOther: "出错了："});
     const Z = window.ZY;
     const st = this.state;
-    const en = st.lang === 'en';
-    if (!this._f) this._f = { token: '', repo: '', remember: true, repoName: 'zy-family-data', name: '', sex: 'm', surname: '', fam: '' };
-    if (!this._f.repo && Z && Z.repo) this._f.repo = Z.repo;
+    if (!this._f) this._f = { email: '', password: '', name: '', code: (this._zyQ('join') || '').toUpperCase(), fam: '', surname: '', sex: 'm' };
     const F = this._f;
-    const setF = (k) => (e) => { F[k] = e && e.target ? (e.target.type === 'checkbox' ? e.target.checked : e.target.value) : ''; };
+    const setF = (k) => (e) => { F[k] = e && e.target ? e.target.value : ''; };
+    const cloud = !!(Z && Z.cloud);
+    const signedIn = !!(Z && Z.mode === 'cloud' && Z.user);
+    const view = Z && Z.recovery ? 'reset' : (signedIn && Z.needFamily ? 'family' : (st.mode === 'signup' ? 'signup' : 'login'));
     const errText = (e) => {
       const m = (e && e.message) || String(e);
-      if (m === 'BAD_INPUT') return t.eInput;
-      if (m === 'NO_WRITE') return t.eNoWrite;
-      if (e && e.status === 401) return t.e401;
-      if (e && e.status === 404) return t.e404;
-      if (e && e.status === 422) return t.e422;
+      if (/Invalid login/i.test(m)) return t.eLogin;
+      if (/not confirmed/i.test(m)) return t.eConfirm;
+      if (/already registered|already been registered/i.test(m)) return t.eExists;
+      if (/JOIN_CODE_NOT_FOUND/.test(m)) return t.eCode;
       return t.eOther + m;
     };
-    const after = (linked) => this._zyGo(linked ? this._zyHref('Circle') : this._zyHref('Admin', 'link=1'));
+    const go = (linked) => this._zyGo(linked === false ? this._zyHref('Admin', 'link=1') : this._zyHref('Circle'));
+    const busyOn = (msg) => { this._redirected = true; this.setState({ busy: true, msg: msg || t.working, msgErr: false }); };
+    const fail = (er) => this.setState({ busy: false, msg: errText(er), msgErr: true });
+    const okInput = () => /.+@.+\..+/.test(String(F.email).trim()) && String(F.password).length >= 8;
+    if (signedIn && !Z.needFamily && Z.loaded && view !== 'reset' && !this._redirected && !this._zyQ('join')) { this._redirected = true; setTimeout(() => go(!!Z.meId), 0); }
     const zyLogin = {
-      t: t, raw: { token: F.token, repo: F.repo, remember: F.remember, repoName: F.repoName, name: F.name, sex: F.sex, surname: F.surname, fam: F.fam },
-      setToken: setF('token'), setRepo: setF('repo'), setRemember: setF('remember'), setRepoName: setF('repoName'), setName: setF('name'), setSex: setF('sex'), setSurname: setF('surname'), setFam: setF('fam'),
-      showHelp: !!st.help, toggleHelp: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ help: !st.help }); },
-      helpA: en ? 'Create a classic token with the “repo” box ticked (the link below fills it in), copy it and paste it here.' : '建立一个勾选「repo」权限的 classic token（下面的链接已帮你选好），复制后贴到这里。',
-      helpB: en ? 'Safer option: put the family repository in a free GitHub organization and use a fine-grained token limited to that one repository (Contents: read and write).' : '更安全的做法：把家族资料库放在一个免费的 GitHub 组织里，再建立只允许访问这个资料库的 fine-grained token（Contents：读写）。',
+      t: t, raw: { email: F.email, password: F.password, name: F.name, code: F.code, fam: F.fam, surname: F.surname, sex: F.sex, who: Z && Z.user ? Z.user.email : '' },
+      setEmail: setF('email'), setPassword: setF('password'), setName: setF('name'), setCode: setF('code'), setFam: setF('fam'), setSurname: setF('surname'), setSex: setF('sex'),
+      noCloud: !cloud, showTabs: cloud && (view === 'login' || view === 'signup'),
+      vLogin: cloud && view === 'login', vSignup: cloud && view === 'signup', vFamily: cloud && view === 'family', vReset: cloud && view === 'reset',
+      showDemo: view !== 'family' && view !== 'reset',
       busy: !!st.busy, msg: st.msg || '', msgColor: st.msgErr ? '#E5534B' : 'var(--z1)',
-      goText: st.busy ? t.working : t.go, createText: st.busy ? t.working : t.create,
+      goText: st.busy ? t.working : t.go, upText: st.busy ? t.working : t.signup,
       signIn: (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!Z) return;
-        this.setState({ busy: true, msg: t.working, msgErr: false });
-        Z.signIn({ token: F.token, repo: F.repo, remember: F.remember }).then((r) => { F.token = ''; this.setState({ busy: false, msg: '' }); after(r.linked); })
-          .catch((er) => this.setState({ busy: false, msg: errText(er), msgErr: true }));
+        if (!okInput()) { this.setState({ msg: t.eInput, msgErr: true }); return; }
+        busyOn();
+        Z.signIn({ email: F.email, password: F.password }).then((r) => { F.password = ''; this.setState({ busy: false, msg: '' }); if (r.hasFamily && !this._zyQ('join')) go(r.linked); })
+          .catch(fail);
+      },
+      signUp: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (!okInput()) { this.setState({ msg: t.eInput, msgErr: true }); return; }
+        busyOn();
+        Z.signUp({ email: F.email, password: F.password, name: F.name }).then((r) => { F.password = ''; this.setState({ busy: false, mode: r.needsConfirm ? 'login' : st.mode, msg: r.needsConfirm ? t.confirm : '', msgErr: false }); })
+          .catch(fail);
+      },
+      forgot: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (!/.+@.+\..+/.test(String(F.email).trim())) { this.setState({ msg: t.eInput, msgErr: true }); return; }
+        busyOn();
+        Z.resetPassword(F.email).then(() => this.setState({ busy: false, msg: t.resetSent, msgErr: false })).catch(fail);
+      },
+      savePw: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (String(F.password).length < 8) { this.setState({ msg: t.eInput, msgErr: true }); return; }
+        busyOn();
+        Z.updatePassword(F.password).then(() => { F.password = ''; this.setState({ busy: false, msg: t.pwSaved, msgErr: false }); }).catch(fail);
+      },
+      join: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        if (String(F.code).trim().length < 6) { this.setState({ msg: t.eCode, msgErr: true }); return; }
+        busyOn();
+        Z.joinFamily(F.code).then((r) => { this.setState({ busy: false, msg: '' }); go(r.linked); }).catch(fail);
       },
       create: (e) => {
         if (e && e.preventDefault) e.preventDefault();
-        if (!Z) return;
-        if (!String(F.token).trim()) { this.setState({ msg: t.eInput, msgErr: true }); return; }
-        this.setState({ busy: true, msg: t.working, msgErr: false });
-        Z.createFamily({ token: F.token, repoName: F.repoName, name: F.name, sex: F.sex, surname: F.surname, familyName: F.fam }).then(() => { F.token = ''; this.setState({ busy: false, msg: '' }); after(true); })
-          .catch((er) => this.setState({ busy: false, msg: errText(er), msgErr: true }));
+        busyOn();
+        Z.createFamily({ familyName: F.fam, name: F.name || (Z.user && Z.user.email ? Z.user.email.split('@')[0] : ''), surname: F.surname, sex: F.sex }).then(() => { this.setState({ busy: false, msg: '' }); go(true); }).catch(fail);
       },
-      demo: () => { if (!Z) return; Z.startDemo().then(() => after(true)); }
+      signOut: (e) => { if (e && e.preventDefault) e.preventDefault(); Z.signOut().then(() => this.setState({ msg: '' })); },
+      demo: () => { if (!Z) return; Z.startDemo().then(() => go(true)); }
     };
     const L = this.state.mode === 'login';
     return Object.assign(zyLogin, {

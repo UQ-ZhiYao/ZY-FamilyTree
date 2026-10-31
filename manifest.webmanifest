@@ -1,25 +1,23 @@
 {
   "id": "./AppLogin.dc.html",
-  "name": "ZY FamilyTree",
-  "short_name": "ZY FamilyTree",
-  "description": "Your family's own sky: see how everyone is related, share photos and keep profiles up to date.",
-  "lang": "zh-CN",
+  "name": "Zenith Yield",
+  "short_name": "Zenith Yield",
+  "description": "Zenith Yield (枝叶) — your family's own sky: who is who, how everyone is related, photos and profiles.",
+  "lang": "en",
   "start_url": "./AppLogin.dc.html?source=pwa",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
-  "background_color": "#050B1E",
+  "background_color": "#0B1532",
   "theme_color": "#0B1532",
   "categories": ["lifestyle", "social"],
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "icons/zy-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/zy-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/zy-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "家族图谱 · Family", "url": "./AppCircle.dc.html", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "照片 · Photos", "url": "./AppPhotos.dc.html", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "Family map · 家族图谱", "url": "./AppCircle.dc.html", "icons": [{ "src": "icons/zy-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Photos · 照片", "url": "./AppPhotos.dc.html", "icons": [{ "src": "icons/zy-icon-192.png", "sizes": "192x192" }] }
   ]
 }
