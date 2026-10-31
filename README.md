@@ -78,19 +78,20 @@ signed‑in members of that family. **Never** put the `service_role` key in this
 3. Add relatives on **家人管理 / Family members**. You only need to link **parents** and a **spouse**. Siblings, uncles, cousins, in‑laws and every title are derived.
    A new child, father or sibling takes the right surname automatically.
 
-## 4. Invite family members
+## 4. Invite family members — one invitation per surname family
 
-1. On **家人管理 → 邀请家人 / Invite family**, press **复制邀请链接 / Copy invite link**, or read out the 8‑character **invite code**.
-2. Your relative opens the link, signs up and presses **加入家族 / Join family**.
-3. The first time, they pick **这是我 / This is me** from the list, or add themselves first. The star chart then centres on them.
+Everyone comes from more than one surname family: your own (father's side), your mother's, and your spouse's.
+On **我的 → 邀请家人与账号 / Me → Invite family & accounts**, each of those families has its **own 8-character invitation code**, e.g. *NG氏家族* and *SIAH氏家族*.
 
-Every member can add, edit and delete people and photos. Admins can also:
+1. Send each code (or **复制邀请链接 / Copy invite link**) to relatives on that side.
+2. They sign up, enter the code, and press **这是我 / This is me** on their own name.
 
-- make another member an admin
-- remove an account
-- change the invite code, which makes the old code stop working
+**Who can see whom.** Each person sees their own surname line, their mother's line and their spouse's line, together with the husbands and wives in those lines and the children of the lines' daughters.
+They do **not** see the other families their relatives married into. For example, you do not see your cousin's mother's side; your cousin does.
+The database enforces this (`zy_visible_members`), and photos and chat follow the same rule.
+Each surname family also has its own group chat.
 
-One account can belong to several families and switch between them on the Family members page.
+Admins can make another member an admin, remove an account, and switch between family spaces.
 
 ## 5. Install the phone app (PWA)
 

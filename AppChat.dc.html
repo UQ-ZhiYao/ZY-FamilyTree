@@ -78,6 +78,13 @@ main h1{font-size:24px !important}
 .zp.on{opacity:1;font-weight:600}
 .zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
 
+@media (max-width:640px){
+html.zy-sub .tabbar{display:none !important}
+html.zy-sub .zy-pill{bottom:calc(16px + env(safe-area-inset-bottom)) !important}
+.u-backbar{position:sticky;top:0;z-index:30;margin-top:calc(-18px - env(safe-area-inset-top));padding:calc(12px + env(safe-area-inset-top)) 0 10px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);clip-path:inset(0 -100vmax);animation:none !important}
+.zy-d .u-backbar{background:rgba(11,21,50,.92);box-shadow:0 0 0 100vmax rgba(11,21,50,.92)}
+.zy-l .u-backbar{background:rgba(246,248,252,.94);box-shadow:0 0 0 100vmax rgba(246,248,252,.94)}
+}
 .tabbar{transition:transform .28s ease,opacity .28s ease}
 html.zy-hidebar .tabbar{transform:translateY(calc(100% + 30px));opacity:0;pointer-events:none}
 .tbi{position:relative}
@@ -166,7 +173,8 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 html.zy-room .tabbar{display:none !important}
 @media (max-width:640px){
 .cmain{padding:calc(16px + env(safe-area-inset-top)) 12px 110px !important}
-.croom{position:fixed;inset:0;z-index:70;height:auto;min-height:0;border:none;border-radius:0;padding-top:env(safe-area-inset-top)}
+.croom{position:fixed;inset:0;z-index:70;height:auto;min-height:0;border:none;border-radius:0;padding-top:0;animation:none !important}
+.chead{padding-top:calc(12px + env(safe-area-inset-top)) !important;padding-bottom:12px}
 .cbar{padding-bottom:calc(10px + env(safe-area-inset-bottom))}
 }
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
@@ -495,7 +503,7 @@ class Component extends DCLogic {
     this.state = { theme: 'dark' };
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Chat", family: "Family group", members: "members", empty: "No messages yet. Say hello!", ph: "Message…", send: "Send", photo: "Photo", sentPhoto: "[Photo]", back: "Back", del: "Delete", today: "Today", yesterday: "Yesterday", you: "Me", sending: "Sending…", failed: "Not sent", noOthers: "Invite relatives to sign up and you can chat with each of them one-to-one.", invite: "Invite family", demoNote: "The demo family only has the group chat. Sign in to your family to message each relative one-to-one.", direct: "Family members", noMsg: "No messages yet", close: "Close", unnamed: "Relative"} : {title: "聊天", family: "家族群", members: "位成员", empty: "还没有消息，打个招呼吧！", ph: "输入消息…", send: "发送", photo: "照片", sentPhoto: "[照片]", back: "返回", del: "删除", today: "今天", yesterday: "昨天", you: "我", sending: "发送中…", failed: "发送失败", noOthers: "邀请家人注册后，就能和他们单独聊天。", invite: "邀请家人", demoNote: "示例家族只有家族群。登入你的家族后，可以和每位家人单独聊天。", direct: "家人", noMsg: "还没有消息", close: "关闭", unnamed: "家人"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Chat", family: "Family group", members: "members", empty: "No messages yet. Say hello!", ph: "Message…", send: "Send", photo: "Photo", sentPhoto: "[Photo]", back: "Back", del: "Delete", today: "Today", yesterday: "Yesterday", you: "Me", sending: "Sending…", failed: "Not sent", noOthers: "Invite relatives to sign up and you can chat with each of them one-to-one.", invite: "Invite family", demoNote: "The demo family only has the group chat. Sign in to your family to message each relative one-to-one.", direct: "Family members", clanGroup: " family group", own: "Father’s side", mom: "Mother’s side", sp: "Spouse’s family", noMsg: "No messages yet", close: "Close", unnamed: "Relative"} : {title: "聊天", family: "家族群", members: "位成员", empty: "还没有消息，打个招呼吧！", ph: "输入消息…", send: "发送", photo: "照片", sentPhoto: "[照片]", back: "返回", del: "删除", today: "今天", yesterday: "昨天", you: "我", sending: "发送中…", failed: "发送失败", noOthers: "邀请家人注册后，就能和他们单独聊天。", invite: "邀请家人", demoNote: "示例家族只有家族群。登入你的家族后，可以和每位家人单独聊天。", direct: "家人", clanGroup: "氏 · 家族群", own: "本宗 · 父系", mom: "外家 · 母系", sp: "配偶家族", noMsg: "还没有消息", close: "关闭", unnamed: "家人"});
     const Z = window.ZY;
     const st = this.state || {};
     const en = st.lang === 'en';
@@ -520,13 +528,14 @@ class Component extends DCLogic {
     const famName = (fam.name ? fam.name + ' · ' : '') + t.family;
     const accN = ((Z && Z.data && Z.data.accounts) || []).length;
     const roomInfo = (r) => {
+      if (r.kind === 'clan') return { name: (r.surname || '') + t.clanGroup, sub: ({ own: t.own, mother: t.mom, spouse: t.sp })[r.role] || '', group: true, ch: '', img: '', col: r.role === 'mother' ? ['#FCE7F3', '#BE185D'] : ['var(--z3)', 'var(--z1)'] };
       if (r.kind === 'family') return { name: famName, sub: accN ? accN + ' ' + t.members : '', group: true, ch: '', img: '', col: ['var(--z3)', 'var(--z1)'] };
       const p = r.person;
       const nm = (p ? this._zyName(p) : '') || String(r.email || '').split('@')[0] || t.unnamed;
       const img = p ? this._zyAv(p.avatar) : '';
       return { name: nm, sub: r.email || '', group: false, ch: this._zyInitials(nm), img: img, col: colOf(r.userId) };
     };
-    const preview = (m) => !m ? t.noMsg : ((m.sender === me ? t.you + '：' : (m.room === 'family' ? senderName(m) + '：' : '')) + (m.body || (m.photo ? t.sentPhoto : '')));
+    const preview = (m) => !m ? t.noMsg : ((m.sender === me ? t.you + '：' : (m.room.indexOf('dm:') !== 0 ? senderName(m) + '：' : '')) + (m.body || (m.photo ? t.sentPhoto : '')));
     const senderName = (m) => { const p = pByUid[m.sender]; return (p ? this._zyName(p) : '') || m.name || t.unnamed; };
     const open = (id) => { try { document.documentElement.classList.add('zy-room'); } catch (e) {} this._scrolled = 0; this.setState({ room: id, sel: null }); };
     const rows = rooms.map((r) => {
@@ -561,7 +570,7 @@ class Component extends DCLogic {
           cls: 'cmsg' + (mine ? ' mine' : '') + (firstOfRun ? ' first' : ''),
           showAv: !mine && !nextSame, gap: !mine && !!nextSame,
           img: img, noImg: !img, ch: this._zyInitials(nm), bg: col[0], fg: col[1],
-          showName: !mine && cur.kind === 'family' && firstOfRun, name: nm,
+          showName: !mine && cur.kind !== 'dm' && firstOfRun, name: nm,
           body: m.body || '', pic: pic, picWait: !!m.photo && !pic,
           time: m.pending ? t.sending : (m.failed ? t.failed : (isNaN(d) ? '' : hm(d))),
           sel: mine && st.sel === m.id,

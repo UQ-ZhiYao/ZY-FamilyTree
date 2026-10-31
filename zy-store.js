@@ -212,7 +212,8 @@
           q(c.from('photos').select('*').eq('family_id', fid).order('created_at', { ascending: false })),
           q(c.from('activity').select('at, by_name, what').eq('family_id', fid).order('at', { ascending: false }).limit(40)),
           q(c.from('family_users').select('user_id, role, email, joined_at').eq('family_id', fid)),
-          q(c.from('messages').select('*').eq('family_id', fid).order('created_at', { ascending: false }).limit(400)).catch(function () { return []; })
+          q(c.from('messages').select('*').eq('family_id', fid).order('created_at', { ascending: false }).limit(400)).catch(function () { return []; }),
+          q(c.rpc('zy_my_invites', { p_family: fid })).catch(function () { return []; })
         ]).then(function (r) {
           var d = { family: { id: r[0].id, key: r[0].family_key, name: r[0].name, joinCode: r[0].join_code }, people: {}, clans: {}, photos: [], log: [], accounts: [] };
           r[1].forEach(function (row) { d.people[row.id] = fromRow(row); });
@@ -221,6 +222,7 @@
           d.log = r[4].map(function (g) { return { at: g.at, by: g.by_name, what: g.what }; });
           d.accounts = r[5].map(function (a) { return { userId: a.user_id, role: a.role, email: a.email, joined: a.joined_at }; });
           d.messages = (r[6] || []).map(fromMsg).reverse();
+          d.invites = (r[7] || []).map(function (x) { return { clanId: x.clan_id, surname: String(x.surname || '').toUpperCase(), code: x.join_code, key: x.clan_key, people: x.people }; });
           listen(fid);
           return d;
         });
@@ -380,7 +382,7 @@
         var x = P[k]; if (!x) return;
         ['father', 'mother'].forEach(function (f) {
           var g = f === 'father' ? 'mother' : 'father';
-          if (real(x[f]) || !real(x[g])) return;
+          if ((x[f] && !(P[x[f]] && isPh(P[x[f]]))) || !real(x[g])) return;
           var G = x[g], c = {};
           ids.forEach(function (y) { if (y !== k && P[y] && P[y][g] === G && real(P[y][f])) c[P[y][f]] = 1; });
           var ck = Object.keys(c);
@@ -428,18 +430,41 @@
   }
 
 
+  // ---------------------------------------------------------------- my surname lines
+  // Own line (father's side), mother's line and spouse's line, as clan ids. Mirrors zy_my_clans in the database.
+  function lineClans(d, me) {
+    var P = (d && d.people) || {};
+    if (!me || !P[me]) return [];
+    var top = function (id) { var seen = {}; while (P[id] && P[id].father && P[P[id].father] && !seen[id]) { seen[id] = 1; id = P[id].father; } return id; };
+    var kids = {};
+    Object.keys(P).forEach(function (k) { var f = P[k].father; if (f) (kids[f] = kids[f] || []).push(k); });
+    var out = [];
+    [[me, 'own'], [P[me].mother, 'mother'], [P[me].spouse, 'spouse']].forEach(function (pair) {
+      var st = pair[0];
+      if (!st || !P[st]) return;
+      var stack = [top(st)]; var seen = {};
+      var cnt = {};
+      while (stack.length) { var x = stack.pop(); if (seen[x]) continue; seen[x] = 1; if (P[x].clanId) cnt[P[x].clanId] = (cnt[P[x].clanId] || 0) + 1; (kids[x] || []).forEach(function (k) { stack.push(k); }); }
+      var best = Object.keys(cnt).sort(function (a, b) { return cnt[b] - cnt[a]; })[0];
+      if (best && !out.some(function (o) { return o.clanId === best; })) out.push({ clanId: best, role: pair[1] });
+    });
+    return out;
+  }
+
   // ---------------------------------------------------------------- chat
   var DEMO_UID = 'demo-me';
   function myUid() { return mode() === 'cloud' ? (state.user && state.user.id) : DEMO_UID; }
   function readKey(room) { return 'zy-read:' + (state.familyId || 'demo') + ':' + room; }
   function demoChatSeed(d) {
     if (d.messages && d.messages.length) return;
+    var meP = d.people && d.people.me;
+    var room = meP && meP.clanId ? 'clan:' + meP.clanId : 'family';
     var t = Date.now();
     var at = function (min) { return new Date(t - min * 60000).toISOString(); };
     d.messages = [
-      { id: 'm1', room: 'family', sender: 'demo-dad', name: '父亲', body: '周末回家吃饭吗？妈妈说要煮你最爱的咖喱鸡。', photo: '', at: at(300) },
-      { id: 'm2', room: 'family', sender: 'demo-sis', name: '姐姐', body: '我会带孩子回来 😊', photo: '', at: at(280) },
-      { id: 'm3', room: 'family', sender: 'demo-mom', name: '母亲', body: '好，六点开饭，别迟到哦。', photo: '', at: at(250) }
+      { id: 'm1', room: room, sender: 'demo-dad', name: '父亲', body: '周末回家吃饭吗？妈妈说要煮你最爱的咖喱鸡。', photo: '', at: at(300) },
+      { id: 'm2', room: room, sender: 'demo-sis', name: '姐姐', body: '我会带孩子回来 😊', photo: '', at: at(280) },
+      { id: 'm3', room: room, sender: 'demo-mom', name: '母亲', body: '好，六点开饭，别迟到哦。', photo: '', at: at(250) }
     ];
   }
 
@@ -535,11 +560,20 @@
       });
     },
     switchFamily: function (fid) { ls(K.family, fid); state.loaded = false; Object.keys(urlCache).forEach(function (k) { delete urlCache[k]; }); return load(true); },
+    invites: function () {
+      var d = state.data || {};
+      var lines = lineClans(d, ZY.meId);
+      var roleOf = function (cid) { var hit = lines.filter(function (l) { return l.clanId === cid; })[0]; return hit ? hit.role : 'other'; };
+      var rank = function (cid) { var i = lines.map(function (l) { return l.clanId; }).indexOf(cid); return i < 0 ? 99 : i; };
+      if (mode() === 'cloud') return (d.invites || []).map(function (iv) { return Object.assign({}, iv, { role: roleOf(iv.clanId) }); }).sort(function (a, b) { return rank(a.clanId) - rank(b.clanId); });
+      return lines.map(function (l) { var c = d.clans[l.clanId] || {}; return { clanId: l.clanId, role: l.role, surname: c.surname || '', code: '', key: c.key || '', people: ZY.people().filter(function (p) { return p.clanId === l.clanId; }).length }; });
+    },
+    newClanCode: function (clanId) { return run(null, function () { return q(sb.rpc('zy_new_clan_code', { p_clan: clanId })); }, 'New invitation code'); },
     newJoinCode: function () { return run(null, function () { return q(sb.rpc('zy_new_join_code', { p_family: state.familyId })); }, 'New join code'); },
     setRole: function (userId, role) { return run(null, function () { return q(sb.rpc('zy_set_role', { p_family: state.familyId, p_user: userId, p_role: role })); }, 'Change account role'); },
     removeAccount: function (userId) { return run(null, function () { return q(sb.from('family_users').delete().eq('family_id', state.familyId).eq('user_id', userId)); }, 'Remove an account'); },
-    joinLink: function () {
-      var c = state.data && state.data.family && state.data.family.joinCode;
+    joinLink: function (codeArg) {
+      var c = codeArg || (state.data && state.data.family && state.data.family.joinCode);
       if (!c) return '';
       var base = window.location.href.split('#')[0].split('?')[0].replace(/[^/]*$/, '');
       return base + (/\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname) ? 'AppLogin.dc.html' : 'Login.dc.html') + '?join=' + c;
@@ -614,17 +648,27 @@
       var d = state.data || {};
       var msgs = d.messages || [];
       var me = myUid();
-      var last = function (room) { var l = msgs.filter(function (m) { return m.room === room; }); return l[l.length - 1] || null; };
-      var out = [{ id: 'family', kind: 'family', name: (d.family && d.family.name) || '', last: last('family'), unread: ZY.unread('family') }];
+      var last = function (room) { var l = ZY.messages(room); return l[l.length - 1] || null; };
+      var out = ZY.invites().map(function (iv, i) {
+        var room = 'clan:' + iv.clanId;
+        return { id: room, kind: 'clan', clanId: iv.clanId, surname: iv.surname, own: i === 0, role: iv.role, last: last(room), unread: ZY.unread(room) };
+      });
+      // older messages from the single family room now live in your own surname line's group
+      if (!out.length && msgs.some(function (m) { return m.room === 'family'; })) out.push({ id: 'family', kind: 'family', name: (d.family && d.family.name) || '', last: last('family'), unread: ZY.unread('family') });
       (d.accounts || []).forEach(function (a) {
         if (!a.userId || a.userId === me) return;
         var room = ZY.dmRoom(a.userId);
         var person = ZY.people().filter(function (p) { return p.userId === a.userId; })[0] || null;
+        if (!person) return;
         out.push({ id: room, kind: 'dm', userId: a.userId, email: a.email || '', person: person, last: last(room), unread: ZY.unread(room) });
       });
       return out;
     },
-    messages: function (room) { return ((state.data && state.data.messages) || []).filter(function (m) { return m.room === room; }); },
+    messages: function (room) {
+      var own = ZY.invites()[0];
+      var legacy = own && room === 'clan:' + own.clanId;
+      return ((state.data && state.data.messages) || []).filter(function (m) { return m.room === room || (legacy && m.room === 'family'); });
+    },
     unread: function (room) {
       var seen = Date.parse(ls(readKey(room)) || '') || 0;
       var me = myUid();
