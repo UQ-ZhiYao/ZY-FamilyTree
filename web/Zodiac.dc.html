@@ -568,7 +568,6 @@ class Component extends DCLogic {
     let field = null;
     let fieldKey = '';
     let ringA = 0;
-    let hintA = 1;
     const lite = (() => { try { return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches; } catch (e) { return false; } })();
     const sm = (x) => x * x * (3 - 2 * x);
     const measure = () => {
@@ -643,7 +642,6 @@ class Component extends DCLogic {
       window.addEventListener('pointerup', onUp, { passive: true });
       window.addEventListener('pointercancel', () => { down = null; }, { passive: true });
     } catch (e) {}
-    const coarse = (() => { try { return window.matchMedia('(hover: none)').matches; } catch (e) { return false; } })();
     const draw = (now, dpr, prog, sa, sb, sf) => {
       const dark = !!document.querySelector('.zy-d');
       const G = geo();
@@ -694,17 +692,6 @@ class Component extends DCLogic {
         ctx.font = '600 ' + Math.round(fs * (1 + 0.35 * near)) + 'px "PingFang SC", "Noto Sans SC", system-ui, sans-serif';
         ctx.fillStyle = near > 0.05 ? 'rgba(' + gold + ',' + (0.35 + 0.65 * near).toFixed(3) + ')' : (dark ? 'rgba(207,228,255,0.32)' : 'rgba(46,71,158,0.38)');
         ctx.fillText(A[k].br[0], x, y);
-      }
-      // a small hint under the figure while it shows the animal
-      if (shapes && shapes[0].p) {
-        hintA += ((picOn ? 1 : 0) - hintA) * 0.15;
-        if (hintA > 0.02) {
-          ctx.textAlign = 'center';
-          ctx.font = '500 ' + Math.max(11, Math.round(fs * 0.8)) + 'px Inter, "Noto Sans SC", system-ui, sans-serif';
-          ctx.fillStyle = (dark ? 'rgba(207,228,255,' : 'rgba(46,71,158,') + (0.5 * hintA).toFixed(3) + ')';
-          const hint = coarse ? (en() ? 'Tap to see the character' : '轻触看看汉字') : (en() ? 'Hover to see the character' : '移到这里看看汉字');
-          ctx.fillText(hint, G.cx, G.cy + G.size * 0.5);
-        }
       }
       // tick marking the top of the wheel
       ctx.fillStyle = 'rgba(' + gold + ',0.9)';
