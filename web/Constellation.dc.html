@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>枝叶 · 十二星座 Zenith Yield</title>
+<script src="../assets/zy-config.js"></script>
+<script src="../assets/vendor/supabase.js"></script>
+<script src="../assets/zy-store.js"></script>
+<script src="../assets/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0B1532">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Zenith Yield">
+<meta name="application-name" content="Zenith Yield">
+<link rel="apple-touch-icon" href="../assets/icons/zy-apple-touch-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/zy-icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
+<style>
+.zy-d{--zy-sky:radial-gradient(ellipse at 30% 10%, var(--z9) 0%, var(--z10) 42%, var(--z11) 100%);--z1:#9DCBFF;--z2:#FFFFFF;--z3:rgba(157,203,255,.45);--z4:rgba(157,203,255,.6);--z5:rgba(255,255,255,.07);--z6:rgba(207,228,255,.16);--z7:rgba(207,228,255,.12);--z8:rgba(157,203,255,.35);--z9:#1B2E78;--z10:#0B1532;--z11:#050B1E;--z12:#EAF2FF;--z13:#CFE4FF;--z14:#2F5BEA;--z15:rgba(94,140,242,.6);--z16:rgba(207,228,255,.14);--z17:rgba(207,228,255,.28);--z18:#EAF4FF;--z19:#FFC857;--z20:rgba(255,200,87,.5);--z21:#C7D6F2;--z22:rgba(157,203,255,.7);--z23:rgba(157,203,255,0);--z24:#FF9E7A;--z25:#8FA9D6}
+.zy-l{--zy-sky:linear-gradient(165deg, #FFF3E8 0%, #F6EEFF 34%, #E9F1FF 66%, #F5F9FF 100%);--z1:#217ADE;--z2:#111732;--z3:rgba(55,137,230,0.34);--z4:rgba(55,137,230,0.45);--z5:rgba(255,255,255,0.66);--z6:rgba(46,71,158,0.14);--z7:rgba(46,71,158,0.11);--z8:rgba(55,137,230,0.26);--z9:#FFFFFF;--z10:#FFFFFF;--z11:#F9FAFD;--z12:#111732;--z13:#111732;--z14:#1748E6;--z15:rgba(55,110,230,0.45);--z16:rgba(46,71,158,0.13);--z17:rgba(46,71,158,0.25);--z18:#111732;--z19:#D1961F;--z20:rgba(230,173,55,0.38);--z21:#343F65;--z22:rgba(55,137,230,0.52);--z23:rgba(55,137,230,0);--z24:#DE5421;--z25:#495683}
+.zy-d,.zy-l{transition:background .5s ease,color .5s ease}
+
+.aurora-l{display:none}
+.zy-l .aurora-l{display:block}
+.zy-l .star{background:#6E93F0 !important;box-shadow:0 0 6px rgba(110,147,240,.7)}
+.zy-l .star:nth-child(3n){background:#F2A93B !important;box-shadow:0 0 6px rgba(242,169,59,.7)}
+.zy-l .star:nth-child(5n){background:#E86FA5 !important;box-shadow:0 0 6px rgba(232,111,165,.7)}
+.zy-l .sun{background:radial-gradient(circle at 38% 34%,#FFFBEA 0%,#FFD66B 45%,#F29D1E 100%) !important}
+.zy-l .comet span{background:#FFFFFF !important}
+@keyframes blobA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8%,6%) scale(1.15)}}
+@keyframes blobB{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-10%,4%) scale(.95)}}
+@keyframes blobC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(4%,-8%) scale(1.2)}}
+.themebtn{transition:background .2s ease}
+.themebtn:hover{background:rgba(127,140,170,.16)}
+
+body{margin:0}
+a{color:var(--z1)}a:hover{color:var(--z2)}
+@keyframes twinkle{0%,100%{opacity:.18}50%{opacity:.95}}
+@keyframes drift{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-30px,-20px,0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 30px 8px var(--z3)}50%{box-shadow:0 0 46px 14px var(--z4)}}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.star{animation:twinkle 4s ease-in-out infinite}
+.sky{animation:drift 50s ease-in-out infinite alternate}
+.sun{box-shadow:0 0 38px 11px var(--z3);animation:pulseS 5s ease-in-out infinite;will-change:transform}
+@keyframes pulseS{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.rise{animation:rise .8s ease backwards}
+.glass{background:var(--z5);border:1px solid var(--z6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.navlink{transition:background .2s ease,color .2s ease}
+.navlink:hover{background:var(--z7);color:var(--z2)}
+.cta{transition:transform .2s ease,box-shadow .25s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--z8)}
+@keyframes sweep{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.line-glow{background-size:200% 100% !important;animation:sweep 6s linear infinite}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+.st0{animation:none !important;opacity:.55}
+
+.langbtn{transition:background .2s ease}
+.lang-en{letter-spacing:0}
+section[id]{scroll-margin-top:96px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.zp{height:32px;padding:0 12px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;opacity:.55;font:inherit;font-size:13px;cursor:pointer}
+.zp.on{opacity:1;font-weight:600}
+.zprefs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+@media (max-width:640px){input,select,textarea{font-size:16px !important}}
+
+.pnav a.on{background:rgba(127,150,255,.16);font-weight:600}
+@media (max-width:640px){header{padding:calc(10px + env(safe-area-inset-top)) 12px 0 !important}header .glass{flex-wrap:nowrap !important;gap:6px !important;padding:8px 8px 8px 10px !important}header .glass > a:first-child > span:last-child{display:none}header nav{gap:0 !important;font-size:14px !important}header nav a{padding:8px 9px !important}header a.navlink[href="Login.dc.html"]{display:none !important}header a.cta{padding:9px 12px !important;font-size:14px !important;white-space:nowrap}h1{font-size:36px !important;line-height:1.25 !important}}
+
+.zc-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.zcv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.zc-scrim{position:absolute;inset:0}
+.zc-wrap{position:relative;z-index:1;width:100%;max-width:1160px;margin:0 auto;padding:0 24px 40px;box-sizing:border-box}
+.zc-hero{min-height:calc(100vh - 100px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:520px}
+.zc-kicker{font-size:13px;letter-spacing:4px;font-weight:600;opacity:.7}
+.zc-h1{margin:0;font-size:52px;line-height:1.15;font-weight:700;letter-spacing:-.5px}
+.zc-lead{margin:0;font-size:18px;line-height:1.8;opacity:.78}
+.zc-scroll{font-size:13px;letter-spacing:2px;opacity:.55;margin-top:10px}
+.zsec{min-height:100vh;display:flex;align-items:center}
+.zc-text{max-width:440px;display:flex;flex-direction:column;gap:14px}
+.zc-num{font-size:13px;letter-spacing:3px;opacity:.5;font-variant-numeric:tabular-nums}
+.zc-head{display:flex;align-items:center;gap:14px}
+.zc-sym{font-size:44px;line-height:1}
+.zc-name{margin:0;font-size:48px;line-height:1.1;font-weight:700;letter-spacing:-.5px}
+.zc-alt{font-size:15px;letter-spacing:1px;opacity:.65}
+.zc-tx{margin:4px 0 0;font-size:18px;line-height:1.8;opacity:.85}
+.zc-facts{margin:8px 0 0;display:flex;flex-direction:column}
+.zc-facts div{display:flex;gap:18px;padding:11px 0;border-top:1px solid var(--zc-line)}
+.zc-facts div:last-child{border-bottom:1px solid var(--zc-line)}
+.zc-facts dt{width:96px;flex:none;font-size:13px;opacity:.55;padding-top:2px}
+.zc-facts dd{margin:0;font-size:15px;font-weight:600}
+.zc-end{min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:18px}
+.zc-note{margin:0;font-size:13px;opacity:.6;max-width:440px}
+.zc-cta{padding:15px 26px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none}
+.zc-dots{position:fixed;z-index:3;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px}
+.zc-dots a{width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;font-size:13px;opacity:.35;transition:opacity .25s ease,transform .25s ease}
+.zc-dots a.on{opacity:1;transform:scale(1.25)}
+.zy-d .zc-wrap,.zy-d .zc-dots a{color:#EAF2FF}
+.zy-d{--zc-line:rgba(157,203,255,.16)}
+.zy-d .zc-sym{color:#FFD678}
+.zy-d .zc-cta{background:#FFD678;color:#0B1532}
+.zy-l .zc-wrap,.zy-l .zc-dots a{color:#111732}
+.zy-l{--zc-line:rgba(46,71,158,.14)}
+.zy-l .zc-sym{color:#E08A00}
+.zy-l .zc-cta{background:#111732;color:#FFFFFF}
+@media (max-width:820px){
+.zc-wrap{padding:0 20px 40px}
+.zc-hero{min-height:calc(100vh - 80px);justify-content:flex-end;padding-bottom:12vh}
+.zc-h1{font-size:34px}
+.zsec{align-items:flex-end;padding-bottom:9vh;box-sizing:border-box}
+.zc-name{font-size:36px}
+.zc-sym{font-size:34px}
+.zc-tx{font-size:16px}
+.zc-dots{right:6px}
+.zc-dots a{width:20px;height:20px;font-size:11px}
+.zy-d .zc-scrim{background:linear-gradient(rgba(11,21,50,0) 42%,rgba(11,21,50,.86) 66%,#0B1532 100%)}
+.zy-l .zc-scrim{background:linear-gradient(rgba(245,249,255,0) 42%,rgba(245,249,255,.9) 66%,#F5F9FF 100%)}
+}
+html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
+html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
+</style>
+</helmet>
+<div class="{{themeCls}}" style="position: relative; overflow: hidden; overflow: clip; min-height: 100vh; background: var(--zy-sky); color: var(--z12); font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif">
+<div aria-hidden="true" class="aurora-l" style="position: absolute; inset: 0; overflow: hidden; pointer-events: none">
+<span style="position: absolute; left: -10%; top: -15%; width: 60vmax; height: 60vmax; border-radius: 50%; background: radial-gradient(circle, rgba(255,190,140,.55) 0%, rgba(255,190,140,0) 65%); animation: blobA 22s ease-in-out infinite"></span>
+<span style="position: absolute; right: -15%; top: 5%; width: 65vmax; height: 65vmax; border-radius: 50%; background: radial-gradient(circle, rgba(170,140,255,.45) 0%, rgba(170,140,255,0) 65%); animation: blobB 28s ease-in-out infinite"></span>
+<span style="position: absolute; left: 20%; bottom: -25%; width: 70vmax; height: 70vmax; border-radius: 50%; background: radial-gradient(circle, rgba(110,170,255,.45) 0%, rgba(110,170,255,0) 65%); animation: blobC 34s ease-in-out infinite"></span>
+</div>
+
+
+<div aria-hidden="true" class="sky" style="position: absolute; inset: -40px; pointer-events: none">
+<sc-for list="{{stars}}" as="s" hint-placeholder-count="100">
+<span class="{{s.k}}" style="position: absolute; left: {{s.x}}%; top: {{s.y}}%; width: {{s.r}}px; height: {{s.r}}px; border-radius: 50%; background: var(--z13); animation-delay: {{s.d}}s; animation-duration: {{s.t}}s"></span>
+</sc-for>
+</div>
+
+<header style="position: sticky; top: 0; z-index: 50; padding: 16px 24px 0">
+<div class="glass" style="max-width: 1160px; margin: 0 auto; border-radius: 16px; padding: 10px 12px 10px 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--z2)">
+<span style="width: 32px; height: 32px; border-radius: 9px; background: var(--z14); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 18px var(--z15)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21V10M12 14l-5-4M12 12l5-4"></path><circle cx="7" cy="8" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="17" cy="6" r="2" fill="#FFFFFF" stroke="none"></circle><circle cx="12" cy="5" r="2" fill="#FFFFFF" stroke="none"></circle></svg></span>
+<span style="font-size: 18px; font-weight: 700">{{L.k1}}</span>
+</a>
+<nav class="pnav" aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
+<a href="Main.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{zyp.navHome}}</a>
+<a href="Constellation.dc.html" class="navlink on" aria-current="page" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{zyp.navStar}}</a>
+<a href="About.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z13); text-decoration: none">{{zyp.navAbout}}</a>
+</nav>
+<div style="display: flex; align-items: center; gap: 8px">
+
+<a href="Login.dc.html" class="navlink" style="padding: 10px 14px; border-radius: 10px; color: var(--z2); font-size: 15px; font-weight: 500; text-decoration: none">{{L.k6}}</a>
+<a href="Login.dc.html" class="cta" style="padding: 10px 16px; background: var(--z18); color: var(--z10); border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none">{{L.k7}}</a>
+</div>
+</div>
+</header>
+
+<div class="zc-bg" aria-hidden="true"><canvas class="zcv"></canvas><div class="zc-scrim"></div></div>
+<nav class="zc-dots" aria-label="{{t.kicker}}"><sc-for list="{{rows}}" as="r" hint-placeholder-count="12"><a href="{{r.href}}" class="{{r.dot}}" title="{{r.name}}"><span>{{r.sym}}</span></a></sc-for></nav>
+<main class="zc-wrap">
+<section class="zc-hero">
+<span class="zc-kicker">{{t.kicker}}</span>
+<h1 class="zc-h1">{{t.title}}</h1>
+<p class="zc-lead">{{t.lead}}</p>
+<span class="zc-scroll">{{t.scroll}} ↓</span>
+</section>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+<section class="zsec" id="{{r.k}}" data-i="{{r.i}}">
+<div class="zc-text">
+<span class="zc-num">{{r.num}} / 12</span>
+<div class="zc-head"><span class="zc-sym">{{r.sym}}</span><h2 class="zc-name">{{r.name}}</h2></div>
+<span class="zc-alt">{{r.alt}} · {{r.dates}}</span>
+<p class="zc-tx">{{r.tx}}</p>
+<dl class="zc-facts">
+<div><dt>{{t.element}}</dt><dd>{{r.el}}</dd></div>
+<div><dt>{{t.planet}}</dt><dd>{{r.pl}}</dd></div>
+<div><dt>{{t.star}}</dt><dd>{{r.st}}</dd></div>
+<div><dt>{{t.traits}}</dt><dd>{{r.trs}}</dd></div>
+</dl>
+</div>
+</section>
+</sc-for>
+<section class="zc-end">
+<p class="zc-note">{{t.note}}</p>
+<a href="Login.dc.html" class="cta zc-cta">{{t.cta}}</a>
+</section>
+</main>
+
+<footer style="position: relative; z-index: 1; border-top: 1px solid var(--z7)">
+<div style="max-width: 1160px; margin: 0 auto; padding: 28px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--z25)">
+<span>{{L.k24}}</span><span class="zprefs"><button type="button" class="{{zyp.lzCls}}" onClick="{{zyp.setLangZh}}">中文</button><button type="button" class="{{zyp.leCls}}" onClick="{{zyp.setLangEn}}">English</button><span aria-hidden="true" style="opacity:.4">·</span><button type="button" class="{{zyp.tdCls}}" onClick="{{zyp.setThemeDark}}">{{zyp.darkText}}</button><button type="button" class="{{zyp.tlCls}}" onClick="{{zyp.setThemeLight}}">{{zyp.lightText}}</button></span>
+<span style="display: flex; flex-wrap: wrap; gap: 20px"><a href="About.dc.html" style="color: var(--z25)">{{L.k25}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k26}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k27}}</a><a href="About.dc.html" style="color: var(--z25)">{{L.k28}}</a></span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  _zyPWA() {
+    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {}); } catch (e) {}
+    // Phone: pages do not zoom (pinch or double-tap). Only the family map zooms, with its own controls.
+    try {
+      if (!window.__zyNoZoom && !/Circle\.dc\.html/.test(window.location.pathname)) {
+        window.__zyNoZoom = 1;
+        const stop = (e) => { e.preventDefault(); };
+        document.addEventListener('gesturestart', stop, { passive: false });
+        document.addEventListener('gesturechange', stop, { passive: false });
+        document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+      }
+    } catch (e) {}
+  }
+  componentWillUnmount() {
+    this._zyStop();
+  }
+  componentDidMount() {
+    this._loadTheme();
+    this._zyPWA();
+    this._zcStart();
+  }
+  _loadTheme() {
+    if (window.ZY && !this._zyUnsub) {
+      this._zyUnsub = window.ZY.subscribe(() => this.setState({ zyRev: window.ZY.rev }));
+      window.ZY.ready().then(() => this.setState({ zyRev: window.ZY.rev }));
+    }
+    this._zyApply();
+    if (this._zySync) return;
+    // 跨页面同步：任何页面切换主题或语言，其它已打开的页面立刻跟着变
+    this._zySync = () => this._zyApply();
+    try { window.addEventListener('storage', this._zySync); window.addEventListener('focus', this._zySync); window.addEventListener('pageshow', this._zySync); document.addEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { this._zyBC = new BroadcastChannel('zy-prefs'); this._zyBC.onmessage = this._zySync; } catch (e) {}
+    try { this._zyPoll = setInterval(this._zySync, 1500); } catch (e) {}
+  }
+  _zyRead() {
+    const o = {};
+    try { const t = window.localStorage.getItem('zhiye-theme'); if (t === 'light' || t === 'dark') o.theme = t; } catch (e) {}
+    try { const l = window.localStorage.getItem('zy-lang'); if (l === 'en' || l === 'zh') o.lang = l; } catch (e) {}
+    return o;
+  }
+  _zyApply() {
+    const o = this._zyRead();
+    const st = this.state || {};
+    const d = {};
+    if (o.theme && o.theme !== (st.theme || 'dark')) d.theme = o.theme;
+    if (o.lang && o.lang !== (st.lang || 'zh')) d.lang = o.lang;
+    try { document.documentElement.lang = (d.lang || st.lang) === 'en' ? 'en' : 'zh-CN'; } catch (e) {}
+    if (d.theme || d.lang) this.setState(d);
+  }
+  _zyStop() {
+    if (this._zyUnsub) { this._zyUnsub(); this._zyUnsub = null; }
+    if (!this._zySync) return;
+    try { window.removeEventListener('storage', this._zySync); window.removeEventListener('focus', this._zySync); window.removeEventListener('pageshow', this._zySync); document.removeEventListener('visibilitychange', this._zySync); } catch (e) {}
+    try { if (this._zyBC) this._zyBC.close(); } catch (e) {}
+    try { clearInterval(this._zyPoll); } catch (e) {}
+    this._zySync = null;
+  }
+  _zyPost() {
+    try { if (this._zyBC) this._zyBC.postMessage(1); } catch (e) {}
+  }
+  renderVals() {
+    this._zyBoot();
+    const st = this.state || {};
+    let v = this._rv();
+    if (st.lang === 'en') v = this._zyI18n(v, 0);
+    return Object.assign(v, this._zyChrome(st));
+  }
+  _zyChrome(st) {
+    const light = st.theme === 'light';
+    const en = st.lang === 'en';
+    return {
+      isLight: light, isDark: !light, isEn: en, isZh: !en,
+      themeCls: (light ? 'zy-l' : 'zy-d') + (en ? ' lang-en' : ' lang-zh'),
+      themeAria: en ? (light ? 'Switch to dark' : 'Switch to light') : (light ? '切换到深色' : '切换到浅色'),
+      langText: en ? '中文' : 'EN', langAria: en ? '切换到中文' : 'Switch to English',
+      L: en ? Component.__zy.LEN : Component.__zy.LZH,
+      zyp: this._zyPrefs(st),
+      toggleTheme: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nt = light ? 'dark' : 'light';
+        try { window.localStorage.setItem('zhiye-theme', nt); } catch (err) {}
+        this.setState({ theme: nt }, () => this._zyPost());
+      },
+      toggleLang: (e) => {
+        if (e && e.stopPropagation) e.stopPropagation();
+        const nl = en ? 'zh' : 'en';
+        try { window.localStorage.setItem('zy-lang', nl); } catch (err) {}
+        try { document.documentElement.lang = nl === 'en' ? 'en' : 'zh-CN'; } catch (err) {}
+        this.setState({ lang: nl }, () => this._zyPost());
+      }
+    };
+  }
+  _zyAv(path) {
+    if (!path || !window.ZY) return '';
+    const C = window.__zyAvC || (window.__zyAvC = {});
+    if (C[path] !== undefined) return C[path];
+    C[path] = '';
+    window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
+    return '';
+  }
+  _zyInitials(n) {
+    n = String(n || '').trim();
+    if (!n) return '?';
+    if (/[㐀-鿿]/.test(n.charAt(0))) return n.charAt(0);
+    const w = n.split(/\s+/).filter(Boolean);
+    return ((w[0] || '').charAt(0) + (w.length > 1 ? w[w.length - 1].charAt(0) : '')).toUpperCase();
+  }
+  _zyPrefs(st) {
+    const en = st.lang === 'en';
+    const light = st.theme === 'light';
+    const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
+    return {
+      setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
+      lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Constellations' : '星座', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
+    };
+  }
+  _zyHref(name, query) {
+    // web/ and app/ have pages with the same names, so links stay inside the current folder
+    return name + '.dc.html' + (query ? '?' + query : '');
+  }
+  _zyQ(name) {
+    try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }
+  }
+  _zyName(p) {
+    if (!p) return '';
+    const en = (this.state || {}).lang === 'en';
+    return (en ? (p.nameEn || p.name) : (p.name || p.nameEn)) || '';
+  }
+  _zyGo(href) {
+    try { window.location.href = href; } catch (e) {}
+  }
+  _zyBoot() {
+    // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
+    if (!this._zyFirst && !this._inner) {
+      this._zyFirst = true;
+      const o = this._zyRead();
+      if (o.theme || o.lang) this.state = Object.assign({}, this.state || {}, o);
+    }
+    if (!Component.__zy) Component.__zy = { cache: {}, E: {}, CH: {"高": "G", "曾": "G", "公": "G", "婆": "G", "母": "M", "舅": "U", "妈": "M", "妻": "W", "爷": "G", "奶": "G", "岳": "F", "伯": "U", "嫂": "S", "姨": "A", "襟": "B", "堂": "C", "叔": "U", "姑": "A", "父": "F", "婶": "A", "兄": "B", "姐": "S", "夫": "H", "妹": "S", "表": "C", "儿": "S", "女": "D", "侄": "N", "甥": "N", "丈": "U", "弟": "B", "媳": "D", "婿": "S", "孙": "G", "娌": "S", "哥": "B", "辈": "·", "祖": "A", "我": "Me", "人": "K", "影": "P", "连": "T"}, LZH: {"k0": "主导航", "k1": "枝叶", "k2": "功能", "k3": "使用方法", "k4": "常见问题", "k5": "关于", "k6": "登入", "k7": "注册", "k8": "关于枝叶", "k9": "让家人", "k10": "彼此相连", "k11": "家人住得越来越分散，很多亲戚一年只见一次，有的甚至叫不出名字。枝叶给每个家庭一个自己的空间：认识彼此、分享照片、记下谁是谁。", "k12": "名字的由来", "k13": "“枝叶”取自“开枝散叶”。一个家族就像一片星空：每一颗星都在不同的位置发光，但都属于同一片夜空。", "k14": "我们怎么做", "k15": "保持简单。", "k16": "不需要任何专业知识，从你自己开始添加家人即可。", "k17": "登入后才能查看。", "k18": "家族空间不对外公开，只有加入的成员能看到。", "k19": "由家人自己管理。", "k20": "每个家族空间都有管理员，负责整理和修改资料。", "k21": "联系我们", "k22": "有问题或建议，请发邮件到 [联系邮箱]。", "k23": "建立我的家族空间", "k24": "© 2026 枝叶", "k25": "关于", "k26": "隐私政策", "k27": "服务条款", "k28": "联系我们"}, LEN: {"k0": "Main navigation", "k1": "ZY", "k2": "Features", "k3": "How it works", "k4": "FAQ", "k5": "About", "k6": "Log in", "k7": "Sign up", "k8": "About ZY", "k9": "Keeping families ", "k10": "connected", "k11": "Families live further apart than ever. Many relatives meet only once a year, and some names are hard to remember. ZY gives every family a space of its own to get to know each other, share photos and keep track of who's who.", "k12": "Where the name comes from", "k13": "ZY is short for Zenith Yield. Our Chinese name, 枝叶 (zhī yè, “branches and leaves”), comes from the saying 开枝散叶: a family branching out and growing. A family is like a night sky: every star shines from a different place, yet they all belong to the same sky.", "k14": "How we work", "k15": "Keep it simple. ", "k16": "No expertise needed. Start with yourself and add family from there.", "k17": "Visible only after logging in. ", "k18": "Family spaces are not public. Only members who join can see them.", "k19": "Run by families themselves. ", "k20": "Every family space has admins who organise and edit the details.", "k21": "Contact us", "k22": "Questions or suggestions? Email us at [contact email].", "k23": "Create my family space", "k24": "© 2026 ZY · Zenith Yield", "k25": "About", "k26": "Privacy policy", "k27": "Terms of service", "k28": "Contact us"} };
+  }
+  _zyTr(s) {
+    const Z = Component.__zy;
+    if (Z.cache[s] !== undefined) return Z.cache[s];
+    let r = this._zyTr1(s);
+    if (r && /^[a-z]/.test(r)) r = r.charAt(0).toUpperCase() + r.slice(1);
+    Z.cache[s] = r;
+    return r;
+  }
+  _zyTr1(s) {
+    const E = Component.__zy.E;
+    const HAN = /[一-鿿]/;
+    if (!HAN.test(s)) return s;
+    if (E[s] !== undefined) return E[s];
+    if (s.length === 1 && Component.__zy.CH[s]) return Component.__zy.CH[s];
+    const t = (x) => this._zyTr1(x);
+    const low = (src, x) => (HAN.test(src) && /^[A-Z][a-z]/.test(x)) ? x.charAt(0).toLowerCase() + x.slice(1) : x;
+    const poss = (src, a) => (src === 'TA' ? 'Their' : (/[^s]s$/.test(a) && HAN.test(src) ? a + "'" : a + "'s"));
+    let m;
+    const tpl = s.replace(/\d+/g, '#');
+    if (tpl !== s && E[tpl] !== undefined) { const nums = s.match(/\d+/g); let k = 0; return E[tpl].replace(/#/g, () => nums[k++]); }
+    if ((m = s.match(/^(\d+) 位$/))) return m[1];
+    if ((m = s.match(/^查看(.+)的资料$/))) return 'View ' + poss(m[1], low(m[1], t(m[1]))) + ' profile';
+    if ((m = s.match(/^点击进入(.+)$/))) return 'Open ' + t(m[1]);
+    if ((m = s.match(/^(.+) 称 TA「(.+)」$/))) return t(m[1]) + ' calls them “' + t(m[2]) + '”';
+    if (s.indexOf(' · ') >= 0) return s.split(' · ').map(t).join(' · ');
+    if (s.indexOf('，') >= 0) return s.split('，').map((x, i) => i ? low(x, t(x)) : t(x)).join(', ');
+    if ((m = s.match(/^(.+)（(.+)）$/))) return t(m[1]) + ' (' + low(m[2], t(m[2])) + ')';
+    const i = s.indexOf('的');
+    if (i > 0 && i < s.length - 1) { const a = s.slice(0, i); const b = s.slice(i + 1); return poss(a, t(a)) + ' ' + low(b, t(b)); }
+    if ((m = s.match(/^其他(.+)$/))) return 'other ' + low(m[1], t(m[1]));
+    if ((m = s.match(/^(.+)之(子|女)$/))) return poss(m[1], t(m[1])) + (m[2] === '子' ? ' son' : ' daughter');
+    if ((m = s.match(/^(.+)(长子|次子|三子|幼子|长女|幼女)$/))) return poss(m[1], t(m[1])) + ' ' + t(m[2]);
+    if ((m = s.match(/^(.+)氏$/)) && E[m[1]]) return E[m[1]];
+    if ((m = s.match(/^(.+)家$/))) return poss(m[1], t(m[1])) + ' family';
+    return s;
+  }
+  _zyInit(m) {
+    const MAX = 3;
+    const ch = (src, title) => {
+      if (!/[一-鿿]/.test(src)) return src;
+      const C = Component.__zy.CH;
+      if (title && Component.__zy.TI && !/[一-鿿]/.test(title)) {
+        const w = title.replace(/[“”"()]/g, ' ').split(/[\s\-]+/).filter((x) => x && !/^(of|in|law|the|and|&|·|'s|older|younger|eldest|youngest|distant)$/i.test(x));
+        const out = w.slice(0, 2).map((x) => (/^\d/.test(x) ? x.charAt(0) : x.charAt(0).toUpperCase())).join('');
+        if (out) return out.slice(0, MAX);
+      }
+      return C[src] || src.charAt(0);
+    };
+    return ch(m.ch, m.title);
+  }
+  _zyI18n(v, d) {
+    if (typeof v === 'string') return /[一-鿿]/.test(v) ? this._zyTr(v) : v;
+    if (d > 7 || v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) return v.map((x) => this._zyI18n(x, d + 1));
+    if (Object.getPrototypeOf(v) !== Object.prototype) return v;
+    const o = {};
+    for (const k in v) o[k] = (k === 'L' || k === 't' || k === 'f' || k === 'raw' || k === 'rows' || k === 'rows2' || k === 'rows3' || k === 'opts' || k === 'cards' || k === 'keys' || k === 'rows4') ? v[k] : this._zyI18n(v[k], d + 1);
+    if (typeof v.ch === 'string' && /[一-鿿]/.test(v.ch)) o.ch = this._zyInit({ ch: v.ch, title: o.title });
+    return o;
+  }
+  _rv() {
+    const t = ((this.state || {}).lang === 'en' ? {kicker: "THE 12 CONSTELLATIONS", title: "Look up and find your part of the sky", lead: "The twelve zodiac constellations sit along the Sun's yearly path. Scroll to see each one's star figure, dates and character.", dates: "Dates", element: "Element", planet: "Ruling planet", star: "Brightest star", traits: "Traits", cta: "Build your family's sky", scroll: "Scroll", note: "Dates follow the common Western zodiac and can shift by a day in some years."} : {kicker: "十二星座", title: "抬头看看，属于你的那片星空", lead: "黄道十二星座沿着太阳一年走过的路线排开。往下滑动，看看每一个星座的星图、日期和特点。", dates: "日期", element: "元素", planet: "守护星", star: "最亮的星", traits: "性格特点", cta: "建立你的家族星空", scroll: "向下滑动", note: "星座日期按常见的西方占星划分，个别年份会相差一天。"});
+    const S = [{"k": "aries", "sym": "♈︎", "zh": "白羊座", "en": "Aries", "d": "3月21日 – 4月19日", "de": "Mar 21 – Apr 19", "el": ["火", "Fire"], "pl": ["火星", "Mars"], "st": ["娄宿三", "Hamal"], "tr": [["勇敢", "热情", "直率"], ["Brave", "Energetic", "Direct"]], "tx": ["黄道第一宫。每年春分，太阳从这里开始一年的旅程。", "The first sign of the zodiac: the Sun starts its yearly journey here at the March equinox."], "p": [[0.1, 0.42], [0.52, 0.26], [0.72, 0.36], [0.82, 0.52]], "e": [[0, 1], [1, 2], [2, 3]], "b": 1}, {"k": "taurus", "sym": "♉︎", "zh": "金牛座", "en": "Taurus", "d": "4月20日 – 5月20日", "de": "Apr 20 – May 20", "el": ["土", "Earth"], "pl": ["金星", "Venus"], "st": ["毕宿五", "Aldebaran"], "tr": [["稳重", "耐心", "可靠"], ["Steady", "Patient", "Loyal"]], "tx": ["红色的毕宿五是牛眼，旁边的昴星团是冬夜最容易认出的星群之一。", "Red Aldebaran is the bull's eye, and the nearby Pleiades are one of the easiest star clusters to spot."], "p": [[0.14, 0.24], [0.1, 0.3], [0.18, 0.3], [0.4, 0.5], [0.5, 0.6], [0.6, 0.5], [0.5, 0.42], [0.88, 0.2], [0.9, 0.56]], "e": [[3, 4], [4, 5], [5, 7], [3, 6], [6, 8]], "b": 4}, {"k": "gemini", "sym": "♊︎", "zh": "双子座", "en": "Gemini", "d": "5月21日 – 6月21日", "de": "May 21 – Jun 21", "el": ["风", "Air"], "pl": ["水星", "Mercury"], "st": ["北河三", "Pollux"], "tr": [["好奇", "灵活", "健谈"], ["Curious", "Adaptable", "Talkative"]], "tx": ["北河二与北河三并肩而立，像一对手牵手的兄弟。", "Castor and Pollux stand side by side, like twin brothers holding hands."], "p": [[0.25, 0.1], [0.45, 0.08], [0.28, 0.44], [0.48, 0.42], [0.2, 0.84], [0.36, 0.88], [0.58, 0.8], [0.74, 0.72]], "e": [[0, 2], [2, 4], [4, 5], [1, 3], [3, 6], [6, 7], [2, 3]], "b": 1}, {"k": "cancer", "sym": "♋︎", "zh": "巨蟹座", "en": "Cancer", "d": "6月22日 – 7月22日", "de": "Jun 22 – Jul 22", "el": ["水", "Water"], "pl": ["月亮", "Moon"], "st": ["柳宿增十", "Al Tarf"], "tr": [["体贴", "顾家", "重感情"], ["Caring", "Protective", "Home-loving"]], "tx": ["最暗的黄道星座，中央藏着鬼星团（蜂巢星团）。", "The faintest zodiac constellation, with the Beehive Cluster hidden at its heart."], "p": [[0.5, 0.46], [0.5, 0.12], [0.22, 0.78], [0.76, 0.84], [0.47, 0.5]], "e": [[0, 1], [0, 2], [0, 3]], "b": 3}, {"k": "leo", "sym": "♌︎", "zh": "狮子座", "en": "Leo", "d": "7月23日 – 8月22日", "de": "Jul 23 – Aug 22", "el": ["火", "Fire"], "pl": ["太阳", "Sun"], "st": ["轩辕十四", "Regulus"], "tr": [["自信", "大方", "热心"], ["Confident", "Generous", "Warm"]], "tx": ["狮头是一个反写的问号，整片星群像一头伏卧的狮子。", "A backwards question mark forms the lion's head; the whole figure looks like a resting lion."], "p": [[0.2, 0.66], [0.24, 0.46], [0.32, 0.3], [0.26, 0.17], [0.12, 0.2], [0.62, 0.42], [0.9, 0.56], [0.64, 0.64]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [6, 7], [7, 0]], "b": 0}, {"k": "virgo", "sym": "♍︎", "zh": "处女座", "en": "Virgo", "d": "8月23日 – 9月22日", "de": "Aug 23 – Sep 22", "el": ["土", "Earth"], "pl": ["水星", "Mercury"], "st": ["角宿一", "Spica"], "tr": [["细心", "务实", "乐于助人"], ["Careful", "Practical", "Helpful"]], "tx": ["全天第二大的星座。角宿一是春夜里明亮的蓝白色星。", "The second-largest constellation; blue-white Spica shines on spring evenings."], "p": [[0.56, 0.84], [0.5, 0.6], [0.34, 0.5], [0.18, 0.36], [0.62, 0.44], [0.76, 0.3], [0.88, 0.2], [0.4, 0.24]], "e": [[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [2, 7]], "b": 0}, {"k": "libra", "sym": "♎︎", "zh": "天秤座", "en": "Libra", "d": "9月23日 – 10月23日", "de": "Sep 23 – Oct 23", "el": ["风", "Air"], "pl": ["金星", "Venus"], "st": ["氐宿四", "Zubeneschamali"], "tr": [["公正", "圆融", "善交际"], ["Fair", "Diplomatic", "Sociable"]], "tx": ["唯一以物品为象征的黄道星座——一架天平。", "The only zodiac sign shown as an object rather than a creature: a pair of scales."], "p": [[0.5, 0.12], [0.24, 0.42], [0.76, 0.44], [0.3, 0.8], [0.7, 0.76]], "e": [[0, 1], [0, 2], [1, 2], [1, 3], [2, 4]], "b": 0}, {"k": "scorpio", "sym": "♏︎", "zh": "天蝎座", "en": "Scorpio", "d": "10月24日 – 11月22日", "de": "Oct 24 – Nov 22", "el": ["水", "Water"], "pl": ["火星 · 冥王星", "Mars · Pluto"], "st": ["心宿二", "Antares"], "tr": [["执着", "热烈", "忠诚"], ["Determined", "Passionate", "Loyal"]], "tx": ["红色的心宿二是蝎子的心脏，蝎尾在南天弯成一道钩。", "Red Antares is the scorpion's heart, and its tail curls into a hook low in the southern sky."], "p": [[0.86, 0.1], [0.8, 0.24], [0.9, 0.34], [0.66, 0.34], [0.56, 0.45], [0.48, 0.6], [0.4, 0.74], [0.3, 0.84], [0.16, 0.8], [0.13, 0.66], [0.24, 0.6]], "e": [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10]], "b": 3}, {"k": "sagittarius", "sym": "♐︎", "zh": "射手座", "en": "Sagittarius", "d": "11月23日 – 12月21日", "de": "Nov 23 – Dec 21", "el": ["火", "Fire"], "pl": ["木星", "Jupiter"], "st": ["箕宿三", "Kaus Australis"], "tr": [["乐观", "爱冒险", "坦率"], ["Optimistic", "Adventurous", "Honest"]], "tx": ["其中的“茶壶”星群，壶嘴正指向银河中心。", "Its \"Teapot\" pattern has a spout pointing at the centre of the Milky Way."], "p": [[0.28, 0.72], [0.46, 0.78], [0.46, 0.55], [0.28, 0.5], [0.62, 0.44], [0.66, 0.62], [0.8, 0.38], [0.84, 0.56], [0.16, 0.28]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [2, 4], [4, 5], [5, 1], [4, 6], [6, 7], [7, 5], [3, 8]], "b": 1}, {"k": "capricorn", "sym": "♑︎", "zh": "摩羯座", "en": "Capricorn", "d": "12月22日 – 1月19日", "de": "Dec 22 – Jan 19", "el": ["土", "Earth"], "pl": ["土星", "Saturn"], "st": ["垒壁阵四", "Deneb Algedi"], "tr": [["自律", "负责", "有抱负"], ["Disciplined", "Responsible", "Ambitious"]], "tx": ["半羊半鱼的“海山羊”，星群的形状像一只小船。", "A sea-goat, half goat and half fish; its stars outline a small boat."], "p": [[0.1, 0.3], [0.24, 0.36], [0.44, 0.66], [0.6, 0.72], [0.8, 0.56], [0.9, 0.34], [0.66, 0.4], [0.4, 0.42]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 1]], "b": 5}, {"k": "aquarius", "sym": "♒︎", "zh": "水瓶座", "en": "Aquarius", "d": "1月20日 – 2月18日", "de": "Jan 20 – Feb 18", "el": ["风", "Air"], "pl": ["土星 · 天王星", "Saturn · Uranus"], "st": ["虚宿一", "Sadalsuud"], "tr": [["独立", "创新", "博爱"], ["Independent", "Inventive", "Humane"]], "tx": ["持瓶人倒出的水流，由一串暗星组成。", "The water-bearer's stream is drawn by a chain of faint stars."], "p": [[0.12, 0.2], [0.28, 0.3], [0.46, 0.26], [0.6, 0.4], [0.54, 0.6], [0.7, 0.76], [0.88, 0.66], [0.38, 0.56]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [4, 7]], "b": 2}, {"k": "pisces", "sym": "♓︎", "zh": "双鱼座", "en": "Pisces", "d": "2月19日 – 3月20日", "de": "Feb 19 – Mar 20", "el": ["水", "Water"], "pl": ["木星 · 海王星", "Jupiter · Neptune"], "st": ["右更二", "Alpherg"], "tr": [["温柔", "富想象力", "善解人意"], ["Gentle", "Imaginative", "Compassionate"]], "tx": ["两条鱼由一根丝带相连，春分点就在这片星空里。", "Two fish tied together by a cord; the March equinox point lies in this part of the sky."], "p": [[0.14, 0.2], [0.22, 0.1], [0.3, 0.2], [0.22, 0.3], [0.36, 0.86], [0.6, 0.76], [0.76, 0.7], [0.86, 0.6], [0.94, 0.7], [0.86, 0.8]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 6]], "b": 4}];
+    const st = this.state || {};
+    const en = st.lang === 'en';
+    let seed = 37;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const stars = [];
+    for (let i = 0; i < 100; i++) {
+      stars.push({ x: (rnd() * 100).toFixed(2), y: (rnd() * 100).toFixed(2), r: rnd() < 0.15 ? 3 : (rnd() < 0.5 ? 2 : 1), d: (rnd() * 5).toFixed(2), t: (3 + rnd() * 5).toFixed(2), k: i % 3 === 0 ? 'star' : 'star st0' });
+    }
+    const cur = Math.max(0, Math.min(S.length - 1, st.zcCur || 0));
+    const rows = S.map((x, i) => ({
+      k: x.k, i: String(i), sym: x.sym, name: en ? x.en : x.zh, alt: en ? x.zh : x.en, dates: en ? x.de : x.d,
+      el: en ? x.el[1] : x.el[0], pl: en ? x.pl[1] : x.pl[0], st: en ? x.st[1] + ' · ' + x.st[0] : x.st[0] + ' · ' + x.st[1],
+      trs: (en ? x.tr[1] : x.tr[0]).join(en ? ', ' : '、'), tx: en ? x.tx[1] : x.tx[0], dot: i === cur ? 'on' : '', num: (i < 9 ? '0' : '') + (i + 1), href: '#' + x.k
+    }));
+    return { stars: stars, t: t, rows: rows, raw: { curSym: S[cur].sym, curName: en ? S[cur].en : S[cur].zh } };
+  }
+  // Scroll-driven isometric voxel sky: each constellation is drawn as raised pixel cubes and morphs into the next as you scroll.
+  _zcStart() {
+    if (this._zcOn) return;
+    this._zcOn = true;
+    const S = [{"k": "aries", "sym": "♈︎", "zh": "白羊座", "en": "Aries", "d": "3月21日 – 4月19日", "de": "Mar 21 – Apr 19", "el": ["火", "Fire"], "pl": ["火星", "Mars"], "st": ["娄宿三", "Hamal"], "tr": [["勇敢", "热情", "直率"], ["Brave", "Energetic", "Direct"]], "tx": ["黄道第一宫。每年春分，太阳从这里开始一年的旅程。", "The first sign of the zodiac: the Sun starts its yearly journey here at the March equinox."], "p": [[0.1, 0.42], [0.52, 0.26], [0.72, 0.36], [0.82, 0.52]], "e": [[0, 1], [1, 2], [2, 3]], "b": 1}, {"k": "taurus", "sym": "♉︎", "zh": "金牛座", "en": "Taurus", "d": "4月20日 – 5月20日", "de": "Apr 20 – May 20", "el": ["土", "Earth"], "pl": ["金星", "Venus"], "st": ["毕宿五", "Aldebaran"], "tr": [["稳重", "耐心", "可靠"], ["Steady", "Patient", "Loyal"]], "tx": ["红色的毕宿五是牛眼，旁边的昴星团是冬夜最容易认出的星群之一。", "Red Aldebaran is the bull's eye, and the nearby Pleiades are one of the easiest star clusters to spot."], "p": [[0.14, 0.24], [0.1, 0.3], [0.18, 0.3], [0.4, 0.5], [0.5, 0.6], [0.6, 0.5], [0.5, 0.42], [0.88, 0.2], [0.9, 0.56]], "e": [[3, 4], [4, 5], [5, 7], [3, 6], [6, 8]], "b": 4}, {"k": "gemini", "sym": "♊︎", "zh": "双子座", "en": "Gemini", "d": "5月21日 – 6月21日", "de": "May 21 – Jun 21", "el": ["风", "Air"], "pl": ["水星", "Mercury"], "st": ["北河三", "Pollux"], "tr": [["好奇", "灵活", "健谈"], ["Curious", "Adaptable", "Talkative"]], "tx": ["北河二与北河三并肩而立，像一对手牵手的兄弟。", "Castor and Pollux stand side by side, like twin brothers holding hands."], "p": [[0.25, 0.1], [0.45, 0.08], [0.28, 0.44], [0.48, 0.42], [0.2, 0.84], [0.36, 0.88], [0.58, 0.8], [0.74, 0.72]], "e": [[0, 2], [2, 4], [4, 5], [1, 3], [3, 6], [6, 7], [2, 3]], "b": 1}, {"k": "cancer", "sym": "♋︎", "zh": "巨蟹座", "en": "Cancer", "d": "6月22日 – 7月22日", "de": "Jun 22 – Jul 22", "el": ["水", "Water"], "pl": ["月亮", "Moon"], "st": ["柳宿增十", "Al Tarf"], "tr": [["体贴", "顾家", "重感情"], ["Caring", "Protective", "Home-loving"]], "tx": ["最暗的黄道星座，中央藏着鬼星团（蜂巢星团）。", "The faintest zodiac constellation, with the Beehive Cluster hidden at its heart."], "p": [[0.5, 0.46], [0.5, 0.12], [0.22, 0.78], [0.76, 0.84], [0.47, 0.5]], "e": [[0, 1], [0, 2], [0, 3]], "b": 3}, {"k": "leo", "sym": "♌︎", "zh": "狮子座", "en": "Leo", "d": "7月23日 – 8月22日", "de": "Jul 23 – Aug 22", "el": ["火", "Fire"], "pl": ["太阳", "Sun"], "st": ["轩辕十四", "Regulus"], "tr": [["自信", "大方", "热心"], ["Confident", "Generous", "Warm"]], "tx": ["狮头是一个反写的问号，整片星群像一头伏卧的狮子。", "A backwards question mark forms the lion's head; the whole figure looks like a resting lion."], "p": [[0.2, 0.66], [0.24, 0.46], [0.32, 0.3], [0.26, 0.17], [0.12, 0.2], [0.62, 0.42], [0.9, 0.56], [0.64, 0.64]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [6, 7], [7, 0]], "b": 0}, {"k": "virgo", "sym": "♍︎", "zh": "处女座", "en": "Virgo", "d": "8月23日 – 9月22日", "de": "Aug 23 – Sep 22", "el": ["土", "Earth"], "pl": ["水星", "Mercury"], "st": ["角宿一", "Spica"], "tr": [["细心", "务实", "乐于助人"], ["Careful", "Practical", "Helpful"]], "tx": ["全天第二大的星座。角宿一是春夜里明亮的蓝白色星。", "The second-largest constellation; blue-white Spica shines on spring evenings."], "p": [[0.56, 0.84], [0.5, 0.6], [0.34, 0.5], [0.18, 0.36], [0.62, 0.44], [0.76, 0.3], [0.88, 0.2], [0.4, 0.24]], "e": [[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [2, 7]], "b": 0}, {"k": "libra", "sym": "♎︎", "zh": "天秤座", "en": "Libra", "d": "9月23日 – 10月23日", "de": "Sep 23 – Oct 23", "el": ["风", "Air"], "pl": ["金星", "Venus"], "st": ["氐宿四", "Zubeneschamali"], "tr": [["公正", "圆融", "善交际"], ["Fair", "Diplomatic", "Sociable"]], "tx": ["唯一以物品为象征的黄道星座——一架天平。", "The only zodiac sign shown as an object rather than a creature: a pair of scales."], "p": [[0.5, 0.12], [0.24, 0.42], [0.76, 0.44], [0.3, 0.8], [0.7, 0.76]], "e": [[0, 1], [0, 2], [1, 2], [1, 3], [2, 4]], "b": 0}, {"k": "scorpio", "sym": "♏︎", "zh": "天蝎座", "en": "Scorpio", "d": "10月24日 – 11月22日", "de": "Oct 24 – Nov 22", "el": ["水", "Water"], "pl": ["火星 · 冥王星", "Mars · Pluto"], "st": ["心宿二", "Antares"], "tr": [["执着", "热烈", "忠诚"], ["Determined", "Passionate", "Loyal"]], "tx": ["红色的心宿二是蝎子的心脏，蝎尾在南天弯成一道钩。", "Red Antares is the scorpion's heart, and its tail curls into a hook low in the southern sky."], "p": [[0.86, 0.1], [0.8, 0.24], [0.9, 0.34], [0.66, 0.34], [0.56, 0.45], [0.48, 0.6], [0.4, 0.74], [0.3, 0.84], [0.16, 0.8], [0.13, 0.66], [0.24, 0.6]], "e": [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10]], "b": 3}, {"k": "sagittarius", "sym": "♐︎", "zh": "射手座", "en": "Sagittarius", "d": "11月23日 – 12月21日", "de": "Nov 23 – Dec 21", "el": ["火", "Fire"], "pl": ["木星", "Jupiter"], "st": ["箕宿三", "Kaus Australis"], "tr": [["乐观", "爱冒险", "坦率"], ["Optimistic", "Adventurous", "Honest"]], "tx": ["其中的“茶壶”星群，壶嘴正指向银河中心。", "Its \"Teapot\" pattern has a spout pointing at the centre of the Milky Way."], "p": [[0.28, 0.72], [0.46, 0.78], [0.46, 0.55], [0.28, 0.5], [0.62, 0.44], [0.66, 0.62], [0.8, 0.38], [0.84, 0.56], [0.16, 0.28]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [2, 4], [4, 5], [5, 1], [4, 6], [6, 7], [7, 5], [3, 8]], "b": 1}, {"k": "capricorn", "sym": "♑︎", "zh": "摩羯座", "en": "Capricorn", "d": "12月22日 – 1月19日", "de": "Dec 22 – Jan 19", "el": ["土", "Earth"], "pl": ["土星", "Saturn"], "st": ["垒壁阵四", "Deneb Algedi"], "tr": [["自律", "负责", "有抱负"], ["Disciplined", "Responsible", "Ambitious"]], "tx": ["半羊半鱼的“海山羊”，星群的形状像一只小船。", "A sea-goat, half goat and half fish; its stars outline a small boat."], "p": [[0.1, 0.3], [0.24, 0.36], [0.44, 0.66], [0.6, 0.72], [0.8, 0.56], [0.9, 0.34], [0.66, 0.4], [0.4, 0.42]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 1]], "b": 5}, {"k": "aquarius", "sym": "♒︎", "zh": "水瓶座", "en": "Aquarius", "d": "1月20日 – 2月18日", "de": "Jan 20 – Feb 18", "el": ["风", "Air"], "pl": ["土星 · 天王星", "Saturn · Uranus"], "st": ["虚宿一", "Sadalsuud"], "tr": [["独立", "创新", "博爱"], ["Independent", "Inventive", "Humane"]], "tx": ["持瓶人倒出的水流，由一串暗星组成。", "The water-bearer's stream is drawn by a chain of faint stars."], "p": [[0.12, 0.2], [0.28, 0.3], [0.46, 0.26], [0.6, 0.4], [0.54, 0.6], [0.7, 0.76], [0.88, 0.66], [0.38, 0.56]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [4, 7]], "b": 2}, {"k": "pisces", "sym": "♓︎", "zh": "双鱼座", "en": "Pisces", "d": "2月19日 – 3月20日", "de": "Feb 19 – Mar 20", "el": ["水", "Water"], "pl": ["木星 · 海王星", "Jupiter · Neptune"], "st": ["右更二", "Alpherg"], "tr": [["温柔", "富想象力", "善解人意"], ["Gentle", "Imaginative", "Compassionate"]], "tx": ["两条鱼由一根丝带相连，春分点就在这片星空里。", "Two fish tied together by a cord; the March equinox point lies in this part of the sky."], "p": [[0.14, 0.2], [0.22, 0.1], [0.3, 0.2], [0.22, 0.3], [0.36, 0.86], [0.6, 0.76], [0.76, 0.7], [0.86, 0.6], [0.94, 0.7], [0.86, 0.8]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 6]], "b": 4}];
+    const N = 16;
+    const shapes = S.map((x) => {
+      const h = new Float32Array(N * N);
+      const g = new Float32Array(N * N);
+      const cell = (p) => [Math.round(1 + p[0] * (N - 3)), Math.round(1 + p[1] * (N - 3))];
+      x.e.forEach((ed) => {
+        const a = cell(x.p[ed[0]]);
+        const b = cell(x.p[ed[1]]);
+        const n = Math.max(Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1])) * 2 || 1;
+        for (let s = 0; s <= n; s++) {
+          const i = Math.round(a[0] + (b[0] - a[0]) * s / n);
+          const j = Math.round(a[1] + (b[1] - a[1]) * s / n);
+          const q = j * N + i;
+          if (h[q] < 1) h[q] = 1;
+        }
+      });
+      x.p.forEach((pt, k) => {
+        const c = cell(pt);
+        const q = c[1] * N + c[0];
+        h[q] = k === x.b ? 3.6 : 2.4;
+        g[q] = 1;
+      });
+      return { h: h, g: g };
+    });
+    const curH = new Float32Array(N * N);
+    const curG = new Float32Array(N * N);
+    let last = 0;
+    let cv = null;
+    let ctx = null;
+    let W = 0;
+    let H = 0;
+    let prog = 0;
+    const lite = (() => { try { return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches; } catch (e) { return false; } })();
+    const sm = (x) => x * x * (3 - 2 * x);
+    const measure = () => {
+      const secs = document.querySelectorAll('.zsec');
+      if (!secs.length) return 0;
+      const mid = window.innerHeight * 0.5;
+      const cs = Array.prototype.map.call(secs, (el) => { const r = el.getBoundingClientRect(); return r.top + r.height / 2; });
+      if (mid <= cs[0]) return 0;
+      for (let i = 0; i < cs.length - 1; i++) if (mid < cs[i + 1]) return i + (mid - cs[i]) / (cs[i + 1] - cs[i]);
+      return cs.length - 1;
+    };
+    let field = null;
+    let fieldKey = '';
+    const geo = () => {
+      const phone = W < 820;
+      const span = phone ? Math.min(W * 1.15, H * 0.9) : Math.min(W * 0.62, H * 1.25);
+      const tw = span / N;
+      return { tw: tw, th: tw * 0.5, hu: tw * 0.48, cx: phone ? W * 0.5 : W * 0.68, cy: phone ? H * 0.3 : H * 0.5 };
+    };
+    const iso = (G, i, j) => ({ x: G.cx + (i - j) * G.tw / 2, y: G.cy + (i + j - (N - 1)) * G.th / 2 });
+    // the faint tile floor reaching to the screen edges, drawn once per size/theme
+    const makeField = (G, dark, dpr) => {
+      const f = document.createElement('canvas');
+      f.width = Math.round(W * dpr); f.height = Math.round(H * dpr);
+      const c = f.getContext('2d');
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const R = Math.ceil(Math.max(W, H * 2) / G.tw) + N;
+      const k = 0.84;
+      for (let a = -R; a < R; a++) {
+        for (let b = -R; b < R; b++) {
+          const p = iso(G, a, b);
+          if (p.x < -G.tw || p.x > W + G.tw || p.y < -G.th || p.y > H + G.th) continue;
+          const dx = (p.x - G.cx) / (W * 0.55);
+          const dy = (p.y - G.cy) / (H * 0.6);
+          const fade = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy));
+          if (fade <= 0.02) continue;
+          c.fillStyle = dark ? 'rgba(150,180,255,' + (0.03 + 0.11 * fade).toFixed(3) + ')' : 'rgba(40,70,160,' + (0.025 + 0.08 * fade).toFixed(3) + ')';
+          c.beginPath();
+          c.moveTo(p.x, p.y - G.th * k / 2); c.lineTo(p.x + G.tw * k / 2, p.y); c.lineTo(p.x, p.y + G.th * k / 2); c.lineTo(p.x - G.tw * k / 2, p.y);
+          c.closePath(); c.fill();
+        }
+      }
+      return f;
+    };
+    const draw = (now, dpr) => {
+      const dark = !!document.querySelector('.zy-d');
+      const G = geo();
+      const key = [W, H, dpr, dark].join('|');
+      if (key !== fieldKey) { field = makeField(G, dark, dpr); fieldKey = key; }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(field, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const LT = dark ? [111, 184, 255] : [77, 124, 254];
+      const ST = dark ? [255, 214, 120] : [245, 170, 40];
+      const rgb = (c, f) => 'rgb(' + Math.round(c[0] * f) + ',' + Math.round(c[1] * f) + ',' + Math.round(c[2] * f) + ')';
+      const tt = now / 1000;
+      const k = 0.86;
+      const hw = G.tw * k / 2;
+      const hh = G.th * k / 2;
+      for (let s = 0; s <= 2 * N - 2; s++) {
+        for (let i = Math.max(0, s - N + 1); i <= Math.min(N - 1, s); i++) {
+          const j = s - i;
+          const q = j * N + i;
+          let h = curH[q];
+          if (h <= 0.06) continue;
+          h += 0.16 * Math.sin(tt * 1.6 + (i + j) * 0.45) * Math.min(1, h);
+          const p = iso(G, i, j);
+          const c = curG[q] > 0.5 ? ST : LT;
+          const top = p.y - h * G.hu;
+          ctx.fillStyle = rgb(c, 0.7);
+          ctx.beginPath(); ctx.moveTo(p.x - hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x, p.y + hh); ctx.lineTo(p.x - hw, p.y); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = rgb(c, 0.5);
+          ctx.beginPath(); ctx.moveTo(p.x + hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x, p.y + hh); ctx.lineTo(p.x + hw, p.y); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = rgb(c, 1);
+          ctx.beginPath(); ctx.moveTo(p.x, top - hh); ctx.lineTo(p.x + hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x - hw, top); ctx.closePath(); ctx.fill();
+        }
+      }
+    };
+    const loop = (now) => {
+      this._zcRaf = requestAnimationFrame(loop);
+      if (now - last < (lite ? 40 : 30)) return;
+      last = now;
+      try { if (document.hidden) return; } catch (e) {}
+      if (!cv || !cv.isConnected) { cv = document.querySelector('.zcv'); ctx = cv ? cv.getContext('2d') : null; }
+      if (!cv || !ctx) return;
+      const r = cv.getBoundingClientRect();
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      if (Math.round(r.width * dpr) !== cv.width || Math.round(r.height * dpr) !== cv.height) {
+        cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+      }
+      W = r.width; H = r.height;
+      prog = measure();
+      const a = Math.floor(prog);
+      const b = Math.min(shapes.length - 1, a + 1);
+      const f = sm(Math.max(0, Math.min(1, (prog - a - 0.3) / 0.4)));
+      for (let q = 0; q < N * N; q++) {
+        const th = shapes[a].h[q] + (shapes[b].h[q] - shapes[a].h[q]) * f;
+        const tg = shapes[a].g[q] + (shapes[b].g[q] - shapes[a].g[q]) * f;
+        curH[q] += (th - curH[q]) * 0.2;
+        curG[q] += (tg - curG[q]) * 0.2;
+      }
+      const ci = Math.round(prog);
+      if (ci !== (this.state || {}).zcCur) this.setState({ zcCur: ci });
+      draw(now, dpr);
+    };
+    this._zcRaf = requestAnimationFrame(loop);
+  }
+}
+</script>
+</body>
+</html>
