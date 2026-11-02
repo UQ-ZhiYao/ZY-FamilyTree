@@ -117,17 +117,17 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zy-l .zc-cta{background:#111732;color:#FFFFFF}
 @media (max-width:820px){
 .zc-wrap{padding:0 20px 40px}
-.zc-hero{min-height:calc(100vh - 80px);justify-content:flex-end;padding-bottom:12vh;margin-left:0}
+.zc-hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:calc(50vh - 40px) 0 8vh;padding-top:calc(50svh - 40px);margin-left:0;box-sizing:border-box}
 .zc-h1{font-size:34px}
-.zsec{align-items:flex-end;padding-bottom:9vh;padding-left:0;box-sizing:border-box}
+.zsec{min-height:100vh;min-height:100svh;align-items:flex-start;padding:calc(50vh - 30px) 0 8vh;padding-top:calc(50svh - 30px);box-sizing:border-box}
 .zc-end{padding-left:0}
 .zc-name{font-size:36px}
 .zc-sym{font-size:34px}
 .zc-tx{font-size:16px}
-.zc-dots{right:6px}
+.zc-dots{right:6px;top:26%}
 .zc-dots a{width:20px;height:20px;font-size:11px}
-.zy-d .zc-scrim{background:linear-gradient(rgba(11,21,50,0) 42%,rgba(11,21,50,.86) 66%,#0B1532 100%)}
-.zy-l .zc-scrim{background:linear-gradient(rgba(245,249,255,0) 42%,rgba(245,249,255,.9) 66%,#F5F9FF 100%)}
+.zy-d .zc-scrim{background:linear-gradient(rgba(11,21,50,0) 40%,rgba(11,21,50,.88) 52%,#0B1532 70%)}
+.zy-l .zc-scrim{background:linear-gradient(rgba(245,249,255,0) 40%,rgba(245,249,255,.9) 52%,#F5F9FF 70%)}
 }
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -498,10 +498,11 @@ class Component extends DCLogic {
     };
     const geo = () => {
       const phone = W < 820;
-      const size = phone ? Math.min(W * 0.86, H * 0.4) : Math.min(W * 0.4, H * 0.7);
+      const size = phone ? Math.min(W * 0.9, H * 0.36) : Math.min(W * 0.4, H * 0.7);
       const c = size / N;
       const cx = phone ? W / 2 : W * 0.27;
-      const cy = phone ? H * 0.27 : H * 0.52;
+      const G0 = 80;
+      const cy = phone ? Math.max(G0 + size / 2, H * 0.26) : H * 0.52;
       return { c: c, g: c * 0.16, r: c * 0.24, x0: cx - size / 2, y0: cy - size / 2, cx: cx, cy: cy, R: size * 0.78, phone: phone };
     };
     const rr = (c, x, y, w, h, r) => { c.beginPath(); if (c.roundRect) c.roundRect(x, y, w, h, r); else c.rect(x, y, w, h); c.fill(); };
