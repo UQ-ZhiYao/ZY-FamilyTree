@@ -214,6 +214,10 @@ html.zy-hidebar .tabbar{transform:translateY(calc(100% + 30px));opacity:0;pointe
 .skyturn,.bg3d,.bgwrap,.gal,.node.upright,.gold::after,.coral::after,.pink::after,.meav::after,.sel::after{will-change:auto !important}
 .skyturn{width:120vmax !important;height:120vmax !important;margin-left:-60vmax !important;margin-top:-60vmax !important}
 .aurora-l span{filter:none !important}
+/* phones: a still, calm map — nothing loops, nothing blurs, one layer for the map itself */
+[data-zy-root] *,[data-zy-root] *::before,[data-zy-root] *::after{animation:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important}
+[data-zy-root] *:not(.zy-world){will-change:auto !important}
+[data-zy-root] [style*="blur("]{filter:none !important}
 }
 
 .zy-d .zs-ring{stroke:rgba(157,203,255,.16)}
@@ -330,7 +334,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <g transform="translate(401.0 328.5) rotate(330.0)"><image class="zs-ai zs-ai-d" data-a="pig" data-t="d" x="-7.5" y="-7.5" width="15" height="15"></image><image class="zs-ai zs-ai-l" data-a="pig" data-t="l" x="-7.5" y="-7.5" width="15" height="15"></image><text class="zs-ch" x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="12">猪</text><text class="zs-br" x="0" y="-12.5" text-anchor="middle" dominant-baseline="central" font-size="5">亥猪</text></g>
 <circle class="zs-st" cx="448.8" cy="308.7" r="1"></circle>
 </g></g></svg>
-<div style="position: absolute; left: 50%; top: calc(50% + 36px); width: {{S}}px; height: {{S}}px; margin-left: -{{H}}px; margin-top: -{{H}}px; transform: translate({{tx}}px, {{ty}}px) scale({{sc}}); transform-origin: 50% 50%; transition: {{trans}}; will-change: transform">
+<div class="zy-world" style="position: absolute; left: 50%; top: calc(50% + 36px); width: {{S}}px; height: {{S}}px; margin-left: -{{H}}px; margin-top: -{{H}}px; transform: translate({{tx}}px, {{ty}}px) scale({{sc}}); transform-origin: 50% 50%; transition: {{trans}}; will-change: transform">
 <div data-rot="1" style="position: absolute; inset: 0">
 <sc-for list="{{bgs}}" as="b" hint-placeholder-count="2">
 <svg width="{{S}}" height="{{S}}" viewBox="0 0 {{S}} {{S}}" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none"><path class="thread" d="{{b.thread}}" data-fx="{{b.fx}}" data-fy="{{b.fy}}" data-bx="{{b.bx}}" data-by="{{b.by}}" data-ti="{{b.i}}" data-pi="{{b.pi}}" data-cx="{{b.cxo}}" data-cy="{{b.cyo}}" data-c="{{b.cc}}" data-spin="{{b.spinT}}" style="fill: none; stroke: {{b.thr}}; stroke-width: 1.8; stroke-dasharray: 4 7"></path></svg>
@@ -1000,7 +1004,7 @@ class Component extends DCLogic {
     const labels = Array.prototype.map.call(el.querySelectorAll('[data-orbl]'), (n) => ({ el: n, i: n.getAttribute('data-orbl') }));
     const threads = Array.prototype.map.call(el.querySelectorAll('path.thread'), (p) => ({ el: p, ti: p.getAttribute('data-ti'), pi: p.getAttribute('data-pi'), fx: num(p, 'data-fx'), fy: num(p, 'data-fy'), c: num(p, 'data-c'), bx: num(p, 'data-bx'), by: num(p, 'data-by'), cx: num(p, 'data-cx'), cy: num(p, 'data-cy'), spin: p.getAttribute('data-spin') === '1' }));
     const rot = el.querySelector('[data-rot]');
-    const comets = this._isLite() ? Array.prototype.map.call(el.querySelectorAll('.comet'), (c) => ({ dot: c.firstElementChild, r: (parseFloat(c.style.width) || 0) / 2, dur: parseFloat(c.style.animationDuration) || 40, rev: c.style.animationDirection === 'reverse' })).filter((c) => c.dot && c.r > 0) : [];
+    const comets = false ? Array.prototype.map.call(el.querySelectorAll('.comet'), (c) => ({ dot: c.firstElementChild, r: (parseFloat(c.style.width) || 0) / 2, dur: parseFloat(c.style.animationDuration) || 40, rev: c.style.animationDirection === 'reverse' })).filter((c) => c.dot && c.r > 0) : [];
     return { orbs: orbs, labels: labels, threads: threads, comets: comets, rot: rot, probe: rot || (orbs[0] && orbs[0].el) };
   }
   componentWillUnmount() {
@@ -1080,7 +1084,7 @@ class Component extends DCLogic {
       }
       const st = this.state;
       const open = !!(st.sel && st.sel !== (st.center || 'me'));
-      const run = !reduce;
+      const run = !reduce && !this._isLite();
       const rotOn = run && !open && !this._hovNode;
       const orbOn = run && !this._hovBg;
       const fresh = !this._lists || this._listsGen !== this._gen || !this._lists.probe || !this._lists.probe.isConnected;
