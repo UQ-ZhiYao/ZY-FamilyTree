@@ -134,6 +134,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .hbtn{width:36px;height:36px;flex:none;border-radius:10px;border:1px solid rgba(127,150,255,.28);background:transparent;color:inherit;font:inherit;font-size:13px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;opacity:.85}
 .hbtn:hover{opacity:1;background:rgba(127,150,255,.12)}
 @media (max-width:640px){header{padding:calc(10px + env(safe-area-inset-top)) 12px 0 !important}header .glass{flex-wrap:nowrap !important;gap:6px !important;padding:8px 8px 8px 10px !important}header .glass > a:first-child > span:last-child{display:none}header nav{gap:0 !important;font-size:14px !important}header nav a{padding:8px 9px !important}header a.navlink[href="Login.dc.html"]{display:none !important}header a.cta{padding:9px 12px !important;font-size:14px !important;white-space:nowrap}header nav{flex-wrap:nowrap !important;white-space:nowrap}header nav a{padding:7px 7px !important;font-size:13px !important}.hbtn{width:30px;height:30px;font-size:12px}h1{font-size:36px !important;line-height:1.25 !important}}
+@media (max-width:430px){header .glass > a:first-child{display:none !important}header .glass{padding:7px 7px 7px 6px !important;gap:4px !important}header nav a{padding:7px 6px !important}.hbtn{width:28px;height:28px}header a.cta{padding:8px 10px !important;font-size:13px !important}}
+@media (max-width:360px){header nav a{padding:6px 5px !important;font-size:12px !important}header a.cta{padding:7px 8px !important;font-size:12px !important}header .hbtn + .hbtn{display:none}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -165,6 +167,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <nav class="pnav" aria-label="{{L.k0}}" style="display: flex; flex-wrap: wrap; gap: 4px; font-size: 15px">
 <a href="Main.dc.html" class="navlink on" aria-current="page" style="padding: 10px 12px; border-radius: 10px; color: var(--z14); text-decoration: none">{{zyp.navHome}}</a>
 <a href="Constellation.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z14); text-decoration: none">{{zyp.navStar}}</a>
+<a href="Zodiac.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z14); text-decoration: none">{{zyp.navSx}}</a>
 <a href="About.dc.html" class="navlink" style="padding: 10px 12px; border-radius: 10px; color: var(--z14); text-decoration: none">{{zyp.navAbout}}</a>
 </nav>
 <div style="display: flex; align-items: center; gap: 8px">
@@ -427,7 +430,7 @@ class Component extends DCLogic {
       setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
       toggleLang: setL(en ? 'zh' : 'en'), toggleTheme: setT(light ? 'dark' : 'light'), langNext: en ? '中' : 'EN', langAria: en ? '切换到中文' : 'Switch to English', themeAria: light ? (en ? 'Dark theme' : '深色') : (en ? 'Light theme' : '浅色'), isLightTheme: light, isDarkTheme: !light,
       lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
-      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navSx: en ? 'Lunar' : '生肖', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
   }
   _zyHref(name, query) {
