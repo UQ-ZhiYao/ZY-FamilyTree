@@ -82,6 +82,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zc-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
 .zcv{position:absolute;inset:0;width:100%;height:100%;display:block}
 .zc-scrim{position:absolute;inset:0}
+.zc-under{display:none}
 .zc-wrap{position:relative;z-index:1;width:100%;max-width:1160px;margin:0 auto;padding:0 24px 40px;box-sizing:border-box}
 .zc-hero{min-height:calc(100vh - 100px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:500px;margin-left:54%}
 .zc-kicker{font-size:13px;letter-spacing:4px;font-weight:600;opacity:.7}
@@ -116,7 +117,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zy-l .zc-sym{color:#E08A00}
 .zy-l .zc-cta{background:#111732;color:#FFFFFF}
 @media (max-width:820px){
-.zc-wrap{padding:0 20px 40px}
+.zc-wrap{padding:0 34px 40px 20px}
+.zc-bg{bottom:auto;height:calc(50vh - 34px);height:calc(50svh - 34px);z-index:2}
+.zc-under{display:block;position:fixed;inset:0;z-index:0;pointer-events:none}
+.zy-d .zc-bg,.zy-d .zc-under{background:#0B1532}
+.zy-l .zc-bg,.zy-l .zc-under{background:#F5F9FF}
+.zc-scrim{inset:auto 0 auto 0;top:100%;height:30px}
 .zc-hero{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:calc(50vh - 40px) 0 8vh;padding-top:calc(50svh - 40px);margin-left:0;box-sizing:border-box}
 .zc-h1{font-size:34px}
 .zsec{min-height:100vh;min-height:100svh;align-items:flex-start;padding:calc(50vh - 30px) 0 8vh;padding-top:calc(50svh - 30px);box-sizing:border-box}
@@ -124,10 +130,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zc-name{font-size:36px}
 .zc-sym{font-size:34px}
 .zc-tx{font-size:16px}
-.zc-dots{right:6px;top:26%}
+.zc-dots{right:6px;top:50%;transform:translateY(-50%)}
 .zc-dots a{width:20px;height:20px;font-size:11px}
-.zy-d .zc-scrim{background:linear-gradient(rgba(11,21,50,0) 40%,rgba(11,21,50,.88) 52%,#0B1532 70%)}
-.zy-l .zc-scrim{background:linear-gradient(rgba(245,249,255,0) 40%,rgba(245,249,255,.9) 52%,#F5F9FF 70%)}
+.zy-d .zc-scrim{background:linear-gradient(#0B1532,rgba(11,21,50,0))}
+.zy-l .zc-scrim{background:linear-gradient(#F5F9FF,rgba(245,249,255,0))}
 }
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -167,6 +173,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </header>
 
+<div class="zc-under" aria-hidden="true"></div>
 <div class="zc-bg" aria-hidden="true"><canvas class="zcv"></canvas><div class="zc-scrim"></div></div>
 <nav class="zc-dots" aria-label="{{t.kicker}}"><sc-for list="{{rows}}" as="r" hint-placeholder-count="12"><a href="{{r.href}}" class="{{r.dot}}" title="{{r.name}}"><span>{{r.sym}}</span></a></sc-for></nav>
 <main class="zc-wrap">
@@ -483,6 +490,7 @@ class Component extends DCLogic {
     let ctx = null;
     let W = 0;
     let H = 0;
+    let HB = 80;
     let field = null;
     let fieldKey = '';
     const lite = (() => { try { return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches; } catch (e) { return false; } })();
@@ -498,11 +506,12 @@ class Component extends DCLogic {
     };
     const geo = () => {
       const phone = W < 820;
-      const size = phone ? Math.min(W * 0.9, H * 0.36) : Math.min(W * 0.4, H * 0.7);
+      // phone: the canvas is a band at the top of the screen; centre the figure in the space under the header
+      const top = HB + 8;
+      const size = phone ? Math.max(120, Math.min(W * 0.84, H - top - 14)) : Math.min(W * 0.4, H * 0.7);
       const c = size / N;
       const cx = phone ? W / 2 : W * 0.27;
-      const G0 = 80;
-      const cy = phone ? Math.max(G0 + size / 2, H * 0.26) : H * 0.52;
+      const cy = phone ? top + (H - top) / 2 : H * 0.52;
       return { c: c, g: c * 0.16, r: c * 0.24, x0: cx - size / 2, y0: cy - size / 2, cx: cx, cy: cy, R: size * 0.78, phone: phone };
     };
     const rr = (c, x, y, w, h, r) => { c.beginPath(); if (c.roundRect) c.roundRect(x, y, w, h, r); else c.rect(x, y, w, h); c.fill(); };
@@ -656,6 +665,7 @@ class Component extends DCLogic {
         cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
       }
       W = r.width; H = r.height;
+      try { const hd = document.querySelector('header'); if (hd) HB = Math.max(0, hd.getBoundingClientRect().bottom); } catch (e) {}
       const prog = measure();
       const a = Math.floor(prog);
       const b = Math.min(shapes.length - 1, a + 1);
