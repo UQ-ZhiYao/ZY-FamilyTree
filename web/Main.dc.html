@@ -3,23 +3,23 @@
 <head>
 <meta charset="utf-8">
 <title>枝叶 · 主页</title>
-<script src="./zy-config.js"></script>
-<script src="./vendor/supabase.js"></script>
-<script src="./zy-store.js"></script>
-<script src="./support.js"></script>
+<script src="../assets/zy-config.js"></script>
+<script src="../assets/vendor/supabase.js"></script>
+<script src="../assets/zy-store.js"></script>
+<script src="../assets/support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-<link rel="manifest" href="./manifest.webmanifest">
+<link rel="manifest" href="../manifest.webmanifest">
 <meta name="theme-color" content="#0B1532">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Zenith Yield">
 <meta name="application-name" content="Zenith Yield">
-<link rel="apple-touch-icon" href="./icons/zy-apple-touch-180.png">
-<link rel="icon" type="image/png" sizes="192x192" href="./icons/zy-icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icons/zy-apple-touch-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/zy-icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+SC:wght@400;500;700&amp;display=swap">
 <style>
@@ -310,7 +310,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3500}}'>
 class Component extends DCLogic {
   _zyPWA() {
-    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('./sw.js').catch(() => {}); } catch (e) {}
+    try { if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('../sw.js', { scope: '../' }).catch(() => {}); } catch (e) {}
     // Phone: pages do not zoom (pinch or double-tap). Only the family map zooms, with its own controls.
     try {
       if (!window.__zyNoZoom && !/Circle\.dc\.html/.test(window.location.pathname)) {
@@ -427,9 +427,8 @@ class Component extends DCLogic {
     };
   }
   _zyHref(name, query) {
-    let app = false;
-    try { app = /\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname); } catch (e) {}
-    return (app ? 'App' : '') + name + '.dc.html' + (query ? '?' + query : '');
+    // web/ and app/ have pages with the same names, so links stay inside the current folder
+    return name + '.dc.html' + (query ? '?' + query : '');
   }
   _zyQ(name) {
     try { return new URLSearchParams(window.location.search).get(name); } catch (e) { return null; }

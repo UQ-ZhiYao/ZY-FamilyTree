@@ -1,10 +1,10 @@
 // Zenith Yield service worker: caches the app's own files so it opens offline after the first visit.
 // Family data (Supabase) is never cached here.
-const CACHE = 'zenith-yield-v13';
+const CACHE = 'zenith-yield-v14';
 const SHELL = [
-  './AppLogin.dc.html', './AppCircle.dc.html', './AppTree.dc.html', './AppPhotos.dc.html', './AppProfile.dc.html', './AppAdmin.dc.html', './AppChat.dc.html',
-  './support.js', './zy-store.js', './zy-config.js', './vendor/supabase.js', './manifest.webmanifest',
-  './icons/zy-icon-192.png', './icons/zy-icon-512.png', './icons/zy-apple-touch-180.png'
+  './app/Login.dc.html', './app/Circle.dc.html', './app/Tree.dc.html', './app/Photos.dc.html', './app/Chat.dc.html', './app/Profile.dc.html', './app/Admin.dc.html',
+  './assets/support.js', './assets/zy-store.js', './assets/zy-config.js', './assets/vendor/supabase.js', './manifest.webmanifest',
+  './assets/icons/zy-icon-192.png', './assets/icons/zy-icon-512.png', './assets/icons/zy-apple-touch-180.png'
 ];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => Promise.all(SHELL.map((u) => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
@@ -19,7 +19,7 @@ self.addEventListener('fetch', (e) => {
   // Pages: network first so families always see fresh data, cached copy when offline.
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then((res) => { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); return res; })
-      .catch(() => caches.match(req).then((r) => r || caches.match('./AppLogin.dc.html'))));
+      .catch(() => caches.match(req).then((r) => r || caches.match('./app/Login.dc.html'))));
     return;
   }
   // The app's own pages and scripts: network first, so an update reaches phones on the next open.
