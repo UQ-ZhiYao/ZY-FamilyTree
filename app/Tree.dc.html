@@ -45,6 +45,7 @@ a{color:var(--z1)}a:hover{color:var(--z2)}
 .tab{transition:background .2s ease,color .2s ease}
 .tab:hover{background:var(--z6)}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+.lang-en .cname{white-space:normal !important;font-size:12px !important;line-height:1.15}
 
 .langbtn{transition:background .2s ease}
 .lang-en{letter-spacing:0}
@@ -91,8 +92,53 @@ html.zy-hidebar .tabbar{transform:translateY(calc(100% + 30px));opacity:0;pointe
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
 @media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
-.glab{background:color-mix(in srgb, var(--z9) 92%, transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-@media (max-width:640px){.glab{left:4px !important;padding:4px 8px !important}.glab span + span{display:none}}
+
+main.tv{position:fixed;inset:0;z-index:1;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;background-image:radial-gradient(circle,var(--z10) 1px,transparent 1.3px);background-size:28px 28px}
+main.tv:active{cursor:grabbing}
+header.top{position:relative;z-index:5}
+.tv-world{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.tl-pc{fill:none;stroke:var(--z36);stroke-width:2;stroke-linejoin:round}
+.tl-pc.dl{stroke:var(--z1);stroke-width:2.6;opacity:.85}
+.tl-cp{fill:none;stroke:var(--z20);stroke-width:2;stroke-dasharray:5 5}
+.tn{position:absolute;width:124px;display:flex;flex-direction:column;align-items:center;transform:translate(-50%,-26px);cursor:pointer;animation:tnIn .45s cubic-bezier(.2,.8,.3,1.1) backwards}
+@keyframes tnIn{from{opacity:0;transform:translate(-50%,-14px) scale(.85)}}
+.tn-av{position:relative;width:52px;height:52px;border-radius:50%;border:2.5px solid var(--ring);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;overflow:hidden;box-shadow:0 0 0 5px color-mix(in srgb,var(--ring) 16%,transparent);transition:transform .2s ease}
+.tn-av img{width:100%;height:100%;object-fit:cover}
+.tn:hover .tn-av{transform:scale(1.07)}
+.tn.me{transform:translate(-50%,-32px)}
+@keyframes tnInMe{from{opacity:0;transform:translate(-50%,-20px) scale(.85)}}
+.tn.me{animation-name:tnInMe}
+.tn.me .tn-av{width:64px;height:64px;font-size:20px;box-shadow:0 0 0 6px color-mix(in srgb,var(--ring) 22%,transparent),0 0 28px color-mix(in srgb,var(--ring) 55%,transparent)}
+.tn-nm{max-width:120px;margin-top:6px;font-size:13px;font-weight:700;line-height:1.25;color:var(--z8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn-tm{max-width:120px;font-size:11px;line-height:1.3;color:var(--z16);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn-x{height:20px;min-width:22px;padding:0 7px;border-radius:10px;border:1.5px solid var(--z9);background:var(--z1);color:#FFFFFF;font:700 11px/1 Inter,'Noto Sans SC',system-ui,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;box-shadow:0 2px 8px var(--z11)}
+.tn-x:hover{filter:brightness(1.1)}
+.tn-up{position:absolute;top:-10px;left:calc(50% + 12px)}
+.tn.me .tn-up{left:calc(50% + 18px)}
+.tn-dn{margin-top:5px}
+.tv-lab{position:absolute;left:16px;z-index:3;transform:translateY(-50%);display:flex;flex-direction:column;gap:1px;padding:6px 10px;border-radius:10px;pointer-events:none;background:color-mix(in srgb,var(--z9) 80%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);white-space:nowrap}
+.tv-lab b{font-size:14px}
+.tv-lab span{font-size:11px;color:var(--z16)}
+.tv-seg{position:absolute;z-index:4;right:24px;top:108px;display:flex;padding:4px;background:var(--z17);border-radius:12px;box-shadow:0 4px 14px var(--z11)}
+.tv-seg a{padding:8px 16px;border-radius:9px;color:var(--z18);font-size:14px;text-decoration:none}
+.tv-seg a.on{background:var(--z9);color:var(--z8);font-weight:600;box-shadow:0 1px 3px var(--z19)}
+.tv-ctl{position:absolute;z-index:4;left:24px;bottom:24px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.tv-box{display:flex;align-items:center;gap:6px;padding:6px;border-radius:14px;background:var(--z9);border:1px solid var(--z10);box-shadow:0 6px 18px var(--z11)}
+.tv-box button{height:34px;min-width:34px;padding:0 10px;border-radius:10px;border:1px solid var(--z10);background:transparent;color:var(--z8);font:600 14px Inter,'Noto Sans SC',system-ui,sans-serif;cursor:pointer}
+.tv-box button:hover{background:var(--z17)}
+.tv-box .tv-all{background:var(--z1);border-color:var(--z1);color:#FFFFFF}
+.tv-box .tv-all:hover{background:var(--z1);filter:brightness(1.08)}
+.tv-pct{min-width:46px;text-align:center;font-size:13px;color:var(--z18);font-variant-numeric:tabular-nums}
+.tv-cnt{padding:0 8px 0 4px;font-size:12px;color:var(--z16);white-space:nowrap}
+@media (max-width:640px){
+.tv-lab{display:none}
+.tv-seg{top:calc(10px + env(safe-area-inset-top));right:12px}
+.tv-seg a{padding:6px 12px;font-size:13px}
+.tv-ctl{left:12px;right:12px;bottom:calc(72px + env(safe-area-inset-bottom));gap:6px}
+.tv-box{padding:4px;gap:4px}
+.tv-box button{height:30px;min-width:30px;font-size:12px;padding:0 8px}
+.tv-cnt{display:none}
+}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -122,42 +168,28 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </header>
 
-<main style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 20px">
-<div class="fu" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; animation-delay: .1s">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<h1 style="margin: 0; font-size: 30px; font-weight: 700; letter-spacing: -0.3px">{{L.k9}}</h1>
-<p style="margin: 0; font-size: 15px; color: var(--z16)">{{t.sub}}</p>
+<main class="tv" onPointerDown="{{onDown}}" onPointerMove="{{onMove}}" onPointerUp="{{onUp}}" onPointerCancel="{{onUp}}" onWheel="{{onWheel}}">
+<div class="tv-world" style="transform: {{wtf}}">
+<svg width="1" height="1" aria-hidden="true" style="position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none">
+<sc-for list="{{paths}}" as="l" hint-placeholder-count="12"><path class="{{l.cls}}" d="{{l.d}}"></path></sc-for>
+</svg>
+<sc-for list="{{nodes}}" as="n" hint-placeholder-count="12">
+<div class="{{n.cls}}" style="left: {{n.x}}px; top: {{n.y}}px; --ring: {{n.ring}}; animation-delay: {{n.delay}}s" onClick="{{n.open}}" role="button" title="{{n.name}}">
+<span class="tn-av" style="background: {{n.avBg}}; color: {{n.avFg}}"><sc-if value="{{n.img}}" hint-placeholder-val="{{false}}"><img src="{{n.img}}" alt=""></sc-if><sc-if value="{{n.noImg}}" hint-placeholder-val="{{true}}">{{n.ch}}</sc-if></span>
+<span class="tn-nm">{{n.name}}</span>
+<span class="tn-tm">{{n.term}}</span>
+<sc-if value="{{n.hasUp}}" hint-placeholder-val="{{false}}"><button type="button" class="tn-x tn-up tv-ui" onClick="{{n.openUp}}" title="{{n.upTip}}" aria-label="{{n.upTip}}">{{n.up}}</button></sc-if>
+<sc-if value="{{n.hasDown}}" hint-placeholder-val="{{false}}"><button type="button" class="tn-x tn-dn tv-ui" onClick="{{n.openDown}}" title="{{n.downTip}}" aria-label="{{n.downTip}}">{{n.down}}</button></sc-if>
 </div>
-<div role="group" aria-label="{{L.k4}}" style="display: flex; padding: 4px; background: var(--z17); border-radius: 12px">
-<a href="Circle.dc.html" style="padding: 8px 16px; border-radius: 9px; color: var(--z18); font-size: 14px; text-decoration: none">{{L.k11}}</a>
-<a href="Tree.dc.html" aria-current="page" style="padding: 8px 16px; border-radius: 9px; background: var(--z9); color: var(--z8); font-weight: 600; font-size: 14px; text-decoration: none; box-shadow: 0 1px 3px var(--z19)">{{L.k12}}</a>
-</div>
-</div>
-
-<div class="fu" data-tree-scroll="1" style="overflow-x: auto; background: var(--z9); border: 1px solid var(--z10); border-radius: 20px; padding: 24px 0; animation-delay: .2s">
-<div style="position: relative; width: {{W}}px; height: {{H}}px; margin: 0 auto">
-<div style="position: sticky; left: 0; top: 0; width: 0; height: 0; z-index: 4">
-<sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
-<span class="glab" style="position: absolute; left: 10px; top: {{b.ltop}}px; display: flex; flex-direction: column; gap: 2px; padding: 6px 10px; border-radius: 10px; white-space: nowrap"><span style="font-size: 15px; font-weight: 700; color: {{b.color}}">{{b.name}}</span><span style="font-size: 12px; color: var(--z16)">{{b.sub}}</span></span>
 </sc-for>
 </div>
-<sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
-<div style="position: absolute; left: 0; top: {{b.top}}px; width: {{W}}px; height: 104px; border-radius: 14px; background: {{b.bg}}"></div>
+<sc-for list="{{labs}}" as="b" hint-placeholder-count="5">
+<span class="tv-lab" data-y="{{b.y}}" style="top: {{b.top}}px"><b style="color: {{b.color}}">{{b.name}}</b><span>{{b.sub}}</span></span>
 </sc-for>
-<sc-for list="{{lines}}" as="l" hint-placeholder-count="30">
-<div class="ln" style="position: absolute; left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; height: {{l.h}}px; border-top: {{l.bt}}; border-left: {{l.bl}}; box-sizing: border-box; animation-delay: {{l.delay}}s; pointer-events: none"></div>
-</sc-for>
-<sc-for list="{{cards}}" as="c" hint-placeholder-count="22">
-<div class="{{c.cls}}" onClick="{{c.open}}" role="button" style="position: absolute; left: {{c.left}}px; top: {{c.top}}px; width: 156px; height: 60px; box-sizing: border-box; padding: 0 10px; display: flex; align-items: center; gap: 10px; background: {{c.cardBg}}; border: 2px solid {{c.rc}}; border-radius: 12px; cursor: pointer; animation-delay: {{c.delay}}s"><span style="width: 34px; height: 34px; flex: none; border-radius: 50%; background: {{c.avBg}}; color: {{c.avFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; overflow: hidden"><sc-if value="{{c.img}}" hint-placeholder-val="{{false}}"><img src="{{c.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover"></sc-if><sc-if value="{{c.noImg}}" hint-placeholder-val="{{true}}">{{c.ch}}</sc-if></span><span style="display: flex; flex-direction: column; line-height: 1.3; min-width: 0; flex: 1"><span class="cname" style="font-size: 14px; font-weight: 700; color: {{c.nameFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" title="{{c.name}}">{{c.name}}</span><span style="font-size: 11px; color: {{c.subFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.side}}</span></span></div>
-</sc-for>
-</div>
-</div>
-
-<div class="fu" style="display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; color: var(--z18); animation-delay: .3s">
-<sc-for list="{{legend}}" as="g" hint-placeholder-count="5">
-<span style="display: flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 4px; border: 3px solid {{g.color}}; box-sizing: border-box"></span>{{g.name}}</span>
-</sc-for>
-<span style="display: flex; align-items: center; gap: 8px"><span style="width: 20px; border-top: 2px dashed var(--z20)"></span>{{t.couple}}</span>
+<div class="tv-seg tv-ui" role="group"><a href="Circle.dc.html">{{t.circle}}</a><a href="Tree.dc.html" aria-current="page" class="on">{{t.tree}}</a></div>
+<div class="tv-ctl tv-ui">
+<div class="tv-box"><button type="button" onClick="{{zout}}" aria-label="-">−</button><span class="tv-pct">{{pct}}</span><button type="button" onClick="{{zin}}" aria-label="+">+</button><button type="button" class="tv-w" onClick="{{zfit}}">{{t.fit}}</button></div>
+<div class="tv-box"><button type="button" class="tv-w tv-all" onClick="{{toggleAll}}">{{allTxt}}</button><span class="tv-cnt">{{count}}</span></div>
 </div>
 </main>
 <sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="{{zyPillErr}}" role="status"><span>{{zyPillText}}</span><sc-if value="{{zyPillHref}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
@@ -406,7 +438,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {sub: "Everyone in the family by generation: couples side by side, parents above their children, father’s side on the left and mother’s on the right. Tap any card to view or edit.", couple: "Couple", unnamed: "Unnamed", me: "Me", g4: "Great-great-grandparents", g3: "Great-grandparents", g2: "Grandparents", g1: "Parents", g0: "My generation", gm1: "Children", n4: "Gen 1", n3: "Gen 2", n2: "Gen 3", n1: "Gen 4", n0: "Gen 5", nm1: "Gen 6", father: "Father", mother: "Mother", gf: "Grandpa", gm: "Grandma", mgf: "Grandpa", mgm: "Grandma", ggf: "Great-grandpa", ggm: "Great-grandma", mggf: "Great-grandpa", mggm: "Great-grandma", gggf: "Great-great-grandpa", gggm: "Great-great-grandma", mgggf: "Great-great-grandpa", mgggm: "Great-great-grandma", wife: "Wife", husband: "Husband", ob: "Older brother", yb: "Younger brother", os: "Older sister", ys: "Younger sister", son: "Son", daughter: "Daughter", pat: "Paternal", mat: "Maternal"} : {sub: "全家人按辈分排列：夫妻并排，父母在上、孩子在下，父系在左、母系在右。点任何一张卡片可以查看和修改资料。", couple: "夫妻", unnamed: "未命名", me: "我", g4: "高祖辈", g3: "曾祖辈", g2: "祖辈", g1: "父辈", g0: "本辈", gm1: "子辈", n4: "第一代", n3: "第二代", n2: "第三代", n1: "第四代", n0: "第五代", nm1: "第六代", father: "父亲", mother: "母亲", gf: "爷爷", gm: "奶奶", mgf: "外公", mgm: "外婆", ggf: "曾祖父", ggm: "曾祖母", mggf: "外曾祖父", mggm: "外曾祖母", gggf: "高祖父", gggm: "高祖母", mgggf: "外高祖父", mgggm: "外高祖母", wife: "妻子", husband: "丈夫", ob: "哥哥", yb: "弟弟", os: "姐姐", ys: "妹妹", son: "儿子", daughter: "女儿", pat: "父系", mat: "母系"});
+    const t = ((this.state || {}).lang === 'en' ? {sub: "Everyone in the family by generation: couples side by side, parents above their children, father’s side on the left and mother’s on the right. Tap any card to view or edit.", couple: "Couple", fit: "Reset", circle: "Circle", tree: "Tree", unnamed: "Unnamed", me: "Me", g4: "Great-great-grandparents", g3: "Great-grandparents", g2: "Grandparents", g1: "Parents", g0: "My generation", gm1: "Children", n4: "Gen 1", n3: "Gen 2", n2: "Gen 3", n1: "Gen 4", n0: "Gen 5", nm1: "Gen 6", father: "Father", mother: "Mother", gf: "Grandpa", gm: "Grandma", mgf: "Grandpa", mgm: "Grandma", ggf: "Great-grandpa", ggm: "Great-grandma", mggf: "Great-grandpa", mggm: "Great-grandma", gggf: "Great-great-grandpa", gggm: "Great-great-grandma", mgggf: "Great-great-grandpa", mgggm: "Great-great-grandma", wife: "Wife", husband: "Husband", ob: "Older brother", yb: "Younger brother", os: "Older sister", ys: "Younger sister", son: "Son", daughter: "Daughter", pat: "Paternal", mat: "Maternal"} : {sub: "全家人按辈分排列：夫妻并排，父母在上、孩子在下，父系在左、母系在右。点任何一张卡片可以查看和修改资料。", couple: "夫妻", fit: "复位", circle: "关系圈", tree: "族谱树", unnamed: "未命名", me: "我", g4: "高祖辈", g3: "曾祖辈", g2: "祖辈", g1: "父辈", g0: "本辈", gm1: "子辈", n4: "第一代", n3: "第二代", n2: "第三代", n1: "第四代", n0: "第五代", nm1: "第六代", father: "父亲", mother: "母亲", gf: "爷爷", gm: "奶奶", mgf: "外公", mgm: "外婆", ggf: "曾祖父", ggm: "曾祖母", mggf: "外曾祖父", mggm: "外曾祖母", gggf: "高祖父", gggm: "高祖母", mgggf: "外高祖父", mgggm: "外高祖母", wife: "妻子", husband: "丈夫", ob: "哥哥", yb: "弟弟", os: "姐姐", ys: "妹妹", son: "儿子", daughter: "女儿", pat: "父系", mat: "母系"});
     const en = (this.state || {}).lang === 'en';
     const Z = window.ZY;
     const people = (Z && Z.data && Z.data.people) || {};
@@ -593,19 +625,58 @@ class Component extends DCLogic {
       }
       return en ? 'Relative' : '亲属';
     };
+    // ---------- what is shown: my direct line; everyone else stays folded until opened ----------
+    const openD = this._tvOpenD || (this._tvOpenD = {});
+    const openU = this._tvOpenU || (this._tvOpenU = {});
+    const V = {};
+    const addV = (id) => { if (has(id) && !V[id]) { V[id] = 1; if (spouse[id] && !V[spouse[id]]) V[spouse[id]] = 1; } };
+    if (has(meId)) {
+      addV(meId);
+      // all my ancestors (both sides) and all my descendants, each with their spouse
+      const seenA = {};
+      const st2 = [meId];
+      while (st2.length) { const x = st2.pop(); parents(x).forEach((q) => { if (!seenA[q]) { seenA[q] = 1; addV(q); st2.push(q); } }); }
+      const seenD = {};
+      const st3 = [meId].concat(spouse[meId] ? [spouse[meId]] : []);
+      while (st3.length) { const x = st3.pop(); (kids[x] || []).forEach((c) => { if (!seenD[c]) { seenD[c] = 1; addV(c); st3.push(c); } }); }
+    } else ids.forEach((id) => addV(id));
+    let grew = true;
+    while (grew) {
+      grew = false;
+      Object.keys(V).forEach((id) => {
+        if (openD[id]) (kids[id] || []).forEach((c) => { if (!V[c]) { addV(c); grew = true; } });
+        if (openU[id]) parents(id).forEach((q) => { if (!V[q]) { addV(q); grew = true; } });
+      });
+    }
+    const inV = (id) => !!V[id];
+    const Vids = ids.filter(inV);
+    const vp = (id) => parents(id).filter(inV);
+    const vk = (id) => (kids[id] || []).filter(inV);
+    const vsp = (id) => (spouse[id] && inV(spouse[id]) ? spouse[id] : null);
+    const hidKids = (id) => (kids[id] || []).filter((c) => !inV(c));
+    const hidPar = (id) => parents(id).filter((q) => !inV(q));
+    const total = ids.length;
+    const inDirect = {};
+    if (has(meId)) {
+      inDirect[meId] = 1;
+      const a1 = [meId]; while (a1.length) { const x = a1.pop(); parents(x).forEach((q) => { if (!inDirect[q]) { inDirect[q] = 1; a1.push(q); } }); }
+      const a2 = [meId]; while (a2.length) { const x = a2.pop(); (kids[x] || []).forEach((c) => { if (!inDirect[c]) { inDirect[c] = 1; a2.push(c); } }); }
+      if (spouse[meId]) inDirect[spouse[meId]] = 1;
+    }
+    const up0 = {};
     // ---------- units: a couple side by side, or one person ----------
     const unitOf = {};
     const units = [];
-    ids.slice().sort(byBirth).forEach((id) => {
+    Vids.slice().sort(byBirth).forEach((id) => {
       if (unitOf[id] !== undefined) return;
-      const s = spouse[id];
+      const s = vsp(id);
       const mem = s && unitOf[s] === undefined && gen[s] === gen[id] ? (M(id) || !M(s) ? [id, s] : [s, id]) : [id];
       const u = { i: units.length, mem: mem, g: gen[id] };
       mem.forEach((x) => { unitOf[x] = u.i; });
       units.push(u);
     });
-    const unitKids = (u) => { const out = []; u.mem.forEach((x) => (kids[x] || []).forEach((c) => { if (out.indexOf(c) < 0) out.push(c); })); return out.sort(byBirth); };
-    const unitPar = (u) => { const out = []; u.mem.forEach((x) => parents(x).forEach((q) => { const k = unitOf[q]; if (out.indexOf(k) < 0) out.push(k); })); return out; };
+    const unitKids = (u) => { const out = []; u.mem.forEach((x) => vk(x).forEach((c) => { if (out.indexOf(c) < 0) out.push(c); })); return out.sort(byBirth); };
+    const unitPar = (u) => { const out = []; u.mem.forEach((x) => vp(x).forEach((q) => { const k = unitOf[q]; if (out.indexOf(k) < 0) out.push(k); })); return out; };
     // left / right: father's family first, then mother's
     const myUp = {};
     (function () { const q = [[meId, null]]; while (q.length) { const e = q.shift(); parents(e[0]).forEach((p2) => { if (!myUp[p2]) { myUp[p2] = { first: e[1] || p2 }; q.push([p2, e[1] || p2]); } }); } })();
@@ -644,14 +715,13 @@ class Component extends DCLogic {
     // inside a couple, the partner whose own family sits further right goes on the right
     const gens = Object.keys(rows).map(Number).sort((a, b) => a - b);
     // ---------- positions ----------
-    const CW = 156;
-    const CH = 60;
-    const IN = 18;
-    const LM = 170;
+    const CW = 124;
+    const IN = 10;
+    const LM = 0;
     const uw = (k) => units[k].mem.length * CW + (units[k].mem.length - 1) * IN;
     const X = {};
     const famOf = (k) => unitPar(units[k]).join(',');
-    const gapBetween = (a, b) => (famOf(a) && famOf(a) === famOf(b) ? 26 : 60);
+    const gapBetween = (a, b) => (famOf(a) && famOf(a) === famOf(b) ? 14 : 44);
     gens.forEach((g) => { let x = LM; rows[g].forEach((k, i) => { if (i) x += gapBetween(rows[g][i - 1], k); X[k] = x; x += uw(k); }); });
     const cx = (k) => X[k] + uw(k) / 2;
     const memX = (id) => { const k = unitOf[id]; const i = units[k].mem.indexOf(id); return X[k] + i * (CW + IN) + CW / 2; };
@@ -678,7 +748,7 @@ class Component extends DCLogic {
     };
     const parentCenter = (k) => {
       const ps = [];
-      units[k].mem.forEach((x) => { const pp = parents(x); if (pp.length) ps.push(pp.reduce((s, q) => s + memX(q), 0) / pp.length); });
+      units[k].mem.forEach((x) => { const pp = vp(x); if (pp.length) ps.push(pp.reduce((s, q) => s + memX(q), 0) / pp.length); });
       return ps.length ? ps.reduce((a, b) => a + b, 0) / ps.length : null;
     };
     const downPass = () => {
@@ -725,70 +795,164 @@ class Component extends DCLogic {
     Object.keys(X).forEach((k) => { minX = Math.min(minX, X[k]); maxX = Math.max(maxX, X[k] + uw(+k)); });
     const shiftX = LM - minX;
     Object.keys(X).forEach((k) => { X[k] = Math.round(X[k] + shiftX); });
-    const W = Math.max(1080, Math.round(maxX + shiftX + 40));
-    const RG = 176;
+    const W = Math.max(1, Math.round(maxX + shiftX));
+    const RG = 150;
     const Y = {};
-    gens.forEach((g, i) => { Y[g] = 70 + i * RG; });
-    const H = 70 + (gens.length - 1) * RG + 80;
-    // ---------- cards, lines, bands ----------
+    gens.forEach((g, i) => { Y[g] = i * RG; });
+    const H = (gens.length - 1) * RG;
+    // ---------- nodes, lines, generation labels ----------
     const GC = ['var(--z21)', 'var(--z22)', 'var(--z1)', 'var(--z23)', 'var(--z15)'];
     const AVB = ['var(--z24)', 'var(--z25)', 'var(--z26)', 'var(--z27)', 'var(--z27)'];
     const AVF = ['var(--z28)', 'var(--z29)', 'var(--z2)', 'var(--z23)', 'var(--z15)'];
-    const BANDBG = ['var(--z30)', 'var(--z31)', 'var(--z32)', 'var(--z33)', 'var(--z34)'];
     const myG = has(meId) ? gen[meId] : 0;
     const gi = (g) => Math.max(0, Math.min(4, 4 + (g - myG)));
-    const cards = [];
-    const lines = [];
-    const delayOf = (g) => 0.2 + gens.indexOf(g) * 0.12;
-    units.forEach((u) => u.mem.forEach((id) => {
+    const R0 = 26;
+    const nodes = [];
+    const paths = [];
+    const toggle = (which, idsT, e) => {
+      if (e && e.stopPropagation) e.stopPropagation();
+      const o = which === 'u' ? openU : openD;
+      const on = !idsT.every((x) => o[x]);
+      idsT.forEach((x) => { if (on) o[x] = 1; else delete o[x]; });
+      // keep the tapped person where it is on screen while the tree re-arranges
+      const tv0 = this._tv;
+      if (tv0 && unitOf[idsT[0]] !== undefined) this._tvAnchor = { id: idsT[0], sx: tv0.x + memX(idsT[0]) * tv0.s, sy: tv0.y + Y[gen[idsT[0]]] * tv0.s };
+      this.setState({ tvRev: ((this.state || {}).tvRev || 0) + 1 });
+    };
+    units.forEach((u) => u.mem.forEach((id, j) => {
       const g = gi(u.g);
       const p = P(id);
       const isMe = id === meId;
       const nm = nameOf(p);
-      cards.push({
-        left: Math.round(memX(id) - CW / 2), top: Y[u.g] - CH / 2, name: nm, ch: this._zyInitials(nm), side: term(id), img: this._zyAv(p && p.avatar), noImg: !this._zyAv(p && p.avatar),
-        rc: GC[g], cls: isMe ? 'card me' : 'card', cardBg: isMe ? 'var(--z15)' : 'var(--z9)',
-        avBg: isMe ? 'var(--z9)' : AVB[g], avFg: isMe ? 'var(--z15)' : AVF[g], nameFg: isMe ? 'var(--z9)' : 'var(--z8)', subFg: isMe ? 'var(--z35)' : 'var(--z16)',
-        delay: (delayOf(u.g) + Math.min(0.3, (memX(id) / W) * 0.3)).toFixed(2), open: () => { if (p && p.id) this._zyGo(this._zyHref('Profile', 'id=' + encodeURIComponent(p.id))); }
+      // folded branches: children (on the couple's first member) and parents (per person)
+      const kidsHid = j === 0 ? u.mem.reduce((a, x) => a.concat(hidKids(x).filter((c) => a.indexOf(c) < 0)), []) : [];
+      const kidsOpen = j === 0 && u.mem.some((x) => openD[x] && (kids[x] || []).length);
+      const parHid = hidPar(id);
+      const parOpen = !!openU[id] && parents(id).length > 0 && !(up0[id]);
+      nodes.push({
+        x: Math.round(memX(id)), y: Y[u.g], name: nm, ch: this._zyInitials(nm), term: term(id), img: this._zyAv(p && p.avatar), noImg: !this._zyAv(p && p.avatar),
+        cls: 'tn' + (isMe ? ' me' : '') + (inDirect[id] ? ' dl' : ''), ring: isMe ? 'var(--z15)' : GC[g], avBg: isMe ? 'var(--z15)' : AVB[g], avFg: isMe ? '#FFFFFF' : AVF[g],
+        delay: (0.05 + gens.indexOf(u.g) * 0.06).toFixed(2),
+        hasDown: kidsHid.length > 0 || kidsOpen, down: kidsHid.length ? '+' + kidsHid.length : '−', downTip: kidsHid.length ? (en ? 'Show ' + kidsHid.length + ' more' : '展开 ' + kidsHid.length + ' 位') : (en ? 'Fold' : '收起'),
+        hasUp: parHid.length > 0 || parOpen, up: parHid.length ? '+' + parHid.length : '−', upTip: parHid.length ? (en ? 'Show parents' : '展开父母') : (en ? 'Fold' : '收起'),
+        openDown: (e) => toggle('d', u.mem, e), openUp: (e) => toggle('u', [id], e),
+        open: () => { if (this._tvMoved) return; if (p && p.id) this._zyGo(this._zyHref('Profile', 'id=' + encodeURIComponent(p.id))); }
       });
     }));
-    const HL = (x1, x2, y, g, dashed) => { if (Math.abs(x2 - x1) < 1) return; lines.push({ x: Math.round(Math.min(x1, x2)), y: Math.round(y - 1), w: Math.round(Math.abs(x2 - x1)), h: 2, bt: dashed ? '2px dashed var(--z20)' : '2px solid var(--z36)', bl: 'none', delay: (delayOf(g) + 0.15).toFixed(2) }); };
-    const VL = (x, y1, y2, g) => { if (y2 - y1 < 1) return; lines.push({ x: Math.round(x - 1), y: Math.round(y1), w: 2, h: Math.round(y2 - y1), bt: 'none', bl: '2px solid var(--z36)', delay: (delayOf(g) + 0.15).toFixed(2) }); };
+    const line = (d, k) => paths.push({ d: d, cls: k });
     // couples
-    units.forEach((u) => { if (u.mem.length === 2) HL(memX(u.mem[0]) + CW / 2, memX(u.mem[1]) - CW / 2, Y[u.g], u.g, true); });
-    // spouses who ended up apart (different rows or units): a dashed link between them
-    // parents -> children, one bus per family; buses in the same gap are staggered so they don't merge
+    units.forEach((u) => { if (u.mem.length === 2) line('M' + (memX(u.mem[0]) + R0 + 2) + ' ' + Y[u.g] + 'H' + (memX(u.mem[1]) - R0 - 2), 'tl-cp'); });
+    // parents -> children with right-angle lines; buses in the same gap are staggered
     const fams = {};
-    ids.forEach((id) => { const ps = parents(id); if (!ps.length) return; const key = ps.slice().sort().join('|'); (fams[key] = fams[key] || { ps: ps, kids: [] }).kids.push(id); });
+    Vids.forEach((id) => { const ps = vp(id); if (!ps.length) return; const key = ps.slice().sort().join('|'); (fams[key] = fams[key] || { ps: ps, kids: [] }).kids.push(id); });
     const laneCount = {};
     Object.keys(fams).sort((a, b) => memX(fams[a].ps[0]) - memX(fams[b].ps[0])).forEach((key) => {
       const f = fams[key];
       const pg = Math.max.apply(null, f.ps.map((q) => gen[q]));
-      const px = f.ps.reduce((s, q) => s + memX(q), 0) / f.ps.length;
-      const kidRows = {};
-      f.kids.forEach((c) => { (kidRows[gen[c]] = kidRows[gen[c]] || []).push(c); });
-      Object.keys(kidRows).forEach((cg) => {
+      const together = f.ps.length === 2 && unitOf[f.ps[0]] === unitOf[f.ps[1]];
+      const px = f.ps.reduce((s2, q) => s2 + memX(q), 0) / f.ps.length;
+      const kr = {};
+      f.kids.forEach((c) => { (kr[gen[c]] = kr[gen[c]] || []).push(c); });
+      Object.keys(kr).forEach((cg) => {
         cg = +cg;
         if (Y[cg] === undefined || Y[pg] === undefined || cg <= pg) return;
         const lane = laneCount[pg] = (laneCount[pg] || 0) + 1;
-        const yTop = Y[pg] + CH / 2;
-        const yBot = Y[cg] - CH / 2;
-        const busY = yTop + (Y[pg + 1] !== undefined ? (Y[pg + 1] - CH / 2 - yTop) : (yBot - yTop)) / 2 + ((lane % 3) - 1) * 9;
-        const xs = kidRows[cg].map(memX);
-        VL(px, yTop + (f.ps.length === 2 && unitOf[f.ps[0]] === unitOf[f.ps[1]] ? -CH / 2 + 1 : 0), busY, pg);
-        HL(Math.min.apply(null, xs.concat([px])), Math.max.apply(null, xs.concat([px])), busY, pg, false);
-        xs.forEach((x) => VL(x, busY, yBot, pg));
+        const y0 = Y[pg] + (together ? 0 : R0 + 34);
+        const yb = Y[pg] + RG * 0.56 + ((lane % 3) - 1) * 7;
+        const xs = kr[cg].map(memX);
+        let d = 'M' + px + ' ' + y0 + 'V' + yb;
+        const lo = Math.min.apply(null, xs.concat([px]));
+        const hi = Math.max.apply(null, xs.concat([px]));
+        d += 'M' + lo + ' ' + yb + 'H' + hi;
+        xs.forEach((x) => { d += 'M' + x + ' ' + yb + 'V' + (Y[cg] - R0 - 3); });
+        line(d, f.kids.some((c) => inDirect[c]) && f.ps.some((q) => inDirect[q]) ? 'tl-pc dl' : 'tl-pc');
       });
     });
     const GN = en ? { '-4': 'Great-great-grandparents', '-3': 'Great-grandparents', '-2': 'Grandparents', '-1': 'Parents', 0: 'My generation', 1: 'Children', 2: 'Grandchildren', 3: 'Great-grandchildren' }
       : { '-4': '高祖辈', '-3': '曾祖辈', '-2': '祖辈', '-1': '父辈', 0: '本辈', 1: '子辈', 2: '孙辈', 3: '曾孙辈' };
-    const bands = gens.map((g, i) => ({ top: Y[g] - 52, ltop: Y[g] - 26, bg: BANDBG[gi(g)], color: GC[gi(g)] === 'var(--z21)' ? 'var(--z28)' : GC[gi(g)], name: en ? 'Gen ' + (i + 1) : '第' + '一二三四五六七八九十'.charAt(i) + '代', sub: GN[g - myG] || (en ? 'Relatives' : '亲属') }));
-    const legend = bands.map((b) => ({ color: b.color, name: b.name + ' · ' + b.sub }));
-    if (!this._trScrolled && cards.length) {
-      this._trScrolled = true;
-      setTimeout(() => { try { const el = document.querySelector('.card.me'); const box = el && el.closest('[data-tree-scroll]'); if (box) box.scrollLeft = Math.max(0, el.offsetLeft - box.clientWidth / 2 + CW / 2); } catch (e) {} }, 350);
+    // view: pan / zoom kept on the component; fit everything the first time
+    const vw = window.innerWidth || 1200;
+    const vh = window.innerHeight || 800;
+    const phone = vw < 700;
+    const top0 = phone ? 70 : 110;
+    const bot0 = phone ? 150 : 110;
+    const left0 = phone ? 70 : 150;
+    const fit = () => {
+      let s2 = Math.max(0.3, Math.min(1.15, (vw - left0 - 30) / (W + 140), (vh - top0 - bot0) / (H + 150)));
+      let x2 = left0 + ((vw - left0 - 30) - W * s2) / 2;
+      // phones: stay readable and centre on me instead of shrinking the whole tree
+      if (phone && s2 < 0.6) { s2 = Math.max(s2, Math.min(0.6, (vh - top0 - bot0) / (H + 150))); if (has(meId) && unitOf[meId] !== undefined) x2 = vw / 2 - memX(meId) * s2; }
+      return { s: s2, x: x2, y: top0 + 40 * s2 + ((vh - top0 - bot0) - (H + 120) * s2) / 2 };
+    };
+    if (!this._tv) this._tv = fit();
+    if (this._tvRefit) { this._tv = fit(); this._tvRefit = false; }
+    if (this._tvAnchor) {
+      const A2 = this._tvAnchor;
+      this._tvAnchor = null;
+      if (unitOf[A2.id] !== undefined) { this._tv.x = A2.sx - memX(A2.id) * this._tv.s; this._tv.y = A2.sy - Y[gen[A2.id]] * this._tv.s; }
     }
-    return { t: t, cards: cards, lines: lines, bands: bands, legend: legend, W: W, H: H };
+    const tv = this._tv;
+    const labs = gens.map((g, i) => ({ y: Y[g], top: Math.round(tv.y + Y[g] * tv.s), color: GC[gi(g)] === 'var(--z21)' ? 'var(--z28)' : GC[gi(g)], name: en ? 'Gen ' + (i + 1) : '第' + '一二三四五六七八九十'.charAt(i) + '代', sub: GN[g - myG] || (en ? 'Relatives' : '亲属') }));
+    const apply = () => {
+      const w = document.querySelector('.tv-world');
+      if (w) w.style.transform = 'translate(' + tv.x + 'px,' + tv.y + 'px) scale(' + tv.s + ')';
+      document.querySelectorAll('.tv-lab').forEach((el) => { el.style.top = Math.round(tv.y + (+el.getAttribute('data-y')) * tv.s) + 'px'; });
+      const pc = document.querySelector('.tv-pct');
+      if (pc) pc.textContent = Math.round(tv.s * 100) + '%';
+    };
+    const zoomAt = (f, cx, cy) => {
+      const ns = Math.max(0.25, Math.min(2.5, tv.s * f));
+      tv.x = cx - (cx - tv.x) * ns / tv.s;
+      tv.y = cy - (cy - tv.y) * ns / tv.s;
+      tv.s = ns;
+      apply();
+    };
+    const ptr = this._tvPtr || (this._tvPtr = {});
+    const shownN = Vids.length;
+    return {
+      t: t, nodes: nodes, paths: paths, labs: labs, W: W + 400, H: H + 300,
+      wtf: 'translate(' + tv.x + 'px,' + tv.y + 'px) scale(' + tv.s + ')', pct: Math.round(tv.s * 100) + '%',
+      count: en ? 'Showing ' + shownN + ' of ' + total : '显示 ' + shownN + ' / ' + total + ' 人', allOpen: shownN >= total,
+      allTxt: shownN >= total ? (en ? 'Direct line only' : '只看直系') : (en ? 'Show everyone' : '展开全部'),
+      toggleAll: () => {
+        if (shownN >= total) { Object.keys(openD).forEach((k) => delete openD[k]); Object.keys(openU).forEach((k) => delete openU[k]); }
+        else ids.forEach((id) => { openD[id] = 1; openU[id] = 1; });
+        this._tvRefit = true;
+        this.setState({ tvRev: ((this.state || {}).tvRev || 0) + 1 });
+      },
+      zin: () => zoomAt(1.2, vw / 2, vh / 2), zout: () => zoomAt(1 / 1.2, vw / 2, vh / 2),
+      zfit: () => { const f2 = fit(); tv.x = f2.x; tv.y = f2.y; tv.s = f2.s; apply(); },
+      onWheel: (e) => { if (e.preventDefault) e.preventDefault(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX, e.clientY); },
+      onDown: (e) => {
+        if (e.target && e.target.closest && e.target.closest('.tv-ui')) return;
+        ptr[e.pointerId] = { x: e.clientX, y: e.clientY };
+        this._tvMoved = false;
+        this._tvStart = { x: e.clientX, y: e.clientY };
+      },
+      onMove: (e) => {
+        const p0 = ptr[e.pointerId];
+        if (!p0) return;
+        const keys = Object.keys(ptr);
+        if (keys.length >= 2) {
+          const a = ptr[keys[0]];
+          const b = ptr[keys[1]];
+          const d0 = Math.hypot(a.x - b.x, a.y - b.y);
+          p0.x = e.clientX; p0.y = e.clientY;
+          const d1 = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d0 > 0 && d1 > 0) zoomAt(d1 / d0, (a.x + b.x) / 2, (a.y + b.y) / 2);
+          this._tvMoved = true;
+          return;
+        }
+        const dx = e.clientX - p0.x;
+        const dy = e.clientY - p0.y;
+        p0.x = e.clientX; p0.y = e.clientY;
+        if (this._tvStart && Math.hypot(e.clientX - this._tvStart.x, e.clientY - this._tvStart.y) > 6) this._tvMoved = true;
+        if (!this._tvMoved) return;
+        tv.x += dx; tv.y += dy;
+        apply();
+      },
+      onUp: (e) => { delete ptr[e.pointerId]; setTimeout(() => { if (!Object.keys(ptr).length) this._tvMoved = false; }, 30); }
+    };
   }
 }
 </script>
