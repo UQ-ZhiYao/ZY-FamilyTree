@@ -45,7 +45,6 @@ a{color:var(--z1)}a:hover{color:var(--z2)}
 .tab{transition:background .2s ease,color .2s ease}
 .tab:hover{background:var(--z6)}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
-.lang-en .cname{white-space:normal !important;font-size:12px !important;line-height:1.15}
 
 .langbtn{transition:background .2s ease}
 .lang-en{letter-spacing:0}
@@ -92,6 +91,8 @@ html.zy-hidebar .tabbar{transform:translateY(calc(100% + 30px));opacity:0;pointe
 @media (max-width:640px){header{display:none !important}main{padding-top:calc(16px + env(safe-area-inset-top)) !important}.centerpill{top:calc(12px + env(safe-area-inset-top)) !important}}
 @media (max-width:640px){.zy-pill{bottom:calc(84px + env(safe-area-inset-bottom));border-radius:16px}}
 @media (max-width:640px){.tabbar{left:22px !important;right:22px !important;padding:3px !important;gap:2px !important;border-radius:16px !important;bottom:calc(6px + env(safe-area-inset-bottom)) !important}.tbi{height:44px !important;font-size:10px !important;gap:2px !important;border-radius:12px !important}.tbi svg{width:19px !important;height:19px !important}.zy-pill{bottom:calc(64px + env(safe-area-inset-bottom)) !important}.ctrls{bottom:calc(62px + env(safe-area-inset-bottom)) !important}.ctrls .glass{padding:4px !important;gap:4px !important}.ctrls .pill{height:30px !important;min-width:30px !important;font-size:12px !important;padding:0 8px !important}}
+.glab{background:color-mix(in srgb, var(--z9) 92%, transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+@media (max-width:640px){.glab{left:4px !important;padding:4px 8px !important}.glab span + span{display:none}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -133,17 +134,21 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </div>
 
-<div class="fu" style="overflow-x: auto; background: var(--z9); border: 1px solid var(--z10); border-radius: 20px; padding: 24px 0; animation-delay: .2s">
+<div class="fu" data-tree-scroll="1" style="overflow-x: auto; background: var(--z9); border: 1px solid var(--z10); border-radius: 20px; padding: 24px 0; animation-delay: .2s">
 <div style="position: relative; width: {{W}}px; height: {{H}}px; margin: 0 auto">
+<div style="position: sticky; left: 0; top: 0; width: 0; height: 0; z-index: 4">
+<sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
+<span class="glab" style="position: absolute; left: 10px; top: {{b.ltop}}px; display: flex; flex-direction: column; gap: 2px; padding: 6px 10px; border-radius: 10px; white-space: nowrap"><span style="font-size: 15px; font-weight: 700; color: {{b.color}}">{{b.name}}</span><span style="font-size: 12px; color: var(--z16)">{{b.sub}}</span></span>
+</sc-for>
+</div>
 <sc-for list="{{bands}}" as="b" hint-placeholder-count="5">
 <div style="position: absolute; left: 0; top: {{b.top}}px; width: {{W}}px; height: 104px; border-radius: 14px; background: {{b.bg}}"></div>
-<span style="position: absolute; left: 18px; top: {{b.ltop}}px; display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 700; color: {{b.color}}">{{b.name}}</span><span style="font-size: 12px; color: var(--z16)">{{b.sub}}</span></span>
 </sc-for>
 <sc-for list="{{lines}}" as="l" hint-placeholder-count="30">
 <div class="ln" style="position: absolute; left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; height: {{l.h}}px; border-top: {{l.bt}}; border-left: {{l.bl}}; box-sizing: border-box; animation-delay: {{l.delay}}s; pointer-events: none"></div>
 </sc-for>
 <sc-for list="{{cards}}" as="c" hint-placeholder-count="22">
-<div class="{{c.cls}}" onClick="{{c.open}}" role="button" style="position: absolute; left: {{c.left}}px; top: {{c.top}}px; width: 120px; height: 60px; box-sizing: border-box; padding: 0 10px; display: flex; align-items: center; gap: 10px; background: {{c.cardBg}}; border: 2px solid {{c.rc}}; border-radius: 12px; cursor: pointer; animation-delay: {{c.delay}}s"><span style="width: 34px; height: 34px; flex: none; border-radius: 50%; background: {{c.avBg}}; color: {{c.avFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; overflow: hidden"><sc-if value="{{c.img}}" hint-placeholder-val="{{false}}"><img src="{{c.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover"></sc-if><sc-if value="{{c.noImg}}" hint-placeholder-val="{{true}}">{{c.ch}}</sc-if></span><span style="display: flex; flex-direction: column; line-height: 1.3"><span class="cname" style="font-size: 14px; font-weight: 700; color: {{c.nameFg}}; white-space: nowrap">{{c.name}}</span><span style="font-size: 11px; color: {{c.subFg}}">{{c.side}}</span></span></div>
+<div class="{{c.cls}}" onClick="{{c.open}}" role="button" style="position: absolute; left: {{c.left}}px; top: {{c.top}}px; width: 156px; height: 60px; box-sizing: border-box; padding: 0 10px; display: flex; align-items: center; gap: 10px; background: {{c.cardBg}}; border: 2px solid {{c.rc}}; border-radius: 12px; cursor: pointer; animation-delay: {{c.delay}}s"><span style="width: 34px; height: 34px; flex: none; border-radius: 50%; background: {{c.avBg}}; color: {{c.avFg}}; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; overflow: hidden"><sc-if value="{{c.img}}" hint-placeholder-val="{{false}}"><img src="{{c.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover"></sc-if><sc-if value="{{c.noImg}}" hint-placeholder-val="{{true}}">{{c.ch}}</sc-if></span><span style="display: flex; flex-direction: column; line-height: 1.3; min-width: 0; flex: 1"><span class="cname" style="font-size: 14px; font-weight: 700; color: {{c.nameFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" title="{{c.name}}">{{c.name}}</span><span style="font-size: 11px; color: {{c.subFg}}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{c.side}}</span></span></div>
 </sc-for>
 </div>
 </div>
@@ -401,105 +406,388 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {sub: "Father’s side on the left, mother’s on the right, up to five generations. Tap any card to view or edit.", couple: "Couple", unnamed: "Unnamed", me: "Me", g4: "Great-great-grandparents", g3: "Great-grandparents", g2: "Grandparents", g1: "Parents", g0: "My generation", gm1: "Children", n4: "Gen 1", n3: "Gen 2", n2: "Gen 3", n1: "Gen 4", n0: "Gen 5", nm1: "Gen 6", father: "Father", mother: "Mother", gf: "Grandpa", gm: "Grandma", mgf: "Grandpa", mgm: "Grandma", ggf: "Great-grandpa", ggm: "Great-grandma", mggf: "Great-grandpa", mggm: "Great-grandma", gggf: "Great-great-grandpa", gggm: "Great-great-grandma", mgggf: "Great-great-grandpa", mgggm: "Great-great-grandma", wife: "Wife", husband: "Husband", ob: "Older brother", yb: "Younger brother", os: "Older sister", ys: "Younger sister", son: "Son", daughter: "Daughter", pat: "Paternal", mat: "Maternal"} : {sub: "父系在左、母系在右，往上最多五代。点任何一张卡片可以查看和修改资料。", couple: "夫妻", unnamed: "未命名", me: "我", g4: "高祖辈", g3: "曾祖辈", g2: "祖辈", g1: "父辈", g0: "本辈", gm1: "子辈", n4: "第一代", n3: "第二代", n2: "第三代", n1: "第四代", n0: "第五代", nm1: "第六代", father: "父亲", mother: "母亲", gf: "爷爷", gm: "奶奶", mgf: "外公", mgm: "外婆", ggf: "曾祖父", ggm: "曾祖母", mggf: "外曾祖父", mggm: "外曾祖母", gggf: "高祖父", gggm: "高祖母", mgggf: "外高祖父", mgggm: "外高祖母", wife: "妻子", husband: "丈夫", ob: "哥哥", yb: "弟弟", os: "姐姐", ys: "妹妹", son: "儿子", daughter: "女儿", pat: "父系", mat: "母系"});
+    const t = ((this.state || {}).lang === 'en' ? {sub: "Everyone in the family by generation: couples side by side, parents above their children, father’s side on the left and mother’s on the right. Tap any card to view or edit.", couple: "Couple", unnamed: "Unnamed", me: "Me", g4: "Great-great-grandparents", g3: "Great-grandparents", g2: "Grandparents", g1: "Parents", g0: "My generation", gm1: "Children", n4: "Gen 1", n3: "Gen 2", n2: "Gen 3", n1: "Gen 4", n0: "Gen 5", nm1: "Gen 6", father: "Father", mother: "Mother", gf: "Grandpa", gm: "Grandma", mgf: "Grandpa", mgm: "Grandma", ggf: "Great-grandpa", ggm: "Great-grandma", mggf: "Great-grandpa", mggm: "Great-grandma", gggf: "Great-great-grandpa", gggm: "Great-great-grandma", mgggf: "Great-great-grandpa", mgggm: "Great-great-grandma", wife: "Wife", husband: "Husband", ob: "Older brother", yb: "Younger brother", os: "Older sister", ys: "Younger sister", son: "Son", daughter: "Daughter", pat: "Paternal", mat: "Maternal"} : {sub: "全家人按辈分排列：夫妻并排，父母在上、孩子在下，父系在左、母系在右。点任何一张卡片可以查看和修改资料。", couple: "夫妻", unnamed: "未命名", me: "我", g4: "高祖辈", g3: "曾祖辈", g2: "祖辈", g1: "父辈", g0: "本辈", gm1: "子辈", n4: "第一代", n3: "第二代", n2: "第三代", n1: "第四代", n0: "第五代", nm1: "第六代", father: "父亲", mother: "母亲", gf: "爷爷", gm: "奶奶", mgf: "外公", mgm: "外婆", ggf: "曾祖父", ggm: "曾祖母", mggf: "外曾祖父", mggm: "外曾祖母", gggf: "高祖父", gggm: "高祖母", mgggf: "外高祖父", mgggm: "外高祖母", wife: "妻子", husband: "丈夫", ob: "哥哥", yb: "弟弟", os: "姐姐", ys: "妹妹", son: "儿子", daughter: "女儿", pat: "父系", mat: "母系"});
+    const en = (this.state || {}).lang === 'en';
     const Z = window.ZY;
     const people = (Z && Z.data && Z.data.people) || {};
     const meId = Z ? Z.meId : null;
-    const P = (id) => (id && people[id]) || null;
+    const has = (id) => !!(id && people[id]);
+    const P = (id) => (has(id) ? people[id] : null);
+    const ids = Object.keys(people);
     const nameOf = (p) => (p ? this._zyName(p) : '') || t.unnamed;
-    const yr = (p) => parseInt(String((p && p.birth) || '').slice(0, 4), 10) || 0;
-    // Ahnentafel: slot k on level L has its father at (L+1, 2k) and mother at (L+1, 2k+1).
-    const slots = { 0: { 0: meId } };
-    let maxL = 0;
-    for (let L = 0; L < 4; L++) {
-      slots[L + 1] = {};
-      Object.keys(slots[L]).forEach((k) => {
-        const p = P(slots[L][k]);
-        if (!p) return;
-        if (P(p.father)) { slots[L + 1][2 * k] = p.father; maxL = Math.max(maxL, L + 1); }
-        if (P(p.mother)) { slots[L + 1][2 * k + 1] = p.mother; maxL = Math.max(maxL, L + 1); }
+    const yr = (id) => parseInt(String((P(id) && P(id).birth) || '').slice(0, 4), 10) || 0;
+    const sx = (id) => (P(id) && P(id).sex) || '';
+    // ---------- relations ----------
+    const parents = (id) => (P(id) ? [P(id).father, P(id).mother].filter(has) : []);
+    const kids = {};
+    ids.forEach((id) => parents(id).forEach((q) => { (kids[q] = kids[q] || []).push(id); }));
+    const byBirth = (a, b) => (yr(a) || 9999) - (yr(b) || 9999);
+    Object.keys(kids).forEach((k) => kids[k].sort(byBirth));
+    const spouse = {};
+    ids.forEach((id) => { const s = P(id).spouse; if (has(s) && s !== id) { spouse[id] = spouse[id] || s; spouse[s] = spouse[s] || id; } });
+    // ---------- generations: parents one row up, children one row down, spouses on the same row ----------
+    const gen = {};
+    const bfs = (start, g0) => {
+      const q = [start];
+      gen[start] = g0;
+      while (q.length) {
+        const x = q.shift();
+        const g = gen[x];
+        const nb = parents(x).map((y) => [y, g - 1]).concat((kids[x] || []).map((y) => [y, g + 1]));
+        if (spouse[x]) nb.push([spouse[x], g]);
+        nb.forEach((e) => { if (gen[e[0]] === undefined) { gen[e[0]] = e[1]; q.push(e[0]); } });
+      }
+    };
+    if (has(meId)) bfs(meId, 0);
+    ids.slice().sort(byBirth).forEach((id) => { if (gen[id] === undefined) bfs(id, yr(id) && yr(meId) ? Math.round((yr(id) - yr(meId)) / 28) : 0); });
+    // ---------- kinship terms (seen from any person, used for me and for my spouse's family) ----------
+    const older = (a, b) => (yr(a) && yr(b) ? yr(a) < yr(b) : false);
+    const M = (id) => sx(id) !== 'f';
+    const downFrom = (A, max) => {
+      const r = {};
+      const qq = [[A, 0, null]];
+      while (qq.length) {
+        const e = qq.shift();
+        if (e[1] >= max) continue;
+        (kids[e[0]] || []).forEach((c) => { if (r[c] === undefined) { r[c] = { d: e[1] + 1, first: e[2] || c, par: e[0] }; qq.push([c, e[1] + 1, e[2] || c]); } });
+      }
+      return r;
+    };
+    const downAll = {};
+    const dnOf = (A) => downAll[A] || (downAll[A] = downFrom(A, 6));
+    const kinMemo = {};
+    const kin = (ego) => {
+      if (kinMemo[ego]) return kinMemo[ego];
+      const up = {};
+      const upQ = [[ego, 0, null]];
+      while (upQ.length) {
+        const e = upQ.shift();
+        parents(e[0]).forEach((q) => { if (!up[q]) { up[q] = { d: e[1] + 1, first: e[2] || q, child: e[0] }; upQ.push([q, e[1] + 1, e[2] || q]); } });
+      }
+      const mine = dnOf(ego);
+      const ancList = Object.keys(up).map((k) => [k, up[k].d]).sort((x, y) => x[1] - y[1]);
+      const sib = (id, ref, m) => (older(id, ref) ? (m ? '哥' : '姐') : (m ? '弟' : '妹'));
+      const blood = (id) => {
+        if (id === ego) return t.me;
+        const m = M(id);
+        if (up[id]) {
+          const d = up[id].d;
+          const viaM = sx(up[id].first) === 'f';
+          if (d === 1) return m ? t.father : t.mother;
+          if (d === 2) return en ? (m ? 'Grandpa' : 'Grandma') : (viaM ? (m ? '外公' : '外婆') : (m ? '爷爷' : '奶奶'));
+          if (d === 3) return en ? (m ? 'Great-grandpa' : 'Great-grandma') : (viaM ? '外' : '') + (m ? '曾祖父' : '曾祖母');
+          if (d === 4) return en ? (m ? 'Great-great-grandpa' : 'Great-great-grandma') : (viaM ? '外' : '') + (m ? '高祖父' : '高祖母');
+          return en ? 'Ancestor' : '先祖';
+        }
+        if (mine[id]) {
+          const d = mine[id].d;
+          if (d === 1) return m ? t.son : t.daughter;
+          const viaDau = sx(mine[id].first) === 'f';
+          if (d === 2) return en ? (m ? 'Grandson' : 'Granddaughter') : (viaDau ? '外' : '') + (m ? '孙子' : '孙女');
+          if (d === 3) return en ? (m ? 'Great-grandson' : 'Great-granddaughter') : (m ? '曾孙' : '曾孙女');
+          return en ? 'Descendant' : '后代';
+        }
+        for (let i = 0; i < ancList.length; i++) {
+          const A = ancList[i][0];
+          const u = ancList[i][1];
+          if (u > 4) break;
+          const dn = dnOf(A);
+          if (!dn[id] || dn[id].d > 4) continue;
+          const d = dn[id].d;
+          // my side of the chain: parent (line), grandparent (G) ...; their side: A's child (branch), then down to id
+          const toEgo = [];
+          let z = A;
+          while (z && z !== ego && toEgo.length < 8) { toEgo.push(z); z = up[z] ? up[z].child : null; }
+          const chainUp = toEgo.slice().reverse();
+          const line = chainUp[0];
+          const chainDn = [];
+          let y = id;
+          while (y && y !== A) { chainDn.unshift(y); y = dn[y] ? dn[y].par : null; }
+          const branch = chainDn[0];
+          const fromF = !!line && sx(line) !== 'f';
+          // 堂: every link on both sides through men (除了最后一个人)
+          const maleUp = chainUp.slice(0, -1).every((q) => sx(q) !== 'f');
+          const maleDn = chainDn.slice(0, -1).every((q) => sx(q) !== 'f');
+          const tang = maleUp && maleDn;
+          if (u === 1) {
+            if (d === 1) return older(id, ego) ? (m ? t.ob : t.os) : (m ? t.yb : t.ys);
+            const bro = M(branch);
+            if (d === 2) return en ? (m ? 'Nephew' : 'Niece') : (bro ? (m ? '侄子' : '侄女') : (m ? '外甥' : '外甥女'));
+            return en ? (m ? 'Grandnephew' : 'Grandniece') : (bro ? '侄孙' : '外甥孙') + (m ? '' : '女');
+          }
+          if (u === 2) {
+            if (d === 1) {
+              if (en) return m ? 'Uncle' : 'Aunt';
+              // 大伯、二伯、三叔… when there are several (same order as the family map)
+              const word = fromF ? (m ? (older(id, line) ? '伯' : '叔') : '姑') : (m ? '舅' : '姨');
+              const sibs = (kids[A] || []).filter((k) => sx(k) === sx(id)).slice().sort((a2, b2) => (yr(a2) || 0) - (yr(b2) || 0));
+              const others = sibs.filter((k) => k !== line);
+              if (others.length <= 1) return { 伯: '伯父', 叔: '叔叔', 姑: '姑姑', 舅: '舅舅', 姨: '姨妈' }[word];
+              const ix = others.indexOf(id);
+              return (ix === others.length - 1 && others.length >= 3 ? '小' : '大二三四五六七八九'.charAt(ix)) + word;
+            }
+            if (d === 2) return en ? 'Cousin' : (tang ? '堂' : '表') + sib(id, ego, m);
+            if (en) return m ? 'Cousin’s son' : 'Cousin’s daughter';
+            return tang ? '堂侄' + (m ? '' : '女') : (M(chainDn[1]) ? '表侄' + (m ? '' : '女') : '表外甥' + (m ? '' : '女'));
+          }
+          if (u === 3) {
+            const G = chainUp[1];
+            if (d === 1) {
+              if (en) return m ? 'Great-uncle' : 'Great-aunt';
+              if (fromF && G && sx(G) !== 'f') return m ? (older(id, G) ? '伯公' : '叔公') : '姑婆';
+              return m ? '舅公' : '姨婆';
+            }
+            if (d === 2) {
+              if (en) return 'Parent’s cousin';
+              if (tang) return m ? (older(id, line) ? '堂伯' : '堂叔') : '堂姑';
+              if (fromF) return m ? (older(id, line) ? '表伯' : '表叔') : '表姑';
+              return m ? '表舅' : '表姨';
+            }
+            if (d === 3) return en ? 'Second cousin' : '远房' + (tang ? '堂' : '表') + sib(id, ego, m);
+          }
+          if (en) return 'Relative';
+          const g = u - d;
+          return g > 0 ? '远房长辈' : (g < 0 ? '远房晚辈' : '远房平辈');
+        }
+        return null;
+      };
+      const SPZ = { 哥哥: '嫂子', 弟弟: '弟媳', 姐姐: '姐夫', 妹妹: '妹夫', 伯父: '伯母', 叔叔: '婶婶', 姑姑: '姑丈', 舅舅: '舅妈', 姨妈: '姨丈', 儿子: '儿媳', 女儿: '女婿', 侄子: '侄媳', 侄女: '侄女婿', 外甥: '外甥媳', 外甥女: '外甥女婿', 孙子: '孙媳', 孙女: '孙女婿', 外孙: '外孙媳', 外孙女: '外孙女婿', 伯公: '伯婆', 叔公: '叔婆', 姑婆: '姑公', 舅公: '舅婆', 姨婆: '姨公', 堂哥: '堂嫂', 表哥: '表嫂', 堂弟: '堂弟媳', 表弟: '表弟媳', 堂姐: '堂姐夫', 表姐: '表姐夫', 堂妹: '堂妹夫', 表妹: '表妹夫', 堂伯: '堂伯母', 堂叔: '堂婶', 堂姑: '堂姑丈', 表伯: '表伯母', 表叔: '表婶', 表姑: '表姑丈', 表舅: '表舅妈', 表姨: '表姨丈', 父亲: '母亲', 母亲: '父亲', 爷爷: '奶奶', 奶奶: '爷爷', 外公: '外婆', 外婆: '外公' };
+      const SPE = { 'Older brother': 'Sister-in-law', 'Younger brother': 'Sister-in-law', 'Older sister': 'Brother-in-law', 'Younger sister': 'Brother-in-law', Uncle: 'Aunt', Aunt: 'Uncle', Son: 'Daughter-in-law', Daughter: 'Son-in-law', 'Great-uncle': 'Great-aunt', 'Great-aunt': 'Great-uncle', Father: 'Mother', Mother: 'Father', Grandpa: 'Grandma', Grandma: 'Grandpa' };
+      const full = (id) => {
+        if (id === ego) return t.me;
+        if (spouse[ego] === id) return M(id) ? t.husband : t.wife;
+        const b = blood(id);
+        if (b) return b;
+        const sp = spouse[id];
+        if (sp) {
+          const bs = blood(sp);
+          if (bs && bs !== t.me) {
+            if (en) return SPE[bs] || (bs + '’s ' + (M(id) ? 'husband' : 'wife'));
+            if (/^[大二三四五六七八九小][伯叔姑舅姨]$/.test(bs)) return bs.charAt(0) + { 伯: '伯母', 叔: '婶', 姑: '姑丈', 舅: '舅妈', 姨: '姨丈' }[bs.charAt(1)];
+            if (/祖父$/.test(bs)) return bs.replace(/父$/, '母');
+            if (/祖母$/.test(bs)) return bs.replace(/母$/, '父');
+            return SPZ[bs] || (bs + '的' + (M(id) ? '丈夫' : '妻子'));
+          }
+        }
+        return null;
+      };
+      return (kinMemo[ego] = { blood: blood, full: full });
+    };
+    const term = (id) => {
+      if (!has(meId)) return '';
+      const mine = kin(meId).full(id);
+      if (mine) return mine;
+      const ms = spouse[meId];
+      if (ms) {
+        const wifeSide = !M(ms);
+        const tt = kin(ms).full(id);
+        if (tt) {
+          if (en) {
+            const IN = { Father: 'Father-in-law', Mother: 'Mother-in-law', 'Older brother': 'Brother-in-law', 'Younger brother': 'Brother-in-law', 'Older sister': 'Sister-in-law', 'Younger sister': 'Sister-in-law' };
+            return IN[tt] || ((wifeSide ? 'Wife’s ' : 'Husband’s ') + tt.charAt(0).toLowerCase() + tt.slice(1));
+          }
+          const IN = wifeSide ? { 父亲: '岳父', 母亲: '岳母', 哥哥: '大舅子', 弟弟: '小舅子', 姐姐: '大姨子', 妹妹: '小姨子', 嫂子: '舅嫂', 弟媳: '舅嫂', 姐夫: '连襟', 妹夫: '连襟' }
+            : { 父亲: '公公', 母亲: '婆婆', 哥哥: '大伯', 弟弟: '小叔', 姐姐: '大姑', 妹妹: '小姑', 嫂子: '妯娌', 弟媳: '妯娌', 姐夫: '姑丈', 妹夫: '姑丈' };
+          return IN[tt] || ((wifeSide ? '妻子的' : '丈夫的') + tt);
+        }
+      }
+      return en ? 'Relative' : '亲属';
+    };
+    // ---------- units: a couple side by side, or one person ----------
+    const unitOf = {};
+    const units = [];
+    ids.slice().sort(byBirth).forEach((id) => {
+      if (unitOf[id] !== undefined) return;
+      const s = spouse[id];
+      const mem = s && unitOf[s] === undefined && gen[s] === gen[id] ? (M(id) || !M(s) ? [id, s] : [s, id]) : [id];
+      const u = { i: units.length, mem: mem, g: gen[id] };
+      mem.forEach((x) => { unitOf[x] = u.i; });
+      units.push(u);
+    });
+    const unitKids = (u) => { const out = []; u.mem.forEach((x) => (kids[x] || []).forEach((c) => { if (out.indexOf(c) < 0) out.push(c); })); return out.sort(byBirth); };
+    const unitPar = (u) => { const out = []; u.mem.forEach((x) => parents(x).forEach((q) => { const k = unitOf[q]; if (out.indexOf(k) < 0) out.push(k); })); return out; };
+    // left / right: father's family first, then mother's
+    const myUp = {};
+    (function () { const q = [[meId, null]]; while (q.length) { const e = q.shift(); parents(e[0]).forEach((p2) => { if (!myUp[p2]) { myUp[p2] = { first: e[1] || p2 }; q.push([p2, e[1] || p2]); } }); } })();
+    const side = (id) => {
+      if (!has(meId)) return 0;
+      const f = P(meId).father;
+      const mo = P(meId).mother;
+      const seen = {};
+      const st = [id];
+      while (st.length) {
+        const x = st.pop();
+        if (seen[x]) continue;
+        seen[x] = 1;
+        if (x === f || (myUp[x] && myUp[x].first === f)) return -1;
+        if (x === mo || (myUp[x] && myUp[x].first === mo)) return 1;
+        parents(x).forEach((q) => st.push(q));
+      }
+      return 0;
+    };
+    const sideU = (u) => { let s = 0; u.mem.forEach((x) => { s = s || side(x); }); return s; };
+    // ---------- order: walk each family from the top, children under parents ----------
+    const rows = {};
+    const seenU = {};
+    const walk = (k) => {
+      if (seenU[k]) return;
+      seenU[k] = 1;
+      const u = units[k];
+      (rows[u.g] = rows[u.g] || []).push(k);
+      unitKids(u).forEach((c) => walk(unitOf[c]));
+    };
+    // father's family, then mother's, then everyone else (e.g. my spouse's family)
+    const SO = { '-1': 0, 1: 1, 0: 2 };
+    const roots = units.filter((u) => !unitPar(u).length).sort((a, b) => SO[sideU(a)] - SO[sideU(b)] || a.g - b.g || byBirth(a.mem[0], b.mem[0]));
+    roots.forEach((u) => walk(u.i));
+    units.forEach((u) => walk(u.i));
+    // inside a couple, the partner whose own family sits further right goes on the right
+    const gens = Object.keys(rows).map(Number).sort((a, b) => a - b);
+    // ---------- positions ----------
+    const CW = 156;
+    const CH = 60;
+    const IN = 18;
+    const LM = 170;
+    const uw = (k) => units[k].mem.length * CW + (units[k].mem.length - 1) * IN;
+    const X = {};
+    const famOf = (k) => unitPar(units[k]).join(',');
+    const gapBetween = (a, b) => (famOf(a) && famOf(a) === famOf(b) ? 26 : 60);
+    gens.forEach((g) => { let x = LM; rows[g].forEach((k, i) => { if (i) x += gapBetween(rows[g][i - 1], k); X[k] = x; x += uw(k); }); });
+    const cx = (k) => X[k] + uw(k) / 2;
+    const memX = (id) => { const k = unitOf[id]; const i = units[k].mem.indexOf(id); return X[k] + i * (CW + IN) + CW / 2; };
+    // keep the row order, move each unit as close as possible to where it wants to be (pool-adjacent-violators)
+    const settle = (g, want, wt) => {
+      const R = rows[g];
+      const blocks = [];
+      R.forEach((k, i) => {
+        const wi = wt ? wt[i] : 1;
+        let b = { ks: [k], off: [0], w: uw(k), sum: want[i] * wi, n: wi, wsum: [wi] };
+        b.pos = b.sum;
+        while (blocks.length) {
+          const pb = blocks[blocks.length - 1];
+          const gap = gapBetween(pb.ks[pb.ks.length - 1], b.ks[0]);
+          if (pb.pos + pb.w + gap <= b.pos) break;
+          blocks.pop();
+          const sh = pb.w + gap;
+          b = { ks: pb.ks.concat(b.ks), off: pb.off.concat(b.off.map((o) => o + sh)), w: sh + b.w, sum: pb.sum + b.sum - b.n * sh, n: pb.n + b.n, wsum: pb.wsum.concat(b.wsum) };
+          b.pos = b.sum / b.n;
+        }
+        blocks.push(b);
       });
-    }
-    const me = P(meId);
-    const kids = me ? Object.keys(people).map((k) => people[k]).filter((c) => c.father === meId || c.mother === meId).sort((a, b) => yr(a) - yr(b)) : [];
-    const levels = [];
-    for (let L = maxL; L >= 0; L--) levels.push(L);
-    if (kids.length) levels.push(-1);
-    const W = Math.max(1080, Math.pow(2, maxL) * 134 + 80);
+      blocks.forEach((b) => b.ks.forEach((k, j) => { X[k] = b.pos + b.off[j]; }));
+    };
+    const parentCenter = (k) => {
+      const ps = [];
+      units[k].mem.forEach((x) => { const pp = parents(x); if (pp.length) ps.push(pp.reduce((s, q) => s + memX(q), 0) / pp.length); });
+      return ps.length ? ps.reduce((a, b) => a + b, 0) / ps.length : null;
+    };
+    const downPass = () => {
+      for (let gi2 = 1; gi2 < gens.length; gi2++) {
+        const g = gens[gi2];
+        const R = rows[g];
+        // children of the same parents, centred together under them
+        const want = R.map((k) => X[k]);
+        const wt = R.map((k) => (parentCenter(k) === null ? 0.05 : 1));
+        let i = 0;
+        while (i < R.length) {
+          let j = i;
+          const f = famOf(R[i]);
+          while (j + 1 < R.length && f && famOf(R[j + 1]) === f) j++;
+          const pc = parentCenter(R[i]);
+          if (pc !== null) {
+            const w = X[R[j]] + uw(R[j]) - X[R[i]];
+            const shift = pc - (X[R[i]] + w / 2);
+            for (let q = i; q <= j; q++) want[q] = X[R[q]] + shift;
+          }
+          i = j + 1;
+        }
+        settle(g, want, wt);
+      }
+    };
+    const upPass = () => {
+      for (let gi2 = gens.length - 2; gi2 >= 0; gi2--) {
+        const g = gens[gi2];
+        const R = rows[g];
+        const want = R.map((k) => {
+          const ks = unitKids(units[k]);
+          if (!ks.length) return X[k];
+          const lo = Math.min.apply(null, ks.map((c) => memX(c)));
+          const hi = Math.max.apply(null, ks.map((c) => memX(c)));
+          return (lo + hi) / 2 - uw(k) / 2;
+        });
+        settle(g, want, R.map((k) => (unitKids(units[k]).length ? 1 : 0.05)));
+      }
+    };
+    // alternate: children under their parents, then parents over their children; finish with the parents
+    for (let it = 0; it < 8; it++) { downPass(); upPass(); }
+    let minX = Infinity;
+    let maxX = -Infinity;
+    Object.keys(X).forEach((k) => { minX = Math.min(minX, X[k]); maxX = Math.max(maxX, X[k] + uw(+k)); });
+    const shiftX = LM - minX;
+    Object.keys(X).forEach((k) => { X[k] = Math.round(X[k] + shiftX); });
+    const W = Math.max(1080, Math.round(maxX + shiftX + 40));
+    const RG = 176;
     const Y = {};
-    levels.forEach((L, i) => { Y[L] = 80 + i * 180; });
-    const H = 80 + (levels.length - 1) * 180 + 80;
-    const xOf = (L, k) => 40 + (k + 0.5) * (W - 80) / Math.pow(2, L);
+    gens.forEach((g, i) => { Y[g] = 70 + i * RG; });
+    const H = 70 + (gens.length - 1) * RG + 80;
+    // ---------- cards, lines, bands ----------
     const GC = ['var(--z21)', 'var(--z22)', 'var(--z1)', 'var(--z23)', 'var(--z15)'];
     const AVB = ['var(--z24)', 'var(--z25)', 'var(--z26)', 'var(--z27)', 'var(--z27)'];
     const AVF = ['var(--z28)', 'var(--z29)', 'var(--z2)', 'var(--z23)', 'var(--z15)'];
     const BANDBG = ['var(--z30)', 'var(--z31)', 'var(--z32)', 'var(--z33)', 'var(--z34)'];
-    const gi = (L) => Math.max(0, Math.min(4, 4 - L));
-    const TERM = { 1: ['father', 'mother'], 2: ['gf', 'gm', 'mgf', 'mgm'], 3: ['ggf', 'ggm', 'mggf', 'mggm'], 4: ['gggf', 'gggm', 'mgggf', 'mgggm'] };
+    const myG = has(meId) ? gen[meId] : 0;
+    const gi = (g) => Math.max(0, Math.min(4, 4 + (g - myG)));
     const cards = [];
     const lines = [];
-    const card = (p, x, L, term, isMe, delay) => {
-      const g = gi(L);
+    const delayOf = (g) => 0.2 + gens.indexOf(g) * 0.12;
+    units.forEach((u) => u.mem.forEach((id) => {
+      const g = gi(u.g);
+      const p = P(id);
+      const isMe = id === meId;
       const nm = nameOf(p);
       cards.push({
-        left: Math.round(x - 60), top: Y[L] - 30, name: nm, ch: this._zyInitials(nm), side: term, img: this._zyAv(p && p.avatar), noImg: !this._zyAv(p && p.avatar),
+        left: Math.round(memX(id) - CW / 2), top: Y[u.g] - CH / 2, name: nm, ch: this._zyInitials(nm), side: term(id), img: this._zyAv(p && p.avatar), noImg: !this._zyAv(p && p.avatar),
         rc: GC[g], cls: isMe ? 'card me' : 'card', cardBg: isMe ? 'var(--z15)' : 'var(--z9)',
         avBg: isMe ? 'var(--z9)' : AVB[g], avFg: isMe ? 'var(--z15)' : AVF[g], nameFg: isMe ? 'var(--z9)' : 'var(--z8)', subFg: isMe ? 'var(--z35)' : 'var(--z16)',
-        delay: delay.toFixed(2), open: () => { if (p && p.id) this._zyGo(this._zyHref('Profile', 'id=' + encodeURIComponent(p.id))); }
+        delay: (delayOf(u.g) + Math.min(0.3, (memX(id) / W) * 0.3)).toFixed(2), open: () => { if (p && p.id) this._zyGo(this._zyHref('Profile', 'id=' + encodeURIComponent(p.id))); }
       });
-    };
-    const HL = (x1, x2, y, L, dashed) => { if (Math.abs(x2 - x1) < 1) return; lines.push({ x: Math.round(Math.min(x1, x2)), y: y - 1, w: Math.round(Math.abs(x2 - x1)), h: 2, bt: dashed ? '2px dashed var(--z20)' : '2px solid var(--z36)', bl: 'none', delay: (0.3 + gi(L) * 0.16).toFixed(2) }); };
-    const VL = (x, y1, y2, L) => { if (y2 - y1 < 1) return; lines.push({ x: Math.round(x - 1), y: y1, w: 2, h: y2 - y1, bt: 'none', bl: '2px solid var(--z36)', delay: (0.3 + gi(L) * 0.16).toFixed(2) }); };
-    const drop = (px, L, xs) => { const y = Y[L]; VL(px, y, y + 90, L); const lo = Math.min.apply(null, xs.concat([px])); const hi = Math.max.apply(null, xs.concat([px])); HL(lo, hi, y + 90, L, false); xs.forEach((x) => VL(x, y + 90, y + 150, L)); };
-    // ancestors
-    for (let L = maxL; L >= 1; L--) {
-      Object.keys(slots[L]).forEach((k) => {
-        k = +k;
-        const p = P(slots[L][k]);
-        const side = k < Math.pow(2, L) / 2 ? t.pat : t.mat;
-        const term = t[TERM[L][(k % 2) + (k >= Math.pow(2, L) / 2 ? 2 : 0)]] || side;
-        card(p, xOf(L, k), L, L >= 3 ? term + ' · ' + side : term, false, 0.25 + gi(L) * 0.16 + (k % 6) * 0.03);
+    }));
+    const HL = (x1, x2, y, g, dashed) => { if (Math.abs(x2 - x1) < 1) return; lines.push({ x: Math.round(Math.min(x1, x2)), y: Math.round(y - 1), w: Math.round(Math.abs(x2 - x1)), h: 2, bt: dashed ? '2px dashed var(--z20)' : '2px solid var(--z36)', bl: 'none', delay: (delayOf(g) + 0.15).toFixed(2) }); };
+    const VL = (x, y1, y2, g) => { if (y2 - y1 < 1) return; lines.push({ x: Math.round(x - 1), y: Math.round(y1), w: 2, h: Math.round(y2 - y1), bt: 'none', bl: '2px solid var(--z36)', delay: (delayOf(g) + 0.15).toFixed(2) }); };
+    // couples
+    units.forEach((u) => { if (u.mem.length === 2) HL(memX(u.mem[0]) + CW / 2, memX(u.mem[1]) - CW / 2, Y[u.g], u.g, true); });
+    // spouses who ended up apart (different rows or units): a dashed link between them
+    // parents -> children, one bus per family; buses in the same gap are staggered so they don't merge
+    const fams = {};
+    ids.forEach((id) => { const ps = parents(id); if (!ps.length) return; const key = ps.slice().sort().join('|'); (fams[key] = fams[key] || { ps: ps, kids: [] }).kids.push(id); });
+    const laneCount = {};
+    Object.keys(fams).sort((a, b) => memX(fams[a].ps[0]) - memX(fams[b].ps[0])).forEach((key) => {
+      const f = fams[key];
+      const pg = Math.max.apply(null, f.ps.map((q) => gen[q]));
+      const px = f.ps.reduce((s, q) => s + memX(q), 0) / f.ps.length;
+      const kidRows = {};
+      f.kids.forEach((c) => { (kidRows[gen[c]] = kidRows[gen[c]] || []).push(c); });
+      Object.keys(kidRows).forEach((cg) => {
+        cg = +cg;
+        if (Y[cg] === undefined || Y[pg] === undefined || cg <= pg) return;
+        const lane = laneCount[pg] = (laneCount[pg] || 0) + 1;
+        const yTop = Y[pg] + CH / 2;
+        const yBot = Y[cg] - CH / 2;
+        const busY = yTop + (Y[pg + 1] !== undefined ? (Y[pg + 1] - CH / 2 - yTop) : (yBot - yTop)) / 2 + ((lane % 3) - 1) * 9;
+        const xs = kidRows[cg].map(memX);
+        VL(px, yTop + (f.ps.length === 2 && unitOf[f.ps[0]] === unitOf[f.ps[1]] ? -CH / 2 + 1 : 0), busY, pg);
+        HL(Math.min.apply(null, xs.concat([px])), Math.max.apply(null, xs.concat([px])), busY, pg, false);
+        xs.forEach((x) => VL(x, busY, yBot, pg));
       });
-    }
-    // my row: older siblings on the left, spouse and younger siblings on the right
-    const x0 = W / 2;
-    const meCard = me || { id: null, name: (Z && Z.login) || t.me };
-    card(meCard, x0, 0, t.me, true, 0.9);
-    const sibs = me ? Object.keys(people).map((k) => people[k]).filter((s) => s.id !== meId && ((me.father && s.father === me.father) || (me.mother && s.mother === me.mother))) : [];
-    const older = sibs.filter((s) => yr(s) && yr(me) && yr(s) < yr(me)).sort((a, b) => yr(b) - yr(a));
-    const younger = sibs.filter((s) => older.indexOf(s) < 0).sort((a, b) => yr(a) - yr(b));
-    const sp = me ? P(me.spouse) : null;
-    const rowX = [x0];
-    older.forEach((s, i) => { const x = x0 - 140 * (i + 1); rowX.push(x); card(s, x, 0, s.sex === 'f' ? t.os : t.ob, false, 0.95 + i * 0.03); });
-    let rx = x0;
-    if (sp) { rx += 140; card(sp, rx, 0, sp.sex === 'f' ? t.wife : t.husband, false, 0.95); HL(x0 + 60, rx - 60, Y[0], 0, true); }
-    younger.forEach((s, i) => { rx += 140; rowX.push(rx); card(s, rx, 0, s.sex === 'f' ? t.ys : t.yb, false, 1 + i * 0.03); });
-    // lines from parents to me and my siblings
-    if (maxL >= 1) {
-      const fx = slots[1][0] ? xOf(1, 0) : null;
-      const mx = slots[1][1] ? xOf(1, 1) : null;
-      if (fx !== null && mx !== null) HL(fx + 60, mx - 60, Y[1], 1, true);
-      drop(fx !== null && mx !== null ? (fx + mx) / 2 : (fx !== null ? fx : mx), 1, rowX);
-    }
-    for (let L = 1; L < maxL; L++) {
-      Object.keys(slots[L]).forEach((k) => {
-        k = +k;
-        const fx = slots[L + 1][2 * k] ? xOf(L + 1, 2 * k) : null;
-        const mx = slots[L + 1][2 * k + 1] ? xOf(L + 1, 2 * k + 1) : null;
-        if (fx === null && mx === null) return;
-        if (fx !== null && mx !== null) HL(fx + 60, mx - 60, Y[L + 1], L + 1, true);
-        drop(fx !== null && mx !== null ? (fx + mx) / 2 : (fx !== null ? fx : mx), L + 1, [xOf(L, k)]);
-      });
-    }
-    // children
-    if (kids.length) {
-      const cx = sp ? x0 + 70 : x0;
-      const xs = kids.map((c, i) => cx + (i - (kids.length - 1) / 2) * 140);
-      kids.forEach((c, i) => card(c, xs[i], -1, c.sex === 'f' ? t.daughter : t.son, false, 1.1 + i * 0.03));
-      drop(cx, 0, xs);
-    }
-    const bands = levels.map((L) => ({ top: Y[L] - 52, ltop: Y[L] - 20, bg: BANDBG[gi(L)], color: GC[gi(L)] === 'var(--z21)' ? 'var(--z28)' : GC[gi(L)], name: t['n' + (L < 0 ? 'm1' : L)], sub: t['g' + (L < 0 ? 'm1' : L)] }));
+    });
+    const GN = en ? { '-4': 'Great-great-grandparents', '-3': 'Great-grandparents', '-2': 'Grandparents', '-1': 'Parents', 0: 'My generation', 1: 'Children', 2: 'Grandchildren', 3: 'Great-grandchildren' }
+      : { '-4': '高祖辈', '-3': '曾祖辈', '-2': '祖辈', '-1': '父辈', 0: '本辈', 1: '子辈', 2: '孙辈', 3: '曾孙辈' };
+    const bands = gens.map((g, i) => ({ top: Y[g] - 52, ltop: Y[g] - 26, bg: BANDBG[gi(g)], color: GC[gi(g)] === 'var(--z21)' ? 'var(--z28)' : GC[gi(g)], name: en ? 'Gen ' + (i + 1) : '第' + '一二三四五六七八九十'.charAt(i) + '代', sub: GN[g - myG] || (en ? 'Relatives' : '亲属') }));
     const legend = bands.map((b) => ({ color: b.color, name: b.name + ' · ' + b.sub }));
+    if (!this._trScrolled && cards.length) {
+      this._trScrolled = true;
+      setTimeout(() => { try { const el = document.querySelector('.card.me'); const box = el && el.closest('[data-tree-scroll]'); if (box) box.scrollLeft = Math.max(0, el.offsetLeft - box.clientWidth / 2 + CW / 2); } catch (e) {} }, 350);
+    }
     return { t: t, cards: cards, lines: lines, bands: bands, legend: legend, W: W, H: H };
   }
 }
