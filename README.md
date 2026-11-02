@@ -49,7 +49,7 @@ The keys appear on the Profile and Family members pages and in the star chart's 
 3. Go to **Authentication → URL Configuration** and set **Site URL** to your GitHub Pages address, for example `https://<user>.github.io/ZY-FamilyTree/`.
    Under **Redirect URLs**, add `https://<user>.github.io/ZY-FamilyTree/*`.
 4. Optional: in **Authentication → Providers → Email**, leave "Confirm email" on (recommended) or turn it off for quicker testing.
-5. Open **Project Settings → API**. Copy the **Project URL** and the **anon public** key into [`zy-config.js`](zy-config.js):
+5. Open **Project Settings → API**. Copy the **Project URL** and the **anon public** key into [`assets/zy-config.js`](assets/zy-config.js):
 
 ```js
 window.ZY_CONFIG = {
@@ -67,7 +67,7 @@ signed‑in members of that family. **Never** put the `service_role` key in this
 
 1. Push this repository to GitHub.
 2. Go to **Settings → Pages → Build and deployment**. Choose **Deploy from a branch**, branch `main`, folder `/ (root)`.
-3. The site is live at `https://<user>.github.io/<repository>/` after about a minute. The phone app starts at `…/AppLogin.dc.html`.
+3. The site is live at `https://<user>.github.io/<repository>/` after about a minute. The website opens at `…/web/Main.dc.html` and the phone app at `…/app/Login.dc.html`.
 
 ## 3. Start your family
 
@@ -95,7 +95,7 @@ Admins can make another member an admin, remove an account, and switch between f
 
 ## 5. Install the phone app (PWA)
 
-The app is called **Zenith Yield** on the home screen and uses the site's logo. Open `AppLogin.dc.html` on the phone:
+The app is called **Zenith Yield** on the home screen and uses the site's logo. Open `app/Login.dc.html` on the phone:
 
 - **Android / Chrome**: tap **安装 / Install** on the banner, or browser menu → Install app.
 - **iPhone / iPad (Safari)**: Share → **Add to Home Screen**.
@@ -133,13 +133,31 @@ Site functions (RPC): `zy_create_family`, `zy_join_family`, `zy_link_me`, `zy_ne
 - Photos are resized in the browser to at most 1600 px (profile pictures 512 px) before upload. They are served through links that expire after one hour.
 - Supabase's free plan includes 500 MB of database and 1 GB of file storage.
 
+## Files
+
+```
+index.html             sends visitors to the website (or the installed app to app/)
+web/                   website pages: Main, About, Login, Circle, Tree, Photos, Chat, Profile, Admin
+app/                   phone-app pages: Login, Circle, Tree, Photos, Chat, Profile, Admin
+assets/                shared by both
+  zy-config.js         your Supabase settings
+  zy-store.js          data layer (window.ZY)
+  support.js           page renderer
+  vendor/              supabase-js 2.45.4 browser build (works offline)
+  icons/               app icon and logo
+supabase/schema.sql    database, run in Supabase's SQL Editor
+sw.js, manifest.webmanifest   phone-app install and offline files (must stay at the top level)
+tools/make_app_pages.py       rebuilds app/ from web/
+Login.dc.html, AppLogin.dc.html   redirects for older invitation links and apps installed before the move
+```
+
 ## Development
 
 - No build step and no framework. Each page is a `*.dc.html` file: an `<x-dc>` template (`{{holes}}`, `<sc-for>`, `<sc-if>`)
   plus a `class Component` script.
-  - `support.js` renders the pages.
-  - `zy-store.js` is the data layer (`window.ZY`).
-  - `vendor/supabase.js` is the official `@supabase/supabase-js` 2.45.4 browser build, kept here so the app works offline.
-- After editing a website page, regenerate the phone‑app copies with `python3 tools/make_app_pages.py`.
+  - `assets/support.js` renders the pages.
+  - `assets/zy-store.js` is the data layer (`window.ZY`).
+  - `assets/vendor/supabase.js` is the official `@supabase/supabase-js` 2.45.4 browser build, kept here so the app works offline.
+- After editing a page in `web/`, regenerate the phone‑app copies in `app/` with `python3 tools/make_app_pages.py`.
 - To run locally, start `python3 -m http.server 8000` and open <http://localhost:8000/>.
   Add `http://localhost:8000/*` to Supabase's redirect URLs if you test sign‑up emails locally.

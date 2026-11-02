@@ -576,7 +576,7 @@
       var c = codeArg || (state.data && state.data.family && state.data.family.joinCode);
       if (!c) return '';
       var base = window.location.href.split('#')[0].split('?')[0].replace(/[^/]*$/, '');
-      return base + (/\/App[A-Z]\w*\.dc\.html/.test(window.location.pathname) ? 'AppLogin.dc.html' : 'Login.dc.html') + '?join=' + c;
+      return base + 'Login.dc.html?join=' + c;
     },
     setFamilyName: function (name) {
       return run(function (d) { d.family.name = name; }, function () { return q(sb.from('families').update({ name: name }).eq('id', state.familyId)); }, 'Rename family');

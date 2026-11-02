@@ -4,11 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>枝叶 · Zenith Yield</title>
-<meta http-equiv="refresh" content="0; url=./Main.dc.html">
-<link rel="icon" type="image/png" href="./icons/zy-favicon-64.png">
+<link rel="icon" type="image/png" href="./assets/icons/zy-favicon-64.png">
+<script>
+  // The installed phone app opens the app/ pages; everyone else gets the website.
+  (function () {
+    var app = false;
+    try { app = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; } catch (e) {}
+    location.replace((app ? './app/Login.dc.html' : './web/Main.dc.html') + location.search + location.hash);
+  })();
+</script>
 </head>
 <body style="background:#050B1E;color:#EAF2FF;font-family:system-ui,sans-serif">
-<p><a href="./Main.dc.html" style="color:#9DCBFF">枝叶 · Zenith Yield</a></p>
-<script>location.replace('./Main.dc.html' + location.search + location.hash);</script>
+<p><a href="./web/Main.dc.html" style="color:#9DCBFF">枝叶 · Zenith Yield</a></p>
 </body>
 </html>

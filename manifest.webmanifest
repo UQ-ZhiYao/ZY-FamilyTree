@@ -4,7 +4,7 @@
   "short_name": "Zenith Yield",
   "description": "Zenith Yield (枝叶) — your family's own sky: who is who, how everyone is related, photos and profiles.",
   "lang": "en",
-  "start_url": "./AppLogin.dc.html?source=pwa",
+  "start_url": "./app/Login.dc.html?source=pwa",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -12,12 +12,12 @@
   "theme_color": "#0B1532",
   "categories": ["lifestyle", "social"],
   "icons": [
-    { "src": "icons/zy-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icons/zy-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icons/zy-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "assets/icons/zy-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/zy-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/zy-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "Family map · 家族图谱", "url": "./AppCircle.dc.html", "icons": [{ "src": "icons/zy-icon-192.png", "sizes": "192x192" }] },
-    { "name": "Photos · 照片", "url": "./AppPhotos.dc.html", "icons": [{ "src": "icons/zy-icon-192.png", "sizes": "192x192" }] }
+    { "name": "Family map · 家族图谱", "url": "./app/Circle.dc.html", "icons": [{ "src": "assets/icons/zy-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Photos · 照片", "url": "./app/Photos.dc.html", "icons": [{ "src": "assets/icons/zy-icon-192.png", "sizes": "192x192" }] }
   ]
 }
