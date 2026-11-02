@@ -81,12 +81,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zcv{position:absolute;inset:0;width:100%;height:100%;display:block}
 .zc-scrim{position:absolute;inset:0}
 .zc-wrap{position:relative;z-index:1;width:100%;max-width:1160px;margin:0 auto;padding:0 24px 40px;box-sizing:border-box}
-.zc-hero{min-height:calc(100vh - 100px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:520px}
+.zc-hero{min-height:calc(100vh - 100px);display:flex;flex-direction:column;justify-content:center;gap:16px;max-width:500px;margin-left:54%}
 .zc-kicker{font-size:13px;letter-spacing:4px;font-weight:600;opacity:.7}
 .zc-h1{margin:0;font-size:52px;line-height:1.15;font-weight:700;letter-spacing:-.5px}
 .zc-lead{margin:0;font-size:18px;line-height:1.8;opacity:.78}
 .zc-scroll{font-size:13px;letter-spacing:2px;opacity:.55;margin-top:10px}
-.zsec{min-height:100vh;display:flex;align-items:center}
+.zsec{min-height:100vh;display:flex;align-items:center;padding-left:54%;box-sizing:border-box}
 .zc-text{max-width:440px;display:flex;flex-direction:column;gap:14px}
 .zc-num{font-size:13px;letter-spacing:3px;opacity:.5;font-variant-numeric:tabular-nums}
 .zc-head{display:flex;align-items:center;gap:14px}
@@ -99,7 +99,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zc-facts div:last-child{border-bottom:1px solid var(--zc-line)}
 .zc-facts dt{width:96px;flex:none;font-size:13px;opacity:.55;padding-top:2px}
 .zc-facts dd{margin:0;font-size:15px;font-weight:600}
-.zc-end{min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:18px}
+.zc-end{min-height:60vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:18px;padding-left:54%;box-sizing:border-box}
 .zc-note{margin:0;font-size:13px;opacity:.6;max-width:440px}
 .zc-cta{padding:15px 26px;border-radius:12px;font-size:16px;font-weight:600;text-decoration:none}
 .zc-dots{position:fixed;z-index:3;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px}
@@ -115,9 +115,10 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulati
 .zy-l .zc-cta{background:#111732;color:#FFFFFF}
 @media (max-width:820px){
 .zc-wrap{padding:0 20px 40px}
-.zc-hero{min-height:calc(100vh - 80px);justify-content:flex-end;padding-bottom:12vh}
+.zc-hero{min-height:calc(100vh - 80px);justify-content:flex-end;padding-bottom:12vh;margin-left:0}
 .zc-h1{font-size:34px}
-.zsec{align-items:flex-end;padding-bottom:9vh;box-sizing:border-box}
+.zsec{align-items:flex-end;padding-bottom:9vh;padding-left:0;box-sizing:border-box}
+.zc-end{padding-left:0}
 .zc-name{font-size:36px}
 .zc-sym{font-size:34px}
 .zc-tx{font-size:16px}
@@ -425,43 +426,53 @@ class Component extends DCLogic {
     }));
     return { stars: stars, t: t, rows: rows, raw: { curSym: S[cur].sym, curName: en ? S[cur].en : S[cur].zh } };
   }
-  // Scroll-driven isometric voxel sky: each constellation is drawn as raised pixel cubes and morphs into the next as you scroll.
+  // Scroll-driven pixel sky: a flat grid of rounded squares; each constellation is drawn as pixel "cubes" (light top,
+  // mid left face, dark right face) for its stars and soft pixels for the lines, and morphs into the next as you scroll.
   _zcStart() {
     if (this._zcOn) return;
     this._zcOn = true;
     const S = [{"k": "aries", "sym": "♈︎", "zh": "白羊座", "en": "Aries", "d": "3月21日 – 4月19日", "de": "Mar 21 – Apr 19", "el": ["火", "Fire"], "pl": ["火星", "Mars"], "st": ["娄宿三", "Hamal"], "tr": [["勇敢", "热情", "直率"], ["Brave", "Energetic", "Direct"]], "tx": ["黄道第一宫。每年春分，太阳从这里开始一年的旅程。", "The first sign of the zodiac: the Sun starts its yearly journey here at the March equinox."], "p": [[0.1, 0.42], [0.52, 0.26], [0.72, 0.36], [0.82, 0.52]], "e": [[0, 1], [1, 2], [2, 3]], "b": 1}, {"k": "taurus", "sym": "♉︎", "zh": "金牛座", "en": "Taurus", "d": "4月20日 – 5月20日", "de": "Apr 20 – May 20", "el": ["土", "Earth"], "pl": ["金星", "Venus"], "st": ["毕宿五", "Aldebaran"], "tr": [["稳重", "耐心", "可靠"], ["Steady", "Patient", "Loyal"]], "tx": ["红色的毕宿五是牛眼，旁边的昴星团是冬夜最容易认出的星群之一。", "Red Aldebaran is the bull's eye, and the nearby Pleiades are one of the easiest star clusters to spot."], "p": [[0.14, 0.24], [0.1, 0.3], [0.18, 0.3], [0.4, 0.5], [0.5, 0.6], [0.6, 0.5], [0.5, 0.42], [0.88, 0.2], [0.9, 0.56]], "e": [[3, 4], [4, 5], [5, 7], [3, 6], [6, 8]], "b": 4}, {"k": "gemini", "sym": "♊︎", "zh": "双子座", "en": "Gemini", "d": "5月21日 – 6月21日", "de": "May 21 – Jun 21", "el": ["风", "Air"], "pl": ["水星", "Mercury"], "st": ["北河三", "Pollux"], "tr": [["好奇", "灵活", "健谈"], ["Curious", "Adaptable", "Talkative"]], "tx": ["北河二与北河三并肩而立，像一对手牵手的兄弟。", "Castor and Pollux stand side by side, like twin brothers holding hands."], "p": [[0.25, 0.1], [0.45, 0.08], [0.28, 0.44], [0.48, 0.42], [0.2, 0.84], [0.36, 0.88], [0.58, 0.8], [0.74, 0.72]], "e": [[0, 2], [2, 4], [4, 5], [1, 3], [3, 6], [6, 7], [2, 3]], "b": 1}, {"k": "cancer", "sym": "♋︎", "zh": "巨蟹座", "en": "Cancer", "d": "6月22日 – 7月22日", "de": "Jun 22 – Jul 22", "el": ["水", "Water"], "pl": ["月亮", "Moon"], "st": ["柳宿增十", "Al Tarf"], "tr": [["体贴", "顾家", "重感情"], ["Caring", "Protective", "Home-loving"]], "tx": ["最暗的黄道星座，中央藏着鬼星团（蜂巢星团）。", "The faintest zodiac constellation, with the Beehive Cluster hidden at its heart."], "p": [[0.5, 0.46], [0.5, 0.12], [0.22, 0.78], [0.76, 0.84], [0.47, 0.5]], "e": [[0, 1], [0, 2], [0, 3]], "b": 3}, {"k": "leo", "sym": "♌︎", "zh": "狮子座", "en": "Leo", "d": "7月23日 – 8月22日", "de": "Jul 23 – Aug 22", "el": ["火", "Fire"], "pl": ["太阳", "Sun"], "st": ["轩辕十四", "Regulus"], "tr": [["自信", "大方", "热心"], ["Confident", "Generous", "Warm"]], "tx": ["狮头是一个反写的问号，整片星群像一头伏卧的狮子。", "A backwards question mark forms the lion's head; the whole figure looks like a resting lion."], "p": [[0.2, 0.66], [0.24, 0.46], [0.32, 0.3], [0.26, 0.17], [0.12, 0.2], [0.62, 0.42], [0.9, 0.56], [0.64, 0.64]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [1, 5], [5, 6], [6, 7], [7, 0]], "b": 0}, {"k": "virgo", "sym": "♍︎", "zh": "处女座", "en": "Virgo", "d": "8月23日 – 9月22日", "de": "Aug 23 – Sep 22", "el": ["土", "Earth"], "pl": ["水星", "Mercury"], "st": ["角宿一", "Spica"], "tr": [["细心", "务实", "乐于助人"], ["Careful", "Practical", "Helpful"]], "tx": ["全天第二大的星座。角宿一是春夜里明亮的蓝白色星。", "The second-largest constellation; blue-white Spica shines on spring evenings."], "p": [[0.56, 0.84], [0.5, 0.6], [0.34, 0.5], [0.18, 0.36], [0.62, 0.44], [0.76, 0.3], [0.88, 0.2], [0.4, 0.24]], "e": [[0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [2, 7]], "b": 0}, {"k": "libra", "sym": "♎︎", "zh": "天秤座", "en": "Libra", "d": "9月23日 – 10月23日", "de": "Sep 23 – Oct 23", "el": ["风", "Air"], "pl": ["金星", "Venus"], "st": ["氐宿四", "Zubeneschamali"], "tr": [["公正", "圆融", "善交际"], ["Fair", "Diplomatic", "Sociable"]], "tx": ["唯一以物品为象征的黄道星座——一架天平。", "The only zodiac sign shown as an object rather than a creature: a pair of scales."], "p": [[0.5, 0.12], [0.24, 0.42], [0.76, 0.44], [0.3, 0.8], [0.7, 0.76]], "e": [[0, 1], [0, 2], [1, 2], [1, 3], [2, 4]], "b": 0}, {"k": "scorpio", "sym": "♏︎", "zh": "天蝎座", "en": "Scorpio", "d": "10月24日 – 11月22日", "de": "Oct 24 – Nov 22", "el": ["水", "Water"], "pl": ["火星 · 冥王星", "Mars · Pluto"], "st": ["心宿二", "Antares"], "tr": [["执着", "热烈", "忠诚"], ["Determined", "Passionate", "Loyal"]], "tx": ["红色的心宿二是蝎子的心脏，蝎尾在南天弯成一道钩。", "Red Antares is the scorpion's heart, and its tail curls into a hook low in the southern sky."], "p": [[0.86, 0.1], [0.8, 0.24], [0.9, 0.34], [0.66, 0.34], [0.56, 0.45], [0.48, 0.6], [0.4, 0.74], [0.3, 0.84], [0.16, 0.8], [0.13, 0.66], [0.24, 0.6]], "e": [[0, 1], [1, 2], [1, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 10]], "b": 3}, {"k": "sagittarius", "sym": "♐︎", "zh": "射手座", "en": "Sagittarius", "d": "11月23日 – 12月21日", "de": "Nov 23 – Dec 21", "el": ["火", "Fire"], "pl": ["木星", "Jupiter"], "st": ["箕宿三", "Kaus Australis"], "tr": [["乐观", "爱冒险", "坦率"], ["Optimistic", "Adventurous", "Honest"]], "tx": ["其中的“茶壶”星群，壶嘴正指向银河中心。", "Its \"Teapot\" pattern has a spout pointing at the centre of the Milky Way."], "p": [[0.28, 0.72], [0.46, 0.78], [0.46, 0.55], [0.28, 0.5], [0.62, 0.44], [0.66, 0.62], [0.8, 0.38], [0.84, 0.56], [0.16, 0.28]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [2, 4], [4, 5], [5, 1], [4, 6], [6, 7], [7, 5], [3, 8]], "b": 1}, {"k": "capricorn", "sym": "♑︎", "zh": "摩羯座", "en": "Capricorn", "d": "12月22日 – 1月19日", "de": "Dec 22 – Jan 19", "el": ["土", "Earth"], "pl": ["土星", "Saturn"], "st": ["垒壁阵四", "Deneb Algedi"], "tr": [["自律", "负责", "有抱负"], ["Disciplined", "Responsible", "Ambitious"]], "tx": ["半羊半鱼的“海山羊”，星群的形状像一只小船。", "A sea-goat, half goat and half fish; its stars outline a small boat."], "p": [[0.1, 0.3], [0.24, 0.36], [0.44, 0.66], [0.6, 0.72], [0.8, 0.56], [0.9, 0.34], [0.66, 0.4], [0.4, 0.42]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 1]], "b": 5}, {"k": "aquarius", "sym": "♒︎", "zh": "水瓶座", "en": "Aquarius", "d": "1月20日 – 2月18日", "de": "Jan 20 – Feb 18", "el": ["风", "Air"], "pl": ["土星 · 天王星", "Saturn · Uranus"], "st": ["虚宿一", "Sadalsuud"], "tr": [["独立", "创新", "博爱"], ["Independent", "Inventive", "Humane"]], "tx": ["持瓶人倒出的水流，由一串暗星组成。", "The water-bearer's stream is drawn by a chain of faint stars."], "p": [[0.12, 0.2], [0.28, 0.3], [0.46, 0.26], [0.6, 0.4], [0.54, 0.6], [0.7, 0.76], [0.88, 0.66], [0.38, 0.56]], "e": [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [4, 7]], "b": 2}, {"k": "pisces", "sym": "♓︎", "zh": "双鱼座", "en": "Pisces", "d": "2月19日 – 3月20日", "de": "Feb 19 – Mar 20", "el": ["水", "Water"], "pl": ["木星 · 海王星", "Jupiter · Neptune"], "st": ["右更二", "Alpherg"], "tr": [["温柔", "富想象力", "善解人意"], ["Gentle", "Imaginative", "Compassionate"]], "tx": ["两条鱼由一根丝带相连，春分点就在这片星空里。", "Two fish tied together by a cord; the March equinox point lies in this part of the sky."], "p": [[0.14, 0.2], [0.22, 0.1], [0.3, 0.2], [0.22, 0.3], [0.36, 0.86], [0.6, 0.76], [0.76, 0.7], [0.86, 0.6], [0.94, 0.7], [0.86, 0.8]], "e": [[0, 1], [1, 2], [2, 3], [3, 0], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8], [8, 9], [9, 6]], "b": 4}];
-    const N = 16;
+    const N = 24;
+    // tones: 1 line, 2 light, 3 mid, 4 dark
+    const SMALL = ['.LL.', 'MLLD', 'MMDD', '.MD.'];
+    const BIG = ['..LL..', '.LLLL.', 'MMLLDD', 'MMMDDD', 'MMMDDD', '..MD..'];
+    const TONE = { L: 2, M: 3, D: 4 };
     const shapes = S.map((x) => {
-      const h = new Float32Array(N * N);
-      const g = new Float32Array(N * N);
-      const cell = (p) => [Math.round(1 + p[0] * (N - 3)), Math.round(1 + p[1] * (N - 3))];
+      const t = new Uint8Array(N * N);
+      const cell = (p) => [Math.round(3 + p[0] * (N - 7)), Math.round(3 + p[1] * (N - 7))];
       x.e.forEach((ed) => {
         const a = cell(x.p[ed[0]]);
         const b = cell(x.p[ed[1]]);
         const n = Math.max(Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1])) * 2 || 1;
-        for (let s = 0; s <= n; s++) {
-          const i = Math.round(a[0] + (b[0] - a[0]) * s / n);
-          const j = Math.round(a[1] + (b[1] - a[1]) * s / n);
-          const q = j * N + i;
-          if (h[q] < 1) h[q] = 1;
+        for (let k = 0; k <= n; k++) {
+          const i = Math.round(a[0] + (b[0] - a[0]) * k / n);
+          const j = Math.round(a[1] + (b[1] - a[1]) * k / n);
+          t[j * N + i] = 1;
         }
       });
       x.p.forEach((pt, k) => {
+        const g = k === x.b ? BIG : SMALL;
         const c = cell(pt);
-        const q = c[1] * N + c[0];
-        h[q] = k === x.b ? 3.6 : 2.4;
-        g[q] = 1;
+        const o = Math.floor(g.length / 2);
+        g.forEach((row, dy) => row.split('').forEach((ch, dx) => {
+          const i = c[0] - o + dx;
+          const j = c[1] - o + dy;
+          if (TONE[ch] && i >= 0 && j >= 0 && i < N && j < N) t[j * N + i] = TONE[ch];
+        }));
       });
-      return { h: h, g: g };
+      return t;
     });
-    const curH = new Float32Array(N * N);
-    const curG = new Float32Array(N * N);
+    const curA = new Float32Array(N * N);
+    const curT = new Uint8Array(N * N);
+    const sparks = [];
+    for (let k = 0; k < 9; k++) sparks.push({ x: Math.random(), y: Math.random(), p: Math.random() * 6.28, sp: 0.15 + Math.random() * 0.25 });
     let last = 0;
     let cv = null;
     let ctx = null;
     let W = 0;
     let H = 0;
-    let prog = 0;
+    let field = null;
+    let fieldKey = '';
     const lite = (() => { try { return window.matchMedia('(max-width: 820px), (pointer: coarse)').matches; } catch (e) { return false; } })();
     const sm = (x) => x * x * (3 - 2 * x);
     const measure = () => {
@@ -473,35 +484,36 @@ class Component extends DCLogic {
       for (let i = 0; i < cs.length - 1; i++) if (mid < cs[i + 1]) return i + (mid - cs[i]) / (cs[i + 1] - cs[i]);
       return cs.length - 1;
     };
-    let field = null;
-    let fieldKey = '';
     const geo = () => {
       const phone = W < 820;
-      const span = phone ? Math.min(W * 1.15, H * 0.9) : Math.min(W * 0.62, H * 1.25);
-      const tw = span / N;
-      return { tw: tw, th: tw * 0.5, hu: tw * 0.48, cx: phone ? W * 0.5 : W * 0.68, cy: phone ? H * 0.3 : H * 0.5 };
+      const size = phone ? Math.min(W * 0.86, H * 0.4) : Math.min(W * 0.4, H * 0.7);
+      const c = size / N;
+      const cx = phone ? W / 2 : W * 0.27;
+      const cy = phone ? H * 0.27 : H * 0.52;
+      return { c: c, g: c * 0.16, r: c * 0.24, x0: cx - size / 2, y0: cy - size / 2, cx: cx, cy: cy, R: size * 0.78, phone: phone };
     };
-    const iso = (G, i, j) => ({ x: G.cx + (i - j) * G.tw / 2, y: G.cy + (i + j - (N - 1)) * G.th / 2 });
-    // the faint tile floor reaching to the screen edges, drawn once per size/theme
+    const rr = (c, x, y, w, h, r) => { c.beginPath(); if (c.roundRect) c.roundRect(x, y, w, h, r); else c.rect(x, y, w, h); c.fill(); };
+    const pal = (dark) => dark
+      ? { field: [150, 180, 255], line: 'rgba(150,180,255,', L: [157, 183, 255], M: [78, 116, 240], D: [42, 63, 168] }
+      : { field: [70, 100, 210], line: 'rgba(120,150,235,', L: [195, 211, 251], M: [79, 111, 224], D: [35, 52, 143] };
+    // the faint pixel floor around the constellation, drawn once per size and theme
     const makeField = (G, dark, dpr) => {
       const f = document.createElement('canvas');
       f.width = Math.round(W * dpr); f.height = Math.round(H * dpr);
       const c = f.getContext('2d');
       c.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const R = Math.ceil(Math.max(W, H * 2) / G.tw) + N;
-      const k = 0.84;
-      for (let a = -R; a < R; a++) {
-        for (let b = -R; b < R; b++) {
-          const p = iso(G, a, b);
-          if (p.x < -G.tw || p.x > W + G.tw || p.y < -G.th || p.y > H + G.th) continue;
-          const dx = (p.x - G.cx) / (W * 0.55);
-          const dy = (p.y - G.cy) / (H * 0.6);
-          const fade = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy));
-          if (fade <= 0.02) continue;
-          c.fillStyle = dark ? 'rgba(150,180,255,' + (0.03 + 0.11 * fade).toFixed(3) + ')' : 'rgba(40,70,160,' + (0.025 + 0.08 * fade).toFixed(3) + ')';
-          c.beginPath();
-          c.moveTo(p.x, p.y - G.th * k / 2); c.lineTo(p.x + G.tw * k / 2, p.y); c.lineTo(p.x, p.y + G.th * k / 2); c.lineTo(p.x - G.tw * k / 2, p.y);
-          c.closePath(); c.fill();
+      const P = pal(dark);
+      const i0 = -Math.ceil(G.x0 / G.c) - 1;
+      const j0 = -Math.ceil(G.y0 / G.c) - 1;
+      for (let j = j0; G.y0 + j * G.c < H; j++) {
+        for (let i = i0; G.x0 + i * G.c < W; i++) {
+          const x = G.x0 + i * G.c;
+          const y = G.y0 + j * G.c;
+          const d = Math.hypot(x + G.c / 2 - G.cx, y + G.c / 2 - G.cy) / G.R;
+          const a = (dark ? 0.1 : 0.075) * (1 - d * d);
+          if (a <= 0.004) continue;
+          c.fillStyle = 'rgba(' + P.field.join(',') + ',' + a.toFixed(3) + ')';
+          rr(c, x + G.g / 2, y + G.g / 2, G.c - G.g, G.c - G.g, G.r);
         }
       }
       return f;
@@ -515,31 +527,34 @@ class Component extends DCLogic {
       ctx.clearRect(0, 0, cv.width, cv.height);
       ctx.drawImage(field, 0, 0);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const LT = dark ? [111, 184, 255] : [77, 124, 254];
-      const ST = dark ? [255, 214, 120] : [245, 170, 40];
-      const rgb = (c, f) => 'rgb(' + Math.round(c[0] * f) + ',' + Math.round(c[1] * f) + ',' + Math.round(c[2] * f) + ')';
+      const P = pal(dark);
       const tt = now / 1000;
-      const k = 0.86;
-      const hw = G.tw * k / 2;
-      const hh = G.th * k / 2;
-      for (let s = 0; s <= 2 * N - 2; s++) {
-        for (let i = Math.max(0, s - N + 1); i <= Math.min(N - 1, s); i++) {
-          const j = s - i;
+      const sz = G.c - G.g;
+      for (let j = 0; j < N; j++) {
+        for (let i = 0; i < N; i++) {
           const q = j * N + i;
-          let h = curH[q];
-          if (h <= 0.06) continue;
-          h += 0.16 * Math.sin(tt * 1.6 + (i + j) * 0.45) * Math.min(1, h);
-          const p = iso(G, i, j);
-          const c = curG[q] > 0.5 ? ST : LT;
-          const top = p.y - h * G.hu;
-          ctx.fillStyle = rgb(c, 0.7);
-          ctx.beginPath(); ctx.moveTo(p.x - hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x, p.y + hh); ctx.lineTo(p.x - hw, p.y); ctx.closePath(); ctx.fill();
-          ctx.fillStyle = rgb(c, 0.5);
-          ctx.beginPath(); ctx.moveTo(p.x + hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x, p.y + hh); ctx.lineTo(p.x + hw, p.y); ctx.closePath(); ctx.fill();
-          ctx.fillStyle = rgb(c, 1);
-          ctx.beginPath(); ctx.moveTo(p.x, top - hh); ctx.lineTo(p.x + hw, top); ctx.lineTo(p.x, top + hh); ctx.lineTo(p.x - hw, top); ctx.closePath(); ctx.fill();
+          const a = curA[q];
+          if (a < 0.02) continue;
+          const tn = curT[q];
+          const x = G.x0 + i * G.c + G.g / 2;
+          const y = G.y0 + j * G.c + G.g / 2;
+          if (tn === 1) {
+            ctx.fillStyle = P.line + (a * (dark ? 0.32 : 0.55) * (0.85 + 0.15 * Math.sin(tt * 2 + i * 0.7 + j * 0.4))).toFixed(3) + ')';
+          } else {
+            const col = tn === 2 ? P.L : (tn === 3 ? P.M : P.D);
+            ctx.fillStyle = 'rgba(' + col.join(',') + ',' + a.toFixed(3) + ')';
+          }
+          rr(ctx, x, y, sz, sz, G.r);
         }
       }
+      // a few loose pixels drifting around, like dust between the stars
+      sparks.forEach((sp) => {
+        const a = 0.35 + 0.35 * Math.sin(tt * sp.sp * 3 + sp.p);
+        const x = G.cx + (sp.x - 0.5) * G.R * 2.1 + Math.sin(tt * sp.sp + sp.p) * G.c;
+        const y = G.cy + (sp.y - 0.5) * G.R * 2.1 + Math.cos(tt * sp.sp + sp.p) * G.c;
+        ctx.fillStyle = 'rgba(' + P.L.join(',') + ',' + (a * (dark ? 0.5 : 0.8)).toFixed(3) + ')';
+        rr(ctx, x, y, sz * 0.8, sz * 0.8, G.r);
+      });
     };
     const loop = (now) => {
       this._zcRaf = requestAnimationFrame(loop);
@@ -554,15 +569,17 @@ class Component extends DCLogic {
         cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
       }
       W = r.width; H = r.height;
-      prog = measure();
+      const prog = measure();
       const a = Math.floor(prog);
       const b = Math.min(shapes.length - 1, a + 1);
       const f = sm(Math.max(0, Math.min(1, (prog - a - 0.3) / 0.4)));
       for (let q = 0; q < N * N; q++) {
-        const th = shapes[a].h[q] + (shapes[b].h[q] - shapes[a].h[q]) * f;
-        const tg = shapes[a].g[q] + (shapes[b].g[q] - shapes[a].g[q]) * f;
-        curH[q] += (th - curH[q]) * 0.2;
-        curG[q] += (tg - curG[q]) * 0.2;
+        const ta = shapes[a][q];
+        const tb = shapes[b][q];
+        const tgt = (ta ? 1 - f : 0) + (tb ? f : 0);
+        const tone = f < 0.5 ? (ta || tb) : (tb || ta);
+        if (tone) curT[q] = tone;
+        curA[q] += (tgt - curA[q]) * 0.22;
       }
       const ci = Math.round(prog);
       if (ci !== (this.state || {}).zcCur) this.setState({ zcCur: ci });
