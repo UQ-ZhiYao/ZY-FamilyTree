@@ -297,8 +297,9 @@ class Component extends DCLogic {
     const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
     return {
       setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
+      toggleLang: setL(en ? 'zh' : 'en'), toggleTheme: setT(light ? 'dark' : 'light'), langNext: en ? '中' : 'EN', langAria: en ? '切换到中文' : 'Switch to English', themeAria: light ? (en ? 'Dark theme' : '深色') : (en ? 'Light theme' : '浅色'), isLightTheme: light, isDarkTheme: !light,
       lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
-      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Constellations' : '星座', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
+      darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
   }
   _zyHref(name, query) {
