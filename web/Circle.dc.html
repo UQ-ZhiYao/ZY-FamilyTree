@@ -567,8 +567,8 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
 <span style="font-size: 11px; font-weight: 600; letter-spacing: 2px; color: var(--z50); width: 34px">{{L.k37}}</span>
 <div role="group" aria-label="{{L.k11}}" style="display: flex; gap: 4px">
-<a href="Circle.dc.html" aria-current="page" class="pill" style="padding: 8px 14px; border-radius: 9px; background: var(--z38); color: var(--z24); font-size: 14px; font-weight: 600; text-decoration: none">{{L.k38}}</a>
-<a href="Tree.dc.html" class="pill" style="padding: 8px 14px; border-radius: 9px; color: var(--z27); font-size: 14px; text-decoration: none">{{L.k39}}</a>
+<a href="Circle.dc.html" data-zy-view="1" aria-current="page" class="pill" style="padding: 8px 14px; border-radius: 9px; background: var(--z38); color: var(--z24); font-size: 14px; font-weight: 600; text-decoration: none">{{L.k38}}</a>
+<a href="Tree.dc.html" data-zy-view="1" class="pill" style="padding: 8px 14px; border-radius: 9px; color: var(--z27); font-size: 14px; text-decoration: none">{{L.k39}}</a>
 </div>
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
@@ -739,10 +739,15 @@ class Component extends DCLogic {
     const en = st.lang === 'en';
     const light = st.theme === 'light';
     const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    let view = 'circle';
+    try { if (window.localStorage.getItem('zy-view') === 'tree') view = 'tree'; } catch (er) {}
+    const setV = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-view', v); } catch (er) {} this.setState({ zyView: v }); };
     const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
     return {
       setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
       toggleLang: setL(en ? 'zh' : 'en'), toggleTheme: setT(light ? 'dark' : 'light'), langNext: en ? '中' : 'EN', langAria: en ? '切换到中文' : 'Switch to English', themeAria: light ? (en ? 'Dark theme' : '深色') : (en ? 'Light theme' : '浅色'), isLightTheme: light, isDarkTheme: !light,
+      setViewCircle: setV('circle'), setViewTree: setV('tree'), vcCls: view === 'tree' ? 'zp' : 'zp on', vtCls: view === 'tree' ? 'zp on' : 'zp',
+      prefView: en ? 'Family map' : '家族图谱', circleText: en ? 'Circle' : '关系圈', treeText: en ? 'Tree' : '族谱树',
       lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
       darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navSx: en ? 'Lunar' : '生肖', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
@@ -793,6 +798,20 @@ class Component extends DCLogic {
       t = setTimeout(() => root.classList.remove('zy-hidebar'), 650);
     };
     try { window.addEventListener('scroll', on, { passive: true }); } catch (e) {}
+    // 家族图谱: the circle or the tree, whichever the person chose (in settings or with the switch on the map)
+    try {
+      document.addEventListener('click', (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        const h = a.getAttribute('href') || '';
+        const m = /^(Circle|Tree)\.dc\.html/.exec(h);
+        if (!m) return;
+        if (a.hasAttribute('data-zy-view')) { try { window.localStorage.setItem('zy-view', m[1] === 'Tree' ? 'tree' : 'circle'); } catch (er) {} return; }
+        let v = '';
+        try { v = window.localStorage.getItem('zy-view') || ''; } catch (er) {}
+        if (v === 'tree' && m[1] === 'Circle' && h === 'Circle.dc.html') a.setAttribute('href', 'Tree.dc.html');
+      }, true);
+    } catch (e) {}
   }
   // Turns the saved family (ZY.data) into the shape the star chart uses. "me" is always the signed-in person.
   _zyBase() {
@@ -1014,6 +1033,7 @@ class Component extends DCLogic {
     if (this._hovEl) { this._hovEl.removeEventListener('pointerover', this._hovFn); this._hovEl.removeEventListener('pointerleave', this._unhovFn); }
   }
   componentDidMount() {
+    try { if (!window.location.search && window.localStorage.getItem('zy-view') === 'tree') { window.location.replace(this._zyHref('Tree')); return; } } catch (e) {}
     this._loadTheme();
     const qc = this._zyQ('center');
     if (qc && window.ZY) window.ZY.ready().then(() => { const e = this._zyBase().EID[qc]; if (e && e !== 'me') this.setState({ center: e }); });
@@ -1412,7 +1432,7 @@ class Component extends DCLogic {
         id: id, title: title, ch: ch, outer: outerDesc(id) || (spouseOf(id) && outerDesc(spouseOf(id)) && !inLin(spouseOf(id))),
         side: side, cat: cat, kind: kind,
         path: isMe ? o.path : (id === 'me' ? MYN + ' 本人' : (id === ME ? '当前中心' : MYN + ' 称 TA「' + o.title + '」')),
-        nm: [o.name, o.key].filter(Boolean).join(' · '),
+        nm: o.name,
         gen: id === ME ? '本人' : (GENL[o.lv - myLv] || ''), lv: o.lv - myLv,
         parent: o.parent, spouse: o.spouse
       };

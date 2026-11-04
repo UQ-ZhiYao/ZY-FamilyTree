@@ -201,7 +201,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
 <div class="u-li">
 <a href="{{r.href}}" class="u-av" style="text-decoration: none"><sc-if value="{{r.img}}" hint-placeholder-val="{{false}}"><img src="{{r.img}}" alt=""></sc-if><sc-if value="{{r.noImg}}" hint-placeholder-val="{{true}}">{{r.ch}}</sc-if></a>
-<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap"><b class="u-keyi">{{r.key}}</b> {{r.sub}}</span></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px"><a href="{{r.href}}" style="color: inherit; font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.name}}</a><span class="u-muted" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.sub}}</span></span>
 <sc-if value="{{r.asking}}" hint-placeholder-val="{{false}}"><span class="u-err" style="font-size: 13px">{{t.delQ}}</span><button type="button" class="u-dng u-sm" onClick="{{r.yes}}">{{t.yes}}</button><button type="button" class="u-btn2 u-sm" onClick="{{r.no}}">{{t.no}}</button></sc-if>
 <sc-if value="{{r.idle}}" hint-placeholder-val="{{true}}"><a class="u-btn2 u-sm redit" href="{{r.href}}">{{t.edit}}</a><sc-if value="{{r.canDel}}" hint-placeholder-val="{{true}}"><button type="button" class="u-btn2 u-sm" onClick="{{r.ask}}" style="color: #D1453B">{{t.del}}</button></sc-if></sc-if>
 </div>
@@ -221,7 +221,6 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </div>
 </sc-for>
 <span class="{{invCls}}" role="status">{{invMsg}}</span>
-<span class="u-muted">{{t.famKey}} · <b class="u-key" style="padding: 2px 6px; font-size: 13px">{{raw.famKey}}</b></span>
 <sc-if value="{{meLine}}" hint-placeholder-val="{{false}}"><span class="u-muted">{{t.youAre}}<b style="color: var(--u-text)">{{meLine}}</b> · <a href="{{changeHref}}" style="color: var(--z1)">{{t.change}}</a></span></sc-if>
 <h3 style="margin: 6px 0 0; font-size: 15px">{{t.who}}</h3>
 <div style="display: flex; flex-direction: column">
@@ -237,7 +236,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <section class="u-card">
 <span class="u-muted">{{t.clansHint}}</span>
 <div style="display: flex; flex-direction: column">
-<sc-for list="{{rows4}}" as="c" hint-placeholder-count="3"><div class="u-li"><span class="u-av" style="width: 34px; height: 34px">{{c.surname}}</span><span class="u-key" style="flex: 1; padding: 4px 8px; font-size: 13px">{{c.key}}</span><span class="u-muted">{{c.count}} {{t.ppl}}</span></div></sc-for>
+<sc-for list="{{rows4}}" as="c" hint-placeholder-count="3"><div class="u-li"><span class="u-av" style="width: 34px; height: 34px">{{c.surname}}</span><span style="flex: 1; font-weight: 600">{{c.line}}</span><span class="u-muted">{{c.count}} {{t.ppl}}</span></div></sc-for>
 </div>
 </section>
 </sc-if>
@@ -395,10 +394,15 @@ class Component extends DCLogic {
     const en = st.lang === 'en';
     const light = st.theme === 'light';
     const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    let view = 'circle';
+    try { if (window.localStorage.getItem('zy-view') === 'tree') view = 'tree'; } catch (er) {}
+    const setV = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-view', v); } catch (er) {} this.setState({ zyView: v }); };
     const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
     return {
       setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
       toggleLang: setL(en ? 'zh' : 'en'), toggleTheme: setT(light ? 'dark' : 'light'), langNext: en ? '中' : 'EN', langAria: en ? '切换到中文' : 'Switch to English', themeAria: light ? (en ? 'Dark theme' : '深色') : (en ? 'Light theme' : '浅色'), isLightTheme: light, isDarkTheme: !light,
+      setViewCircle: setV('circle'), setViewTree: setV('tree'), vcCls: view === 'tree' ? 'zp' : 'zp on', vtCls: view === 'tree' ? 'zp on' : 'zp',
+      prefView: en ? 'Family map' : '家族图谱', circleText: en ? 'Circle' : '关系圈', treeText: en ? 'Tree' : '族谱树',
       lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
       darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navSx: en ? 'Lunar' : '生肖', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
@@ -449,6 +453,20 @@ class Component extends DCLogic {
       t = setTimeout(() => root.classList.remove('zy-hidebar'), 650);
     };
     try { window.addEventListener('scroll', on, { passive: true }); } catch (e) {}
+    // 家族图谱: the circle or the tree, whichever the person chose (in settings or with the switch on the map)
+    try {
+      document.addEventListener('click', (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        const h = a.getAttribute('href') || '';
+        const m = /^(Circle|Tree)\.dc\.html/.exec(h);
+        if (!m) return;
+        if (a.hasAttribute('data-zy-view')) { try { window.localStorage.setItem('zy-view', m[1] === 'Tree' ? 'tree' : 'circle'); } catch (er) {} return; }
+        let v = '';
+        try { v = window.localStorage.getItem('zy-view') || ''; } catch (er) {}
+        if (v === 'tree' && m[1] === 'Circle' && h === 'Circle.dc.html') a.setAttribute('href', 'Tree.dc.html');
+      }, true);
+    } catch (e) {}
   }
   _zyBoot() {
     // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
@@ -520,7 +538,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname (English)", surnameZh: "Chinese surname (optional)", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name, year or key (ZYM-…)", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "You come from more than one surname family, and each has its own invitation code. Send each code to relatives on that side: after signing up they only see that big family.", own: "Father’s side", mom: "Mother’s side", sp: "Spouse’s family", fam: " family", ppl2: "people", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line with a fixed key; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", backMe: "Me", famSet: "Family settings", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏（英文 / 拼音）", surnameZh: "中文姓氏（可选）", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字、年份或编号（ZYM-…）", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "你来自几个姓氏家族，每个家族都有自己的邀请码。把对应的邀请码发给那一边的亲戚：他们注册后输入邀请码，只会看到那一个大家族。", own: "本宗 · 父系", mom: "外家 · 母系", sp: "配偶家族", fam: "氏家族", ppl2: "人", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族，各有固定编号；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", backMe: "我的", famSet: "家族设置", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Family members", sub: "Everyone in the family can add, edit and remove people. Link parents and spouses; every other title is worked out automatically.", add: "Add a family member", name: "Name", sex: "Gender", male: "Male", female: "Female", surname: "Surname (English)", surnameZh: "Chinese surname (optional)", surHint: "Pre-filled; tap to type a different surname", willAdd: "Will be added as: ", birth: "Birth year", rel: "Relationship", of: "Of whom", rchild: "Child", rparent: "Father / mother", rspouse: "Spouse", rsibling: "Brother / sister", rnone: "No link yet", addBtn: "Add", added: "Added: ", more: "Add details", needName: "Please enter a name.", list: "Everyone", search: "Search by name or year", edit: "Edit", del: "Delete", delQ: "Delete?", yes: "Delete", no: "Cancel", me: "Me", father: "F", mother: "M", spouse: "Spouse", count: "people", unnamed: "Unnamed", whoami: "Which person are you?", whoHint: "Pick yourself from the list so the family map centres on you. Not listed? Add yourself with the form above first.", thisIsMe: "This is me", youAre: "You are: ", change: "Change", accounts: "Invite family", accHint: "You come from more than one surname family, and each has its own invitation code. Send each code to relatives on that side: after signing up they only see that big family.", own: "Father’s side", mom: "Mother’s side", sp: "Spouse’s family", fam: " family", ppl2: "people", demoAcc: "The demo family has no accounts. Once you sign in to your family, its invite code appears here.", code: "Invite code", copy: "Copy invite link", copied: "Invite link copied", newCode: "New code", newCodeHint: "The old code stops working.", famKey: "Family key", who: "Accounts in this family", owner: "Admin", member: "Member", remove: "Remove", makeAdmin: "Make admin", you: " (you)", switchFam: "Switch family", clans: "Surname lines", clansHint: "Each surname is its own line; the family map gives each line its own constellation.", ppl: "people", family: "Family name", saveName: "Save name", backup: "Backup & restore", backupHint: "Download all family data as one JSON file, or restore from a backup. Photo files are not inside the JSON.", export: "Download backup", import: "Restore from backup", imported: "Restored from backup.", resetDemo: "Reset demo family", log: "Recent changes", noLog: "No changes yet.", backMe: "Me", famSet: "Family settings", failed: "Failed: ", saved: "Saved", loading: "Loading family data…"} : {title: "家人", sub: "家族里的每个人都可以添加、修改和删除家人。只需要连上父母和配偶，其它称呼会自动推算。", add: "添加家人", name: "名字", sex: "性别", male: "男", female: "女", surname: "姓氏（英文 / 拼音）", surnameZh: "中文姓氏（可选）", surHint: "已预填，点一下即可改成其他姓氏", willAdd: "将添加为：", birth: "出生年份", rel: "关系", of: "是谁的", rchild: "孩子", rparent: "父亲 / 母亲", rspouse: "配偶", rsibling: "兄弟姐妹", rnone: "暂不连接", addBtn: "添加", added: "已添加：", more: "补充资料", needName: "请填写名字。", list: "家人名单", search: "搜索名字或年份", edit: "编辑", del: "删除", delQ: "删除？", yes: "删除", no: "取消", me: "我", father: "父", mother: "母", spouse: "配偶", count: "人", unnamed: "未命名", whoami: "你是哪一位？", whoHint: "选出名单里的你自己，登入后家族图谱会以你为中心。不在名单里？先用上面的表单把自己加进来。", thisIsMe: "这是我", youAre: "你目前是：", change: "更换", accounts: "邀请家人", accHint: "你来自几个姓氏家族，每个家族都有自己的邀请码。把对应的邀请码发给那一边的亲戚：他们注册后输入邀请码，只会看到那一个大家族。", own: "本宗 · 父系", mom: "外家 · 母系", sp: "配偶家族", fam: "氏家族", ppl2: "人", demoAcc: "示例家族不需要账号。登入你的家族后，这里会显示邀请码。", code: "邀请码", copy: "复制邀请链接", copied: "已复制邀请链接", newCode: "换一个邀请码", newCodeHint: "换码后旧的邀请码会失效。", famKey: "家族编号", who: "已加入的账号", owner: "管理员", member: "成员", remove: "移除", makeAdmin: "设为管理员", you: "（你）", switchFam: "切换家族", clans: "姓氏宗族", clansHint: "每个姓氏一条宗族；家族图谱按宗族分成不同星座。", ppl: "人", family: "家族名称", saveName: "保存名称", backup: "备份与恢复", backupHint: "把整个家族资料下载成一个 JSON 文件，或从备份恢复。照片文件不包含在 JSON 里。", export: "下载备份", import: "从备份恢复", imported: "已从备份恢复。", resetDemo: "重置示例家族", log: "最近修改", noLog: "还没有修改记录。", backMe: "我的", famSet: "家族设置", failed: "失败：", saved: "已保存", loading: "正在读取家族资料…"});
     const Z = window.ZY;
     const st = this.state || {};
     const en = st.lang === 'en';
@@ -576,7 +594,7 @@ class Component extends DCLogic {
         remove: () => Z.removeAccount(a.userId).catch((e) => this.setState({ invMsg: t.failed + e.message, invErr: true }))
       };
     });
-    const rows4 = Z ? Z.clans() : [];
+    const rows4 = (Z ? Z.clans() : []).map((c) => Object.assign({}, c, { line: en ? (c.surname || '') + ' family' : (c.surname || '') + '氏' }));
     try { document.documentElement.classList.add('zy-sub'); } catch (e) {}
     const invRole = { own: t.own, mother: t.mom, spouse: t.sp };
     const optInv = (Z && Z.invites ? Z.invites() : []).map((iv) => ({
@@ -589,7 +607,7 @@ class Component extends DCLogic {
     const pick = st.pick || (sorted[0] && sorted[0].id) || '';
     const me = Z && Z.me;
     return {
-      t: t, opts: { inv: optInv, all: optsAll, fams: fams.map((f) => ({ id: f.id, label: (f.name || f.key) + ' · ' + f.key })) }, rows: rows, rows2: rows2, total: all.length,
+      t: t, opts: { inv: optInv, all: optsAll, fams: fams.map((f) => ({ id: f.id, label: f.name || (en ? 'Unnamed family' : '未命名家族') })) }, rows: rows, rows2: rows2, total: all.length,
       invList: null,
       vPeople: !['invite', 'clans', 'family'].includes(this._zyQ('tab')), vInvite: this._zyQ('tab') === 'invite', vClans: this._zyQ('tab') === 'clans', vFamily: this._zyQ('tab') === 'family', meHref: this._zyHref('Profile'),
       addOpen: st.addOpen !== undefined ? !!st.addOpen : !!this._zyQ('of'),

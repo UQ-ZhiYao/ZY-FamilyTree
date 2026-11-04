@@ -200,7 +200,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <sc-for list="{{labs}}" as="b" hint-placeholder-count="5">
 <span class="tv-lab" data-y="{{b.y}}" style="top: {{b.top}}px"><b style="color: {{b.color}}">{{b.name}}</b><span>{{b.sub}}</span></span>
 </sc-for>
-<div class="tv-seg tv-ui" role="group"><a href="Circle.dc.html">{{t.circle}}</a><a href="Tree.dc.html" aria-current="page" class="on">{{t.tree}}</a></div>
+<div class="tv-seg tv-ui" role="group"><a href="Circle.dc.html" data-zy-view="1">{{t.circle}}</a><a href="Tree.dc.html" data-zy-view="1" aria-current="page" class="on">{{t.tree}}</a></div>
 <div class="tv-ctl tv-ui">
 <div class="tv-box"><button type="button" onClick="{{zout}}" aria-label="-">−</button><span class="tv-pct">{{pct}}</span><button type="button" onClick="{{zin}}" aria-label="+">+</button><button type="button" class="tv-w" onClick="{{zfit}}">{{t.fit}}</button></div>
 <div class="tv-box"><button type="button" class="{{patCls}}" onClick="{{pickPat}}" aria-pressed="{{patAria}}"><i></i>{{t.pat}}</button><button type="button" class="{{matCls}}" onClick="{{pickMat}}" aria-pressed="{{matAria}}"><i></i>{{t.mat}}</button></div>
@@ -328,10 +328,15 @@ class Component extends DCLogic {
     const en = st.lang === 'en';
     const light = st.theme === 'light';
     const setT = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zhiye-theme', v); } catch (er) {} this.setState({ theme: v }, () => this._zyPost()); };
+    let view = 'circle';
+    try { if (window.localStorage.getItem('zy-view') === 'tree') view = 'tree'; } catch (er) {}
+    const setV = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-view', v); } catch (er) {} this.setState({ zyView: v }); };
     const setL = (v) => (e) => { if (e && e.stopPropagation) e.stopPropagation(); try { window.localStorage.setItem('zy-lang', v); } catch (er) {} try { document.documentElement.lang = v === 'en' ? 'en' : 'zh-CN'; } catch (er) {} this.setState({ lang: v }, () => this._zyPost()); };
     return {
       setLangZh: setL('zh'), setLangEn: setL('en'), setThemeDark: setT('dark'), setThemeLight: setT('light'),
       toggleLang: setL(en ? 'zh' : 'en'), toggleTheme: setT(light ? 'dark' : 'light'), langNext: en ? '中' : 'EN', langAria: en ? '切换到中文' : 'Switch to English', themeAria: light ? (en ? 'Dark theme' : '深色') : (en ? 'Light theme' : '浅色'), isLightTheme: light, isDarkTheme: !light,
+      setViewCircle: setV('circle'), setViewTree: setV('tree'), vcCls: view === 'tree' ? 'zp' : 'zp on', vtCls: view === 'tree' ? 'zp on' : 'zp',
+      prefView: en ? 'Family map' : '家族图谱', circleText: en ? 'Circle' : '关系圈', treeText: en ? 'Tree' : '族谱树',
       lzCls: en ? 'zp' : 'zp on', leCls: en ? 'zp on' : 'zp', tdCls: light ? 'zp' : 'zp on', tlCls: light ? 'zp on' : 'zp',
       darkText: en ? 'Dark' : '深色', lightText: en ? 'Light' : '浅色', navHome: en ? 'Home' : '首页', navStar: en ? 'Zodiac' : '星座', navSx: en ? 'Lunar' : '生肖', navAbout: en ? 'About' : '关于我们', prefLang: en ? 'Language' : '语言', prefTheme: en ? 'Appearance' : '外观'
     };
@@ -382,6 +387,20 @@ class Component extends DCLogic {
       t = setTimeout(() => root.classList.remove('zy-hidebar'), 650);
     };
     try { window.addEventListener('scroll', on, { passive: true }); } catch (e) {}
+    // 家族图谱: the circle or the tree, whichever the person chose (in settings or with the switch on the map)
+    try {
+      document.addEventListener('click', (e) => {
+        const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        const h = a.getAttribute('href') || '';
+        const m = /^(Circle|Tree)\.dc\.html/.exec(h);
+        if (!m) return;
+        if (a.hasAttribute('data-zy-view')) { try { window.localStorage.setItem('zy-view', m[1] === 'Tree' ? 'tree' : 'circle'); } catch (er) {} return; }
+        let v = '';
+        try { v = window.localStorage.getItem('zy-view') || ''; } catch (er) {}
+        if (v === 'tree' && m[1] === 'Circle' && h === 'Circle.dc.html') a.setAttribute('href', 'Tree.dc.html');
+      }, true);
+    } catch (e) {}
   }
   _zyBoot() {
     // 第一次渲染就用已保存的主题和语言，换页时不会先闪一下默认样式
