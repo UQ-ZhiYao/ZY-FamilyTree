@@ -130,6 +130,19 @@ header.top{position:relative;z-index:5}
 .tv-box .tv-all:hover{background:var(--z1);filter:brightness(1.08)}
 .tv-pct{min-width:46px;text-align:center;font-size:13px;color:var(--z18);font-variant-numeric:tabular-nums}
 .tv-cnt{padding:0 8px 0 4px;font-size:12px;color:var(--z16);white-space:nowrap}
+.zy-d{--tpat:#FFC857;--tmat:#FF8FC0}
+.zy-l{--tpat:#D1961F;--tmat:#DE2174}
+.tl-pc.pat{stroke:var(--tpat);opacity:.6}
+.tl-pc.mat{stroke:var(--tmat);opacity:.6}
+.tl-pc.dl.pat,.tl-pc.dl.mat{opacity:.95;stroke-width:2.8}
+.tl-cp.pat{stroke:var(--tpat)}
+.tl-cp.mat{stroke:var(--tmat)}
+.tv-box button.tv-sd{display:inline-flex;align-items:center;gap:7px}
+.tv-sd i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.tv-sd.pat i{background:var(--tpat)}
+.tv-sd.mat i{background:var(--tmat)}
+.tv-box button.tv-sd.pat.on{background:color-mix(in srgb,var(--tpat) 22%,transparent);border-color:var(--tpat)}
+.tv-box button.tv-sd.mat.on{background:color-mix(in srgb,var(--tmat) 22%,transparent);border-color:var(--tmat)}
 @media (max-width:640px){
 .tv-lab{display:none}
 .tv-seg{top:calc(10px + env(safe-area-inset-top));right:12px}
@@ -138,6 +151,7 @@ header.top{position:relative;z-index:5}
 .tv-box{padding:4px;gap:4px}
 .tv-box button{height:30px;min-width:30px;font-size:12px;padding:0 8px}
 .tv-cnt{display:none}
+.zy-pill{top:calc(62px + env(safe-area-inset-top)) !important;bottom:auto !important;left:12px !important;right:12px !important;transform:none !important;max-width:none !important;font-size:12px !important;padding:7px 8px 7px 12px !important}
 }
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -189,6 +203,7 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <div class="tv-seg tv-ui" role="group"><a href="Circle.dc.html">{{t.circle}}</a><a href="Tree.dc.html" aria-current="page" class="on">{{t.tree}}</a></div>
 <div class="tv-ctl tv-ui">
 <div class="tv-box"><button type="button" onClick="{{zout}}" aria-label="-">−</button><span class="tv-pct">{{pct}}</span><button type="button" onClick="{{zin}}" aria-label="+">+</button><button type="button" class="tv-w" onClick="{{zfit}}">{{t.fit}}</button></div>
+<div class="tv-box"><button type="button" class="{{patCls}}" onClick="{{pickPat}}" aria-pressed="{{patAria}}"><i></i>{{t.pat}}</button><button type="button" class="{{matCls}}" onClick="{{pickMat}}" aria-pressed="{{matAria}}"><i></i>{{t.mat}}</button></div>
 <div class="tv-box"><button type="button" class="tv-w tv-all" onClick="{{toggleAll}}">{{allTxt}}</button><span class="tv-cnt">{{count}}</span></div>
 </div>
 </main>
@@ -625,6 +640,41 @@ class Component extends DCLogic {
       }
       return en ? 'Relative' : '亲属';
     };
+    // ---------- which side someone belongs to: -1 father's family, 1 mother's family, 0 my own household / others ----------
+    const PA = {};
+    const MA = {};
+    const ancInto = (s0, o) => { const st0 = [s0]; while (st0.length) { const x = st0.pop(); if (!has(x) || o[x]) continue; o[x] = 1; parents(x).forEach((q) => st0.push(q)); } };
+    if (has(meId)) { ancInto(P(meId).father, PA); ancInto(P(meId).mother, MA); }
+    const bsMemo = {};
+    const bside = (id) => {
+      if (bsMemo[id] !== undefined) return bsMemo[id];
+      let pf = 0;
+      let mf = 0;
+      const seen0 = {};
+      const st0 = [id];
+      while (st0.length) { const x = st0.pop(); if (seen0[x]) continue; seen0[x] = 1; if (PA[x]) pf = 1; if (MA[x]) mf = 1; parents(x).forEach((q) => st0.push(q)); }
+      return (bsMemo[id] = pf && !mf ? -1 : (mf && !pf ? 1 : 0));
+    };
+    // my own household: everyone descended from my parents (or me), and their partners
+    const HH = {};
+    if (has(meId)) { const st0 = [P(meId).father, P(meId).mother, meId].filter(has); while (st0.length) { const x = st0.pop(); if (HH[x]) continue; HH[x] = 1; (kids[x] || []).forEach((c) => st0.push(c)); } }
+    // 2 = a partner's family (in-laws)
+    const sideOf = (id) => {
+      const b = bside(id);
+      if (b) return b;
+      if (HH[id] || !has(meId)) return 0;
+      const sp = spouse[id];
+      if (sp) { const b2 = bside(sp); if (b2) return b2; if (HH[sp]) return 0; }
+      return 2;
+    };
+    // one side at a time: opening a branch on one side folds the other side back to my father / mother
+    const focus = this._tvSide || 0;
+    const setFocus = (sd) => {
+      this._tvSide = sd;
+      if (sd) [this._tvOpenD || {}, this._tvOpenU || {}].forEach((o) => Object.keys(o).forEach((k) => { const z = sideOf(k); if (z && z !== sd) delete o[k]; }));
+      // "show whole side" stays on when switching sides
+      if (sd && this._tvAll) ids.forEach((id) => { const z = sideOf(id); if (!z || z === sd) { (this._tvOpenD || {})[id] = 1; (this._tvOpenU || {})[id] = 1; } });
+    };
     // ---------- what is shown: my direct line; everyone else stays folded until opened ----------
     const openD = this._tvOpenD || (this._tvOpenD = {});
     const openU = this._tvOpenU || (this._tvOpenU = {});
@@ -647,6 +697,10 @@ class Component extends DCLogic {
         if (openD[id]) (kids[id] || []).forEach((c) => { if (!V[c]) { addV(c); grew = true; } });
         if (openU[id]) parents(id).forEach((q) => { if (!V[q]) { addV(q); grew = true; } });
       });
+    }
+    if (focus && has(meId)) {
+      const keep = { [P(meId).father]: 1, [P(meId).mother]: 1 };
+      Object.keys(V).forEach((id) => { const z = sideOf(id); if (!keep[id] && z && z !== focus) delete V[id]; });
     }
     const inV = (id) => !!V[id];
     const Vids = ids.filter(inV);
@@ -813,6 +867,10 @@ class Component extends DCLogic {
       if (e && e.stopPropagation) e.stopPropagation();
       const o = which === 'u' ? openU : openD;
       const on = !idsT.every((x) => o[x]);
+      // the side being revealed: the parents' side when opening upwards, the children's side when opening downwards
+      const rev = which === 'u' ? parents(idsT[0]) : idsT.reduce((a, x) => a.concat(kids[x] || []), []);
+      const sd = rev.map(sideOf).filter((z) => z)[0] || 0;
+      if (on && sd && sd !== focus) setFocus(sd);
       idsT.forEach((x) => { if (on) o[x] = 1; else delete o[x]; });
       // keep the tapped person where it is on screen while the tree re-arranges
       const tv0 = this._tv;
@@ -834,14 +892,21 @@ class Component extends DCLogic {
         cls: 'tn' + (isMe ? ' me' : '') + (inDirect[id] ? ' dl' : ''), ring: isMe ? 'var(--z15)' : GC[g], avBg: isMe ? 'var(--z15)' : AVB[g], avFg: isMe ? '#FFFFFF' : AVF[g],
         delay: (0.05 + gens.indexOf(u.g) * 0.06).toFixed(2),
         hasDown: kidsHid.length > 0 || kidsOpen, down: kidsHid.length ? '+' + kidsHid.length : '−', downTip: kidsHid.length ? (en ? 'Show ' + kidsHid.length + ' more' : '展开 ' + kidsHid.length + ' 位') : (en ? 'Fold' : '收起'),
-        hasUp: parHid.length > 0 || parOpen, up: parHid.length ? '+' + parHid.length : '−', upTip: parHid.length ? (en ? 'Show parents' : '展开父母') : (en ? 'Fold' : '收起'),
+        hasUp: parHid.length > 0 || parOpen, up: parHid.length ? '+' + parHid.length : '−',
+        upTip: (() => {
+          if (!parHid.length) return en ? 'Fold' : '收起';
+          const ps = parents(id).map(sideOf).filter((z) => z)[0] || 0;
+          if (!focus || !ps || ps === focus) return en ? 'Show parents' : '展开父母';
+          return ps < 0 ? (en ? 'Show father’s side' : '切换到父系') : (ps === 1 ? (en ? 'Show mother’s side' : '切换到母系') : (en ? 'Show this family' : '切换到这一家'));
+        })(),
         openDown: (e) => toggle('d', u.mem, e), openUp: (e) => toggle('u', [id], e),
         open: () => { if (this._tvMoved) return; if (p && p.id) this._zyGo(this._zyHref('Profile', 'id=' + encodeURIComponent(p.id))); }
       });
     }));
     const line = (d, k) => paths.push({ d: d, cls: k });
     // couples
-    units.forEach((u) => { if (u.mem.length === 2) line('M' + (memX(u.mem[0]) + R0 + 2) + ' ' + Y[u.g] + 'H' + (memX(u.mem[1]) - R0 - 2), 'tl-cp'); });
+    const SC = (sd) => (sd < 0 ? ' pat' : (sd === 1 ? ' mat' : ' own'));
+    units.forEach((u) => { if (u.mem.length === 2) line('M' + (memX(u.mem[0]) + R0 + 2) + ' ' + Y[u.g] + 'H' + (memX(u.mem[1]) - R0 - 2), 'tl-cp' + SC(sideOf(u.mem[0]) || sideOf(u.mem[1]))); });
     // parents -> children with right-angle lines; buses in the same gap are staggered
     const fams = {};
     Vids.forEach((id) => { const ps = vp(id); if (!ps.length) return; const key = ps.slice().sort().join('|'); (fams[key] = fams[key] || { ps: ps, kids: [] }).kids.push(id); });
@@ -865,7 +930,8 @@ class Component extends DCLogic {
         const hi = Math.max.apply(null, xs.concat([px]));
         d += 'M' + lo + ' ' + yb + 'H' + hi;
         xs.forEach((x) => { d += 'M' + x + ' ' + yb + 'V' + (Y[cg] - R0 - 3); });
-        line(d, f.kids.some((c) => inDirect[c]) && f.ps.some((q) => inDirect[q]) ? 'tl-pc dl' : 'tl-pc');
+        const ks = kr[cg].map(sideOf).filter((x) => x);
+        line(d, 'tl-pc' + SC(ks.length ? ks[0] : 0) + (f.kids.some((c) => inDirect[c]) && f.ps.some((q) => inDirect[q]) ? ' dl' : ''));
       });
     });
     const GN = en ? { '-4': 'Great-great-grandparents', '-3': 'Great-grandparents', '-2': 'Grandparents', '-1': 'Parents', 0: 'My generation', 1: 'Children', 2: 'Grandchildren', 3: 'Great-grandchildren' }
@@ -912,11 +978,15 @@ class Component extends DCLogic {
     return {
       t: t, nodes: nodes, paths: paths, labs: labs, W: W + 400, H: H + 300,
       wtf: 'translate(' + tv.x + 'px,' + tv.y + 'px) scale(' + tv.s + ')', pct: Math.round(tv.s * 100) + '%',
-      count: en ? 'Showing ' + shownN + ' of ' + total : '显示 ' + shownN + ' / ' + total + ' 人', allOpen: shownN >= total,
-      allTxt: shownN >= total ? (en ? 'Direct line only' : '只看直系') : (en ? 'Show everyone' : '展开全部'),
+      count: en ? 'Showing ' + shownN + ' of ' + total : '显示 ' + shownN + ' / ' + total + ' 人', allOpen: !!this._tvAll,
+      allTxt: this._tvAll ? (en ? 'Direct line only' : '只看直系') : (en ? 'Show whole side' : '展开整边'),
+      patOn: focus < 0, matOn: focus > 0, patCls: 'tv-sd pat' + (focus < 0 ? ' on' : ''), matCls: 'tv-sd mat' + (focus > 0 ? ' on' : ''),
+      patAria: focus < 0 ? 'true' : 'false', matAria: focus > 0 ? 'true' : 'false',
+      pickPat: () => { setFocus(focus < 0 ? 0 : -1); this._tvRefit = true; this.setState({ tvRev: ((this.state || {}).tvRev || 0) + 1 }); },
+      pickMat: () => { setFocus(focus > 0 ? 0 : 1); this._tvRefit = true; this.setState({ tvRev: ((this.state || {}).tvRev || 0) + 1 }); },
       toggleAll: () => {
-        if (shownN >= total) { Object.keys(openD).forEach((k) => delete openD[k]); Object.keys(openU).forEach((k) => delete openU[k]); }
-        else ids.forEach((id) => { openD[id] = 1; openU[id] = 1; });
+        if (this._tvAll) { this._tvAll = false; Object.keys(openD).forEach((k) => delete openD[k]); Object.keys(openU).forEach((k) => delete openU[k]); }
+        else { this._tvAll = true; if (!focus) setFocus(-1); else setFocus(focus); }
         this._tvRefit = true;
         this.setState({ tvRev: ((this.state || {}).tvRev || 0) + 1 });
       },
