@@ -1,6 +1,6 @@
 // Zenith Yield service worker: caches the app's own files so it opens offline after the first visit.
 // Family data (Supabase) is never cached here.
-const CACHE = 'zenith-yield-v32';
+const CACHE = 'zenith-yield-v33';
 const SHELL = [
   './app/Login.dc.html', './app/Circle.dc.html', './app/Tree.dc.html', './app/Photos.dc.html', './app/Chat.dc.html', './app/Profile.dc.html', './app/Admin.dc.html',
   './assets/support.js', './assets/zy-store.js', './assets/zy-config.js', './assets/vendor/supabase.js', './manifest.webmanifest',

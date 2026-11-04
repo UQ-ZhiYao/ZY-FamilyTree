@@ -170,6 +170,100 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .u-back{border:none;background:transparent;color:var(--z1);font:inherit;font-size:16px;font-weight:600;cursor:pointer;padding:6px 0}
 .pfmain>.mehead,.pfmain>.u-menu,.pfmain>p,.pfmain>div.u-backbar,.pfmain>.u-card,.pfmain>form.u-card{width:100%;max-width:560px;margin-left:auto;margin-right:auto;box-sizing:border-box}
 @media (max-width:640px){.pfmain{padding:calc(18px + env(safe-area-inset-top)) 14px 110px !important}}
+
+/* ---------- me: shared ---------- */
+.zy-d{--fbc1:#1B2F7A;--fbc2:#3B1E6E;--fbc3:#0E1A3F}
+.zy-l{--fbc1:#BFD0FF;--fbc2:#E7D4FF;--fbc3:#F3F6FF;--mebg:#F6F8FC}
+.zy-d{--mebg:#0B1222}
+.mnote{width:100%;max-width:1100px;margin:0 auto;box-sizing:border-box;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--z1) 14%,transparent);font-size:13px;line-height:1.45}
+.mnote span{flex:1;min-width:0}
+.mnote a{flex:none;padding:6px 12px;border-radius:999px;background:var(--z1);color:#FFFFFF;font-weight:700;font-size:12px;text-decoration:none}
+.mbio{margin:0 0 6px;font-size:15px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.mab{display:flex;gap:12px;padding:8px 0;font-size:15px;align-items:baseline}
+.mab-k{min-width:88px;color:var(--u-muted);font-size:13px}
+.mab b{font-weight:600;min-width:0;word-break:break-word}
+.mg{display:grid;grid-template-columns:repeat(3,1fr)}
+.mg-i{aspect-ratio:1/1;background:var(--z3);display:flex;align-items:flex-end;padding:8px;box-sizing:border-box;color:#FFFFFF;text-decoration:none;font-size:13px;font-weight:700;line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.mg-none{display:flex;flex-direction:column;align-items:center;gap:10px;padding:36px 16px;color:var(--u-muted);text-align:center}
+.mg-none b{color:var(--u-text);font-size:16px}
+.mfoot{text-align:center;margin:10px auto 0}
+.zy-pill{display:none !important}
+.me-m,.me-d{display:none}
+.me-m .u-menu,.fb-menu .u-menu{width:100%}
+
+/* ---------- phone: Instagram-style ---------- */
+@media (max-width:899px){
+.me-m{display:flex;flex-direction:column;width:100%;max-width:560px;margin:0 auto;gap:14px}
+.ig-top{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 0}
+.ig-top b{font-size:22px;font-weight:800;letter-spacing:-.2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ig-ic{width:40px;height:40px;border:none;background:transparent;color:var(--u-text);display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;flex:none}
+.ig-row{display:flex;align-items:center;gap:20px}
+.ig-av{width:88px;height:88px;flex:none;border-radius:50%;box-sizing:border-box;padding:3px;background:linear-gradient(135deg,#FFC857,#F0568B 55%,#6A5BFF);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:30px;font-weight:800;color:#FFFFFF}
+.ig-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--mebg)}
+.ig-stats{flex:1;display:flex;justify-content:space-around;gap:4px}
+.ig-stats a{display:flex;flex-direction:column;align-items:center;gap:2px;color:inherit;text-decoration:none;min-width:0}
+.ig-stats b{font-size:19px;font-weight:800}
+.ig-stats span{font-size:13px;color:var(--u-muted)}
+.ig-bio{display:flex;flex-direction:column;gap:3px;font-size:14px;line-height:1.5}
+.ig-bio b{font-size:15px}
+.ig-fam{color:var(--u-muted);font-size:13px}
+.ig-bio p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}
+.ig-pl{color:var(--z1);font-weight:600;font-size:13px}
+.ig-btns{display:flex;gap:8px}
+.ig-btns>*{flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:none;background:color-mix(in srgb,var(--u-text) 10%,transparent);color:var(--u-text);font:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer}
+.ig-hl{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 2px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.ig-hl::-webkit-scrollbar{display:none}
+.mst{display:flex;flex-direction:column;align-items:center;gap:4px;width:68px;flex:none;text-decoration:none;color:inherit}
+.mst-av{width:62px;height:62px;border-radius:50%;box-sizing:border-box;border:2px solid var(--u-bd);outline:2px solid color-mix(in srgb,var(--z1) 55%,transparent);outline-offset:2px;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-weight:700;font-size:18px}
+.mst-av img{width:100%;height:100%;object-fit:cover}
+.mst-n{font-size:12px;max-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mst-r{font-size:11px;color:var(--u-muted);margin-top:-3px}
+.ig-tabs{display:flex;border-top:1px solid var(--u-bd);margin:0 -16px}
+.ig-tab{flex:1;height:46px;border:none;background:transparent;color:var(--u-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;border-top:1.5px solid transparent;margin-top:-1px}
+.ig-tab.on{color:var(--u-text);border-top-color:var(--u-text)}
+.mg-m{gap:2px;margin:-14px -16px 0}
+.ig-pane{display:flex;flex-direction:column;gap:6px;margin-top:-4px}
+.ig-menu{gap:12px}
+.ig-menu .mgt{margin:0;padding:0 4px}
+.pfmain{padding:calc(12px + env(safe-area-inset-top)) 16px 110px !important;gap:14px !important}
+}
+
+/* ---------- desktop: Facebook-style ---------- */
+@media (min-width:900px){
+.me-d{display:flex;flex-direction:column;width:100%;max-width:1100px;margin:0 auto}
+.fb-cover{height:300px;border-radius:0 0 18px 18px;position:relative;overflow:hidden;background:radial-gradient(120% 140% at 15% 10%,var(--fbc1),transparent 60%),radial-gradient(120% 140% at 85% 30%,var(--fbc2),transparent 60%),var(--fbc3)}
+.fb-cover i{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.55) 1px,transparent 1.5px),radial-gradient(circle,rgba(255,255,255,.3) .8px,transparent 1.2px);background-size:90px 90px,37px 37px;background-position:0 0,13px 21px;opacity:.5}
+.zy-l .fb-cover i{background-image:radial-gradient(circle,rgba(47,91,234,.35) 1px,transparent 1.5px),radial-gradient(circle,rgba(47,91,234,.2) .8px,transparent 1.2px)}
+.fb-id{display:flex;align-items:flex-end;gap:22px;padding:0 32px 22px;margin-top:-64px;position:relative;border-bottom:1px solid var(--u-bd)}
+.fb-av{width:168px;height:168px;flex:none;border-radius:50%;box-sizing:border-box;border:5px solid var(--mebg);background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:56px;font-weight:800;box-shadow:0 0 0 3px var(--z1),0 8px 28px rgba(0,0,0,.28)}
+.fb-av img{width:100%;height:100%;object-fit:cover}
+.fb-nm{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;padding-bottom:6px}
+.fb-nm h1{margin:0;font-size:34px;font-weight:800;letter-spacing:-.4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb-sub{color:var(--u-muted);font-size:15px;font-weight:600}
+.fb-stack{display:flex;padding-left:8px;margin-top:4px}
+.fb-stack a{margin-left:-8px;text-decoration:none}
+.fb-sa{width:34px;height:34px;border-radius:50%;box-sizing:border-box;border:2px solid var(--mebg);background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:12px;font-weight:700}
+.fb-sa img,.fb-fa img{width:100%;height:100%;object-fit:cover}
+.fb-btns{display:flex;gap:8px;padding-bottom:8px;flex:none}
+.fb-btns>*{height:40px;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.fb-gear{width:44px;justify-content:center;padding:0 !important}
+.fb-gear svg{width:20px;height:20px}
+.fb-cols{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px;padding:18px 0 0;align-items:start}
+.fb-l,.fb-r{display:flex;flex-direction:column;gap:18px;min-width:0}
+.fb-card{background:var(--u-card);border:1px solid var(--u-bd);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:8px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.fb-card h2{margin:0 0 4px;font-size:20px;font-weight:800}
+.fb-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.fb-h a{color:var(--z1);font-size:14px;font-weight:600;text-decoration:none}
+.fb-wide{width:100%;margin-top:6px}
+.fb-fam{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 10px;margin-top:6px}
+.fb-fam a{display:flex;flex-direction:column;gap:5px;color:inherit;text-decoration:none;min-width:0}
+.fb-fa{width:100%;aspect-ratio:1/1;border-radius:12px;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:26px;font-weight:800}
+.fb-fam b{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb-fam a>span:last-child{font-size:12px;color:var(--u-muted);margin-top:-4px}
+.mg-d{gap:6px;border-radius:12px;overflow:hidden}
+.fb-menu .u-menu{border-radius:12px}
+.fb-menu .u-menu+.u-menu{margin-top:8px}
+}
 .u-key{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;font-weight:600;letter-spacing:1px;padding:10px 12px;border-radius:10px;background:var(--z3);color:var(--z1);user-select:all}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
@@ -202,13 +296,23 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 
 <main class="pfmain" style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 24px 20px 120px; display: flex; flex-direction: column; gap: 18px">
 <sc-if value="{{vHome}}" hint-placeholder-val="{{true}}">
-<div class="mehead">
-<span class="mav"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
-<span class="mname">{{f.show}}</span>
-<sc-if value="{{raw.email}}" hint-placeholder-val="{{true}}"><span class="u-muted" style="font-size: 14px">{{raw.email}}</span></sc-if>
-<span class="mbadge">{{raw.badge}}</span>
+<sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="mnote"><span>{{zyPillText}}</span><sc-if value="{{zyPillLink}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
+<!-- ======== phone: like an Instagram profile ======== -->
+<div class="me-m">
+<div class="ig-top"><b>{{f.show}}</b><button type="button" class="ig-ic" onClick="{{go.settings}}" aria-label="{{t.mSettings}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button></div>
+<div class="ig-row"><span class="ig-av"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<div class="ig-stats"><a href="{{raw.hPeople}}"><b>{{me.nPeople}}</b><span>{{t.sPeople}}</span></a><a href="{{me.photosHref}}"><b>{{me.nPhotos}}</b><span>{{t.sPhotos}}</span></a><a href="{{raw.hClans}}"><b>{{me.nClans}}</b><span>{{t.sClans}}</span></a></div>
 </div>
-<div class="u-menu">
+<div class="ig-bio"><b>{{f.show}}</b><span class="ig-fam">{{raw.badge}}</span><sc-if value="{{me.bio}}" hint-placeholder-val="{{true}}"><p>{{me.bio}}</p></sc-if><sc-if value="{{me.place}}" hint-placeholder-val="{{true}}"><span class="ig-pl">{{me.place}}</span></sc-if></div>
+<div class="ig-btns"><button type="button" onClick="{{go.profile}}">{{t.editProfile}}</button><a href="{{raw.hInvite}}">{{t.inviteFam}}</a></div>
+<sc-if value="{{me.hasFam}}" hint-placeholder-val="{{true}}"><div class="ig-hl"><sc-for list="{{me.fam}}" as="fm" hint-placeholder-count="5"><a class="mst" href="{{fm.href}}"><span class="mst-av"><sc-if value="{{fm.img}}" hint-placeholder-val="{{false}}"><img src="{{fm.img}}" alt=""></sc-if><sc-if value="{{fm.noImg}}" hint-placeholder-val="{{true}}">{{fm.ch}}</sc-if></span><span class="mst-n">{{fm.name}}</span><span class="mst-r">{{fm.rel}}</span></a></sc-for></div></sc-if>
+<div class="ig-tabs" role="tablist"><button type="button" role="tab" class="{{me.tPhotos}}" onClick="{{me.toPhotos}}" aria-label="{{t.sPhotos}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"></rect><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"></path></svg></button><button type="button" role="tab" class="{{me.tAbout}}" onClick="{{me.toAbout}}" aria-label="{{t.aboutT}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5h.01"></path></svg></button><button type="button" role="tab" class="{{me.tManage}}" onClick="{{me.toManage}}" aria-label="{{t.manageT}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg></button></div>
+<sc-if value="{{me.onPhotos}}" hint-placeholder-val="{{true}}"><sc-if value="{{me.hasPhotos}}" hint-placeholder-val="{{true}}"><div class="mg mg-m"><sc-for list="{{me.photos}}" as="ph" hint-placeholder-count="6"><a class="mg-i" href="{{me.photosHref}}" style="background: {{ph.bg}}" aria-label="{{ph.title}}"><sc-if value="{{ph.noUrl}}" hint-placeholder-val="{{false}}"><span>{{ph.title}}</span></sc-if></a></sc-for></div></sc-if>
+<sc-if value="{{me.noPhotos}}" hint-placeholder-val="{{false}}"><div class="mg-none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"></rect><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"></path></svg><b>{{t.noPhotos}}</b><a class="u-btn2 u-sm" href="{{me.photosHref}}">{{t.goPhotos}}</a></div></sc-if></sc-if>
+<sc-if value="{{me.onAbout}}" hint-placeholder-val="{{false}}"><div class="ig-pane"><sc-if value="{{me.bio}}" hint-placeholder-val="{{true}}"><p class="mbio">{{me.bio}}</p></sc-if>
+<sc-for list="{{me.about}}" as="a" hint-placeholder-count="4"><div class="mab"><span class="mab-k">{{a.k}}</span><b>{{a.v}}</b></div></sc-for>
+<sc-if value="{{me.noAbout}}" hint-placeholder-val="{{false}}"><p class="u-muted" style="margin: 0">{{t.noAbout}}</p></sc-if></div></sc-if>
+<sc-if value="{{me.onManage}}" hint-placeholder-val="{{false}}"><div class="ig-pane ig-menu"><div class="u-menu">
 <button type="button" class="u-mi" onClick="{{go.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{t.mProfile}}</span><span class="u-chev">›</span></button>
 <sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}"><button type="button" class="u-mi" onClick="{{go.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{t.mPass}}</span><span class="u-chev">›</span></button></sc-if>
 </div>
@@ -225,7 +329,51 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <div class="u-menu">
 <a class="u-mi" href="Login.dc.html" onClick="{{zyLogout}}" style="color: #D1453B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{t.logout}}</span></a>
 </div>
-<p class="u-muted" style="text-align: center; margin: 6px auto 0">{{raw.foot}}</p>
+</div></sc-if>
+</div>
+<!-- ======== desktop: like a Facebook profile ======== -->
+<div class="me-d">
+<div class="fb-cover" aria-hidden="true"><i></i></div>
+<div class="fb-id">
+<span class="fb-av"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<div class="fb-nm"><h1>{{f.show}}</h1><span class="fb-sub">{{raw.badge}} · {{me.nPeople}} {{t.sPeopleLong}}</span>
+<sc-if value="{{me.hasFam}}" hint-placeholder-val="{{true}}"><div class="fb-stack"><sc-for list="{{me.famTop}}" as="fm" hint-placeholder-count="5"><a href="{{fm.href}}" title="{{fm.name}}"><span class="fb-sa"><sc-if value="{{fm.img}}" hint-placeholder-val="{{false}}"><img src="{{fm.img}}" alt=""></sc-if><sc-if value="{{fm.noImg}}" hint-placeholder-val="{{true}}">{{fm.ch}}</sc-if></span></a></sc-for></div></sc-if>
+</div>
+<div class="fb-btns"><button type="button" class="u-btn" onClick="{{go.profile}}">{{t.editProfile}}</button><a class="u-btn2" href="{{raw.hInvite}}">{{t.inviteFam}}</a><button type="button" class="u-btn2 fb-gear" onClick="{{go.settings}}" aria-label="{{t.mSettings}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button></div>
+</div>
+<div class="fb-cols">
+<div class="fb-l">
+<section class="fb-card"><h2>{{t.aboutT}}</h2><sc-if value="{{me.bio}}" hint-placeholder-val="{{true}}"><p class="mbio">{{me.bio}}</p></sc-if>
+<sc-for list="{{me.about}}" as="a" hint-placeholder-count="4"><div class="mab"><span class="mab-k">{{a.k}}</span><b>{{a.v}}</b></div></sc-for>
+<sc-if value="{{me.noAbout}}" hint-placeholder-val="{{false}}"><p class="u-muted" style="margin: 0">{{t.noAbout}}</p></sc-if><button type="button" class="u-btn2 fb-wide" onClick="{{go.profile}}">{{t.editDetails}}</button></section>
+<section class="fb-card"><div class="fb-h"><h2>{{t.myFam}}</h2><a href="{{raw.hPeople}}">{{t.seeAll}}</a></div><span class="u-muted">{{me.nFam}} {{t.closeFam}}</span>
+<div class="fb-fam"><sc-for list="{{me.fam9}}" as="fm" hint-placeholder-count="6"><a href="{{fm.href}}"><span class="fb-fa"><sc-if value="{{fm.img}}" hint-placeholder-val="{{false}}"><img src="{{fm.img}}" alt=""></sc-if><sc-if value="{{fm.noImg}}" hint-placeholder-val="{{true}}">{{fm.ch}}</sc-if></span><b>{{fm.name}}</b><span>{{fm.rel}}</span></a></sc-for></div></section>
+</div>
+<div class="fb-r">
+<section class="fb-card"><div class="fb-h"><h2>{{me.photosTitle}}</h2><a href="{{me.photosHref}}">{{t.seeAll}}</a></div><sc-if value="{{me.hasPhotos}}" hint-placeholder-val="{{true}}"><div class="mg mg-d"><sc-for list="{{me.photos}}" as="ph" hint-placeholder-count="6"><a class="mg-i" href="{{me.photosHref}}" style="background: {{ph.bg}}" aria-label="{{ph.title}}"><sc-if value="{{ph.noUrl}}" hint-placeholder-val="{{false}}"><span>{{ph.title}}</span></sc-if></a></sc-for></div></sc-if>
+<sc-if value="{{me.noPhotos}}" hint-placeholder-val="{{false}}"><div class="mg-none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"></rect><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"></path></svg><b>{{t.noPhotos}}</b><a class="u-btn2 u-sm" href="{{me.photosHref}}">{{t.goPhotos}}</a></div></sc-if></section>
+<section class="fb-card fb-menu"><h2>{{t.shortcuts}}</h2><div class="u-menu">
+<button type="button" class="u-mi" onClick="{{go.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{t.mProfile}}</span><span class="u-chev">›</span></button>
+<sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}"><button type="button" class="u-mi" onClick="{{go.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{t.mPass}}</span><span class="u-chev">›</span></button></sc-if>
+</div>
+<span class="mgt">{{t.mManage}}</span>
+<div class="u-menu">
+<a class="u-mi" href="{{raw.hPeople}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><circle cx="17" cy="9" r="2.8"></circle><path d="M16.5 14.6c2.6.2 4.4 1.9 5 5.4"></path></svg><span>{{t.mPeople}}</span><span class="u-chev">›</span></a>
+<a class="u-mi" href="{{raw.hInvite}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="M10.8 12.2 20 3M17 6l3 3M15 8l2 2"></path></svg><span>{{t.mInvite2}}</span><span class="u-chev">›</span></a>
+<a class="u-mi" href="{{raw.hClans}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M12 7.2v4.3M5 16.8v-2.8h14v2.8M12 11.5v2.5"></path></svg><span>{{t.mClans}}</span><span class="u-chev">›</span></a>
+<a class="u-mi" href="{{raw.hFamily}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg><span>{{t.mFamily}}</span><span class="u-chev">›</span></a>
+</div>
+<div class="u-menu">
+<button type="button" class="u-mi" onClick="{{go.settings}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg><span>{{t.mSettings}}</span><span class="u-chev">›</span></button>
+</div>
+<div class="u-menu">
+<a class="u-mi" href="Login.dc.html" onClick="{{zyLogout}}" style="color: #D1453B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{t.logout}}</span></a>
+</div>
+</section>
+</div>
+</div>
+</div>
+<p class="u-muted mfoot">{{raw.foot}}</p>
 </sc-if>
 
 <sc-if value="{{vBack}}" hint-placeholder-val="{{false}}"><div class="u-backbar"><button type="button" class="u-back" onClick="{{go.home}}">‹ {{backText}}</button></div></sc-if>
@@ -629,7 +777,7 @@ class Component extends DCLogic {
     return o;
   }
   _rv() {
-    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname (English)", surnameZh: "Chinese surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", logout: "Log out", sub2: "Contact details are hidden for privacy. Tap \"View details\" to show them, or \"Edit\" to change a section.", basicU: "BASIC INFORMATION", contactU: "CONTACT", familyU: "FAMILY LINKS", accountU: "ACCOUNT & PRIVACY", edit: "Edit", cancel: "Cancel", viewDetails: "View details", hideDetails: "Hide details", viewMapShort: "Show on map", pfTitle: "Update personal profile", mManage: "FAMILY", mPeople: "Family members", mInvite2: "Invite family & accounts", mClans: "Surname lines", mFamily: "Family settings & backup", mMe: "Me", backGen: "Back", mProfile: "Personal profile", mPass: "Password & security", mInvite: "Invitation key", mSettings: "Settings", invHint: "Send the code or link to relatives. After signing up they enter the code to join this family.", copy: "Copy invite link", copied: "Copied: ", demoInv: "The demo family has no invite code. Sign in to your family to see it here.", newPw: "New password (8+ characters)", newPw2: "Repeat new password", pwSave: "Update password", pwShort: "The password needs at least 8 characters.", pwDiff: "The two passwords do not match.", pwDone: "Password updated.", verified: "Family member", prefs: "Preferences", prefsHint: "Changes the language, colours and family map style you see on this device.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏（英文 / 拼音）", surnameZh: "中文姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", logout: "退出登入", sub2: "联系方式默认隐藏。点「查看详情」显示，或点「编辑」修改某一部分。", basicU: "基本资料", contactU: "联系方式", familyU: "家庭关系", accountU: "账号与隐私", edit: "编辑", cancel: "取消", viewDetails: "查看详情", hideDetails: "隐藏详情", viewMapShort: "在图谱中查看", pfTitle: "更新个人资料", mManage: "家族管理", mPeople: "家人名单", mInvite2: "邀请家人与账号", mClans: "姓氏宗族", mFamily: "家族设置与备份", mMe: "我的", backGen: "返回", mProfile: "个人资料", mPass: "密码与安全", mInvite: "邀请码", mSettings: "设置", invHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能加入这个家族。", copy: "复制邀请链接", copied: "已复制：", demoInv: "示例家族没有邀请码。登入你的家族后，这里会显示邀请码。", newPw: "新密码（至少 8 个字符）", newPw2: "再输入一次", pwSave: "更新密码", pwShort: "密码至少需要 8 个字符。", pwDiff: "两次输入的密码不一样。", pwDone: "密码已更新。", verified: "家族成员", prefs: "偏好设置", prefsHint: "只影响你在这台设备上看到的语言、颜色和家族图谱样式。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
+    const t = ((this.state || {}).lang === 'en' ? {title: "Profile", titleOther: "Family member", titleNew: "Add a family member", sub: "Profiles show on the family map. Everyone in the family can help fill them in.", card: "Card preview", viewMap: "Show on the family map", basic: "Basic details", photo: "Upload photo", removePhoto: "Remove photo", photoHint: "JPG or PNG, resized automatically. Save the person first to add a photo.", surname: "Surname (English)", surnameZh: "Chinese surname", surnameHint: "The family map groups each surname into its own constellation", name: "Chinese name", nameEn: "English name", sex: "Gender", male: "Male", female: "Female", birth: "Born", death: "Died (if applicable)", dateHint: "e.g. 1965 or 1965-08-21", nationality: "Nationality", hometown: "Ancestral home", city: "Current city", job: "Work / study", phone: "Mobile number", email: "Email", bio: "About", bioPh: "A few lines so the family can get to know this person", family: "Family links", father: "Father", mother: "Mother", spouse: "Spouse", none: "— Not set —", famHint: "Link parents and spouse only. Siblings, uncles, cousins and the right titles are worked out automatically.", account: "Account & privacy", memberKey: "Member key", clanKey: "Clan key", familyKey: "Family key", keyHint: "Keys are created by the system and never change, so a person or a surname line can always be identified exactly.", noClan: "Created once a surname is set", newKey: "Created when saved", linked: "Linked to a sign-in account", notLinked: "Not linked to a sign-in account", thisIsMe: "This is me", youLinked: "This is your profile.", privacy: "Show contact details to", pAll: "Everyone in the family", pDirect: "Direct family only", pSelf: "Only me", privacyHint: "Note: anyone who can open the family data repository can read the raw data.", logout: "Log out", sub2: "Contact details are hidden for privacy. Tap \"View details\" to show them, or \"Edit\" to change a section.", basicU: "BASIC INFORMATION", contactU: "CONTACT", familyU: "FAMILY LINKS", accountU: "ACCOUNT & PRIVACY", edit: "Edit", cancel: "Cancel", viewDetails: "View details", hideDetails: "Hide details", viewMapShort: "Show on map", pfTitle: "Update personal profile", mManage: "FAMILY", mPeople: "Family members", mInvite2: "Invite family & accounts", mClans: "Surname lines", mFamily: "Family settings & backup", mMe: "Me", backGen: "Back", mProfile: "Personal profile", mPass: "Password & security", mInvite: "Invitation key", mSettings: "Settings", invHint: "Send the code or link to relatives. After signing up they enter the code to join this family.", copy: "Copy invite link", copied: "Copied: ", demoInv: "The demo family has no invite code. Sign in to your family to see it here.", newPw: "New password (8+ characters)", newPw2: "Repeat new password", pwSave: "Update password", pwShort: "The password needs at least 8 characters.", pwDiff: "The two passwords do not match.", pwDone: "Password updated.", verified: "Family member", prefs: "Preferences", prefsHint: "Changes the language, colours and family map style you see on this device.", save: "Save", saving: "Saving…", saved: "Saved", reset: "Discard changes", del: "Delete this person", delQ: "Delete? Their family links will be removed too.", delYes: "Delete", delNo: "Keep", needName: "Please enter at least one name.", failed: "Could not save: ", notFound: "This person was not found. They may have been deleted.", back: "Back to the family list", me: " (me)", unnamed: "Unnamed", loading: "Loading family data…", addFor: "Will be linked to: ", sPeople: "Family", sPhotos: "Photos", sClans: "Lines", sPeopleLong: "relatives", editProfile: "Edit profile", inviteFam: "Invite family", editDetails: "Edit details", aboutT: "About", closeFam: "close relatives", shortcuts: "Account & family", manageT: "Manage", myFam: "My family", seeAll: "See all", myPhotos: "Photos of me", famPhotos: "Family photos", noPhotos: "No photos yet", goPhotos: "Add photos", noAbout: "Nothing here yet. Tap Edit profile to add a few details.", rSib: "Sibling", rKid: "Child", wJob: "Works / studies", wHome: "Ancestral home", wCity: "Lives in", wNat: "Nationality", wBorn: "Born", relchild: "’s child", relparent: "’s parent", relspouse: "’s spouse", relsibling: "’s sibling"} : {title: "个人资料", titleOther: "家人资料", titleNew: "添加家人", sub: "资料会显示在家族图谱上，家族里的每个人都可以帮忙补充和修改。", card: "名片预览", viewMap: "在家族图谱中查看", basic: "基本资料", photo: "上传头像", removePhoto: "移除头像", photoHint: "JPG 或 PNG，会自动缩小。保存后才能上传头像。", surname: "姓氏（英文 / 拼音）", surnameZh: "中文姓氏", surnameHint: "家族图谱按姓氏分成不同星座", name: "中文姓名", nameEn: "英文名", sex: "性别", male: "男", female: "女", birth: "出生", death: "去世（如适用）", dateHint: "例如 1965 或 1965-08-21", nationality: "国籍", hometown: "籍贯（祖籍）", city: "现居城市", job: "职业 / 学业", phone: "手机号码", email: "电子邮箱", bio: "个人简介", bioPh: "写几句话介绍自己，让家人更了解你", family: "家庭关系", father: "父亲", mother: "母亲", spouse: "配偶", none: "— 未填写 —", famHint: "只需要连上父母和配偶，兄弟姐妹、叔伯、堂表亲等称呼都会自动推算。", account: "账号与隐私", memberKey: "成员编号", clanKey: "宗族编号", familyKey: "家族编号", keyHint: "编号由系统生成，永久不变，可用来在家族之间准确地指认一个人或一个姓氏宗族。", noClan: "填写姓氏后自动生成", newKey: "保存后生成", linked: "已关联登入账号", notLinked: "还没有关联登入账号", thisIsMe: "这是我", youLinked: "这是你的资料。", privacy: "联系方式显示给", pAll: "全体家族成员", pDirect: "仅直系亲属", pSelf: "仅自己", privacyHint: "提示：能打开家族资料库的人都能看到原始资料。", logout: "退出登入", sub2: "联系方式默认隐藏。点「查看详情」显示，或点「编辑」修改某一部分。", basicU: "基本资料", contactU: "联系方式", familyU: "家庭关系", accountU: "账号与隐私", edit: "编辑", cancel: "取消", viewDetails: "查看详情", hideDetails: "隐藏详情", viewMapShort: "在图谱中查看", pfTitle: "更新个人资料", mManage: "家族管理", mPeople: "家人名单", mInvite2: "邀请家人与账号", mClans: "姓氏宗族", mFamily: "家族设置与备份", mMe: "我的", backGen: "返回", mProfile: "个人资料", mPass: "密码与安全", mInvite: "邀请码", mSettings: "设置", invHint: "把邀请码或链接发给家人。他们注册账号后输入邀请码，就能加入这个家族。", copy: "复制邀请链接", copied: "已复制：", demoInv: "示例家族没有邀请码。登入你的家族后，这里会显示邀请码。", newPw: "新密码（至少 8 个字符）", newPw2: "再输入一次", pwSave: "更新密码", pwShort: "密码至少需要 8 个字符。", pwDiff: "两次输入的密码不一样。", pwDone: "密码已更新。", verified: "家族成员", prefs: "偏好设置", prefsHint: "只影响你在这台设备上看到的语言、颜色和家族图谱样式。", save: "保存", saving: "正在保存…", saved: "已保存", reset: "取消修改", del: "删除这位家人", delQ: "确定删除？与 TA 相关的关系也会一起解除。", delYes: "确定删除", delNo: "不删除", needName: "请至少填写一个名字。", failed: "保存失败：", notFound: "找不到这位家人，可能已被删除。", back: "返回家人名单", me: "（我）", unnamed: "未命名", loading: "正在读取家族资料…", addFor: "会自动连上：", sPeople: "家人", sPhotos: "照片", sClans: "宗族", sPeopleLong: "位家人", editProfile: "编辑资料", inviteFam: "邀请家人", editDetails: "编辑详细资料", aboutT: "简介", closeFam: "位近亲", shortcuts: "账号与家族", manageT: "管理", myFam: "我的家人", seeAll: "查看全部", myPhotos: "我的照片", famPhotos: "家族照片", noPhotos: "还没有照片", goPhotos: "去上传照片", noAbout: "还没有填写简介。点「编辑资料」介绍一下自己吧。", rSib: "兄弟姐妹", rKid: "孩子", wJob: "工作 / 学业", wHome: "祖籍", wCity: "现居", wNat: "国籍", wBorn: "出生", relchild: "的孩子", relparent: "的父亲或母亲", relspouse: "的配偶", relsibling: "的兄弟姐妹"});
     const Z = window.ZY;
     const st = this.state || {};
     const isNew = this._zyQ('new') === '1';
@@ -708,7 +856,49 @@ class Component extends DCLogic {
     const goV = (v) => () => { this.setState({ view: v, pwMsg: '', invMsg: '' }); try { window.scrollTo(0, 0); } catch (e) {} };
     const famI = (Z && Z.data && Z.data.family) || {};
     const isCloud = !!(Z && Z.mode === 'cloud');
+    // ---------- home: counts, close family, photos, about ----------
+    const ME = {};
+    if (view === 'home') {
+      const all = Z ? Z.people() : [];
+      const meP = p;
+      const mid = meP ? meP.id : null;
+      const famL = [];
+      const addF = (x, rel) => { if (x && x.id !== mid && !famL.some((y) => y.id === x.id)) { const nm = nameOf(x); const img = this._zyAv(x.avatar); famL.push({ id: x.id, name: nm, rel: rel, ch: this._zyInitials(nm), img: img, noImg: !img, href: this._zyHref('Profile', 'id=' + encodeURIComponent(x.id)) }); } };
+      if (meP && Z) {
+        addF(Z.person(meP.spouse), t.spouse);
+        addF(Z.person(meP.father), t.father);
+        addF(Z.person(meP.mother), t.mother);
+        all.filter((x) => x.father === mid || x.mother === mid).forEach((x) => addF(x, t.rKid));
+        all.filter((x) => x.id !== mid && ((meP.father && x.father === meP.father) || (meP.mother && x.mother === meP.mother))).forEach((x) => addF(x, t.rSib));
+      }
+      const photos = (Z && Z.data && Z.data.photos) || [];
+      const mine = mid ? photos.filter((ph) => (ph.tags || []).indexOf(mid) >= 0) : [];
+      const pick = (mine.length ? mine : photos).slice(0, 9);
+      this._phU = this._phU || {};
+      const pics = pick.map((ph) => {
+        if (ph.path && this._phU[ph.path] === undefined && Z) { this._phU[ph.path] = ''; Z.imageURL(ph.path).then((u) => { this._phU[ph.path] = u || ''; this.setState({ tick: (this.state.tick || 0) + 1 }); }); }
+        const u = ph.path ? (this._phU[ph.path] || '') : '';
+        const G = ['#3B5BDB,#7048E8', '#E8590C,#F08C00', '#0CA678,#1098AD', '#C2255C,#7048E8', '#1971C2,#0CA678', '#F08C00,#C2255C'];
+        return { url: u, noUrl: !u, title: ph.title || '', bg: u ? "url('" + u + "') center/cover no-repeat" : 'linear-gradient(135deg,' + G[(ph.id || '').length % G.length === 0 ? 0 : String(ph.id || '').charCodeAt(String(ph.id || '').length - 1) % G.length] + ')' };
+      });
+      const ab = [];
+      const addA = (k, v) => { if (String(v || '').trim()) ab.push({ k: k, v: String(v) }); };
+      addA(t.wJob, f0.job); addA(t.wCity, f0.city); addA(t.wHome, f0.hometown); addA(t.wNat, f0.nationality); addA(t.wBorn, f0.birth);
+      const tab = st.meTab || 'photos';
+      const toT = (k) => () => this.setState({ meTab: k });
+      Object.assign(ME, {
+        nPeople: all.length, nPhotos: photos.length, nClans: Z && Z.clans ? Z.clans().length : 0,
+        nFam: famL.length, fam: famL, famTop: famL.slice(0, 6), fam9: famL.slice(0, 9), hasFam: famL.length > 0,
+        photos: pics, hasPhotos: pics.length > 0, noPhotos: !pics.length, photosHref: this._zyHref('Photos'), photosTitle: mine.length ? t.myPhotos : t.famPhotos,
+        bio: String(f0.bio || '').trim(), about: ab, noAbout: !ab.length && !String(f0.bio || '').trim(),
+        place: [f0.city, f0.nationality].filter((x) => String(x || '').trim()).join(' · '),
+        onPhotos: tab === 'photos', onAbout: tab === 'about', onManage: tab === 'manage',
+        tPhotos: 'ig-tab' + (tab === 'photos' ? ' on' : ''), tAbout: 'ig-tab' + (tab === 'about' ? ' on' : ''), tManage: 'ig-tab' + (tab === 'manage' ? ' on' : ''),
+        toPhotos: toT('photos'), toAbout: toT('about'), toManage: toT('manage')
+      });
+    }
     return {
+      me: ME,
       vw: vwO, ed: edO, edit: editO, editing: !!ES, notEditing: !ES,
       toggleReveal: () => this.setState({ reveal: !st.reveal }), revealText: st.reveal ? t.hideDetails : t.viewDetails,
       vHome: view === 'home', vBack: view !== 'home', backText: meView ? t.mMe : t.backGen, vSettings: view === 'settings', vInvite: view === 'invite', vPass: view === 'pass', vForm: view === 'profile',
