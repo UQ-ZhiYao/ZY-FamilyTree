@@ -188,45 +188,12 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .mg-none b{color:var(--u-text);font-size:16px}
 .mfoot{text-align:center;margin:10px auto 0}
 .zy-pill{display:none !important}
-.me-m,.me-d{display:none}
-.me-m .u-menu,.fb-menu .u-menu{width:100%}
+.me-d{display:none}
+.fb-menu .u-menu{width:100%}
 
-/* ---------- phone: Instagram-style ---------- */
-@media (max-width:899px){
-.me-m{display:flex;flex-direction:column;width:100%;max-width:560px;margin:0 auto;gap:14px}
-.ig-top{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 0}
-.ig-top b{font-size:22px;font-weight:800;letter-spacing:-.2px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ig-ic{width:40px;height:40px;border:none;background:transparent;color:var(--u-text);display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:50%;flex:none}
-.ig-row{display:flex;align-items:center;gap:20px}
-.ig-av{width:88px;height:88px;flex:none;border-radius:50%;box-sizing:border-box;padding:3px;background:linear-gradient(135deg,#FFC857,#F0568B 55%,#6A5BFF);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:30px;font-weight:800;color:#FFFFFF}
-.ig-av img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:3px solid var(--mebg)}
-.ig-stats{flex:1;display:flex;justify-content:space-around;gap:4px}
-.ig-stats a{display:flex;flex-direction:column;align-items:center;gap:2px;color:inherit;text-decoration:none;min-width:0}
-.ig-stats b{font-size:19px;font-weight:800}
-.ig-stats span{font-size:13px;color:var(--u-muted)}
-.ig-bio{display:flex;flex-direction:column;gap:3px;font-size:14px;line-height:1.5}
-.ig-bio b{font-size:15px}
-.ig-fam{color:var(--u-muted);font-size:13px}
-.ig-bio p{margin:2px 0 0;white-space:pre-wrap;word-break:break-word}
-.ig-pl{color:var(--z1);font-weight:600;font-size:13px}
-.ig-btns{display:flex;gap:8px}
-.ig-btns>*{flex:1;height:36px;display:flex;align-items:center;justify-content:center;border-radius:10px;border:none;background:color-mix(in srgb,var(--u-text) 10%,transparent);color:var(--u-text);font:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer}
-.ig-hl{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 2px;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
-.ig-hl::-webkit-scrollbar{display:none}
-.mst{display:flex;flex-direction:column;align-items:center;gap:4px;width:68px;flex:none;text-decoration:none;color:inherit}
-.mst-av{width:62px;height:62px;border-radius:50%;box-sizing:border-box;border:2px solid var(--u-bd);outline:2px solid color-mix(in srgb,var(--z1) 55%,transparent);outline-offset:2px;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-weight:700;font-size:18px}
-.mst-av img{width:100%;height:100%;object-fit:cover}
-.mst-n{font-size:12px;max-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.mst-r{font-size:11px;color:var(--u-muted);margin-top:-3px}
-.ig-tabs{display:flex;border-top:1px solid var(--u-bd);margin:0 -16px}
-.ig-tab{flex:1;height:46px;border:none;background:transparent;color:var(--u-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;border-top:1.5px solid transparent;margin-top:-1px}
-.ig-tab.on{color:var(--u-text);border-top-color:var(--u-text)}
-.mg-m{gap:2px;margin:-14px -16px 0}
-.ig-pane{display:flex;flex-direction:column;gap:6px;margin-top:-4px}
-.ig-menu{gap:12px}
-.ig-menu .mgt{margin:0;padding:0 4px}
-.pfmain{padding:calc(12px + env(safe-area-inset-top)) 16px 110px !important;gap:14px !important}
-}
+/* ---------- phone: classic card + menu ---------- */
+@media (min-width:900px){.me-c{display:none !important}}
+@media (max-width:899px){.me-c{display:flex;flex-direction:column;gap:inherit;width:100%;max-width:560px;margin:0 auto}.mnote{margin-bottom:2px}}
 
 /* ---------- desktop: Facebook-style ---------- */
 @media (min-width:900px){
@@ -297,22 +264,15 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <main class="pfmain" style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 24px 20px 120px; display: flex; flex-direction: column; gap: 18px">
 <sc-if value="{{vHome}}" hint-placeholder-val="{{true}}">
 <sc-if value="{{zyPill}}" hint-placeholder-val="{{false}}"><div class="mnote"><span>{{zyPillText}}</span><sc-if value="{{zyPillLink}}" hint-placeholder-val="{{true}}"><a href="{{zyPillHref}}">{{zyPillLink}}</a></sc-if></div></sc-if>
-<!-- ======== phone: like an Instagram profile ======== -->
-<div class="me-m">
-<div class="ig-top"><b>{{f.show}}</b><button type="button" class="ig-ic" onClick="{{go.settings}}" aria-label="{{t.mSettings}}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></button></div>
-<div class="ig-row"><span class="ig-av"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
-<div class="ig-stats"><a href="{{raw.hPeople}}"><b>{{me.nPeople}}</b><span>{{t.sPeople}}</span></a><a href="{{me.photosHref}}"><b>{{me.nPhotos}}</b><span>{{t.sPhotos}}</span></a><a href="{{raw.hClans}}"><b>{{me.nClans}}</b><span>{{t.sClans}}</span></a></div>
+<!-- ======== phone: the classic profile card and menu ======== -->
+<div class="me-c">
+<div class="mehead">
+<span class="mav"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span>
+<span class="mname">{{f.show}}</span>
+<sc-if value="{{raw.email}}" hint-placeholder-val="{{true}}"><span class="u-muted" style="font-size: 14px">{{raw.email}}</span></sc-if>
+<span class="mbadge">{{raw.badge}}</span>
 </div>
-<div class="ig-bio"><b>{{f.show}}</b><span class="ig-fam">{{raw.badge}}</span><sc-if value="{{me.bio}}" hint-placeholder-val="{{true}}"><p>{{me.bio}}</p></sc-if><sc-if value="{{me.place}}" hint-placeholder-val="{{true}}"><span class="ig-pl">{{me.place}}</span></sc-if></div>
-<div class="ig-btns"><button type="button" onClick="{{go.profile}}">{{t.editProfile}}</button><a href="{{raw.hInvite}}">{{t.inviteFam}}</a></div>
-<sc-if value="{{me.hasFam}}" hint-placeholder-val="{{true}}"><div class="ig-hl"><sc-for list="{{me.fam}}" as="fm" hint-placeholder-count="5"><a class="mst" href="{{fm.href}}"><span class="mst-av"><sc-if value="{{fm.img}}" hint-placeholder-val="{{false}}"><img src="{{fm.img}}" alt=""></sc-if><sc-if value="{{fm.noImg}}" hint-placeholder-val="{{true}}">{{fm.ch}}</sc-if></span><span class="mst-n">{{fm.name}}</span><span class="mst-r">{{fm.rel}}</span></a></sc-for></div></sc-if>
-<div class="ig-tabs" role="tablist"><button type="button" role="tab" class="{{me.tPhotos}}" onClick="{{me.toPhotos}}" aria-label="{{t.sPhotos}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"></rect><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"></path></svg></button><button type="button" role="tab" class="{{me.tAbout}}" onClick="{{me.toAbout}}" aria-label="{{t.aboutT}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6M12 7.5h.01"></path></svg></button><button type="button" role="tab" class="{{me.tManage}}" onClick="{{me.toManage}}" aria-label="{{t.manageT}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg></button></div>
-<sc-if value="{{me.onPhotos}}" hint-placeholder-val="{{true}}"><sc-if value="{{me.hasPhotos}}" hint-placeholder-val="{{true}}"><div class="mg mg-m"><sc-for list="{{me.photos}}" as="ph" hint-placeholder-count="6"><a class="mg-i" href="{{me.photosHref}}" style="background: {{ph.bg}}" aria-label="{{ph.title}}"><sc-if value="{{ph.noUrl}}" hint-placeholder-val="{{false}}"><span>{{ph.title}}</span></sc-if></a></sc-for></div></sc-if>
-<sc-if value="{{me.noPhotos}}" hint-placeholder-val="{{false}}"><div class="mg-none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2"></rect><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"></path></svg><b>{{t.noPhotos}}</b><a class="u-btn2 u-sm" href="{{me.photosHref}}">{{t.goPhotos}}</a></div></sc-if></sc-if>
-<sc-if value="{{me.onAbout}}" hint-placeholder-val="{{false}}"><div class="ig-pane"><sc-if value="{{me.bio}}" hint-placeholder-val="{{true}}"><p class="mbio">{{me.bio}}</p></sc-if>
-<sc-for list="{{me.about}}" as="a" hint-placeholder-count="4"><div class="mab"><span class="mab-k">{{a.k}}</span><b>{{a.v}}</b></div></sc-for>
-<sc-if value="{{me.noAbout}}" hint-placeholder-val="{{false}}"><p class="u-muted" style="margin: 0">{{t.noAbout}}</p></sc-if></div></sc-if>
-<sc-if value="{{me.onManage}}" hint-placeholder-val="{{false}}"><div class="ig-pane ig-menu"><div class="u-menu">
+<div class="u-menu">
 <button type="button" class="u-mi" onClick="{{go.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{t.mProfile}}</span><span class="u-chev">›</span></button>
 <sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}"><button type="button" class="u-mi" onClick="{{go.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{t.mPass}}</span><span class="u-chev">›</span></button></sc-if>
 </div>
@@ -329,7 +289,6 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <div class="u-menu">
 <a class="u-mi" href="Login.dc.html" onClick="{{zyLogout}}" style="color: #D1453B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{t.logout}}</span></a>
 </div>
-</div></sc-if>
 </div>
 <!-- ======== desktop: like a Facebook profile ======== -->
 <div class="me-d">
