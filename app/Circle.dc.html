@@ -171,6 +171,32 @@ main h1{font-size:24px !important}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
 @media (max-width:640px){input,select,textarea{font-size:16px !important}}
 
+/* desktop: the top bar stays put, and 我的 / family management share a fixed left menu */
+@media (min-width:900px){
+header.top{position:sticky;top:0;z-index:60;background:linear-gradient(var(--z8) 78%,transparent);padding-bottom:10px !important}
+.me-side{display:none}
+.me-shell{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.me-shell.has-side{display:grid;grid-template-columns:268px minmax(0,1fr);gap:28px;align-items:start}
+.me-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.has-side .u-backbar{display:none}
+.me-side{position:sticky;top:104px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 124px);overflow-y:auto;background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:22px 12px 12px;box-sizing:border-box;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.ms-id{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px 16px;border-bottom:1px solid var(--u-bd);text-align:center}
+.ms-av{width:76px;height:76px;border-radius:50%;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:28px;font-weight:800;box-shadow:0 0 0 3px var(--z1)}
+.ms-av img{width:100%;height:100%;object-fit:cover}
+.ms-id b{font-size:18px;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-id .mbadge{font-size:12px;font-weight:600;color:var(--z1);padding:4px 12px;border-radius:999px;border:1px solid var(--u-bd)}
+.ms-nav{display:flex;flex-direction:column;gap:2px}
+.ms-i{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 12px;border-radius:12px;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:15px;text-decoration:none;cursor:pointer;text-align:left;width:100%;box-sizing:border-box}
+.ms-i svg{width:20px;height:20px;flex:none;color:var(--u-muted)}
+.ms-i:hover{background:color-mix(in srgb,var(--u-text) 6%,transparent)}
+.ms-i.on{background:color-mix(in srgb,var(--z1) 15%,transparent);color:var(--z1);font-weight:700}
+.ms-i.on svg{color:var(--z1)}
+.ms-out{margin-top:6px;border-top:1px solid var(--u-bd);border-radius:0 0 12px 12px;color:#D1453B}
+.ms-out svg{color:inherit}
+.ms-gt{font-size:12px;font-weight:700;color:var(--u-muted);letter-spacing:1px;padding:14px 12px 4px}
+}
+@media (max-width:899px){.me-side{display:none !important}.me-shell,.me-main{display:contents}}
+
 @media (max-width:640px){
 html.zy-sub .tabbar{display:none !important}
 html.zy-sub .zy-pill{bottom:calc(16px + env(safe-area-inset-bottom)) !important}
@@ -782,6 +808,23 @@ class Component extends DCLogic {
     if (Z.mode === 'demo') return { show: true, text: en ? 'Demo family: changes stay on this device.' : '示例家族：修改只保存在这台设备上。', href: this._zyHref('Login'), link: en ? 'Sign in to your family' : '登入你的家族' };
     if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
     return { show: false };
+  }
+  _zySide(active, en, on) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    const nm = this._zyMeName(en);
+    const img = me ? this._zyAv(me.avatar) : '';
+    const fam = (Z && Z.data && Z.data.family) || {};
+    const T = (zh, e2) => (en ? e2 : zh);
+    const cls = {};
+    ['home', 'profile', 'pass', 'settings', 'people', 'invite', 'clans', 'family'].forEach((k) => { cls[k] = 'ms-i' + (k === active ? ' on' : ''); });
+    const H = (pg, q) => this._zyHref(pg, q);
+    const nop = () => {};
+    const o = on || {};
+    return { name: nm, ch: this._zyInitials(nm), img: img, noImg: !img, badge: fam.name || T('示例家族', 'Sample family'), cloud: !!(Z && Z.mode === 'cloud'), cls: cls,
+      href: { home: H('Profile'), profile: H('Profile', 'view=profile'), pass: H('Profile', 'view=pass'), settings: H('Profile', 'view=settings'), people: H('Admin'), invite: H('Admin', 'tab=invite'), clans: H('Admin', 'tab=clans'), family: H('Admin', 'tab=family') },
+      on: { home: o.home || nop, profile: o.profile || nop, pass: o.pass || nop, settings: o.settings || nop },
+      tx: { me: T('我的', 'Me'), home: T('概览', 'Overview'), profile: T('个人资料', 'Personal profile'), pass: T('密码与安全', 'Password & security'), manage: T('家族管理', 'FAMILY'), people: T('家人名单', 'Family members'), invite: T('邀请家人与账号', 'Invite family & accounts'), clans: T('姓氏宗族', 'Surname lines'), family: T('家族设置与备份', 'Family settings & backup'), settings: T('设置', 'Settings'), logout: T('退出登入', 'Log out') } };
   }
   _zyBar() {
     if (window.__zyBar) return;
