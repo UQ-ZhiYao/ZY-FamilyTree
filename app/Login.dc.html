@@ -278,6 +278,8 @@ class Component extends DCLogic {
     if (!path || !window.ZY) return '';
     const C = window.__zyAvC || (window.__zyAvC = {});
     if (C[path] !== undefined) return C[path];
+    const ready = window.ZY.imageURLNow ? window.ZY.imageURLNow(path) : '';
+    if (ready) { C[path] = ready; return ready; }
     C[path] = '';
     window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
     return '';

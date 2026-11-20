@@ -589,6 +589,8 @@ class Component extends DCLogic {
     if (!path || !window.ZY) return '';
     const C = window.__zyAvC || (window.__zyAvC = {});
     if (C[path] !== undefined) return C[path];
+    const ready = window.ZY.imageURLNow ? window.ZY.imageURLNow(path) : '';
+    if (ready) { C[path] = ready; return ready; }
     C[path] = '';
     window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
     return '';
@@ -799,7 +801,7 @@ class Component extends DCLogic {
       .sort((a, b) => a.label.localeCompare(b.label));
     const opts = { men: everyone.filter((x) => x.sex !== 'f'), women: everyone.filter((x) => x.sex === 'f'), all: everyone };
     const av = p && p.avatar ? p.avatar : '';
-    if (av && Z && this._avPath !== av) { this._avPath = av; this._avUrl = ''; Z.imageURL(av).then((u) => { if (this._avPath === av) { this._avUrl = u; this.setState({ tick: (this.state.tick || 0) + 1 }); } }); }
+    if (av && Z && this._avPath !== av) { this._avPath = av; this._avUrl = (Z.imageURLNow && Z.imageURLNow(av)) || ''; Z.imageURL(av).then((u) => { if (this._avPath === av) { this._avUrl = u; this.setState({ tick: (this.state.tick || 0) + 1 }); } }); }
     const avUrl = av ? (this._avUrl || '') : '';
     const save = () => {
       if (!Z) return;
@@ -864,7 +866,7 @@ class Component extends DCLogic {
       const pick = (mine.length ? mine : photos).slice(0, 9);
       this._phU = this._phU || {};
       const pics = pick.map((ph) => {
-        if (ph.path && this._phU[ph.path] === undefined && Z) { this._phU[ph.path] = ''; Z.imageURL(ph.path).then((u) => { this._phU[ph.path] = u || ''; this.setState({ tick: (this.state.tick || 0) + 1 }); }); }
+        if (ph.path && this._phU[ph.path] === undefined && Z) { this._phU[ph.path] = (Z.imageURLNow && Z.imageURLNow(ph.path)) || ''; Z.imageURL(ph.path).then((u) => { this._phU[ph.path] = u || ''; this.setState({ tick: (this.state.tick || 0) + 1 }); }); }
         const u = ph.path ? (this._phU[ph.path] || '') : '';
         const G = ['#3B5BDB,#7048E8', '#E8590C,#F08C00', '#0CA678,#1098AD', '#C2255C,#7048E8', '#1971C2,#0CA678', '#F08C00,#C2255C'];
         return { url: u, noUrl: !u, title: ph.title || '', bg: u ? "url('" + u + "') center/cover no-repeat" : 'linear-gradient(135deg,' + G[(ph.id || '').length % G.length === 0 ? 0 : String(ph.id || '').charCodeAt(String(ph.id || '').length - 1) % G.length] + ')' };
