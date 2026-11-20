@@ -1,6 +1,6 @@
 // Zenith Yield service worker: caches the app's own files so it opens offline after the first visit.
 // Family data (Supabase) is never cached here.
-const CACHE = 'zenith-yield-v41';
+const CACHE = 'zenith-yield-v42';
 // Photos and avatars: kept on the device by file name (each upload has its own name, so a saved copy never goes stale).
 const MEDIA = 'zenith-media-v1';
 const MEDIA_MAX = 400;
@@ -40,7 +40,11 @@ self.addEventListener('fetch', (e) => {
   }
   // Pages: network first so families always see fresh data, cached copy when offline.
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then((res) => { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); return res; })
+    // Network first, but never keep the person waiting on a slow connection: after 0.6 s the saved copy opens and the fresh one is kept for next time.
+    const net = fetch(req).then((res) => { if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); } return res; });
+    const saved = new Promise((r) => setTimeout(r, 600)).then(() => caches.match(req));
+    e.respondWith(Promise.race([net.catch(() => null), saved.then((r) => r || net)])
+      .then((r) => r || net)
       .catch(() => caches.match(req).then((r) => r || caches.match('./app/Login.dc.html'))));
     return;
   }
