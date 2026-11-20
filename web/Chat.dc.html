@@ -276,7 +276,9 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 .cli:last-child .cli-tx{border-bottom:none}
 .cli.on{background:transparent}
 .cs-foot{padding:10px 18px}
-.croom{position:fixed;inset:0;z-index:70;background:var(--cwall)}
+.croom{position:fixed;left:0;right:0;top:var(--cvt,0px);height:var(--cvh,100dvh);z-index:70;background:var(--cwall)}
+.cmsgs{overscroll-behavior:contain}
+.cmsg{margin-top:2px}
 .chead{padding:calc(8px + env(safe-area-inset-top)) 12px 8px;background:color-mix(in srgb,var(--u-card) 94%,transparent);border-bottom:1px solid var(--u-bd)}
 .cmsgs{padding:6px 10px 12px}
 .cbody{max-width:80%}
@@ -284,7 +286,7 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 }
 .zy-pill{display:none !important}
 html.zy-room .tabbar{display:none !important}
-@media (max-width:899px){html.zy-room body{overflow:hidden}}
+@media (max-width:899px){html.zy-room,html.zy-room body{overflow:hidden;overscroll-behavior:none}}
 html:has(.zy-d),html:has(.zy-d) body{background:#0B1532}
 html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 </style>
@@ -711,6 +713,29 @@ class Component extends DCLogic {
     let rawRoom = {};
     if (cur) {
       try { document.documentElement.classList.add('zy-room'); } catch (e) {}
+      // Phones: keep the open chat exactly above the on-screen keyboard (iOS only shrinks the visible area, not the page)
+      if (!window.__zyVV) {
+        window.__zyVV = true;
+        try {
+          const vv = window.visualViewport;
+          const fit = () => {
+            const de = document.documentElement;
+            if (!de.classList.contains('zy-room')) return;
+            const el = document.querySelector('.cmsgs');
+            const nearEnd = el ? el.scrollHeight - el.scrollTop - el.clientHeight < 80 : false;
+            const h = vv ? vv.height : window.innerHeight;
+            const top = vv ? vv.offsetTop : 0;
+            de.style.setProperty('--cvh', Math.round(h) + 'px');
+            de.style.setProperty('--cvt', Math.round(top) + 'px');
+            if (el && nearEnd) el.scrollTop = el.scrollHeight;
+          };
+          if (vv) { vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); }
+          window.addEventListener('resize', fit);
+          document.addEventListener('focusin', () => setTimeout(fit, 60));
+          document.addEventListener('focusout', () => setTimeout(() => { fit(); try { if (document.documentElement.classList.contains('zy-room')) window.scrollTo(0, 0); } catch (e) {} }, 60));
+          setTimeout(fit, 0);
+        } catch (e) {}
+      }
       const ri = roomInfo(cur);
       rawRoom = { rName: ri.name, rSub: ri.sub, rImg: ri.img, rGroup: ri.group, rInit: !ri.img && !ri.group, rCh: ri.ch, rBg: ri.col[0], rFg: ri.col[1] };
       if (!this._urls) this._urls = {};
