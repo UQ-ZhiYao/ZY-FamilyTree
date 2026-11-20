@@ -21,7 +21,7 @@
     u = u.replace(/\/+(rest|auth|storage|realtime)\/v1\/?.*$/i, '').replace(/\/+$/, '');
     CFG = { supabaseUrl: u, supabaseAnonKey: String(CFG.supabaseAnonKey || '').trim() };
   })();
-  var K = { mode: 'zy-mode', family: 'zy-family', me: 'zy-me', demo: 'zy-demo-data', demoPh: 'zy-demo-photo:' };
+  var K = { mode: 'zy-mode', family: 'zy-family', me: 'zy-me', demo: 'zy-demo-data', demoPh: 'zy-demo-photo:', snap: 'zy-snap', urls: 'zy-urls' };
   var BUCKET = 'family-media';
   var listeners = [];
   var state = { data: null, rev: 0, saving: 0, error: '', loaded: false, user: null, families: [], familyId: null, needFamily: false };
@@ -57,6 +57,67 @@
   }
   function emit() { state.rev++; listeners.slice().forEach(function (f) { try { f(state.rev); } catch (e) {} }); }
   function notifyTabs() { try { if (bc) bc.postMessage({ t: 'changed' }); } catch (e) {} }
+  // ---------------------------------------------------------------- speed: last family snapshot + image links kept between pages
+  // Every page is a fresh start, so the last copy of the family is kept on this device: pages draw from it at once
+  // and a fresh copy is fetched quietly in the background. It is removed on sign-out.
+  function snapSave(d) {
+    try {
+      if (!state.user || !state.familyId || !d) return;
+      var s = clone(d);
+      if (s.messages && s.messages.length > 200) s.messages = s.messages.slice(-200);
+      ls(K.snap, JSON.stringify({ v: 1, uid: state.user.id, email: state.user.email || '', fid: state.familyId, families: state.families, at: Date.now(), d: s }));
+    } catch (e) { ls(K.snap, null); }
+  }
+  function snapRead() {
+    try {
+      var s = JSON.parse(ls(K.snap) || 'null');
+      if (!s || s.v !== 1 || !s.d || !s.uid || s.fid !== ls(K.family)) return null;
+      return s;
+    } catch (e) { return null; }
+  }
+  // Signed links for private photos: asked for in one batch, kept for a day and shared by every page.
+  var URL_TTL = 24 * 3600;
+  var urlWait = {};
+  var urlTimer = null;
+  function urlsLoad() {
+    try {
+      var m = JSON.parse(ls(K.urls) || '{}');
+      var t = Date.now();
+      Object.keys(m).forEach(function (k) { if (m[k] && m[k].until > t && m[k].u) urlCache[k] = { p: Promise.resolve(m[k].u), until: m[k].until, u: m[k].u }; });
+    } catch (e) {}
+  }
+  function urlsSave() {
+    try {
+      var m = {};
+      var t = Date.now();
+      Object.keys(urlCache).forEach(function (k) { var h = urlCache[k]; if (h && h.u && h.until > t) m[k] = { u: h.u, until: h.until }; });
+      ls(K.urls, JSON.stringify(m));
+    } catch (e) {}
+  }
+  function urlFlush() {
+    urlTimer = null;
+    var paths = Object.keys(urlWait);
+    if (!paths.length) return;
+    var waiting = urlWait;
+    urlWait = {};
+    var done = function (map) {
+      paths.forEach(function (pth) { var u = map[pth] || ''; if (!u) delete urlCache[pth]; else { urlCache[pth].u = u; } waiting[pth].forEach(function (f) { f(u); }); });
+      urlsSave();
+    };
+    var one = function () {
+      return Promise.all(paths.map(function (pth) {
+        return q(sb.storage.from(BUCKET).createSignedUrl(pth, URL_TTL)).then(function (r) { return (r && r.signedUrl) || ''; }, function () { return ''; });
+      })).then(function (us) { var m = {}; paths.forEach(function (pth, i) { m[pth] = us[i]; }); done(m); });
+    };
+    var st0 = sb && sb.storage && sb.storage.from(BUCKET);
+    if (!st0 || !st0.createSignedUrls) { one(); return; }
+    q(st0.createSignedUrls(paths, URL_TTL)).then(function (rows) {
+      var m = {};
+      (rows || []).forEach(function (r) { if (r && r.path && r.signedUrl && !r.error) m[r.path] = r.signedUrl; });
+      if (!Object.keys(m).length && paths.length) return one();
+      done(m);
+    }, one);
+  }
   function errMsg(e) { return (e && (e.message || e.error_description || e.msg)) || String(e); }
   function resize(file, max, quality) {
     return new Promise(function (res, rej) {
@@ -266,12 +327,15 @@
     if (state.loaded && !force) return Promise.resolve(state.data);
     if (cloudConfigured() && ls(K.mode) !== 'demo') {
       return cloudLoad().then(function (d) {
-        state.loaded = true; state.error = '';
+        state.loaded = true; state.error = ''; state.fromSnap = false;
+        if (d) snapSave(d); else ls(K.snap, null);
         state.data = d ? finish(d) : (state.user ? finish({ family: { id: null, key: '', name: '' } }) : finish(demoRead()));
         emit();
+        // ask for every avatar link in one go, so faces appear at once on every page
+        try { if (d && mode() === 'cloud') Object.keys(state.data.people).forEach(function (k) { var a = state.data.people[k].avatar; if (a) ZY.imageURL(a); }); } catch (e) {}
         return state.data;
       }).catch(function (e) {
-        state.loaded = true; state.error = errMsg(e);
+        state.loaded = true; state.error = state.fromSnap ? '' : errMsg(e);
         if (!state.data) state.data = finish({});
         emit();
         throw e;
@@ -534,6 +598,7 @@
     signOut: function () {
       var c = client();
       Object.keys(urlCache).forEach(function (k) { delete urlCache[k]; });
+      ls(K.snap, null); ls(K.urls, null);
       state.loaded = false; state.data = null; state.families = []; state.familyId = null;
       if (channel && sb) { try { sb.removeChannel(channel); } catch (e) {} channel = null; }
       ls(K.mode, null); ls(K.family, null);
@@ -559,7 +624,7 @@
         ls(K.family, fid); ls(K.mode, 'cloud'); state.loaded = false; return load(true).then(function () { return { familyId: fid, linked: !!meId() }; });
       });
     },
-    switchFamily: function (fid) { ls(K.family, fid); state.loaded = false; Object.keys(urlCache).forEach(function (k) { delete urlCache[k]; }); return load(true); },
+    switchFamily: function (fid) { ls(K.family, fid); ls(K.snap, null); ls(K.urls, null); state.loaded = false; Object.keys(urlCache).forEach(function (k) { delete urlCache[k]; }); return load(true); },
     invites: function () {
       var d = state.data || {};
       var lines = lineClans(d, ZY.meId);
@@ -778,15 +843,21 @@
       return run(function (d) { if (d.people[personId]) d.people[personId].avatar = ''; }, function () { return q(sb.from('members').update({ avatar_path: '' }).eq('id', personId)); }, 'Remove photo')
         .then(function () { if (old) removeFile(old); });
     },
+    // A link already at hand (no waiting), or '' — lets pages draw known photos straight away.
+    imageURLNow: function (path) { var h = path && urlCache[path]; return h && h.u && h.until > Date.now() ? h.u : ''; },
     // A URL for <img src>. Cloud photos are private: this asks Supabase for a link that works for one hour.
     imageURL: function (path) {
       if (!path) return Promise.resolve('');
       var hit = urlCache[path];
       if (hit && hit.until > Date.now()) return hit.p;
       var p;
-      if (mode() === 'cloud') p = q(sb.storage.from(BUCKET).createSignedUrl(path, 3600)).then(function (r) { return (r && r.signedUrl) || ''; });
-      else p = Promise.resolve(ls(K.demoPh + path) || '');
-      p = p.catch(function () { delete urlCache[path]; return ''; });
+      if (mode() === 'cloud' && client()) {
+        p = new Promise(function (res) { (urlWait[path] = urlWait[path] || []).push(res); });
+        if (!urlTimer) urlTimer = setTimeout(urlFlush, 0);
+        urlCache[path] = { p: p, until: Date.now() + (URL_TTL - 3600) * 1000 };
+        return p;
+      }
+      p = Promise.resolve(ls(K.demoPh + path) || '');
       urlCache[path] = { p: p, until: Date.now() + 50 * 60 * 1000 };
       return p;
     },
@@ -818,5 +889,22 @@
     }
   };
   window.ZY = ZY;
-  load(false).catch(function () {});
+  urlsLoad();
+  // Signed in before on this device: draw from the saved copy at once, then refresh in the background.
+  (function () {
+    if (!cloudConfigured() || ls(K.mode) === 'demo') return;
+    var s = snapRead();
+    if (!s) return;
+    try {
+      client();
+      state.user = { id: s.uid, email: s.email || '' };
+      state.families = s.families || [];
+      state.familyId = s.fid;
+      state.data = finish(clone(s.d));
+      state.loaded = true;
+      state.fromSnap = true;
+      setTimeout(function () { load(true).catch(function () {}); }, 0);
+    } catch (e) { state.fromSnap = false; state.loaded = false; state.data = null; }
+  })();
+  if (!state.fromSnap) load(false).catch(function () {});
 })();

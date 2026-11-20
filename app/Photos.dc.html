@@ -394,6 +394,8 @@ class Component extends DCLogic {
     if (!path || !window.ZY) return '';
     const C = window.__zyAvC || (window.__zyAvC = {});
     if (C[path] !== undefined) return C[path];
+    const ready = window.ZY.imageURLNow ? window.ZY.imageURLNow(path) : '';
+    if (ready) { C[path] = ready; return ready; }
     C[path] = '';
     window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
     return '';
@@ -588,7 +590,7 @@ class Component extends DCLogic {
     const fail = (er) => this.setState({ busy: false, msg: t.failed + (er && er.message ? er.message : er), msgErr: true, upMsg: t.failed + (er && er.message ? er.message : er) });
     if (!this._urls) this._urls = {};
     photos.forEach((ph) => {
-      if (ph.path && this._urls[ph.path] === undefined && Z) { this._urls[ph.path] = ''; Z.imageURL(ph.path).then((u) => { this._urls[ph.path] = u; bump(); }); }
+      if (ph.path && this._urls[ph.path] === undefined && Z) { this._urls[ph.path] = (Z.imageURLNow && Z.imageURLNow(ph.path)) || ''; Z.imageURL(ph.path).then((u) => { this._urls[ph.path] = u; bump(); }); }
     });
     const albumsUsed = AL.map((x) => x[0]);
     photos.forEach((ph) => { if (ph.album && albumsUsed.indexOf(ph.album) < 0) albumsUsed.push(ph.album); });

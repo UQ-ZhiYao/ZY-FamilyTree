@@ -1,6 +1,9 @@
 // Zenith Yield service worker: caches the app's own files so it opens offline after the first visit.
 // Family data (Supabase) is never cached here.
-const CACHE = 'zenith-yield-v40';
+const CACHE = 'zenith-yield-v41';
+// Photos and avatars: kept on the device by file name (each upload has its own name, so a saved copy never goes stale).
+const MEDIA = 'zenith-media-v1';
+const MEDIA_MAX = 400;
 const SHELL = [
   './app/Login.dc.html', './app/Circle.dc.html', './app/Tree.dc.html', './app/Photos.dc.html', './app/Chat.dc.html', './app/Profile.dc.html', './app/Admin.dc.html',
   './assets/support.js', './assets/zy-store.js', './assets/zy-config.js', './assets/vendor/supabase.js', './manifest.webmanifest',
@@ -10,12 +13,31 @@ self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => Promise.all(SHELL.map((u) => c.add(u).catch(() => null)))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
+  e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE && k !== MEDIA).map((k) => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  // Family photos and avatars from Supabase Storage: the link carries a changing token, so match on the file path only.
+  if (/\/storage\/v1\/object\/(sign|public|authenticated)\//.test(url.pathname)) {
+    const key = url.origin + url.pathname.replace('/object/sign/', '/object/').replace('/object/authenticated/', '/object/');
+    e.respondWith(caches.open(MEDIA).then((c) => c.match(key).then((hit) => hit || fetch(req).then((res) => {
+      if (res && (res.ok || res.type === 'opaque')) {
+        c.put(key, res.clone()).then(() => c.keys()).then((ks) => { if (ks.length > MEDIA_MAX) return Promise.all(ks.slice(0, ks.length - MEDIA_MAX).map((k) => c.delete(k))); }).catch(() => {});
+      }
+      return res;
+    }))).catch(() => fetch(req)));
+    return;
+  }
+  // The Supabase library never changes between releases: open it from the saved copy, refresh in the background.
+  if (url.origin === self.location.origin && /\/vendor\/supabase\.js$/.test(url.pathname)) {
+    e.respondWith(caches.open(CACHE).then((c) => c.match(req).then((hit) => {
+      const net = fetch(req).then((res) => { if (res && res.ok) c.put(req, res.clone()); return res; }).catch(() => hit);
+      return hit || net;
+    })));
+    return;
+  }
   // Pages: network first so families always see fresh data, cached copy when offline.
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then((res) => { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); return res; })

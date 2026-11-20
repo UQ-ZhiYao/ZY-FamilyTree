@@ -488,6 +488,8 @@ class Component extends DCLogic {
     if (!path || !window.ZY) return '';
     const C = window.__zyAvC || (window.__zyAvC = {});
     if (C[path] !== undefined) return C[path];
+    const ready = window.ZY.imageURLNow ? window.ZY.imageURLNow(path) : '';
+    if (ready) { C[path] = ready; return ready; }
     C[path] = '';
     window.ZY.imageURL(path).then((u) => { C[path] = u || ''; if (u) { window.__zyAvT = (window.__zyAvT || 0) + 1; this.setState({ zyAvT: window.__zyAvT }); } });
     return '';
@@ -752,7 +754,7 @@ class Component extends DCLogic {
         const firstOfRun = prevSender !== m.sender || prevDay !== dk;
         const p = pByUid[m.sender];
         const nm = senderName(m);
-        if (m.photo && this._urls[m.photo] === undefined) { this._urls[m.photo] = ''; Z.imageURL(m.photo).then((u) => { this._urls[m.photo] = u; bump(); }); }
+        if (m.photo && this._urls[m.photo] === undefined) { this._urls[m.photo] = (Z.imageURLNow && Z.imageURLNow(m.photo)) || ''; Z.imageURL(m.photo).then((u) => { this._urls[m.photo] = u; bump(); }); }
         const pic = m.photo ? (this._urls[m.photo] || '') : '';
         const col = colOf(m.sender || m.name);
         const img = p ? this._zyAv(p.avatar) : '';
