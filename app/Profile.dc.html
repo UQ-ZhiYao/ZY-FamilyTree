@@ -81,6 +81,32 @@ main h1{font-size:24px !important}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
 @media (max-width:640px){input,select,textarea{font-size:16px !important}}
 
+/* desktop: the top bar stays put, and 我的 / family management share a fixed left menu */
+@media (min-width:900px){
+header.top{position:sticky;top:0;z-index:60;background:linear-gradient(var(--z8) 78%,transparent);padding-bottom:10px !important}
+.me-side{display:none}
+.me-shell{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.me-shell.has-side{display:grid;grid-template-columns:268px minmax(0,1fr);gap:28px;align-items:start}
+.me-main{display:flex;flex-direction:column;gap:18px;min-width:0}
+.has-side .u-backbar{display:none}
+.me-side{position:sticky;top:104px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 124px);overflow-y:auto;background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:22px 12px 12px;box-sizing:border-box;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.ms-id{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px 16px;border-bottom:1px solid var(--u-bd);text-align:center}
+.ms-av{width:76px;height:76px;border-radius:50%;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:28px;font-weight:800;box-shadow:0 0 0 3px var(--z1)}
+.ms-av img{width:100%;height:100%;object-fit:cover}
+.ms-id b{font-size:18px;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-id .mbadge{font-size:12px;font-weight:600;color:var(--z1);padding:4px 12px;border-radius:999px;border:1px solid var(--u-bd)}
+.ms-nav{display:flex;flex-direction:column;gap:2px}
+.ms-i{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 12px;border-radius:12px;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:15px;text-decoration:none;cursor:pointer;text-align:left;width:100%;box-sizing:border-box}
+.ms-i svg{width:20px;height:20px;flex:none;color:var(--u-muted)}
+.ms-i:hover{background:color-mix(in srgb,var(--u-text) 6%,transparent)}
+.ms-i.on{background:color-mix(in srgb,var(--z1) 15%,transparent);color:var(--z1);font-weight:700}
+.ms-i.on svg{color:var(--z1)}
+.ms-out{margin-top:6px;border-top:1px solid var(--u-bd);border-radius:0 0 12px 12px;color:#D1453B}
+.ms-out svg{color:inherit}
+.ms-gt{font-size:12px;font-weight:700;color:var(--u-muted);letter-spacing:1px;padding:14px 12px 4px}
+}
+@media (max-width:899px){.me-side{display:none !important}.me-shell,.me-main{display:contents}}
+
 @media (max-width:640px){
 html.zy-sub .tabbar{display:none !important}
 html.zy-sub .zy-pill{bottom:calc(16px + env(safe-area-inset-bottom)) !important}
@@ -193,35 +219,14 @@ textarea.u-in{height:auto;min-height:90px;padding:10px 12px;resize:vertical}
 
 /* ---------- phone: classic card + menu ---------- */
 @media (min-width:900px){.me-c{display:none !important}}
-.me-shell{width:100%}
-.me-main{display:flex;flex-direction:column;gap:18px;min-width:0;width:100%}
 @media (max-width:899px){.me-c{display:flex;flex-direction:column;gap:18px;width:100%;max-width:560px;margin:0 auto}
 .me-main>.u-card,.me-main>form.u-card,.me-main>.u-backbar,.me-main>.mnote,.me-main>.pfwrap{width:100%;max-width:560px;margin-left:auto;margin-right:auto;box-sizing:border-box}.mnote{margin-bottom:2px}}
 
 /* ---------- desktop: sidebar menu + panel ---------- */
-.me-side{display:none}
 @media (min-width:900px){
-.me-shell{width:100%;max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-.me-shell.has-side{display:grid;grid-template-columns:268px minmax(0,1fr);gap:28px;align-items:start}
-.me-main{display:flex;flex-direction:column;gap:18px;min-width:0}
 .me-main>.u-card,.me-main>form.u-card,.me-main>.pfwrap{width:100%;max-width:760px;box-sizing:border-box;margin-left:0 !important;margin-right:auto !important}
 .me-shell:not(.has-side) .me-main>.u-card,.me-shell:not(.has-side) .me-main>form.u-card,.me-shell:not(.has-side) .me-main>.pfwrap{margin-left:auto !important}
-.has-side .u-backbar{display:none}
 .mnote{max-width:none}
-.me-side{position:sticky;top:104px;display:flex;flex-direction:column;gap:10px;background:var(--u-card);border:1px solid var(--u-bd);border-radius:20px;padding:22px 12px 12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.ms-id{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 8px 16px;border-bottom:1px solid var(--u-bd);text-align:center}
-.ms-av{width:76px;height:76px;border-radius:50%;background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:28px;font-weight:800;box-shadow:0 0 0 3px var(--z1)}
-.ms-av img{width:100%;height:100%;object-fit:cover}
-.ms-id b{font-size:18px;font-weight:800;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ms-nav{display:flex;flex-direction:column;gap:2px}
-.ms-i{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 12px;border-radius:12px;border:none;background:transparent;color:var(--u-text);font:inherit;font-size:15px;text-decoration:none;cursor:pointer;text-align:left;width:100%;box-sizing:border-box}
-.ms-i svg{width:20px;height:20px;flex:none;color:var(--u-muted)}
-.ms-i:hover{background:color-mix(in srgb,var(--u-text) 6%,transparent)}
-.ms-i.on{background:color-mix(in srgb,var(--z1) 15%,transparent);color:var(--z1);font-weight:700}
-.ms-i.on svg{color:var(--z1)}
-.ms-i[href="Login.dc.html"]{margin-top:6px;border-top:1px solid var(--u-bd);border-radius:0 0 12px 12px;padding-top:4px}
-.ms-i[href="Login.dc.html"] svg{color:inherit}
-.ms-gt{font-size:12px;font-weight:700;color:var(--u-muted);letter-spacing:1px;padding:14px 12px 4px}
 .me-d{display:flex;flex-direction:column;gap:18px;width:100%}
 .ov-id{flex-direction:row !important;align-items:center;gap:22px !important;padding:24px 26px !important;background:linear-gradient(120deg,color-mix(in srgb,var(--fbc1) 70%,var(--u-card)),color-mix(in srgb,var(--fbc2) 55%,var(--u-card)) 70%,var(--u-card)) !important}
 .fb-av{width:112px;height:112px;flex:none;border-radius:50%;box-sizing:border-box;border:4px solid var(--u-card);background:var(--z3);color:var(--z1);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:42px;font-weight:800;box-shadow:0 0 0 3px var(--z1),0 8px 24px rgba(0,0,0,.18)}
@@ -283,26 +288,19 @@ html:has(.zy-l),html:has(.zy-l) body{background:#F6F8FC}
 <main class="pfmain" style="width: 100%; max-width: 1408px; margin: 0 auto; box-sizing: border-box; padding: 24px 20px 120px; display: flex; flex-direction: column; gap: 18px">
 <div class="{{shellCls}}">
 <sc-if value="{{raw.side}}" hint-placeholder-val="{{true}}">
-<aside class="me-side" aria-label="{{t.mMe}}">
-<div class="ms-id"><span class="ms-av"><sc-if value="{{avUrl}}" hint-placeholder-val="{{false}}"><img src="{{avUrl}}" alt=""></sc-if><sc-if value="{{noAv}}" hint-placeholder-val="{{true}}">{{f.ch}}</sc-if></span><b>{{f.show}}</b><span class="mbadge">{{raw.badge}}</span></div>
+<aside class="me-side" aria-label="{{zs.tx.me}}">
+<div class="ms-id"><span class="ms-av"><sc-if value="{{zs.img}}" hint-placeholder-val="{{false}}"><img src="{{zs.img}}" alt=""></sc-if><sc-if value="{{zs.noImg}}" hint-placeholder-val="{{true}}">{{zs.ch}}</sc-if></span><b>{{zs.name}}</b><span class="mbadge">{{zs.badge}}</span></div>
 <nav class="ms-nav">
-<button type="button" class="{{nav.home}}" onClick="{{go.home}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg><span>{{t.overview}}</span></button>
-
-<button type="button" class="{{nav.profile}}" onClick="{{go.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{t.mProfile}}</span></button>
-<sc-if value="{{raw.cloud}}" hint-placeholder-val="{{true}}"><button type="button" class="{{nav.pass}}" onClick="{{go.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{t.mPass}}</span></button></sc-if>
-
-<span class="ms-gt">{{t.mManage}}</span>
-
-<a class="ms-i" href="{{raw.hPeople}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><circle cx="17" cy="9" r="2.8"></circle><path d="M16.5 14.6c2.6.2 4.4 1.9 5 5.4"></path></svg><span>{{t.mPeople}}</span></a>
-<a class="ms-i" href="{{raw.hInvite}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="M10.8 12.2 20 3M17 6l3 3M15 8l2 2"></path></svg><span>{{t.mInvite2}}</span></a>
-<a class="ms-i" href="{{raw.hClans}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M12 7.2v4.3M5 16.8v-2.8h14v2.8M12 11.5v2.5"></path></svg><span>{{t.mClans}}</span></a>
-<a class="ms-i" href="{{raw.hFamily}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg><span>{{t.mFamily}}</span></a>
-
-
-<button type="button" class="{{nav.settings}}" onClick="{{go.settings}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg><span>{{t.mSettings}}</span></button>
-
-
-<a class="ms-i" href="Login.dc.html" onClick="{{zyLogout}}" style="color: #D1453B"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{t.logout}}</span></a>
+<a class="{{zs.cls.home}}" href="{{zs.href.home}}" onClick="{{zs.on.home}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg><span>{{zs.tx.home}}</span></a>
+<a class="{{zs.cls.profile}}" href="{{zs.href.profile}}" onClick="{{zs.on.profile}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg><span>{{zs.tx.profile}}</span></a>
+<sc-if value="{{zs.cloud}}" hint-placeholder-val="{{true}}"><a class="{{zs.cls.pass}}" href="{{zs.href.pass}}" onClick="{{zs.on.pass}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg><span>{{zs.tx.pass}}</span></a></sc-if>
+<span class="ms-gt">{{zs.tx.manage}}</span>
+<a class="{{zs.cls.people}}" href="{{zs.href.people}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"></path><circle cx="17" cy="9" r="2.8"></circle><path d="M16.5 14.6c2.6.2 4.4 1.9 5 5.4"></path></svg><span>{{zs.tx.people}}</span></a>
+<a class="{{zs.cls.invite}}" href="{{zs.href.invite}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"></circle><path d="M10.8 12.2 20 3M17 6l3 3M15 8l2 2"></path></svg><span>{{zs.tx.invite}}</span></a>
+<a class="{{zs.cls.clans}}" href="{{zs.href.clans}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.2"></circle><circle cx="5" cy="19" r="2.2"></circle><circle cx="19" cy="19" r="2.2"></circle><path d="M12 7.2v4.3M5 16.8v-2.8h14v2.8M12 11.5v2.5"></path></svg><span>{{zs.tx.clans}}</span></a>
+<a class="{{zs.cls.family}}" href="{{zs.href.family}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path></svg><span>{{zs.tx.family}}</span></a>
+<a class="{{zs.cls.settings}}" href="{{zs.href.settings}}" onClick="{{zs.on.settings}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg><span>{{zs.tx.settings}}</span></a>
+<a class="ms-i ms-out" href="Login.dc.html" onClick="{{zyLogout}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg><span>{{zs.tx.logout}}</span></a>
 </nav>
 </aside>
 </sc-if>
@@ -663,6 +661,23 @@ class Component extends DCLogic {
     if (!Z.meId && Z.loaded) return { show: true, text: en ? 'Tell us which person is you.' : '请先在家人名单里选出你自己。', href: this._zyHref('Admin', 'link=1'), link: en ? 'Choose' : '去选择' };
     return { show: false };
   }
+  _zySide(active, en, on) {
+    const Z = window.ZY;
+    const me = Z && Z.me;
+    const nm = this._zyMeName(en);
+    const img = me ? this._zyAv(me.avatar) : '';
+    const fam = (Z && Z.data && Z.data.family) || {};
+    const T = (zh, e2) => (en ? e2 : zh);
+    const cls = {};
+    ['home', 'profile', 'pass', 'settings', 'people', 'invite', 'clans', 'family'].forEach((k) => { cls[k] = 'ms-i' + (k === active ? ' on' : ''); });
+    const H = (pg, q) => this._zyHref(pg, q);
+    const nop = () => {};
+    const o = on || {};
+    return { name: nm, ch: this._zyInitials(nm), img: img, noImg: !img, badge: fam.name || T('示例家族', 'Sample family'), cloud: !!(Z && Z.mode === 'cloud'), cls: cls,
+      href: { home: H('Profile'), profile: H('Profile', 'view=profile'), pass: H('Profile', 'view=pass'), settings: H('Profile', 'view=settings'), people: H('Admin'), invite: H('Admin', 'tab=invite'), clans: H('Admin', 'tab=clans'), family: H('Admin', 'tab=family') },
+      on: { home: o.home || nop, profile: o.profile || nop, pass: o.pass || nop, settings: o.settings || nop },
+      tx: { me: T('我的', 'Me'), home: T('概览', 'Overview'), profile: T('个人资料', 'Personal profile'), pass: T('密码与安全', 'Password & security'), manage: T('家族管理', 'FAMILY'), people: T('家人名单', 'Family members'), invite: T('邀请家人与账号', 'Invite family & accounts'), clans: T('姓氏宗族', 'Surname lines'), family: T('家族设置与备份', 'Family settings & backup'), settings: T('设置', 'Settings'), logout: T('退出登入', 'Log out') } };
+  }
   _zyBar() {
     if (window.__zyBar) return;
     window.__zyBar = 1;
@@ -888,7 +903,7 @@ class Component extends DCLogic {
       vw: vwO, ed: edO, edit: editO, editing: !!ES, notEditing: !ES,
       toggleReveal: () => this.setState({ reveal: !st.reveal }), revealText: st.reveal ? t.hideDetails : t.viewDetails,
       vHome: view === 'home', vBack: view !== 'home', backText: meView ? t.mMe : t.backGen, vSettings: view === 'settings', vInvite: view === 'invite', vPass: view === 'pass', vForm: view === 'profile',
-      nav: { home: 'ms-i' + (view === 'home' ? ' on' : ''), profile: 'ms-i' + (view === 'profile' ? ' on' : ''), pass: 'ms-i' + (view === 'pass' ? ' on' : ''), settings: 'ms-i' + (view === 'settings' ? ' on' : '') },
+      zs: this._zySide(meView ? view : '', en, { home: (e) => { if (e && e.preventDefault) e.preventDefault(); goV('home')(e); }, profile: (e) => { if (e && e.preventDefault) e.preventDefault(); goV('profile')(e); }, pass: (e) => { if (e && e.preventDefault) e.preventDefault(); goV('pass')(e); }, settings: (e) => { if (e && e.preventDefault) e.preventDefault(); goV('settings')(e); } }),
       shellCls: 'me-shell' + (meView ? ' has-side' : ''),
       go: { home: meView ? goV('home') : () => { try { if (window.history.length > 1) { window.history.back(); return; } } catch (e) {} this._zyGo(this._zyHref('Admin')); }, profile: goV('profile'), settings: goV('settings'), invite: goV('invite'), pass: goV('pass') },
       raw: {
